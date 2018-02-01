@@ -65,7 +65,7 @@
         {
           "title": "Understanding Services in CODE Framework",
           "link": "Understanding Services.md",
-          "link": "Understanding-Services"
+          "slug": "Understanding-Services"
         },
         {
           "title": "WCF Service Configuration",
