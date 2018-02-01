@@ -1,0 +1,626 @@
+<div class="wikidoc">
+<h2>Metro Standard Views and Templates</h2>
+<p>Metro supports all CODE Framework standard data templates for standard views (see
+<a href="http://codeframework.codeplex.com/wikipage?title=Standard%20Views%20and%20View%20Models">
+Standard Views and View Models</a>).&nbsp; </p>
+<p>In addition to providing the default templates, each template itself refers to standard styles.
+</p>
+<p>Colors are defined by a combination (pair) of Color and brush resources called
+<em>CODE.Framework-Appplication-StandardViewModelForegroundBrush</em> &amp; <em>CODE.Framework-Appplication-StandardViewModelForegroundColor</em> and
+<em>CODE.Framework-Appplication-StandardViewModelBackgroundBrush </em>&amp; <em>CODE.Framework-Appplication-StandardViewModelBackgroundColor
+</em>respectively. These colors and brushes can easily be redefined as needed. For instance, setting one of these color resources in a global resource dictionary changes the appearance of these data templates for the entire application. It is also possible
+ to change these resources for specific views or even sub-elements of views.</p>
+<p>Fonts and font sizes are all based on standard font styles defined in Fonts.xaml. Fonts can also be re-styles in the same fashion as colors and brushes.</p>
+<p align="left">Images and displayed logos can be based on drawing brushes (such as the standard icons supported by CODE Framework – see
+<a href="http://codeframework.codeplex.com/wikipage?title=Standard%20Icon%20Resources">
+Standard Icon Resources</a>). Metro icon resources are monochrome and define their single color through a brush resource called CODE.Framework-Metro-IconForegroundColor (with a corresponding brush equivalent). Within default data templates, that resource is
+ linked to the standard view foreground brush, thus Metro icons will appear in the same color as the text in the view.</p>
+<p>All Peek-animated templates use a container control called PeekAnimationContainer. Developers are free to create custom styles for that target type. This control provides properties to define the speed of the animations, whether to start with the image or
+ the text part of the animation, and to what degree the animation includes an element of randomness. (Which is used to create a very dynamic appearance in scenarios where a large list of items using the same template are displayed. Due to the introduced randomness,
+ a very dynamic appearance is achieved).</p>
+<p>Note that it is not advisable to use any of the animated templates in large lists as these templates can consume a large amount of resources and slow an application down significantly!</p>
+<p>&nbsp;</p>
+<h3>Complete List of Templates</h3>
+<p>The following is a list of standard views and data templates available in WPF with the Metro theme applied:</p>
+<table>
+<thead>
+<tr>
+<td>Identifier</td>
+<td>&nbsp;</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td valign="top">
+<p>Enum:<br>
+<b>StandardViews.Block</b></p>
+<p>Data Templare Resource Name:<br>
+<b>CODE.Framework-StandardTemplate-Block</b></p>
+</td>
+<td>&nbsp;</td>
+<td valign="top">One string of large block text over a single, short line of bold, regular text.<br>
+<a href="http://download-codeplex.sec.s-msft.com/Download?ProjectName=codeframework&DownloadId=421230"><img title="image" border="0" alt="image" src="http://download-codeplex.sec.s-msft.com/Download?ProjectName=codeframework&DownloadId=421231" width="150" height="150" style="border-right-width:0px; padding-left:0px; padding-right:0px; display:inline; border-top-width:0px; border-bottom-width:0px; border-left-width:0px; padding-top:0px"></a></td>
+</tr>
+<tr>
+<td valign="top">
+<p>Enum:<br>
+<b>StandardViews.Data01</b></p>
+<p>Data Templare Resource Name:<br>
+<b>CODE.Framework-StandardTemplate-Data01</b></p>
+</td>
+<td>&nbsp;</td>
+<td valign="top">One string of large text over 2 lines of regular text. Text does not wrap.<br>
+<a href="http://download-codeplex.sec.s-msft.com/Download?ProjectName=codeframework&DownloadId=421320"><img title="image" border="0" alt="image" src="http://download-codeplex.sec.s-msft.com/Download?ProjectName=codeframework&DownloadId=421321" width="310" height="75" style="border-right-width:0px; margin:0px; padding-left:0px; padding-right:0px; display:inline; border-top-width:0px; border-bottom-width:0px; border-left-width:0px; padding-top:0px"></a></td>
+</tr>
+<tr>
+<td valign="top">
+<p>Enum:<br>
+<b>StandardViews.Data02</b></p>
+<p>Data Templare Resource Name:<br>
+<b>CODE.Framework-StandardTemplate-Data02</b></p>
+</td>
+<td>&nbsp;</td>
+<td valign="top">One string of large text over a regular text element with wrapping text.<a href="http://download-codeplex.sec.s-msft.com/Download?ProjectName=codeframework&DownloadId=421322"><br>
+<img title="image" border="0" alt="image" src="http://download-codeplex.sec.s-msft.com/Download?ProjectName=codeframework&DownloadId=421323" width="310" height="75" style="border-right-width:0px; margin:0px; padding-left:0px; padding-right:0px; display:inline; border-top-width:0px; border-bottom-width:0px; border-left-width:0px; padding-top:0px"></a></td>
+</tr>
+<tr>
+<td valign="top">
+<p>Enum:<br>
+<b>StandardViews.Data03</b></p>
+<p>Data Templare Resource Name:<br>
+<b>CODE.Framework-StandardTemplate-Data03</b></p>
+</td>
+<td>&nbsp;</td>
+<td valign="top">One string of large text over 2 columns of 2 lines of non-wrapping regular text.<a href="http://download-codeplex.sec.s-msft.com/Download?ProjectName=codeframework&DownloadId=421324"><br>
+<img title="image" border="0" alt="image" src="http://download-codeplex.sec.s-msft.com/Download?ProjectName=codeframework&DownloadId=421325" width="310" height="75" style="border-right-width:0px; margin:0px; padding-left:0px; padding-right:0px; display:inline; border-top-width:0px; border-bottom-width:0px; border-left-width:0px; padding-top:0px"></a></td>
+</tr>
+<tr>
+<td valign="top">
+<p>Enum:<br>
+<b>StandardViews.DataSmall01</b></p>
+<p>Data Templare Resource Name:<br>
+<b>CODE.Framework-StandardTemplate-DataSmall01</b></p>
+</td>
+<td>&nbsp;</td>
+<td valign="top">One string of large text.<br>
+<a href="http://download-codeplex.sec.s-msft.com/Download?ProjectName=codeframework&DownloadId=552409"><img title="image" border="0" alt="image" src="http://download-codeplex.sec.s-msft.com/Download?ProjectName=codeframework&DownloadId=552410" width="310" height="39" style="border-bottom:0px; border-left:0px; margin:0px; padding-left:0px; padding-right:0px; display:inline; border-top:0px; border-right:0px; padding-top:0px"></a></td>
+</tr>
+<tr>
+<td valign="top">
+<p>Enum:<br>
+<b>StandardViews.DataSmall02</b></p>
+<p>Data Templare Resource Name:<br>
+<b>CODE.Framework-StandardTemplate-DataSmall02</b></p>
+</td>
+<td>&nbsp;</td>
+<td valign="top">One string of large text with image.<br>
+<a href="http://download-codeplex.sec.s-msft.com/Download?ProjectName=codeframework&DownloadId=552411"><img title="image" border="0" alt="image" src="http://download-codeplex.sec.s-msft.com/Download?ProjectName=codeframework&DownloadId=552412" width="310" height="39" style="border-bottom:0px; border-left:0px; margin:0px; padding-left:0px; padding-right:0px; display:inline; border-top:0px; border-right:0px; padding-top:0px"></a></td>
+</tr>
+<tr>
+<td valign="top">
+<p>Enum:<br>
+<b>StandardViews.DataSmall03</b></p>
+<p>Data Templare Resource Name:<br>
+<b>CODE.Framework-StandardTemplate-DataSmall03</b></p>
+</td>
+<td>&nbsp;</td>
+<td valign="top">Two strings of text with image.<br>
+<a href="http://download-codeplex.sec.s-msft.com/Download?ProjectName=codeframework&DownloadId=552413"><img title="image" border="0" alt="image" src="http://download-codeplex.sec.s-msft.com/Download?ProjectName=codeframework&DownloadId=552414" width="310" height="49" style="border-bottom:0px; border-left:0px; margin:0px; padding-left:0px; padding-right:0px; display:inline; border-top:0px; border-right:0px; padding-top:0px"></a></td>
+</tr>
+<tr>
+<td valign="top">
+<p>Enum:<br>
+<b>StandardViews.DataAndImage01</b></p>
+<p>Data Templare Resource Name:<br>
+<b>CODE.Framework-StandardTemplate-DataAndImage01</b></p>
+</td>
+<td>&nbsp;</td>
+<td valign="top">4:3 image on the left. One string of large text over 2 lines of regular text. Text does not wrap.<br>
+Small square image on the bottom right.<br>
+<a href="http://download-codeplex.sec.s-msft.com/Download?ProjectName=codeframework&DownloadId=421326"><img title="image" border="0" alt="image" src="http://download-codeplex.sec.s-msft.com/Download?ProjectName=codeframework&DownloadId=421327" width="310" height="75" style="border-right-width:0px; margin:0px; padding-left:0px; padding-right:0px; display:inline; border-top-width:0px; border-bottom-width:0px; border-left-width:0px; padding-top:0px"></a></td>
+</tr>
+<tr>
+<td valign="top">
+<p>Enum:<br>
+<b>StandardViews.DataAndImage02</b></p>
+<p>Data Templare Resource Name:<br>
+<b>CODE.Framework-StandardTemplate-DataAndImage02</b></p>
+</td>
+<td>&nbsp;</td>
+<td valign="top">4:3 image on the left. One string of large text over a regular text element with wrapping text. Small square image on the bottom right.<br>
+<a href="http://download-codeplex.sec.s-msft.com/Download?ProjectName=codeframework&DownloadId=421328"><img title="image" border="0" alt="image" src="http://download-codeplex.sec.s-msft.com/Download?ProjectName=codeframework&DownloadId=421329" width="310" height="75" style="border-right-width:0px; margin:0px; padding-left:0px; padding-right:0px; display:inline; border-top-width:0px; border-bottom-width:0px; border-left-width:0px; padding-top:0px"></a></td>
+</tr>
+<tr>
+<td valign="top">
+<p>Enum:<br>
+<b>StandardViews.DataAndImage03</b></p>
+<p>Data Templare Resource Name:<br>
+<b>CODE.Framework-StandardTemplate-DataAndImage03</b></p>
+</td>
+<td>&nbsp;</td>
+<td valign="top">4:3 image on the left. One string of large text over 2 columns of 2 lines of non-wrapping regular text. Small square image on the bottom right.<br>
+<a href="http://download-codeplex.sec.s-msft.com/Download?ProjectName=codeframework&DownloadId=421330"><img title="image" border="0" alt="image" src="http://download-codeplex.sec.s-msft.com/Download?ProjectName=codeframework&DownloadId=421331" width="310" height="75" style="border-right-width:0px; margin:0px; padding-left:0px; padding-right:0px; display:inline; border-top-width:0px; border-bottom-width:0px; border-left-width:0px; padding-top:0px"></a></td>
+</tr>
+<tr>
+<td valign="top">
+<p>Enum:<br>
+<b>StandardViews.Image</b></p>
+<p>Data Templare Resource Name:<br>
+<b>CODE.Framework-StandardTemplate-Image</b></p>
+</td>
+<td>&nbsp;</td>
+<td valign="top">One square image that fills the entire tile, no text.<br>
+<a href="http://download-codeplex.sec.s-msft.com/Download?ProjectName=codeframework&DownloadId=421232"><img title="image" border="0" alt="image" src="http://download-codeplex.sec.s-msft.com/Download?ProjectName=codeframework&DownloadId=421233" width="150" height="150" style="border-right-width:0px; padding-left:0px; padding-right:0px; display:inline; border-top-width:0px; border-bottom-width:0px; border-left-width:0px; padding-top:0px"></a></td>
+</tr>
+<tr>
+<td valign="top">
+<p>Enum:<br>
+<b>StandardViews.LargeBlockAndText01</b></p>
+<p>Data Templare Resource Name:<br>
+<b>CODE.Framework-StandardTemplate-LargeBlockAndText01</b></p>
+</td>
+<td>&nbsp;</td>
+<td valign="top">Four strings of regular, unwrapped text on the left; large block text over a single, short string of bold, regular text on the right.<br>
+<a href="http://download-codeplex.sec.s-msft.com/Download?ProjectName=codeframework&DownloadId=421252"><img title="image" border="0" alt="image" src="http://download-codeplex.sec.s-msft.com/Download?ProjectName=codeframework&DownloadId=421253" width="310" height="150" style="border-right-width:0px; padding-left:0px; padding-right:0px; display:inline; border-top-width:0px; border-bottom-width:0px; border-left-width:0px; padding-top:0px"></a></td>
+</tr>
+<tr>
+<td valign="top">
+<p>Enum:<br>
+<b>StandardViews.LargeBlockAndText02</b></p>
+<p>Data Templare Resource Name:<br>
+<b>CODE.Framework-StandardTemplate-LargeBlockAndText02</b></p>
+</td>
+<td>&nbsp;</td>
+<td valign="top">One string of regular text wrapped over a maximum of four lines on the left; large block text over a single, short string of bold, regular text on the right.<br>
+<a href="http://download-codeplex.sec.s-msft.com/Download?ProjectName=codeframework&DownloadId=421254"><img title="image" border="0" alt="image" src="http://download-codeplex.sec.s-msft.com/Download?ProjectName=codeframework&DownloadId=421255" width="310" height="150" style="border-right-width:0px; padding-left:0px; padding-right:0px; display:inline; border-top-width:0px; border-bottom-width:0px; border-left-width:0px; padding-top:0px"></a></td>
+</tr>
+<tr>
+<td valign="top">
+<p>Enum:<br>
+<b>StandardViews.LargeImage</b></p>
+<p>Data Templare Resource Name:<br>
+<b>CODE.Framework-StandardTemplate-LargeImage</b></p>
+</td>
+<td>&nbsp;</td>
+<td valign="top">One wide image that fills the entire tile, no text.<br>
+<a href="http://download-codeplex.sec.s-msft.com/Download?ProjectName=codeframework&DownloadId=421236"><img title="image" border="0" alt="image" src="http://download-codeplex.sec.s-msft.com/Download?ProjectName=codeframework&DownloadId=421237" width="310" height="150" style="border-right-width:0px; margin:0px; padding-left:0px; padding-right:0px; display:inline; border-top-width:0px; border-bottom-width:0px; border-left-width:0px; padding-top:0px"></a></td>
+</tr>
+<tr>
+<td valign="top">
+<p>Enum:<br>
+<b>StandardViews.LargeImageAndText01</b></p>
+<p>Data Templare Resource Name:<br>
+<b>CODE.Framework-StandardTemplate-LargeImageAndText01</b></p>
+</td>
+<td>&nbsp;</td>
+<td valign="top">One wide image over one string of regular text wrapped over a maximum of two lines.<br>
+<a href="http://download-codeplex.sec.s-msft.com/Download?ProjectName=codeframework&DownloadId=421238"><img title="image" border="0" alt="image" src="http://download-codeplex.sec.s-msft.com/Download?ProjectName=codeframework&DownloadId=421239" width="310" height="150" style="border-right-width:0px; padding-left:0px; padding-right:0px; display:inline; border-top-width:0px; border-bottom-width:0px; border-left-width:0px; padding-top:0px"></a></td>
+</tr>
+<tr>
+<td valign="top">
+<p>Enum:<br>
+<b>StandardViews.LargeImageAndText02</b></p>
+<p>Data Templare Resource Name:<br>
+<b>CODE.Framework-StandardTemplate-LargeImageAndText02</b></p>
+</td>
+<td>&nbsp;</td>
+<td valign="top">One wide image over two strings of regular text on two lines. Text does not wrap.<br>
+<a href="http://download-codeplex.sec.s-msft.com/Download?ProjectName=codeframework&DownloadId=421240"><img title="image" border="0" alt="image" src="http://download-codeplex.sec.s-msft.com/Download?ProjectName=codeframework&DownloadId=421241" width="310" height="150" style="border-right-width:0px; margin:0px; padding-left:0px; padding-right:0px; display:inline; border-top-width:0px; border-bottom-width:0px; border-left-width:0px; padding-top:0px"></a></td>
+</tr>
+<tr>
+<td valign="top">
+<p>Enum:<br>
+<b>StandardViews.LargeImageCollection</b></p>
+<p>Data Templare Resource Name:<br>
+<b>CODE.Framework-StandardTemplate-LargeImageCollection</b></p>
+</td>
+<td>&nbsp;</td>
+<td valign="top">One large square image with four smaller square images to its right, no text.<br>
+<a href="http://download-codeplex.sec.s-msft.com/Download?ProjectName=codeframework&DownloadId=421242"><img title="image" border="0" alt="image" src="http://download-codeplex.sec.s-msft.com/Download?ProjectName=codeframework&DownloadId=421243" width="310" height="150" style="border-right-width:0px; padding-left:0px; padding-right:0px; display:inline; border-top-width:0px; border-bottom-width:0px; border-left-width:0px; padding-top:0px"></a></td>
+</tr>
+<tr>
+<td valign="top">
+<p>Enum:<br>
+<b>StandardViews.LargePeekImageAndText01</b></p>
+<p>Data Templare Resource Name:<br>
+<b>CODE.Framework-StandardTemplate-LargePeekImageAndText01</b></p>
+</td>
+<td>&nbsp;</td>
+<td valign="top">Top: One wide image. Bottom: One string of regular text wrapped over a maximum of five lines. Elements animate up and down.<br>
+<a href="http://download-codeplex.sec.s-msft.com/Download?ProjectName=codeframework&DownloadId=421308"><img title="image" border="0" alt="image" src="http://download-codeplex.sec.s-msft.com/Download?ProjectName=codeframework&DownloadId=421309" width="310" height="300" style="border-right-width:0px; padding-left:0px; padding-right:0px; display:inline; border-top-width:0px; border-bottom-width:0px; border-left-width:0px; padding-top:0px"></a></td>
+</tr>
+<tr>
+<td valign="top">
+<p>Enum:<br>
+<b>StandardViews.LargePeekImageAndText02</b></p>
+<p>Data Templare Resource Name:<br>
+<b>CODE.Framework-StandardTemplate-LargePeekImageAndText02</b></p>
+</td>
+<td>&nbsp;</td>
+<td valign="top">Top: One wide image. Bottom: Five strings of regular text on five lines. Text does not wrap. Elements animate up and down.<br>
+<a href="http://download-codeplex.sec.s-msft.com/Download?ProjectName=codeframework&DownloadId=421310"><img title="image" border="0" alt="image" src="http://download-codeplex.sec.s-msft.com/Download?ProjectName=codeframework&DownloadId=421311" width="310" height="300" style="border-right-width:0px; padding-left:0px; padding-right:0px; display:inline; border-top-width:0px; border-bottom-width:0px; border-left-width:0px; padding-top:0px"></a></td>
+</tr>
+<tr>
+<td valign="top">
+<p>Enum:<br>
+<b>StandardViews.LargePeekImageAndText03</b></p>
+<p>Data Templare Resource Name:<br>
+<b>CODE.Framework-StandardTemplate-LargePeekImageAndText03</b></p>
+</td>
+<td>&nbsp;</td>
+<td valign="top">Top: One wide image. Bottom: One string of large text wrapped over a maximum of three lines. Elements animate up and down.<br>
+<a href="http://download-codeplex.sec.s-msft.com/Download?ProjectName=codeframework&DownloadId=421312"><img title="image" border="0" alt="image" src="http://download-codeplex.sec.s-msft.com/Download?ProjectName=codeframework&DownloadId=421313" width="310" height="300" style="border-right-width:0px; padding-left:0px; padding-right:0px; display:inline; border-top-width:0px; border-bottom-width:0px; border-left-width:0px; padding-top:0px"></a></td>
+</tr>
+<tr>
+<td valign="top">
+<p>Enum:<br>
+<b>StandardViews.LargePeekImageAndText04</b></p>
+<p>Data Templare Resource Name:<br>
+<b>CODE.Framework-StandardTemplate-LargePeekImageAndText04</b></p>
+</td>
+<td>&nbsp;</td>
+<td valign="top">Top: One wide image. Bottom: One string of regular text wrapped over a maximum of five lines. Elements animate up and down.<br>
+<a href="http://download-codeplex.sec.s-msft.com/Download?ProjectName=codeframework&DownloadId=421314"><img title="image" border="0" alt="image" src="http://download-codeplex.sec.s-msft.com/Download?ProjectName=codeframework&DownloadId=421315" width="310" height="300" style="border-right-width:0px; padding-left:0px; padding-right:0px; display:inline; border-top-width:0px; border-bottom-width:0px; border-left-width:0px; padding-top:0px"></a></td>
+</tr>
+<tr>
+<td valign="top">
+<p>Enum:<br>
+<b>StandardViews.LargePeekImageAndText05</b></p>
+<p>Data Templare Resource Name:<br>
+<b>CODE.Framework-StandardTemplate-LargePeekImageAndText05</b></p>
+</td>
+<td>&nbsp;</td>
+<td valign="top">Top: One wide image. Bottom: On the left, one small image; on the right, one header string of larger text on the first line over one string of regular text wrapped over a maximum of four lines. Elements animate up and down.<br>
+<a href="http://download-codeplex.sec.s-msft.com/Download?ProjectName=codeframework&DownloadId=421316"><img title="image" border="0" alt="image" src="http://download-codeplex.sec.s-msft.com/Download?ProjectName=codeframework&DownloadId=421317" width="310" height="300" style="border-right-width:0px; padding-left:0px; padding-right:0px; display:inline; border-top-width:0px; border-bottom-width:0px; border-left-width:0px; padding-top:0px"></a></td>
+</tr>
+<tr>
+<td valign="top">
+<p>Enum:<br>
+<b>StandardViews.LargePeekImageAndText06</b></p>
+<p>Data Templare Resource Name:<br>
+<b>CODE.Framework-StandardTemplate-LargePeekImageAndText06</b></p>
+</td>
+<td>&nbsp;</td>
+<td valign="top">Top: One wide image. Bottom: On the left, one small image; on the right, one string of large text wrapped over a maximum of three lines. Elements animate up and down.<br>
+<a href="http://download-codeplex.sec.s-msft.com/Download?ProjectName=codeframework&DownloadId=421318"><img title="image" border="0" alt="image" src="http://download-codeplex.sec.s-msft.com/Download?ProjectName=codeframework&DownloadId=421319" width="310" height="300" style="border-right-width:0px; padding-left:0px; padding-right:0px; display:inline; border-top-width:0px; border-bottom-width:0px; border-left-width:0px; padding-top:0px"></a></td>
+</tr>
+<tr>
+<td valign="top">
+<p>Enum:<br>
+<b>StandardViews.LargePeekImageCollection01</b></p>
+<p>Data Templare Resource Name:<br>
+<b>CODE.Framework-StandardTemplate-LargePeekImageCollection01</b></p>
+</td>
+<td>&nbsp;</td>
+<td valign="top">Top: One large square image with four smaller square images to its right, no text. Bottom: One header string in larger text over one string of regular text wrapped over a maximum of four lines. Elements animate up and down.<br>
+<a href="http://download-codeplex.sec.s-msft.com/Download?ProjectName=codeframework&DownloadId=421296"><img title="image" border="0" alt="image" src="http://download-codeplex.sec.s-msft.com/Download?ProjectName=codeframework&DownloadId=421297" width="310" height="300" style="border-right-width:0px; padding-left:0px; padding-right:0px; display:inline; border-top-width:0px; border-bottom-width:0px; border-left-width:0px; padding-top:0px"></a></td>
+</tr>
+<tr>
+<td valign="top">
+<p>Enum:<br>
+<b>StandardViews.LargePeekImageCollection02</b></p>
+<p>Data Templare Resource Name:<br>
+<b>CODE.Framework-StandardTemplate-LargePeekImageCollection02</b></p>
+</td>
+<td>&nbsp;</td>
+<td valign="top">Top: One large square image with four smaller square images to its right, no text. Bottom: One header string in larger text on the first line, four strings of regular text on the next four lines. Text does not wrap. Elements animate up and
+ down.<br>
+<a href="http://download-codeplex.sec.s-msft.com/Download?ProjectName=codeframework&DownloadId=421298"><img title="image" border="0" alt="image" src="http://download-codeplex.sec.s-msft.com/Download?ProjectName=codeframework&DownloadId=421299" width="310" height="300" style="border-right-width:0px; padding-left:0px; padding-right:0px; display:inline; border-top-width:0px; border-bottom-width:0px; border-left-width:0px; padding-top:0px"></a></td>
+</tr>
+<tr>
+<td valign="top">
+<p>Enum:<br>
+<b>StandardViews.LargePeekImageCollection03</b></p>
+<p>Data Templare Resource Name:<br>
+<b>CODE.Framework-StandardTemplate-LargePeekImageCollection03</b></p>
+</td>
+<td>&nbsp;</td>
+<td valign="top">Top: One large square image with four smaller square images to its right, no text. Bottom: One string of large text wrapped over a maximum of three lines. Elements animate up and down.<br>
+<a href="http://download-codeplex.sec.s-msft.com/Download?ProjectName=codeframework&DownloadId=421300"><img title="image" border="0" alt="image" src="http://download-codeplex.sec.s-msft.com/Download?ProjectName=codeframework&DownloadId=421301" width="310" height="300" style="border-right-width:0px; padding-left:0px; padding-right:0px; display:inline; border-top-width:0px; border-bottom-width:0px; border-left-width:0px; padding-top:0px"></a></td>
+</tr>
+<tr>
+<td valign="top">
+<p>Enum:<br>
+<b>StandardViews.LargePeekImageCollection04</b></p>
+<p>Data Templare Resource Name:<br>
+<b>CODE.Framework-StandardTemplate-LargePeekImageCollection04</b></p>
+</td>
+<td>&nbsp;</td>
+<td valign="top">Top: One large square image with four smaller square images to its right, no text. Bottom: One string of regular text wrapped over a maximum of five lines. Elements animate up and down.<br>
+<a href="http://download-codeplex.sec.s-msft.com/Download?ProjectName=codeframework&DownloadId=421302"><img title="image" border="0" alt="image" src="http://download-codeplex.sec.s-msft.com/Download?ProjectName=codeframework&DownloadId=421303" width="310" height="300" style="border-right-width:0px; padding-left:0px; padding-right:0px; display:inline; border-top-width:0px; border-bottom-width:0px; border-left-width:0px; padding-top:0px"></a></td>
+</tr>
+<tr>
+<td valign="top">
+<p>Enum:<br>
+<b>StandardViews.LargePeekImageCollection05</b></p>
+<p>Data Templare Resource Name:<br>
+<b>CODE.Framework-StandardTemplate-LargePeekImageCollection05</b></p>
+</td>
+<td>&nbsp;</td>
+<td valign="top">Top: One large square image with four smaller square images to its right, no text. Bottom: On the left, one small image; on the right, one header string of larger text on the first line over one string of regular text wrapped over a maximum
+ of four lines. Elements animate up and down.<br>
+<a href="http://download-codeplex.sec.s-msft.com/Download?ProjectName=codeframework&DownloadId=421304"><img title="image" border="0" alt="image" src="http://download-codeplex.sec.s-msft.com/Download?ProjectName=codeframework&DownloadId=421305" width="310" height="300" style="border-right-width:0px; padding-left:0px; padding-right:0px; display:inline; border-top-width:0px; border-bottom-width:0px; border-left-width:0px; padding-top:0px"></a></td>
+</tr>
+<tr>
+<td valign="top">
+<p>Enum:<br>
+<b>StandardViews.LargePeekImageCollection06</b></p>
+<p>Data Templare Resource Name:<br>
+<b>CODE.Framework-StandardTemplate-LargePeekImageCollection06</b></p>
+</td>
+<td>&nbsp;</td>
+<td valign="top">Top: One large square image with four smaller square images to its right, no text. Bottom: On the left, one small image; on the right, one string of large text wrapped over a maximum of three lines. Elements animate up and down.<br>
+<a href="http://download-codeplex.sec.s-msft.com/Download?ProjectName=codeframework&DownloadId=421306"><img title="image" border="0" alt="image" src="http://download-codeplex.sec.s-msft.com/Download?ProjectName=codeframework&DownloadId=421307" width="310" height="300" style="border-right-width:0px; padding-left:0px; padding-right:0px; display:inline; border-top-width:0px; border-bottom-width:0px; border-left-width:0px; padding-top:0px"></a></td>
+</tr>
+<tr>
+<td valign="top">
+<p>Enum:<br>
+<b>StandardViews.LargeSmallImageAndText01</b></p>
+<p>Data Templare Resource Name:<br>
+<b>CODE.Framework-StandardTemplate-LargeSmallImageAndText01</b></p>
+</td>
+<td>&nbsp;</td>
+<td valign="top">On the left, one small image; on the right, one string of large text wrapped over a maximum of three lines.<br>
+<a href="http://download-codeplex.sec.s-msft.com/Download?ProjectName=codeframework&DownloadId=421264"><img title="image" border="0" alt="image" src="http://download-codeplex.sec.s-msft.com/Download?ProjectName=codeframework&DownloadId=421265" width="310" height="150" style="border-right-width:0px; padding-left:0px; padding-right:0px; display:inline; border-top-width:0px; border-bottom-width:0px; border-left-width:0px; padding-top:0px"></a></td>
+</tr>
+<tr>
+<td valign="top">
+<p>Enum:<br>
+<b>StandardViews.LargeSmallImageAndText02</b></p>
+<p>Data Templare Resource Name:<br>
+<b>CODE.Framework-StandardTemplate-LargeSmallImageAndText02</b></p>
+</td>
+<td>&nbsp;</td>
+<td valign="top">On the left, one small image; on the right, one header string in larger text on the first line, four strings of regular text on the next four lines. Text does not wrap.<br>
+<a href="http://download-codeplex.sec.s-msft.com/Download?ProjectName=codeframework&DownloadId=421266"><img title="image" border="0" alt="image" src="http://download-codeplex.sec.s-msft.com/Download?ProjectName=codeframework&DownloadId=421267" width="310" height="150" style="border-right-width:0px; padding-left:0px; padding-right:0px; display:inline; border-top-width:0px; border-bottom-width:0px; border-left-width:0px; padding-top:0px"></a></td>
+</tr>
+<tr>
+<td valign="top">
+<p>Enum:<br>
+<b>StandardViews.LargeSmallImageAndText03</b></p>
+<p>Data Templare Resource Name:<br>
+<b>CODE.Framework-StandardTemplate-LargeSmallImageAndText03</b></p>
+</td>
+<td>&nbsp;</td>
+<td valign="top">On the left, one small image; on the right, one string of regular text wrapped over a maximum of five lines.<br>
+<a href="http://download-codeplex.sec.s-msft.com/Download?ProjectName=codeframework&DownloadId=421268"><img title="image" border="0" alt="image" src="http://download-codeplex.sec.s-msft.com/Download?ProjectName=codeframework&DownloadId=421269" width="310" height="150" style="border-right-width:0px; padding-left:0px; padding-right:0px; display:inline; border-top-width:0px; border-bottom-width:0px; border-left-width:0px; padding-top:0px"></a></td>
+</tr>
+<tr>
+<td valign="top">
+<p>Enum:<br>
+<b>StandardViews.LargeSmallImageAndText04</b></p>
+<p>Data Templare Resource Name:<br>
+<b>CODE.Framework-StandardTemplate-LargeSmallImageAndText04</b></p>
+</td>
+<td>&nbsp;</td>
+<td valign="top">On the left, one small image; on the right, one header string of larger text on the first line over one string of regular text wrapped over a maximum of four lines.<a href="http://download-codeplex.sec.s-msft.com/Download?ProjectName=codeframework&DownloadId=421270"><br>
+<img title="image" border="0" alt="image" src="http://download-codeplex.sec.s-msft.com/Download?ProjectName=codeframework&DownloadId=421271" width="310" height="150" style="border-right-width:0px; padding-left:0px; padding-right:0px; display:inline; border-top-width:0px; border-bottom-width:0px; border-left-width:0px; padding-top:0px"></a></td>
+</tr>
+<tr>
+<td valign="top">
+<p>Enum:<br>
+<b>StandardViews.LargeSmallImageAndText05</b></p>
+<p>Data Templare Resource Name:<br>
+<b>CODE.Framework-StandardTemplate-LargeSmallImageAndText05</b></p>
+</td>
+<td>&nbsp;</td>
+<td valign="top">On the left, one header string in larger text over one string of regular text wrapped over a maximum of four lines; on the right, one small image with 3:4 dimensions.<a href="http://download-codeplex.sec.s-msft.com/Download?ProjectName=codeframework&DownloadId=421272"><br>
+<img title="image" border="0" alt="image" src="http://download-codeplex.sec.s-msft.com/Download?ProjectName=codeframework&DownloadId=421273" width="310" height="150" style="border-right-width:0px; padding-left:0px; padding-right:0px; display:inline; border-top-width:0px; border-bottom-width:0px; border-left-width:0px; padding-top:0px"></a></td>
+</tr>
+<tr>
+<td valign="top">
+<p>Enum:<br>
+<b>StandardViews.LargeText01</b></p>
+<p>Data Templare Resource Name:<br>
+<b>CODE.Framework-StandardTemplate-LargeText01</b></p>
+</td>
+<td>&nbsp;</td>
+<td valign="top">One header string in larger text on the first line, four strings of regular text on the next four lines. Text does not wrap.<br>
+<a href="http://download-codeplex.sec.s-msft.com/Download?ProjectName=codeframework&DownloadId=421274"><img title="image" border="0" alt="image" src="http://download-codeplex.sec.s-msft.com/Download?ProjectName=codeframework&DownloadId=421275" width="310" height="150" style="border-right-width:0px; padding-left:0px; padding-right:0px; display:inline; border-top-width:0px; border-bottom-width:0px; border-left-width:0px; padding-top:0px"></a></td>
+</tr>
+<tr>
+<td valign="top">
+<p>Enum:<br>
+<b>StandardViews.LargeText02</b></p>
+<p>Data Templare Resource Name:<br>
+<b>CODE.Framework-StandardTemplate-LargeText02</b></p>
+</td>
+<td>&nbsp;</td>
+<td valign="top">One header string in larger text over eight short strings arranged in two columns of four lines each. Columns are of equal width.<a href="http://download-codeplex.sec.s-msft.com/Download?ProjectName=codeframework&DownloadId=421276"><br>
+<img title="image" border="0" alt="image" src="http://download-codeplex.sec.s-msft.com/Download?ProjectName=codeframework&DownloadId=421277" width="310" height="150" style="border-right-width:0px; padding-left:0px; padding-right:0px; display:inline; border-top-width:0px; border-bottom-width:0px; border-left-width:0px; padding-top:0px"></a></td>
+</tr>
+<tr>
+<td valign="top">
+<p>Enum:<br>
+<b>StandardViews.LargeText03</b></p>
+<p>Data Templare Resource Name:<br>
+<b>CODE.Framework-StandardTemplate-LargeText03</b></p>
+</td>
+<td>&nbsp;</td>
+<td valign="top">One string of large text wrapped over a maximum of three lines.<br>
+<a href="http://download-codeplex.sec.s-msft.com/Download?ProjectName=codeframework&DownloadId=421278"><img title="image" border="0" alt="image" src="http://download-codeplex.sec.s-msft.com/Download?ProjectName=codeframework&DownloadId=421279" width="310" height="150" style="border-right-width:0px; padding-left:0px; padding-right:0px; display:inline; border-top-width:0px; border-bottom-width:0px; border-left-width:0px; padding-top:0px"></a></td>
+</tr>
+<tr>
+<td valign="top">
+<p>Enum:<br>
+<b>StandardViews.LargeText04</b></p>
+<p>Data Templare Resource Name:<br>
+<b>CODE.Framework-StandardTemplate-LargeText04</b></p>
+</td>
+<td>&nbsp;</td>
+<td valign="top">One string of regular text wrapped over a maximum of five lines.<br>
+<a href="http://download-codeplex.sec.s-msft.com/Download?ProjectName=codeframework&DownloadId=421280"><img title="image" border="0" alt="image" src="http://download-codeplex.sec.s-msft.com/Download?ProjectName=codeframework&DownloadId=421281" width="310" height="150" style="border-right-width:0px; padding-left:0px; padding-right:0px; display:inline; border-top-width:0px; border-bottom-width:0px; border-left-width:0px; padding-top:0px"></a></td>
+</tr>
+<tr>
+<td valign="top">
+<p>Enum:<br>
+<b>StandardViews.LargeText05</b></p>
+<p>Data Templare Resource Name:<br>
+<b>CODE.Framework-StandardTemplate-LargeText05</b></p>
+</td>
+<td>&nbsp;</td>
+<td valign="top">Five strings of regular text on five lines. Text does not wrap.<a href="http://download-codeplex.sec.s-msft.com/Download?ProjectName=codeframework&DownloadId=421282"><br>
+<img title="image" border="0" alt="image" src="http://download-codeplex.sec.s-msft.com/Download?ProjectName=codeframework&DownloadId=421283" width="310" height="150" style="border-right-width:0px; padding-left:0px; padding-right:0px; display:inline; border-top-width:0px; border-bottom-width:0px; border-left-width:0px; padding-top:0px"></a></td>
+</tr>
+<tr>
+<td valign="top">
+<p>Enum:<br>
+<b>StandardViews.LargeText06</b></p>
+<p>Data Templare Resource Name:<br>
+<b>CODE.Framework-StandardTemplate-LargeText06</b></p>
+</td>
+<td>&nbsp;</td>
+<td valign="top">Ten short strings of regular text, arranged in two columns of five lines each. Columns are of equal width.<br>
+<a href="http://download-codeplex.sec.s-msft.com/Download?ProjectName=codeframework&DownloadId=421284"><img title="image" border="0" alt="image" src="http://download-codeplex.sec.s-msft.com/Download?ProjectName=codeframework&DownloadId=421285" width="310" height="150" style="border-right-width:0px; padding-left:0px; padding-right:0px; display:inline; border-top-width:0px; border-bottom-width:0px; border-left-width:0px; padding-top:0px"></a></td>
+</tr>
+<tr>
+<td valign="top">
+<p>Enum:<br>
+<b>StandardViews.LargeText07</b></p>
+<p>Data Templare Resource Name:<br>
+<b>CODE.Framework-StandardTemplate-LargeText07</b></p>
+</td>
+<td>&nbsp;</td>
+<td valign="top">One header string in larger text over eight short strings of regular text arranged in two columns of four lines each. The column widths are such that the first column acts as a label and the second column as the content. This template is similar
+ to TileWideText10, but the first column is wider.<br>
+<a href="http://download-codeplex.sec.s-msft.com/Download?ProjectName=codeframework&DownloadId=421286"><img title="image" border="0" alt="image" src="http://download-codeplex.sec.s-msft.com/Download?ProjectName=codeframework&DownloadId=421287" width="310" height="150" style="border-right-width:0px; padding-left:0px; padding-right:0px; display:inline; border-top-width:0px; border-bottom-width:0px; border-left-width:0px; padding-top:0px"></a></td>
+</tr>
+<tr>
+<td valign="top">
+<p>Enum:<br>
+<b>StandardViews.LargeText08</b></p>
+<p>Data Templare Resource Name:<br>
+<b>CODE.Framework-StandardTemplate-LargeText08</b></p>
+</td>
+<td>&nbsp;</td>
+<td valign="top">Ten short strings of regular text arranged in two columns of five lines each. The column widths are such that the first column acts as a label and the second column as the content. This template is similar to TileWideText11, but the first column
+ is wider.<br>
+<a href="http://download-codeplex.sec.s-msft.com/Download?ProjectName=codeframework&DownloadId=421288"><img title="image" border="0" alt="image" src="http://download-codeplex.sec.s-msft.com/Download?ProjectName=codeframework&DownloadId=421289" width="310" height="150" style="border-right-width:0px; padding-left:0px; padding-right:0px; display:inline; border-top-width:0px; border-bottom-width:0px; border-left-width:0px; padding-top:0px"></a></td>
+</tr>
+<tr>
+<td valign="top">
+<p>Enum:<br>
+<b>StandardViews.LargeText09</b></p>
+<p>Data Templare Resource Name:<br>
+<b>CODE.Framework-StandardTemplate-LargeText09</b></p>
+</td>
+<td>&nbsp;</td>
+<td valign="top">One header string in larger text over one string of regular text wrapped over a maximum of four lines.<br>
+<a href="http://download-codeplex.sec.s-msft.com/Download?ProjectName=codeframework&DownloadId=421290"><img title="image" border="0" alt="image" src="http://download-codeplex.sec.s-msft.com/Download?ProjectName=codeframework&DownloadId=421291" width="310" height="150" style="border-right-width:0px; padding-left:0px; padding-right:0px; display:inline; border-top-width:0px; border-bottom-width:0px; border-left-width:0px; padding-top:0px"></a></td>
+</tr>
+<tr>
+<td valign="top">
+<p>Enum:<br>
+<b>StandardViews.LargeText10</b></p>
+<p>Data Templare Resource Name:<br>
+<b>CODE.Framework-StandardTemplate-LargeText10</b></p>
+</td>
+<td>&nbsp;</td>
+<td valign="top">One header string in larger text over eight short strings of regular text arranged in two columns of four lines each. The column widths are such that the first column acts as a label and the second column as the content. This template is similar
+ to TileWideText07, but the first column is narrower.<br>
+<a href="http://download-codeplex.sec.s-msft.com/Download?ProjectName=codeframework&DownloadId=421292"><img title="image" border="0" alt="image" src="http://download-codeplex.sec.s-msft.com/Download?ProjectName=codeframework&DownloadId=421293" width="310" height="150" style="border-right-width:0px; padding-left:0px; padding-right:0px; display:inline; border-top-width:0px; border-bottom-width:0px; border-left-width:0px; padding-top:0px"></a></td>
+</tr>
+<tr>
+<td valign="top">
+<p>Enum:<br>
+<b>StandardViews.LargeText11</b></p>
+<p>Data Templare Resource Name:<br>
+<b>CODE.Framework-StandardTemplate-LargeText11</b></p>
+</td>
+<td>&nbsp;</td>
+<td valign="top">Ten short strings of regular text arranged in two columns of five lines each. The column widths are such that the first column acts as a label and the second column as the content. This template is similar to TileWideText08, but the first column
+ is narrower.<br>
+<a href="http://download-codeplex.sec.s-msft.com/Download?ProjectName=codeframework&DownloadId=421294"><img title="image" border="0" alt="image" src="http://download-codeplex.sec.s-msft.com/Download?ProjectName=codeframework&DownloadId=421295" width="310" height="150" style="border-right-width:0px; padding-left:0px; padding-right:0px; display:inline; border-top-width:0px; border-bottom-width:0px; border-left-width:0px; padding-top:0px"></a></td>
+</tr>
+<tr>
+<td valign="top">
+<p>Enum:<br>
+<b>StandardViews.PeekImageAndText01</b></p>
+<p>Data Templare Resource Name:<br>
+<b>CODE.Framework-StandardTemplate-PeekImageAndText01</b></p>
+</td>
+<td>&nbsp;</td>
+<td valign="top">Top: One square image, no text. Bottom: One header string in larger text on the first line, three strings of regular text on each of the next three lines. Text does not wrap. Elements animate up and down.<a href="http://download-codeplex.sec.s-msft.com/Download?ProjectName=codeframework&DownloadId=421244"><br>
+<img title="image" border="0" alt="image" src="http://download-codeplex.sec.s-msft.com/Download?ProjectName=codeframework&DownloadId=421245" width="150" height="300" style="border-right-width:0px; margin:0px; padding-left:0px; padding-right:0px; display:inline; border-top-width:0px; border-bottom-width:0px; border-left-width:0px; padding-top:0px"></a></td>
+</tr>
+<tr>
+<td valign="top">
+<p>Enum:<br>
+<b>StandardViews.PeekImageAndText02</b></p>
+<p>Data Templare Resource Name:<br>
+<b>CODE.Framework-StandardTemplate-PeekImageAndText02</b></p>
+</td>
+<td>&nbsp;</td>
+<td valign="top">Top: Square image, no text. Bottom: One header string in larger text on the first line, over one string of regular text wrapped over a maximum of three lines. Elements animate up and down.<a href="http://download-codeplex.sec.s-msft.com/Download?ProjectName=codeframework&DownloadId=421246"><br>
+<img title="image" border="0" alt="image" src="http://download-codeplex.sec.s-msft.com/Download?ProjectName=codeframework&DownloadId=421247" width="150" height="300" style="border-right-width:0px; margin:0px; padding-left:0px; padding-right:0px; display:inline; border-top-width:0px; border-bottom-width:0px; border-left-width:0px; padding-top:0px"></a></td>
+</tr>
+<tr>
+<td valign="top">
+<p>Enum:<br>
+<b>StandardViews.PeekImageAndText03</b></p>
+<p>Data Templare Resource Name:<br>
+<b>CODE.Framework-StandardTemplate-PeekImageAndText03</b></p>
+</td>
+<td>&nbsp;</td>
+<td valign="top">Top: Square image, no text. Bottom: Four strings of regular text on four lines. Text does not wrap. Elements animate up and down.<a href="http://download-codeplex.sec.s-msft.com/Download?ProjectName=codeframework&DownloadId=421248"><br>
+<img title="image" border="0" alt="image" src="http://download-codeplex.sec.s-msft.com/Download?ProjectName=codeframework&DownloadId=421249" width="150" height="300" style="border-right-width:0px; margin:0px; padding-left:0px; padding-right:0px; display:inline; border-top-width:0px; border-bottom-width:0px; border-left-width:0px; padding-top:0px"></a></td>
+</tr>
+<tr>
+<td valign="top">
+<p>Enum:<br>
+<b>StandardViews.PeekImageAndText04</b></p>
+<p>Data Templare Resource Name:<br>
+<b>CODE.Framework-StandardTemplate-PeekImageAndText04</b></p>
+</td>
+<td>&nbsp;</td>
+<td valign="top">Top: Square image, no text. Bottom: One string of regular text wrapped over a maximum of four lines. Elements animate up and down.<a href="http://download-codeplex.sec.s-msft.com/Download?ProjectName=codeframework&DownloadId=421250"><br>
+<img title="image" border="0" alt="image" src="http://download-codeplex.sec.s-msft.com/Download?ProjectName=codeframework&DownloadId=421251" width="150" height="300" style="border-right-width:0px; padding-left:0px; padding-right:0px; display:inline; border-top-width:0px; border-bottom-width:0px; border-left-width:0px; padding-top:0px"></a></td>
+</tr>
+<tr>
+<td valign="top">
+<p>Enum:<br>
+<b>StandardViews.Text01</b></p>
+<p>Data Templare Resource Name:<br>
+<b>CODE.Framework-StandardTemplate-Text01</b></p>
+</td>
+<td>&nbsp;</td>
+<td valign="top">One header string in larger text on the first line; three strings of regular text on each of the next three lines. Text does not wrap.<br>
+<a href="http://download-codeplex.sec.s-msft.com/Download?ProjectName=codeframework&DownloadId=421256"><img title="image" border="0" alt="image" src="http://download-codeplex.sec.s-msft.com/Download?ProjectName=codeframework&DownloadId=421257" width="150" height="150" style="border-right-width:0px; padding-left:0px; padding-right:0px; display:inline; border-top-width:0px; border-bottom-width:0px; border-left-width:0px; padding-top:0px"></a></td>
+</tr>
+<tr>
+<td valign="top">
+<p>Enum:<br>
+<b>StandardViews.Text02</b></p>
+<p>Data Templare Resource Name:<br>
+<b>CODE.Framework-StandardTemplate-Text02</b></p>
+</td>
+<td>&nbsp;</td>
+<td valign="top">One header string in larger text on the first line, over one string of regular text wrapped over a maximum of three lines.<br>
+<a href="http://download-codeplex.sec.s-msft.com/Download?ProjectName=codeframework&DownloadId=421258"><img title="image" border="0" alt="image" src="http://download-codeplex.sec.s-msft.com/Download?ProjectName=codeframework&DownloadId=421259" width="150" height="150" style="border-right-width:0px; padding-left:0px; padding-right:0px; display:inline; border-top-width:0px; border-bottom-width:0px; border-left-width:0px; padding-top:0px"></a></td>
+</tr>
+<tr>
+<td valign="top">
+<p>Enum:<br>
+<b>StandardViews.Text03</b></p>
+<p>Data Templare Resource Name:<br>
+<b>CODE.Framework-StandardTemplate-Text03</b></p>
+</td>
+<td>&nbsp;</td>
+<td valign="top">Four strings of regular text on four lines. Text does not wrap.<a href="http://download-codeplex.sec.s-msft.com/Download?ProjectName=codeframework&DownloadId=421260"><br>
+<img title="image" border="0" alt="image" src="http://download-codeplex.sec.s-msft.com/Download?ProjectName=codeframework&DownloadId=421261" width="150" height="150" style="border-right-width:0px; padding-left:0px; padding-right:0px; display:inline; border-top-width:0px; border-bottom-width:0px; border-left-width:0px; padding-top:0px"></a></td>
+</tr>
+<tr>
+<td valign="top">
+<p>Enum:<br>
+<b>StandardViews.Text04</b></p>
+<p>Data Templare Resource Name:<br>
+<b>CODE.Framework-StandardTemplate-Text04</b></p>
+</td>
+<td>&nbsp;</td>
+<td valign="top">One string of regular text wrapped over a maximum of four lines.<br>
+<a href="http://download-codeplex.sec.s-msft.com/Download?ProjectName=codeframework&DownloadId=421262"><img title="image" border="0" alt="image" src="http://download-codeplex.sec.s-msft.com/Download?ProjectName=codeframework&DownloadId=421263" width="150" height="150" style="border-right-width:0px; padding-left:0px; padding-right:0px; display:inline; border-top-width:0px; border-bottom-width:0px; border-left-width:0px; padding-top:0px"></a></td>
+</tr>
+</tbody>
+</table>
+</div><div class="ClearBoth"></div>
