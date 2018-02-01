@@ -38,7 +38,7 @@
       "topics": [
           {
               "title": "Installing CODE Framework",
-              "link": "Installation.md";
+              "link": "Installation.md",
               "slug": "Installation"
           }
         ]
