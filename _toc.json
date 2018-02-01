@@ -34,7 +34,14 @@
   "topics": [
     {
       "title": "Getting Started",
-      "link": "Getting Started.md"
+      "link": "Getting Started.md",
+      "topics": [
+          {
+              "title": "Installing CODE Framework",
+              "link": "Installation.md";
+              "slug": "Installation"
+          }
+        ]
     },
     {
       "title": "What's New?",
@@ -57,7 +64,8 @@
       "topics": [
         {
           "title": "Understanding Services in CODE Framework",
-          "link": "Understanding Services.md"
+          "link": "Understanding Services.md",
+          "link": "Understanding-Services"
         },
         {
           "title": "WCF Service Configuration",
