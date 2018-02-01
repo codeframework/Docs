@@ -196,7 +196,7 @@ Of course we also need a view. Add a new view called Edit.xaml to the Views\Cust
 Note the special setting of the Style property. You can explore the standard styles available by setting that option in the view creation dialog to the different available settings.
 
 All that is left to do in this view is to set the individual view elements we want (labels and textboxes, mostly) and bind them to data. Listing 6 shows the complete definition of this view. The most interesting aspect of this view is not the code that is there, but the code that is NOT there. There is no information in this view that sets the position of elements or anything like that. That burden is completely offloaded to the view’s style. The EditFormLayout style inspects all the elements that are in this view and positions them on the screen in a way it deems appropriate. In a typical Windows application, this may be a layout with a column of labels and controls to the right. In a smaller screen environment (such as a phone), an appropriate layout may be more of a top-to-bottom stack. In touch environments, this could be completely different yet again. Figure 10 shows the customer edit form in Metro style.
-
+ 
 ![](WPFGettingStarted/Figure10.png)
 
 *Figure 10: Our customer edit form laid out automatically in Metro style.*
@@ -246,7 +246,6 @@ public void LaunchEdit(CustomerInformation customer)
 }
 ```
 
-```cs
 This passes an ID parameter to the Edit method on the controller (the actual ID is fake in this example since this is only added for demonstration purposes). Again, the syntax is identical to the one used in ASP.NET MVC.
 
 By default, the command fires when an item in the list is single-clicked. This is appropriate for the Metro skin, but not so much for other skins. Luckily, there is a ListBoxEx.CommandTrigger property that can be set to either single click or double click. You can set this property in the Resource Dictionaries so you can single click in Metro and double-click in the default skin. This excellent example shows how to use styles to set behavior and not just visual appearance.
