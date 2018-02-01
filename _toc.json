@@ -120,6 +120,11 @@
       "title": "WPF Client Development",
       "topics": [
         {
+            "title": "Understanding WPF Development",
+            "link": "Understanding WPF.md",
+            "slug": "Understanding-WPF"
+        },
+        {
           "title": "Binding the UI to Data",
           "topics": [
             {
