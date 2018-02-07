@@ -86,7 +86,7 @@ This is the kind of thing that looks like it should be really hard to do, but it
 
 ![](Auto-Complete%20in%20WPF%20UIs/Auto-Complete%20in%20WPF%20UIs_AutoComplete3.jpg)
 
-Pretty cool, hu?
+Pretty cool, huh?
 
 The code here is a little more involved (and you can find all of this in the source of the CODE Framework under the test bench app and the AutoCompleteTest.xaml file):
 
