@@ -9,6 +9,9 @@
     "customCss": "_meta/cf.css",
     "syntaxTheme": "kavadocs"
   },
+  "settings": {
+    "siteIcon": "_meta/SiteIcon-code.png"
+  },
   "menu": [
     {
       "title": "Docs Home",
