@@ -3,14 +3,9 @@
   "owner": "Markus Egger Inc.",
   "language": "en-US",
   "version": "1.0",
-  "requireHttps": true,
-  "theme": {
-    "standardTheme": "Default",
-    "customCss": "_meta/cf.css",
-    "syntaxTheme": "kavadocs"
-  },
   "settings": {
     "siteIcon": "_meta/SiteIcon-code.png"
+    "customCssPath": "_meta/cf.css"
   },
   "menu": [
     {
