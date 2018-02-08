@@ -4,7 +4,7 @@
   "language": "en-US",
   "version": "1.0",
   "settings": {
-    "siteIcon": "_meta/SiteIcon-code.png"
+    "siteIcon": "_meta/SiteIcon-code.png",
     "customCssPath": "_meta/cf.css"
   },
   "menu": [
