@@ -5,6 +5,9 @@
 * Fixed an issue in the Workplace theme that caused notifications to not always display correctly.
 * ServiceClient.CallRest() now uses our own branch of JSON.NET to deserialize the result. Also, it is now possible to pass in a function that performs the deserialization instead of the default behavior.
 * Controller actions now support optional parameters as well as parameters based on generics.
+* Listbox grid headers can now sort on filter fields with complex binding paths.
+* There now are standard layouts and templates for both vertical and horizontal multi-panels (with and without headers)
+    * All standard themes support these new default templates
 
 
 ## 4.1.930.0
