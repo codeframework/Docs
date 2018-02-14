@@ -370,8 +370,8 @@ Note that the advantage of the prior approach is that it is based on a style tha
 
 * Element name:  **MultiPanel**
 * XAML namespace declaration: clr-namespace:CODE.Framework.Wpf.Layout;assembly=CODE.Framework.Wpf
-* Style key: **CODE.Framework-Layout-MultiPanelLayout**, **CODE.Framework-Layout-MultiPanelWithHeaderLayout** 
-* Standard layout: **MultiPanel**, **MultiPanelWithHeaders**
+* Style key: **CODE.Framework-Layout-MultiPanelLayout**, **CODE.Framework-Layout-MultiPanelWithHeaderLayout**, **CODE.Framework-Layout-MultiPanelVerticalLayout**, **CODE.Framework-Layout-MultiPanelVerticalWithHeaderLayout** 
+* Standard layout: **MultiPanel**, **MultiPanelWithHeaders**, **MultiPanelVertical**, **MultiPanelVerticalWithHeaders**
 
 Multi panel layouts arrange child elements as proportional panels inside of the main layout element. This is useful in scenarios where you want the available space within an element (often the entire view) to be split (horizontal or vertical) between however many child elements are visible. Optionally, each individual sub-element can be shown with a customizable (and stylable) header. This is definitely easier to show than explain, so take a look at Figure 9 for an example.
 
