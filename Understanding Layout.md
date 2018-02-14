@@ -647,6 +647,7 @@ Note that the TabPanel layout is not meant to replace the standard WPF TabContro
 
 Here is the code that produces the UI shown in Figure 22:
 
+```
 <mvvm:View xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
            xmlns:mvvm="clr-namespace:CODE.Framework.Wpf.Mvvm;assembly=CODE.Framework.Wpf.Mvvm"
            Title="Advanced TabPanel Layout" StandardLayout="Tabs">
@@ -658,6 +659,7 @@ Here is the code that produces the UI shown in Figure 22:
     </mvvm:View>
 
 </mvvm:View>
+```
 
 As always, the layout can be driven by the style as shown above, as well as by using the layout panel directly. (The panel class is called TabItemsPanel).
 
