@@ -9,7 +9,7 @@
 * There now are standard layouts and templates for both vertical and horizontal multi-panels (with and without headers)
     * All standard themes support these new default templates
 * Ribbons can now be used to display only the actions of a selected view, without requiring a main model with actions anymore.
-* 
+
 
 ## 4.1.930.0
 
