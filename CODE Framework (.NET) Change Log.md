@@ -11,6 +11,8 @@
 * Ribbons can now be used to display only the actions of a selected view, without requiring a main model with actions anymore.
 * Fixed a bug with the Ribbon in the Workplace Theme not always showing all actions when the view Title is empty when the view launches.
 * Fixed a problem with LengthToGridLengthConverter that sparked an exception when the length was less than 0. (This caused a lot of binding warnings to be triggered when using multi-column lists in certain scenarios)
+* Improved ObjectHelper.GetPropertyValue<T>() to better support dynamic objects
+* Improved multi-column list templates to better support complex binding operations and improve performance.
 
 
 ## 4.1.930.0
