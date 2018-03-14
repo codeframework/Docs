@@ -13,7 +13,8 @@
 * Fixed a problem with LengthToGridLengthConverter that sparked an exception when the length was less than 0. (This caused a lot of binding warnings to be triggered when using multi-column lists in certain scenarios)
 * Improved ObjectHelper.GetPropertyValue<T>() to better support dynamic objects
 * Improved multi-column list templates to better support complex binding operations and improve performance.
-
+* Added a ribbon panel that can be used like a toolbar (without multiple ribbon pages or a parent ribbon control, for that matter).
+	
 
 ## 4.1.930.0
 
