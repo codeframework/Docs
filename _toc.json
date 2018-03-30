@@ -421,6 +421,10 @@
         {
           "title": "Type and Null Checking Convenience Method",
           "link": "Type and Null Checking Convenience Method.md"
+        },
+        {
+          "title": "Settings Manager",
+          "link": "SettingsManager.md"
         }
       ]
     }
