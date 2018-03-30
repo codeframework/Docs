@@ -415,16 +415,16 @@
           "link": "ObjectHelper and Complex Paths.md"
         },
         {
+          "title": "Settings Manager",
+          "link": "SettingsManager.md"
+        },
+        {
           "title": "TransparentProxyGenerator",
           "link": "Using the Transparent Proxy Generator.md"
         },
         {
           "title": "Type and Null Checking Convenience Method",
           "link": "Type and Null Checking Convenience Method.md"
-        },
-        {
-          "title": "Settings Manager",
-          "link": "SettingsManager.md"
         }
       ]
     }
