@@ -2,7 +2,7 @@
 
 _Excerpt from an internal email at CODE/EPS:_
 
-`ViewAction`s in the framework are just commands (objects that implement the `ICommand` interface). Commands have a `CanExecute()` method than can be overridden/implemented. When an object is bound to a command, it automatically evaluates the `CanExecute()` method. If it returns true, the control is enabled, otherwise is disabled. This is standard WPF functionality, and it of course also works as such in CODE Framework.
+ViewActions in the framework are just commands (objects that implement the `ICommand` interface). Commands have a `CanExecute()` method than can be overridden/implemented. When an object is bound to a command, it automatically evaluates the `CanExecute()` method. If it returns true, the control is enabled, otherwise is disabled. This is standard WPF functionality, and it of course also works as such in CODE Framework.
 
 Question is: How can you change this after the initial assignment? In other words: How can you indicate to WPF that the state may have changed and thus the `CanExecute()` method needs to be executed again to determine the latest correct state? As it turns out, `ICommand` defines an event called `CanExecuteChanged` and whenever a command is bound to a control, that control listens for that event and when it fires, it knows to call `CanExecute()` again. So you can fire that event manually and everything should work. (The only slight trouble is that in order to do that, you have to usually subclass the command or implement the entire interface, which is something I am trying to protect you from. Nevertheless, this is how it works and it isn’t super-difficult).
 
@@ -10,7 +10,7 @@ So with the CODE Framework, we use these `ViewAction` objects which are really j
 
 Example: Let’s say you have a view model with a `SearchText` property and a Search command, allowing people to search based on text they specify. And you only want the command to be enabled when `SearchText` is not empty. You can define such a command like so:
 
-```c#
+```cs
 Search = new `ViewAction`("Search", 
     execute: (a, o) => MessageBox.Show("Searching for " + SearchText), 
     canExecute: (a, o) => !string.IsNullOrEmpty(SearchText)); 
@@ -24,17 +24,17 @@ So now the question is: How would you cause this command to be re-evaluated when
 
 So a complete view model for the scenario described above could be this:
 
-```c#
+```cs
 public class CanExecuteChangedViewModel : ViewModel
 {
     public CanExecuteChangedViewModel()
     {
-        Search = new `ViewAction`("Search", 
+        Search = new ViewAction("Search", 
            execute: (a, o) => MessageBox.Show("Searching for " + SearchText), 
            canExecute: (a, o) => !string.IsNullOrEmpty(SearchText));
     }
 
-    public `ViewAction` Search { get; set; }
+    public ViewAction Search { get; set; }
 
     private string _searchText;
     public string SearchText
@@ -44,7 +44,7 @@ public class CanExecuteChangedViewModel : ViewModel
         {
             _searchText = value;
             NotifyChanged("SearchText");
-            Search.Invalidate`CanExecute()`;
+            Search.InvalidateCanExecute();
         }
     }
 }
@@ -52,7 +52,7 @@ public class CanExecuteChangedViewModel : ViewModel
 
 You could now use this view model to bind to the following XAML, and it would behave exactly like you would expect it to, with the search button being enabled and disabled depending on whether or not the textbox is empty:
 
-```
+```xml
 <Window x:Class="CODE.Framework.Wpf.TestBench.CanExecuteChangedTest"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
