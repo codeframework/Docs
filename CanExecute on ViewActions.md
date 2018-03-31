@@ -1,4 +1,4 @@
-﻿# Using CanExecute on `ViewAction`s
+﻿# Using CanExecute on ViewActions
 
 _Excerpt from an internal email at CODE/EPS:_
 
