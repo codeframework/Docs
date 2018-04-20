@@ -6,6 +6,10 @@
   "autoSortTopics": false,
   "storeYamlInTopics": false,
   "language": "en-US",
+  "settings": {
+    "siteIcon": "_meta/SiteIcon-code.png",
+    "customCssPath": "_meta/cf.css"
+  },
   "topicTypes": {
     "index": "Top level topic for the documentation.",
     "header": "Header topic for sub-topics",
