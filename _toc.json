@@ -843,6 +843,21 @@
               "updated": "0001-01-01T00:00:00",
               "topics": [],
               "properties": {}
+            },
+            {
+              "title": "Custom Icons",
+              "slug": "Custom-Icons",
+              "link": "CustomIcons.md",
+              "displayType": "topic",
+              "type": "markdown",
+              "seeAlso": "Theme Icon Control|Icons - Theme Icons|Standard CODE Framework Icons|Themes - Standard Icon Resources",
+              "isLink": false,
+              "sortOrder": 0,
+              "incomplete": false,
+              "isExpanded": false,
+              "updated": "0001-01-01T00:00:00",
+              "topics": [],
+              "properties": {}
             }
           ],
           "properties": {}
