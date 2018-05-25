@@ -12,6 +12,14 @@ Here’s an example where an icon is used as a “fill color”:
 <Rectangle Height="36" Width="36" Fill="{DynamicResource CODE.Framework.Canvas-Icon-Paste}" />
 ```
 
+Note: There also is a special ThemeIcon object that simplifies this task further. Here is the equivalent of the prior example using this control:
+
+```
+<mvvm:ThemeIcon StandardIcon="Paste" />
+```
+
+*For more information about the ThemeIcon control, see [ThemeIcon](ThemeIcon).*
+
 The following is an example for an object that supports resources directly:
 
 ```cs
@@ -20,7 +28,25 @@ new ViewAction("Full Screen",
                brushResourceKey: "CODE.Framework-Icon-ZoomIn");
 ```
 
-It is also possible to use these kinds of icons programmatically. For instance, if you want to assign a brush to an object, you can do the following:
+Note that there also is a more strongly-typed shortcut that makes it easier to find icons:
+
+```cs
+new ViewAction("Full Screen",
+               execute: (a, o) => FullScreen(), 
+               standardIcon: StandardIcons.ZoomIn);
+```
+
+Using the StandardIcons enum, it is easier to see what all the supported standard icons are, and it is easier to remember their names. It is also less error prone to use this enum, since it is strongly typed and compiler-checked. Note however that this is just a shortcut to set the brush resource key. In other words: When the standard icon is set using the enum, code behind the scenes simply assigns the appropriate brush resource key.
+
+Note that using the StandardIcons enum limits your choices to the list of icons defined in the enum. If you want to use your own icons of different names, simply set the brush resource key directly. For instance, you can do the following:
+
+```cs
+new ViewAction("Full Screen",
+               execute: (a, o) => FullScreen(), 
+               brushResourceKey: "MyGreatIcon");
+```
+
+It is also possible to use standard icon resources programmatically. For instance, if you want to assign a brush to an object, you can do the following:
 
 ```cs
 var rect = new Rectangle();
