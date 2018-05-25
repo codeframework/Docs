@@ -18,7 +18,7 @@ Note: There also is a special ThemeIcon object that simplifies this task further
 <mvvm:ThemeIcon StandardIcon="Paste" />
 ```
 
-*For more information about the ThemeIcon control, see [ThemeIcon](ThemeIcon).*
+*For more information about the ThemeIcon control, see [ThemeIcon](Icons-Theme-Icons).*
 
 The following is an example for an object that supports resources directly:
 
