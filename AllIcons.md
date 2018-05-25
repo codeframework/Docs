@@ -46,6 +46,8 @@ new ViewAction("Full Screen",
                brushResourceKey: "MyGreatIcon");
 ```
 
+> Note: For more info on how to create your own icons, see [Custom Icons](Custom-Icons).
+
 It is also possible to use standard icon resources programmatically. For instance, if you want to assign a brush to an object, you can do the following:
 
 ```cs
