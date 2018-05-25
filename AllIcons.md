@@ -12,7 +12,7 @@ Here’s an example where an icon is used as a “fill color”:
 <Rectangle Height="36" Width="36" Fill="{DynamicResource CODE.Framework.Canvas-Icon-Paste}" />
 ```
 
-Note: There also is a special ThemeIcon object that simplifies this task further. Here is the equivalent of the prior example using this control:
+Note: There also is a special ```ThemeIcon``` object that simplifies this task further. Here is the equivalent of the prior example using this control:
 
 ```
 <mvvm:ThemeIcon StandardIcon="Paste" />
@@ -36,9 +36,9 @@ new ViewAction("Full Screen",
                standardIcon: StandardIcons.ZoomIn);
 ```
 
-Using the StandardIcons enum, it is easier to see what all the supported standard icons are, and it is easier to remember their names. It is also less error prone to use this enum, since it is strongly typed and compiler-checked. Note however that this is just a shortcut to set the brush resource key. In other words: When the standard icon is set using the enum, code behind the scenes simply assigns the appropriate brush resource key.
+Using the ```StandardIcons``` enum, it is easier to see what all the supported standard icons are, and it is easier to remember their names. It is also less error prone to use this enum, since it is strongly typed and compiler-checked. Note however that this is just a shortcut to set the brush resource key. In other words: When the standard icon is set using the enum, code behind the scenes simply assigns the appropriate brush resource key.
 
-Note that using the StandardIcons enum limits your choices to the list of icons defined in the enum. If you want to use your own icons of different names, simply set the brush resource key directly. For instance, you can do the following:
+Note that using the ```StandardIcons``` enum limits your choices to the list of icons defined in the enum. If you want to use your own icons of different names, simply set the brush resource key directly. For instance, you can do the following:
 
 ```cs
 new ViewAction("Full Screen",
@@ -72,7 +72,7 @@ Metro icons are all monochrome and use a single defined color/brush to draw them
 <SolidColorBrush x:Key="CODE.Framework-Metro-IconForegroundBrush" Color="{DynamicResource CODE.Framework-Metro-IconForegroundColor}" />
 ```
 
-When using standard view models, the model class provides methods to load brush resources. The simplest way to load a brush resource in a standard view model is through the GetBrushFromResource() method:
+When using standard view models, the model class provides methods to load brush resources. The simplest way to load a brush resource in a standard view model is through the ```GetBrushFromResource()``` method:
 
 ```cs
 public class CustomerQuickInformation : StandardViewModel
@@ -84,7 +84,7 @@ public class CustomerQuickInformation : StandardViewModel
 }
 ```
 
-This loads the resource and performs a few additional tasks such as making sure resource uses appropriately themed colors. Note that this can at times be a performance intensive task and should thus be used with care. If you have to load hundreds of brush resources (as is often the case in large lists) and many or all of those items share the same icon, there are more specific methods such as LoadSharedImage1FromBrushResource() that perform the same task but in a highly optimized way that works particularly well for numerous instances of the same view model:
+This loads the resource and performs a few additional tasks such as making sure resource uses appropriately themed colors. Note that this can at times be a performance intensive task and should thus be used with care. If you have to load hundreds of brush resources (as is often the case in large lists) and many or all of those items share the same icon, there are more specific methods such as ```LoadSharedImage1FromBrushResource()``` that perform the same task but in a highly optimized way that works particularly well for numerous instances of the same view model:
 
 ```cs
 public class CustomerQuickInformation : StandardViewModel
