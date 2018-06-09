@@ -295,6 +295,20 @@
               "updated": "0001-01-01T00:00:00",
               "topics": [],
               "properties": {}
+            },
+            {
+              "title": "Self-Hosted In-Process Client-Side Services",
+              "slug": "Hosting-In-Process-Services",
+              "link": "Client-side In-Process Service Hosting.md",
+              "displayType": "topic",
+              "type": "markdown",
+              "isLink": false,
+              "sortOrder": 0,
+              "incomplete": false,
+              "isExpanded": false,
+              "updated": "0001-01-01T00:00:00",
+              "topics": [],
+              "properties": {}
             }
           ],
           "properties": {}
