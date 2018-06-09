@@ -33,4 +33,4 @@ ServiceClient.Call<ICustomerService>(s => {
 });
 ```
 
-As you can see, this code does not change at all. Therefore, all it takes to switch from local, in-process operation to calls across the Internet, is a simple change in the config settings.
+As you can see, this code does not change at all. Therefore, all it takes to switch from local, in-process operation to calls across the Internet, is a simple change in the config settings. 
