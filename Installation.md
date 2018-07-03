@@ -2,7 +2,7 @@
 
 ## Installing the Framework Tools
 
-> Note: There currently is a problem installing the CODE Framework Tools in Visual Studio 2017. We are aware of the issue and are working on a fix. Unfortunately, Visual Studio 2017 broke a lot of things, causing us to completely re-write the tools. However, it is possible to install the tools in Visual Studio 2015, start your project there, and then continue on in VS 2017. It's not the solution wen want, but it's better than nothing. We apologize for the inconvenience.
+> Note: There currently is a problem installing the CODE Framework Tools in Visual Studio 2017. We are aware of the issue and are working on a fix. Unfortunately, Visual Studio 2017 broke a lot of things, causing us to completely re-write the tools. However, it is possible to install the tools in Visual Studio 2015, start your project there, and then continue on in VS 2017. It's not the solution we want, but it's better than nothing. We apologize for the inconvenience.
 
 The easiest way to get started with the CODE Framework, is to install the CODE Framework Tools Visual Studio Extension through the Visual Studio Extension Manager:
 
