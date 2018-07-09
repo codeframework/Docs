@@ -14,6 +14,7 @@
 * Improved ObjectHelper.GetPropertyValue<T>() to better support dynamic objects
 * Improved multi-column list templates to better support complex binding operations and improve performance.
 * Added a ribbon panel that can be used like a toolbar (without multiple ribbon pages or a parent ribbon control, for that matter).
+* Hamburger menu items in the Universe theme now have a special disabled foreground color.
 	
 
 ## 4.1.930.0
