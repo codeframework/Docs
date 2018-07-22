@@ -1,6 +1,6 @@
 # CODE Framework (.NET) Change Log
 
-## Work in Progress
+## Work in Progress / Internal Build
 
 * Fixed an issue in the Workplace theme that caused notifications to not always display correctly.
 * ServiceClient.CallRest() now uses our own branch of JSON.NET to deserialize the result. Also, it is now possible to pass in a function that performs the deserialization instead of the default behavior.
@@ -15,6 +15,7 @@
 * Improved multi-column list templates to better support complex binding operations and improve performance.
 * Added a ribbon panel that can be used like a toolbar (without multiple ribbon pages or a parent ribbon control, for that matter).
 * Hamburger menu items in the Universe theme now have a special disabled foreground color.
+* WindowEx now has a HandleCustomMinMax property. If set to false, it turns of custom sizing of borderless windows (false = maximized borderless windows overlap the taskbar)
 	
 
 ## 4.1.930.0
