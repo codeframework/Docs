@@ -4,7 +4,7 @@ It is a common need to have to react to views closing. For instance, one may hav
 
 Here's an example of how this can be done:
 
-```c#
+```cs
 var context = Controller.Action("Customer", "Edit", new {id = x}).Result as ViewResult;
 if (context != null)
     context.ViewClosed += (s, e) => RefreshList();
@@ -16,7 +16,7 @@ ViewResult objects have a number of interesting members. For instance, that obje
 
 Another option is to explicitly pass an "event sink" object to a controller when a view gets created. This object can then respond to events. Here is an example:
 
-```c#
+```cs
 var sink = new ViewResultEventSinks();
 sink.ViewClosed += (s, args) =>
 {
@@ -25,4 +25,17 @@ sink.ViewClosed += (s, args) =>
     var selectedCustomer = myModel.SelectedCustomer;
 };
 Controller.Action("Something", "Whatever", null, sink);
+```
+
+## Related Topic: Reacting to Other Happenings
+
+Note that closing of views isn't the only operation one may want to react to. Other common examples include saving or deleting of data, among others. While there aren't standard save or delete events, it is easy to add those to your view-models, perhaps even in a special base class of all your view models. It is then subsequently possible to take advantage of those events in the caller like this:
+
+```cs
+var context = Controller.Action("Customer", "Edit", new {id = x}).Result as ViewResult;
+if (context != null)
+{
+    var myModel = contenxt.ViewModel as MyViewModel;
+    myModel.Saved += (s, e) => RefreshList();
+}
 ```
