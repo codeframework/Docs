@@ -24,6 +24,8 @@ So you simply set the EventCommand property defined on the generic “Ex” obje
 
 Typically, you will use this to bind one of our ViewActions to any event you want. (However, this works not just with ViewActions, but with all WPF commands).
 
+> Note that the called command receives a parameter of type ```EventCommandParameters```. This is a wrapper parameter object that contains properties for Source and EventArgs of the hooked event, as well as a CommandParameter property that provides access to a potential additional ("normal") parameter object.
+
 Note that the above version only allows hooking a single event that way. If you want to hook more than one vent, you need to use the following, slightly more verbose syntax: 
 
 ```
