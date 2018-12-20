@@ -379,7 +379,7 @@ namespace MyBusinessApplication.Models.Customer
     </Style>
 </ResourceDictionary>
 ```
-```
+
 ### Listing 4: The data template for the same data as in Listing 3, but this time applying a Metro Live Tile look
 
 ```xml
