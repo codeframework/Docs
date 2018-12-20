@@ -1,14 +1,14 @@
 {
   "title": "CODE Framework Documentation",
   "owner": "Markus Egger Inc.",
-  "baseUrl": "http://markdownmonster.west-wind.com/docs/",
+  "baseUrl": "http://docs.codeframework.com/",
   "version": "1.0",
   "autoSortTopics": false,
   "storeYamlInTopics": false,
   "language": "en-US",
   "settings": {
-    "siteIcon": "_meta/SiteIcon-code.png",
-    "customCssPath": "_meta/cf.css"
+    "siteIcon": "_kavadocs/SiteIcon-code.png",
+    "customCssPath": "_kavadocs/cf.css"
   },
   "topicTypes": {
     "index": "Top level topic for the documentation.",
