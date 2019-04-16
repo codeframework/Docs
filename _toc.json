@@ -1399,6 +1399,16 @@
         }
       ],
       "properties": {}
+    },
+    {
+      "title": "Milos",
+      "slig": "milos",
+      "topics": [
+        {
+          "title": "Milos Overview",
+          "slug": "overview"
+        }
+      ]
     }
   ]
 }
