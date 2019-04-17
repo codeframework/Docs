@@ -1,4 +1,4 @@
-# Creating a Simple Business Object
+CreatingASimpleBusinessObject.md# Creating a Simple Business Object
 
 Follow these steps to create a new project with a new business object (manually).
 
@@ -11,12 +11,12 @@ If you create a VB.NET project, set option strict on in the project properties, 
 Delete the default class that gets created automatically.
 
 1) Add a reference to BusinessObject.dll as well as Core.dll and Data.dll to your project.
-   1) Add a new class to your business objects called "ItemBusinessObject?".
+   1) Add a new class to your business objects called "ItemBusinessObject".
    2) Change this class so it inherits from EPS.Business.BusinessObjects.BusinessObject
 2) Add a private constructor to prevent direct instantiation of an object (we want more control than that!).
-   1) Add a static/shared NewInstance?() method for the purpose of allowing controlled instantiation of the object.
+   1) Add a static/shared NewInstance() method for the purpose of allowing controlled instantiation of the object.
    2) Note that the editor automatically adds an overridden method named "Configure". (If not, override this method manually... otherwise the app won't compile)
-3) Set the strMasterEntity and strPrimaryKeyField fields in an overridden version of the Configure() methods which is provided by many framework objects.
+3) Set the MasterEntity and PrimaryKeyField properties in an overridden version of the Configure() methods which is provided by many framework objects.
 4) Compile your new application
 
 Here's the code we have created so far:
@@ -53,13 +53,13 @@ protected override void Configure()
 
 ## Retrieving Data
 
-By default, the new business object has the ability to retrieve all fields and all records from the default entity using the GetList?() method. However, this is not likely to be the desired behavior. However, you can easily limit the list of fields you would like to retrieve by setting the strDefaultFields property like to:
+By default, the new business object has the ability to retrieve all fields and all records from the default entity using the GetList() method. However, this is not likely to be the desired behavior. However, you can easily limit the list of fields you would like to retrieve by setting the strDefaultFields property like to:
 
 ```cs
 DefaultFields = "Product_PK, ProductName";
 ```
 
-In many cases however, we need the ability to query data in a more organized and filtered fashion. For instance, we may want to query all records with a certain product name. We could do this by adding a new method. That method could either have a brand new name, or it could overload GetList?() with parameter. In this example, we will create a new method:
+In many cases however, we need the ability to query data in a more organized and filtered fashion. For instance, we may want to query all records with a certain product name. We could do this by adding a new method. That method could either have a brand new name, or it could overload GetList() with parameter. In this example, we will create a new method:
 
 ```cs
 public DataSet GetListByName(string productName)
@@ -88,7 +88,7 @@ Note however, that saving data through the dataset is NOT the recommended way. I
 
 ## Instantiating the Business Object
 
-A business object can be used by declaring a local variable of the type of the business object, and subsequently, creating an instance of the business object using the NewInstance?() static/shared method:
+A business object can be used by declaring a local variable of the type of the business object, and subsequently, creating an instance of the business object using the NewInstance() static/shared method:
 
 ```cs
 using (var biz = ProductBusinessObject.NewInstance())
@@ -103,7 +103,7 @@ In general, Milos uses Guid-based primary keys to identify records in a database
 
 ### Using Integer (Identity) Keys
 
-The basic concept used by business objects that use auto-increment (identity) integer fields as primary keys is identical to guid-based business objects. However, in addition to specifying the master entity and primary key field names, we also have to switch the business object into IndentityKey? mode. The following example shows a simple C# exmaple for a business object that can modify the Employees table in the SQL Northwind database example:
+The basic concept used by business objects that use auto-increment (identity) integer fields as primary keys is identical to guid-based business objects. However, in addition to specifying the master entity and primary key field names, we also have to switch the business object into IndentityKey mode. The following example shows a simple C# exmaple for a business object that can modify the Employees table in the SQL Northwind database example:
 
 ```cs
 public class EmployeeBusinessObject : BusinessObject
@@ -111,7 +111,7 @@ public class EmployeeBusinessObject : BusinessObject
    protected override void Configure()
    {
       MasterEntity = "Employees" ;
-      PrimaryKeyField = "EmployeeID?" ;
+      PrimaryKeyField = "EmployeeID" ;
       PrimaryKeyType = KeyType.IntegerAutoIncrement; 
    }
 }
@@ -123,13 +123,13 @@ Note that there are some far-reaching implication when using identity keys. When
 
 This requires that Milos has access to the database in some form, so the actual keys can be queried. This means that integer keys can not be used in offline scenarios.
 
-> Important: Tables that are related to the table that was just saved were linked through the temporary keys. For instance, if we create a new employee, that employee will receive the key "-1" until it is saved the first time. Once the employee is saved, that id will be replaced with a real indentity key, such as "25". Milos handles all of that automatically. However, there might be related tables, such as EmployeeTerritories?. Lets say we also created 2 new territories, which will receive the keys -1 and -2 respectively. Both of those records would be linked to employee -1. Once employee -1 is assigned the key 25 however, the two territory records become orphaned untill their foreign key is updated to 25 as well. This needs to be handled in the PrimaryKeyValueChanged?() method of the business object. (See also: HowTo_CreateChildItemsInEntities).
+> Important: Tables that are related to the table that was just saved were linked through the temporary keys. For instance, if we create a new employee, that employee will receive the key "-1" until it is saved the first time. Once the employee is saved, that id will be replaced with a real indentity key, such as "25". Milos handles all of that automatically. However, there might be related tables, such as EmployeeTerritories. Lets say we also created 2 new territories, which will receive the keys -1 and -2 respectively. Both of those records would be linked to employee -1. Once employee -1 is assigned the key 25 however, the two territory records become orphaned untill their foreign key is updated to 25 as well. This needs to be handled in the PrimaryKeyValueChanged() method of the business object. (See also: HowTo_CreateChildItemsInEntities).
 
-### Using Non-Identity? Integer Keys
+### Using Non-Identity Integer Keys
 
 Generally, integer keys will be identity keys, meaning that the database server will automatically assign unique (generally sequential) key values. However, integer keys could also be manually generated. This is supported by the Milos framework as well (although it is error prone and therefore not recommended).
 
-The main difference between identity and manual integer keys is that the key type of the business object has to be set to KeyType?.Integer, and also, the GetNewIntegerKey?() method has to be overridden as in the following example:
+The main difference between identity and manual integer keys is that the key type of the business object has to be set to KeyType.Integer, and also, the GetNewIntegerKey() method has to be overridden as in the following example:
 
 ```
 public class EmployeeBusinessObject : BusinessObject
@@ -148,7 +148,7 @@ public class EmployeeBusinessObject : BusinessObject
 }
 ```
 
-The tricky part is that the GetNewIntegerKey?() method needs to return a unique key value (which is not the case in the example above). It is up to the the developer to ensure that the routine creates a key that is unique. This could be achieved through some kind of mechanism that generates unique integers, such as a "pseudo guid" algorithm. Another popular implementation would be to connect to the database and query some kind of key table.
+The tricky part is that the GetNewIntegerKey() method needs to return a unique key value (which is not the case in the example above). It is up to the the developer to ensure that the routine creates a key that is unique. This could be achieved through some kind of mechanism that generates unique integers, such as a "pseudo guid" algorithm. Another popular implementation would be to connect to the database and query some kind of key table.
 
 ### Using String Keys
 
@@ -166,7 +166,7 @@ public class CustomerBusinessObject : BusinessObject
 }
 ```
 
-This example assumes that the CustID? field is a string field that is big enough to hold the string representation of a Guid. This may not always be the case though. Often, a string key may be an abritrary alphanumeric key generated by some type of algorithm, as in the following example:
+This example assumes that the CustID field is a string field that is big enough to hold the string representation of a Guid. This may not always be the case though. Often, a string key may be an abritrary alphanumeric key generated by some type of algorithm, as in the following example:
 
 ```cs
 public class CustomerBusinessObject : BusinessObject
