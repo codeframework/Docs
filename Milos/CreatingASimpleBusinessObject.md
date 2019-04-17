@@ -6,17 +6,15 @@ In this example, I assume you are creating a simple business objects that handle
 
 ## Create a new class library project
 
-If you create a VB.NET project, set option strict on in the project properties, to operate in a more realistic environment.
-
 Delete the default class that gets created automatically.
 
-1) Add a reference to BusinessObject.dll as well as Core.dll and Data.dll to your project.
-   1) Add a new class to your business objects called "ItemBusinessObject".
-   2) Change this class so it inherits from EPS.Business.BusinessObjects.BusinessObject
+1) Add a Nuget Package Reference to ```Milos.BusinessObjects```.
+   1) Add a new class to your business objects called ```ItemBusinessObject```.
+   2) Change this class so it inherits from ```BusinessObject```.
 2) Add a private constructor to prevent direct instantiation of an object (we want more control than that!).
-   1) Add a static/shared NewInstance() method for the purpose of allowing controlled instantiation of the object.
-   2) Note that the editor automatically adds an overridden method named "Configure". (If not, override this method manually... otherwise the app won't compile)
-3) Set the MasterEntity and PrimaryKeyField properties in an overridden version of the Configure() methods which is provided by many framework objects.
+   1) Add a static/shared ```NewInstance()``` method for the purpose of allowing controlled instantiation of the object.
+   2) Note that the editor automatically adds an overridden method named ```Configure```. (If not, override this method manually... otherwise the app won't compile)
+3) Set the ```MasterEntity``` and ```PrimaryKeyField``` properties in an overridden version of the ```Configure()``` methods which is provided by many framework objects.
 4) Compile your new application
 
 Here's the code we have created so far:
@@ -53,13 +51,13 @@ protected override void Configure()
 
 ## Retrieving Data
 
-By default, the new business object has the ability to retrieve all fields and all records from the default entity using the GetList() method. However, this is not likely to be the desired behavior. However, you can easily limit the list of fields you would like to retrieve by setting the strDefaultFields property like to:
+By default, the new business object has the ability to retrieve all fields and all records from the default entity using the GetList() method. However, this is not likely to be the desired behavior. However, you can easily limit the list of fields you would like to retrieve by setting the ```DefaultFields``` property like to:
 
 ```cs
 DefaultFields = "Product_PK, ProductName";
 ```
 
-In many cases however, we need the ability to query data in a more organized and filtered fashion. For instance, we may want to query all records with a certain product name. We could do this by adding a new method. That method could either have a brand new name, or it could overload GetList() with parameter. In this example, we will create a new method:
+In many cases however, we need the ability to query data in a more organized and filtered fashion. For instance, we may want to query all records with a certain product name. We could do this by adding a new method. That method could either have a brand new name, or it could overload ```GetList()``` with parameter. In this example, we will create a new method:
 
 ```cs
 public DataSet GetListByName(string productName)
@@ -72,23 +70,23 @@ public DataSet GetListByName(string productName)
 }
 ```
 
-As you can see, the ExecuteQuery() method makes it very easy to firedata commands against the server back end. Note also that this is done in a very generic fashion. The generated command object is very generic and can be used with most databases. Much of this functionality is based on the NewDbCommand() method which returns a generic command object. (Note: During runtime, this will generate a command object specific to the used database. In SQL Server scenarios for instance, this would be an SqlCommand object.) 
+As you can see, the ```ExecuteQuery()``` method makes it very easy to firedata commands against the server back end. Note also that this is done in a very generic fashion. The generated command object is very generic and can be used with most databases. Much of this functionality is based on the ```NewDbCommand()``` method which returns a generic command object. (Note: During runtime, this will generate a command object specific to the used database. In SQL Server scenarios for instance, this would be an ```SqlCommand``` object.) 
 
-Note the user of the Parameters collection on the command object. This is mandatory for all operations! (Especially SQL Server.) Although some versions of the framework may let you get away with specifying where clause conditions directly (...WHERE ProductName LIKE 'A%'), we try to catch such operations whever possible (without too much of a performance hit... which sometimes is difficult). This is done for security reasons, as the parameters collection protects from SQL injection attacks.
+Note the user of the Parameters collection on the command object. This is mandatory for all operations! (Especially SQL Server.) Although some versions of the framework may let you get away with specifying where clause conditions directly (```...WHERE ProductName LIKE 'A%'```), we try to catch such operations whever possible (without too much of a performance hit... which sometimes is difficult). This is done for security reasons, as the parameters collection protects from SQL injection attacks.
 
-Note also that there is a helper method to easily add parameters to the generic command object. One can also use the command object's Parameters collection, however, that is unnecessarily difficult for generic command objects (it would be much easier for more specific command objects, such as SqlCommand).
+Note also that there is a helper method to easily add parameters to the generic command object. One can also use the command object's ```Parameters``` collection, however, that is unnecessarily difficult for generic command objects (it would be much easier for more specific command objects, such as ```SqlCommand```).
 
 ## Saving Data
 
 By default, the new business object also has the ability to save recordsets we modify, assuming they have a primary key field with the same name as the one we specified, and assuming there is a table in the dataset with the same name as our master entity (by default, this should be true).
 
-To save a modified dataset, simply call the Save() method on the business object and pass along the dataset.
+To save a modified dataset, simply call the ```Save()``` method on the business object and pass along the dataset.
 
 Note however, that saving data through the dataset is NOT the recommended way. Instead, editing and saving data is done through a business entity. See HowTo_CreateBusinessEntityObject.
 
 ## Instantiating the Business Object
 
-A business object can be used by declaring a local variable of the type of the business object, and subsequently, creating an instance of the business object using the NewInstance() static/shared method:
+A business object can be used by declaring a local variable of the type of the business object, and subsequently, creating an instance of the business object using the ```NewInstance()``` static/shared method:
 
 ```cs
 using (var biz = ProductBusinessObject.NewInstance())
@@ -129,7 +127,7 @@ This requires that Milos has access to the database in some form, so the actual 
 
 Generally, integer keys will be identity keys, meaning that the database server will automatically assign unique (generally sequential) key values. However, integer keys could also be manually generated. This is supported by the Milos framework as well (although it is error prone and therefore not recommended).
 
-The main difference between identity and manual integer keys is that the key type of the business object has to be set to KeyType.Integer, and also, the GetNewIntegerKey() method has to be overridden as in the following example:
+The main difference between identity and manual integer keys is that the key type of the business object has to be set to ```KeyType.Integer```, and also, the ```GetNewIntegerKey()``` method has to be overridden as in the following example:
 
 ```
 public class EmployeeBusinessObject : BusinessObject
@@ -148,7 +146,7 @@ public class EmployeeBusinessObject : BusinessObject
 }
 ```
 
-The tricky part is that the GetNewIntegerKey() method needs to return a unique key value (which is not the case in the example above). It is up to the the developer to ensure that the routine creates a key that is unique. This could be achieved through some kind of mechanism that generates unique integers, such as a "pseudo guid" algorithm. Another popular implementation would be to connect to the database and query some kind of key table.
+The tricky part is that the ```GetNewIntegerKey()``` method needs to return a unique key value (which is not the case in the example above). It is up to the the developer to ensure that the routine creates a key that is unique. This could be achieved through some kind of mechanism that generates unique integers, such as a "pseudo guid" algorithm. Another popular implementation would be to connect to the database and query some kind of key table.
 
 ### Using String Keys
 
