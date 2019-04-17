@@ -1407,6 +1407,11 @@
         {
           "title": "Milos Overview",
           "slug": "overview"
+        },
+        {
+          "title": "Business Object Layer",
+          "slig": "businessobjectlayer,
+          "link:" "milos/BusinessObjectLayer.md"
         }
       ]
     }
