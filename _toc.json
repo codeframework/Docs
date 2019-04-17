@@ -1411,7 +1411,7 @@
         {
           "title": "Business Object Layer",
           "slug": "milos/businessobjectlayer",
-          "link:" "milos/BusinessObjectLayer.md"
+          "link": "milos/BusinessObjectLayer.md"
         },
         {
           "title": "How To - Creating a Simple Business Object",
