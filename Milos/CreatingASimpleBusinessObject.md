@@ -11,30 +11,30 @@ If you create a VB.NET project, set option strict on in the project properties, 
 Delete the default class that gets created automatically.
 
 1) Add a reference to BusinessObject.dll as well as Core.dll and Data.dll to your project.
-  1) Add a new class to your business objects called "ItemBusinessObject?".
-  2) Change this class so it inherits from EPS.Business.BusinessObjects.BusinessObject
+   1) Add a new class to your business objects called "ItemBusinessObject?".
+   2) Change this class so it inherits from EPS.Business.BusinessObjects.BusinessObject
 2) Add a private constructor to prevent direct instantiation of an object (we want more control than that!).
-  1) Add a static/shared NewInstance?() method for the purpose of allowing controlled instantiation of the object.
-  2) Note that the editor automatically adds an overridden method named "Configure". (If not, override this method manually... otherwise the app won't compile)
+   1) Add a static/shared NewInstance?() method for the purpose of allowing controlled instantiation of the object.
+   2) Note that the editor automatically adds an overridden method named "Configure". (If not, override this method manually... otherwise the app won't compile)
 3) Set the strMasterEntity and strPrimaryKeyField fields in an overridden version of the Configure() methods which is provided by many framework objects.
 4) Compile your new application
 
 Here's the code we have created so far:
 
 ```cs
-public class ProductBusinessObject? : EPS.Business.BusinessObjects.BusinessObject? 
+public class ProductBusinessObject : BusinessObject? 
 {
     private ProductBusinessObject?() {}
 
-    public static ProductBusinessObject? NewInstance?()
+    public static ProductBusinessObject NewInstance()
     {
-        return new ProductBusinessObject? ();
+        return new ProductBusinessObject();
     }
 
     protected override void Configure()
     {
-        this.MasterEntity = "products" ;
-        this.PrimaryKeyField = "product_pk" ;
+        MasterEntity = "products";
+        PrimaryKeyField = "product_pk";
     }
 }
 ```
@@ -48,9 +48,9 @@ Note: In real-life scenarios, business objects use Stored Procedures as their me
 ```cs
 protected override void Configure()
 {
-    this.SetDataAccessMethod(EPS.Data.DataRowProcessMethod.StoredProcedures);
-    this.MasterEntity = "products";
-    this.PrimaryKeyField = "product_pk";
+    SetDataAccessMethod(DataRowProcessMethod.StoredProcedures);
+    MasterEntity = "products";
+    PrimaryKeyField = "product_pk";
 }
 ```
 
