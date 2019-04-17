@@ -9,8 +9,8 @@ In this example, I assume you are creating a simple business objects that handle
 Delete the default class that gets created automatically.
 
 1) Add a Nuget Package Reference to ```Milos.BusinessObjects```.
-   1) Add a new class to your business objects called ```ItemBusinessObject```.
-   2) Change this class so it inherits from ```BusinessObject```.
+   1) Add a new class to your business objects and give it a name such as ```ProductBusinessObject```.
+   2) Change this class so it inherits from ```Milos.BusinessObjects.BusinessObject```.
 2) Add a private constructor to prevent direct instantiation of an object (we want more control than that!).
    1) Add a static/shared ```NewInstance()``` method for the purpose of allowing controlled instantiation of the object.
    2) Note that the editor automatically adds an overridden method named ```Configure```. (If not, override this method manually... otherwise the app won't compile)
@@ -20,7 +20,7 @@ Delete the default class that gets created automatically.
 Here's the code we have created so far:
 
 ```cs
-public class ProductBusinessObject : BusinessObject
+public class ProductBusinessObject : Milos.BusinessObjects.BusinessObject
 {
     private ProductBusinessObject() {}
 
