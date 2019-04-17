@@ -4,7 +4,7 @@ In the Milos Solution Platform Framework, there are two different entities that 
 
 ## Using Business Entities
 
-Using business entities that already exist is very straightforward. For instance if there was an InvoiceBusinessEntity, the developer could create a new invoice like so (C#):
+Using business entities that already exist is very straightforward. For instance if there was an ```InvoiceBusinessEntity```, the developer could create a new invoice like so (C#):
 
 ```
 var invoice = new InvoiceBusinessEntity();
