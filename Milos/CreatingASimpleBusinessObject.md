@@ -178,7 +178,7 @@ public class CustomerBusinessObject : BusinessObject
       this.PrimaryKeyType = KeyType.String;
    }
 
-   public  override int GetNewStringKey?(string EntityName?, DataSet DataSetWithNewRecord?)
+   public  override int GetNewStringKey(string entityName, DataSet dataSetWithNewRecord)
    {
       return "NEWKEY" ;  // Return a real value here, rather than "NEWKEY"
    }
