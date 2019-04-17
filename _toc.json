@@ -1411,12 +1411,12 @@
         {
           "title": "Business Object Layer",
           "slug": "milos/businessobjectlayer",
-          "link": "milos/BusinessObjectLayer.md"
+          "link": "Milos/BusinessObjectLayer.md"
         },
         {
           "title": "How To - Creating a Simple Business Object",
           "slug": "milos/howto/createsimplebusinessobject",
-          "link": "milos/CreatingASimpleBusinessObject.md"
+          "link": "Milos/CreatingASimpleBusinessObject.md"
         }
       ]
     }
