@@ -22,14 +22,11 @@ Delete the default class that gets created automatically.
 Here's the code we have created so far:
 
 ```cs
-public class ProductBusinessObject : BusinessObject? 
+public class ProductBusinessObject : BusinessObject
 {
-    private ProductBusinessObject?() {}
+    private ProductBusinessObject() {}
 
-    public static ProductBusinessObject NewInstance()
-    {
-        return new ProductBusinessObject();
-    }
+    public static ProductBusinessObject NewInstance() => new ProductBusinessObject();
 
     protected override void Configure()
     {
