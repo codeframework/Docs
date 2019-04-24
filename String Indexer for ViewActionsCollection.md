@@ -32,7 +32,7 @@ The string indexer always refers to the Id, NOT the caption. This means that the
 
 Having the string-based indexer makes it more convenient to bind to actions in the generic collection of Actions. For instance, a button could be bound to one of the actions like this:
 
-```
+```xml
 <Button Command="{Binding Actions[First]}" Content="{Binding Actions[First].Caption}" />
 ```
 

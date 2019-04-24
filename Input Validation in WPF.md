@@ -74,13 +74,13 @@ public string Description { get; set; }
 
 It is of course also important to have the UI layer respect these rules. Therefore, we can now bind all validation attributes to UI elements in the following fashion:
 
-```
+```xml
 <TextBox Text="{Binding LastName}"
          val:InputValidation.ValidationAttributes="{ex:AttributeValidationBinding LastName}"/>
 ```
 
 However, there is an even simpler way. Instead of binding the text and the attributes separately, we can use the new CODE Framework binding syntax:
 
-```
+```xml
 <TextBox Text="{cf:Bind LastName}"/>
 ```

@@ -18,7 +18,7 @@ Note: It gets a bit odd, since the columns are aligned right-to-left (possibly a
 
 Doing this is relatively simple. Just use the new panel as the ItemsPanel as in this example: 
 
-```
+```xml
 <ListBox Margin="10" x:Name="list" ScrollViewer.VerticalScrollBarVisibility="Disabled">
    <ListBox.ItemsPanel>
      <ItemsPanelTemplate>

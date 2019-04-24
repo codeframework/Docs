@@ -29,7 +29,7 @@ Anyway: Some of this is still work in progress (FlowForm doesn’t yet have cate
 
 Here’s the code that generated the above example:
 
-```
+```xml
 <mvvm:View xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
            xmlns:mvvm="clr-namespace:CODE.Framework.Wpf.Mvvm;assembly=CODE.Framework.Wpf.Mvvm"
            xmlns:layout="clr-namespace:CODE.Framework.Wpf.Layout;assembly=CODE.Framework.Wpf"

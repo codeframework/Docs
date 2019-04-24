@@ -52,13 +52,13 @@ Feature Update: A new feature has been added to the EditForm panel that allows d
 
 This feature can be turned on through the following properties:
 
-```
+```xml
 <EditForm HorizontalLineSeparatorBrush="#81FFFFFF" RenderHorizontalControlSeparatorLines="True" … />
 ```
 
 So there you have it! BTW: here is the definition of this test UI I have been using:
 
-```
+```xml
 <Window x:Class="CODE.Framework.Wpf.TestBench.EditFormTest" 
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 

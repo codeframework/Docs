@@ -278,7 +278,7 @@ To call the service, use two CODE Framework assemblies and the features they pro
 
 Finally, you need to provide some rudimentary configuration so the client knows how to get to the desired service. For this, add an App.config file to the project and add the following config settings:
 
-```
+```xml
 <?xml version="1.0" encoding="utf-8" ?>
 <configuration>
   <appSettings>

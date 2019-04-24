@@ -16,7 +16,7 @@ Our version supports quite a few additional settings. In particular, you can cha
 
 Here's the code that was used to create the above example:
 
-```
+```xml
 <Controls:ProgressRing IsActive="True" Height="48" Width="48" Margin="12,12,218,202"/>
 <Controls:ProgressRing IsActive="True" DotCount="6" DotDiameter="8" DotBrush="Blue" Height="48" Margin="87,12,143,201" Width="48" DotSpaceFactor="1.5"/>
 <Controls:ProgressRing IsActive="True" DotCount="6" Height="48" Margin="13,76,217,137" Width="48"/>
@@ -32,7 +32,7 @@ Similar to the circular progress animation, we also support a Metro-style linear
 
 The overall properties available are practically identical to the circular version. Here is the XAML that defines the 3 animations shown above:
 
-```
+```xml
 <Controls:LinearProgressAnimation VerticalAlignment="Bottom" Margin="0,0,0,10" IsActive="True" />
 <Controls:LinearProgressAnimation VerticalAlignment="Bottom" Margin="0,0,0,30" IsActive="True" DotBrush="Teal" DotDiameter="12" />
 <Controls:LinearProgressAnimation VerticalAlignment="Bottom" Margin="0,0,0,50" IsActive="True" DotBrush="Green" DotDiameter="10" DotCount="7" />

@@ -6,7 +6,7 @@ CODE Framework has a control called the CapsLockWarning control. It can be used,
 
 Here is the code that goes with that view:
 
-```
+```xml
 <mvvm:View xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
            xmlns:mvvm="clr-namespace:CODE.Framework.Wpf.Mvvm;assembly=CODE.Framework.Wpf.Mvvm"
            xmlns:c="clr-namespace:CODE.Framework.Wpf.Controls;assembly=CODE.Framework.Wpf"

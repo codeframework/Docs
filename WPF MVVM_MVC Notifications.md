@@ -14,7 +14,7 @@ Notifications are then displayed in a matter that is specific to the chosen them
 
 The exact visual style of the notification within Metro applications depends on standardized color settings. Here are the settings one can override:
 
-```
+```xml
 <Color x:Key="CODE.Framework-Metro-NotificationForegroundColor">White</Color>
 <Color x:Key="CODE.Framework-Metro-NotificationBackgroundColor">DarkRed</Color>
 ```
@@ -62,7 +62,7 @@ public class ExampleNotificationViewModel : NotificationViewModel
 
 And here is the actual view definition:
 
-```
+```xml
 <Grid xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
   <Grid.ColumnDefinitions>
     <ColumnDefinition Width="Auto" />

@@ -14,7 +14,7 @@ _Note: Of course this is just a silly example. Imagine the rectangles being fanc
 
 In this case, it is 4 different elements (and one even doing a little extra trickery by being positioned over on the right edge in the first “row”. Here’s the XAML that creates this:
 
-```
+```xml
 <l:MultiPanel Orientation="Vertical">
   <Rectangle mvvm:View.Title="One" mvvm:View.Closable="True" mvvm:View.RelativeHeight="2*" 
      Fill="Red" Stroke="Green" StrokeThickness="2"/>
@@ -45,7 +45,7 @@ Talking about the headers: Where did they come from?!? After all, our rectangles
 
 For one, there is a property called Title, which when set, can be used to display a header for each contained element. Then, the MultiPanel class allows for a stylable header renderer object to be set, which, if present, can render headers. The above XAML snippet was actually abbreviated, and the full definition of the MultiPanel goes like this:
 
-```
+```xml
 <l:MultiPanel Orientation="Horizontal">
   <l:MultiPanel.HeaderRenderer>
     <l:MultiPanelHeaderRenderer Background="CornflowerBlue" Foreground="White" 

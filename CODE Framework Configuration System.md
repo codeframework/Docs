@@ -6,7 +6,7 @@ In order to use the CODE Framework Configuration System, make sure to add a refe
 
 There are a number of ways to set configuration options for applications using this system. The system supports things such as XML configuration files, SQL Server configuration, and much more. For simplicity's sake, we will assume that you are using an app.config (windows applications) or web.config (web application) file. Just be aware that the system supports a lot of other options as well. Here is the example configuration file we are using here:
 
-```
+```xml
 <xml version="1.0" encoding="utf-8" ?>
 <configuration>
   <appSettings>
@@ -78,7 +78,7 @@ Accessing a config source that doesn't exist on the collection used to throw an 
 
 It is possible to work with specialized custom config files (or even non-file based configuration sources, such as databases), using the same sort of interface for it. As an example, consider a UIConfig.xml file that looks like so:
 
-```
+```xml
 <xml version="1.0" encoding="utf-8"?>
 <specialsettings>
   <backgroundcolor>Brown</backgroundcolor>

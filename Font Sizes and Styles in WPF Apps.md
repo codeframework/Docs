@@ -4,7 +4,7 @@ _Excerpt from an internal email at CODE/EPS:_
 
 When creating WPF applications (as well as other XAML-based UIs), one should never hardcode font sizes or font families. Instead, one should use one of the default resources defined for fonts. All Themes have the following font resources defined (actual settings may vary, but the names of the resources remain the same):
 
-```
+```xml
 <FontFamily x:Key="DefaultFont">Segoe UI</FontFamily>
 
 <System:Double x:Key="FontSize-Smallest">8</System:Double>
@@ -16,7 +16,7 @@ When creating WPF applications (as well as other XAML-based UIs), one should nev
 
 To use these, simply refer to them as resources as in the following example:
 
-```
+```xml
 <Label FontSize="{DynamicResource FontSize-Large}" FontFamily="{DynamicResource DefaultFont}" />
 ```
 

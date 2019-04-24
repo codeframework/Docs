@@ -6,7 +6,7 @@ FYI: The CODE Framework WPF stuff now supports partial views. This is a feature 
 
 The easiest way to use a partial view is to use the PartialView object and set the View property:
 
-```
+```xml
 <Mvvm:PartialView Controller="Customer" View="CustomerName" />
 ```
 
@@ -14,7 +14,7 @@ This loads a view called “CustomerName.xaml” within the context of the custo
 
 So this is just a simple way to break XAML out into reusable pieces. This is very similar to ASP.NET MVC’s @Html.RenderPartial() feature. Note that in Html.RenderPartial(), you can pass a model. You can do the same in our setup:
 
-```
+```xml
 <Mvvm:PartialView Controller="Customer" View="CustomerName" Model="{Binding NameSubObject}" />
 ```
 
@@ -22,7 +22,7 @@ However, this is not needed if the elements used in the sub-view bind to the cur
 
 Note that we can also take things a step further and instead of just rendering a partial view as a simple view file, you can actually use a controller and a method on that controller to set up a new partial view even with its own view model:
 
-```
+```xml
 <Mvvm:PartialView Controller="Customer" Action="CustomerName" />
 ```
 
@@ -39,7 +39,7 @@ This method could be a lot more complex of course, and load its own view model a
 
 It is also possible to pass parameters to the method in the controller. To do so, use the Parameter property on the PartialView object:
 
-```
+```xml
 <Mvvm:PartialView Controller="Customer" Action="CustomerName" Parameter="{Binding .}" />
 ```
 

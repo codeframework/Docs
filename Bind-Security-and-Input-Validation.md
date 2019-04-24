@@ -4,13 +4,13 @@ _Excerpt from an internal email at EPS/CODE:_
 
 The latest version of CODE Framework has some pretty significant enhancements around binding, security, and input-validation. It is a big set of features that can be used either individually, or in a way that ties them all together. I am not totally sure where to start. One way to look at it is that we have new binding syntax. So when in the past you did this:
 
-```
+```xml
 <TextBox Text="{Binding Description}"/>
 ```
 
 You now instead can do this:
 
-```
+```xml
 <TextBox Text="{ex:Bind Description}"/>
 ```
 
@@ -22,7 +22,7 @@ CODE Framework has always had features that use the built-in security system in 
 
 So here is how it works: On any WPF UI Element, you can now set attached properties to define security. For instance, you can now do this:
 
-```
+```xml
 <TextBox Text="Secret!" 
          sec:Security.FullAccessRoles="Super Admin, Super Hero" 
          sec:Security.ReadOnlyRoles="Normal Admin" />
@@ -34,7 +34,7 @@ These security roles are a mechanism to add restrictions. If full-access roles a
 
 Note that the “sec” namespace can really be anything you want it to be, but I think “sec” makes sense. It should be defined like this in the root element of the XAML file:
 
-```
+```xml
 xmlns:sec="clr-namespace:CODE.Framework.Wpf.Security;assembly=CODE.Framework.Wpf"
 ```
 
@@ -66,7 +66,7 @@ public string SomeInformation { get; set; }
 
 So this “SomeInformation” property has a custom attribute called “Something” set. (Yeah… not coming up with good examples here, but just roll with it J). Now let’s say in the UI, we want to bind the IsEnabled property of a textbox to whether that attribute is set/present or not. Using our super-duper markup extension, we can now do this:
 
-```
+```xml
 <TextBox Text="{Binding SomeInformation}" IsEnabled="{ex:AttributeBinding SomeInformation, Name=Something, Mode=IsAttributeSet}" />
 ```
 
@@ -81,13 +81,13 @@ There are several different modes for attribute bindings:
 
 Note that the syntax can actually be simplified a bit. For instance, the above example can actually also be written like this:
 
-```
+```xml
 <TextBox Text="{Binding SomeInformation}" IsEnabled="{ex:AttributeBinding SomeInformation[Something], Mode=IsAttributeSet}" />
 ```
 
 There also is an even more specialized markup extension based on this that makes the syntax even more concise:
 
-```
+```xml
 <TextBox Text="{Binding SomeInformation}" IsEnabled="{ex:AttributeSet SomeInformation[Something]}" />
 ```
 
@@ -95,7 +95,7 @@ All of these are functionally equivalent.
 
 Checking for whether an attribute is set is nice, but the most useful kind of attribute binding is to bind to a property on an attribute, and that gets us right back to our security system, because using attribute property binding, we can do this:
 
-```
+```xml
 <TextBox Text="Secret!"
     sec:Security.FullAccessRoles="{ex:AttributePropertyBinding Description[Security.FullAccessRoles]}"
     sec:Security.ReadOnlyRoles="{ex:AttributePropertyBinding Description[Security.ReadOnlyRoles]}" />
@@ -105,7 +105,7 @@ A-ha! Now we are getting somewhere. This automatically binds the security settin
 
 Note: The “ex” namespace for the markup extensions is defined like this:
 
-```
+```xml
 xmlns:ex="clr-namespace:CODE.Framework.Wpf.MarkupExtensions;assembly=CODE.Framework.Wpf"
 ```
 
@@ -136,13 +136,13 @@ There are of course numerous different such annotation attributes pre-defined in
 
 Once again, we have the same issue as with security. How do we get the UI elements to know about these rules and make them enforce them? Well, as you probably guessed, there is an attached property you can set on any element you want. And since we have our fancy attribute binding extension, we can bind that attached UI property to the attributes on the Description property like so:
 
-```
+```xml
 <TextBox Text="{Binding Description}" val:InputValidation.ValidationAttributes="{ex:AttributeBinding Description[Validation], Mode=Attributes}"/>
 ```
 
 This may be a bit confusing, but basically we have a ValidationAttributes property that, when set, looks at all the attributes and then performs appropriate validation on the UI element. We are binding this to all “Validation” attributes on the Description property using Attributes Mode. (Note: All validation attributes inherit from an attribute called “Validation” and therefore are included in this attribute binding). So this is a bit confusing in syntax. I therefore created a shortcut:
 
-```
+```xml
 <TextBox Text="{Binding Description}" val:InputValidation.ValidationAttributes="{ex:AttributeValidationBinding Description}"/>
 ```
 
@@ -150,7 +150,7 @@ This automatically knows how to pick up all validation attributes on the Descrip
 
 Note: Here is the definition of the “val” XAML namespace:
 
-```
+```xml
 xmlns:val="clr-namespace:CODE.Framework.Wpf.Validation;assembly=CODE.Framework.Wpf"
 ```
 
@@ -192,7 +192,7 @@ That is nice and puts everything we need in one place.
 
 Then, we can define our UI element like so:
 
-```
+```xml
 <TextBox Text="{Binding Description}"
     sec:Security.FullAccessRoles="{ex:AttributePropertyBinding Description[Security.FullAccessRoles]}"
     sec:Security.ReadOnlyRoles="{ex:AttributePropertyBinding Description[Security.ReadOnlyRoles]}"
@@ -201,7 +201,7 @@ Then, we can define our UI element like so:
 
 So that is pretty cool, but man, it is verbose and probably hard to remember. You can certainly do this of course, but there is a simpler way, which brings us full circle:
 
-```
+```xml
 <TextBox Text="{ex:Bind Description}"/>
 ```
 

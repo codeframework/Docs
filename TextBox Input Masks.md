@@ -14,19 +14,19 @@ The feature is similar to other masked textbox classes/controls that are availab
 
 So here is how it basically works. If you want to create a textbox for currency entry, you can simply do this:
 
-```
+```xml
 <TextBox controls:TextBoxEx.InputMask="$"/>
 ```
 
 Or, if you wanted to create a textbox for a US phone number, you can do this:
 
-```
+```xml
 <TextBox controls:TextBoxEx.InputMask="(999) 999-9999" />
 ```
 
 So the basic idea is pretty simple. The user can now only enter what you’d expect. The Text property contains the full value as displayed. So if you used the phone number input mask, the actual Text of the control would be something like “(832) 717-4445”. If that is what you want, you can simply bind the Text property. However, it is often also desirable to just get the value without any special mask characters. For that, we have a special property that can be used like this:
 
-```
+```xml
 <TextBox controls:TextBoxEx.InputMask="(999) 999-9999" controls:TextBoxEx.TextUnmasked="{Binding TestValue}" />
 ```
 
@@ -34,7 +34,7 @@ The unmasked text property then would contain “8327174445”. Similarly, for t
 
 We also support a few extra features for currencies. Here is a more complete example:
 
-```
+```xml
 <TextBox controls:TextBoxEx.InputMask="$" controls:TextBoxEx.InputMaskCurrencySymbol="Z$" controls:TextBoxEx.TextUnmasked="{Binding Amount}" />
 ```
 
@@ -82,7 +82,7 @@ The number of digits allowed to the right of the decimal point (known as the "ma
 
 Consider the following example:
 
-```
+```xml
 <Window x:Class="CODE.Framework.Wpf.TestBench.TextBoxTest"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"

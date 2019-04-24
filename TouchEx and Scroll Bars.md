@@ -20,7 +20,7 @@ This works back and forth. Touch the app with the finger, and all scroll bars ch
 
 One of the reasons this is so interesting is how this was implemented. There now is a class in CODE Framework called TouchEx. This helper class has an attached property called UpdatePointingDeviceInputMode. If that property is set to true on any element, it auto-updates another attached property on itself called PointingDeviceInputMode, which is either set to Mouse or Touch. In the Metro theme, the default Shell style uses this feature, which means that the Shell window always knows what the current input mode is. And you can simply bind to that. The default Metro ScrollViewer does just that. Here’s the binding expression it uses: 
 
-```
+```xml
 {Binding Path=(controls:TouchEx.PointingDeviceInputMode), RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}} 
 ```
 

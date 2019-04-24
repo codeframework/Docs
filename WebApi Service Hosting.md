@@ -64,7 +64,7 @@ This allows turning this behavior on for each controller individually.
 
 It is also possible to turn this on globally in the web.config file, but adding the following setting:
 
-```
+```xml
 <configuration>
   <appSettings>
     <add key="JsonPropertyCaseMode" value="ForceCamelCase" />

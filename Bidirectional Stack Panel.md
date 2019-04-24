@@ -6,7 +6,7 @@ CODE Framework XAML components feature a new layout panel called a “Bidirectio
 
 This could be a typical toolbar as you see it in a lot of apps. Buttons going across the stack from the left. Except for the last two items: The label and the search textbox need to go to the other side. So there goes the idea of using a stack panel L. But not with the Bi-Directional Stack! :-). The above stack was created almost the same way as a normal StackPanel except I used our new control instead and I set the HorizontalAlignment property to “Right” for the last 2 controls:
 
-```
+```xml
 <Layout:BidirectionalStackPanel Orientation="Horizontal">
   <Button Width="25">1</Button>
   <Button Width="25">2</Button>

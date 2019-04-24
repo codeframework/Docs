@@ -18,7 +18,7 @@ I have written this code hundreds of times. It is annoying. And it basically per
 
 I have now grown so tired of this, I created a convenience object in the CODE Framework to help me with this. If you find it useful, go ahead and use it. Basically, it is defined on a static class called “If” and that has a method called “Real”. You can tell Real() what type you expect and if that is all good, then it executes code you give it. So the above code can now be re-written like so:
 
-```
+```cs
 var element = FindElement(elementName);
 If.Real<FrameworkElement>(element, el2 => ApplyStyleToObject(style, el2));
 ```
@@ -27,7 +27,7 @@ So what happens here is that we are passing the object in question to the Real()
 
 This also works with 2 objects, btw:
 
-```
+```cs
 var element = FindElement(elementName);
 var style = FindStyle(styleName);
 If.Real<FrameworkElement, Style>(element, style, (el2, s2) => ApplyStyleToObject(s2, el2));

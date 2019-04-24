@@ -10,13 +10,13 @@ There are SelectedNormalViewResult and SelectedTopLevelViewResult properties on 
 
 This can now be done like so in the Shell style:
 
-```
+```xml
 <ContentControl Content="{Binding SelectedNormalViewResult.View}" />
 ```
 
 That one shows the selected normal view. If you want to show the current top-level (popup) view, it can be done like so:
 
-```
+```xml
 <ContentControl Content="{Binding SelectedTopLevelViewResult.View}" />
 ```
 

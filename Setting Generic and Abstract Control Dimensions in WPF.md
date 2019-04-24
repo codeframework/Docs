@@ -6,7 +6,7 @@ FYI: I have added a feature we were sort of sorely lacking in the CODE Framework
 
 In the past, if you wanted to add a textbox that was 200 pixels wide and 40 pixels tall, you had to do it like this:
 
-```
+```xml
 <Window x:Class="CODE.Framework.Wpf.TestBench.SizeCalcEx"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
@@ -20,7 +20,7 @@ This results in a textbox of exactly these dimensions. In many cases, that is in
 
 So this was the one problem we still had with our styling approach. Instead, we can now set WidthEx and HeightEx properties like so:
 
-```
+```xml
 <Window x:Class="CODE.Framework.Wpf.TestBench.SizeCalcEx" 
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 

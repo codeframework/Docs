@@ -24,7 +24,7 @@ Note that each of these settings can be made for all services or per service. Fo
 
 Settings for services are set through the standard CODE Framework settings system, which means that these settings could be specified in a number of places. A typical place however is an app.config file and it’s appSettings section, as in the following example:
 
-```
+```xml
 <?xml version="1.0" encoding="utf-8" ?>
 <configuration>
   <appSettings>

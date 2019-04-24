@@ -6,6 +6,6 @@ Sometimes it is beneficial to access the Shell object programmatically. For inst
 
 The current shell object instance can be accessed using the Shell.Current static property. For instance, the following code snippet looks at the number of currently opened normal views:
 
-```C# 
+```cs
 Console.WriteLine(Shell.Current.NormalViews.Count); 
 ```

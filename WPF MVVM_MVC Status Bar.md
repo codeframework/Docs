@@ -32,7 +32,7 @@ _Note: Ready and Processing states by default use the same colors._
 
 Like everything else in CODE Framework, these visuals are completely stylable both by simply re-defining the colors and brushes used as well as by creating brand new styles for the status area of the Shell. The default definition for the colors and brushes looks like this (and can be re-defined for your own purposes):
 
-```
+```xml
 <!-- Application status bar -->
 <Color x:Key="CODE.Framework-Metro-StatusReadyBackgroundColor">White</Color>
 <Color x:Key="CODE.Framework-Metro-StatusReadyForegroundColor">Black</Color>
@@ -94,7 +94,7 @@ public class ExampleStatusViewModel : StatusViewModel
 
 Here is the example view used by this model:
 
-```
+```xml
 <Controls:GridEx ColumnWidths="*,25,Auto,25,Auto"
   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
   xmlns:Controls="clr-namespace:CODE.Framework.Wpf.Controls;assembly=CODE.Framework.Wpf">

@@ -10,7 +10,7 @@ We came up with a pretty cool solution. We created attached properties, which al
 
 The idea here is that you have this bound textbox and can then say “I want this to support auto-complete” and to populate the auto-complete drop down list, you specify the items source for that (binding). When the user selects an item from the list, that item gets put into another property in the view model. The definition of the above textbox looks like this:
 
-```
+```xml
 <TextBox Text="{Binding CustomerName, UpdateSourceTrigger=PropertyChanged}" 
          my:AutoComplete.AutoCompleteItemsSource="{Binding CustomersAutoComplete}" 
          my:AutoComplete.AutoCompleteDisplayMemberPath="FullName" 
@@ -19,7 +19,7 @@ The idea here is that you have this bound textbox and can then say “I want thi
 
 The associated properties in the view model look like this:
 
-```
+```cs
 private string _customerName;
 public string CustomerName
 {
@@ -65,7 +65,7 @@ In this case, the view model simply searches for the files entered and puts them
 
 Here’s the code for the textbox:
 
-```
+```xml
 <TextBox Text="{Binding File, UpdateSourceTrigger=PropertyChanged}" 
          my:AutoComplete.AutoCompleteItemsSource="{Binding FilesAutoComplete}"
          my:AutoComplete.AutoCompleteSelectedItem="{Binding SelectedAutoCompleteFile, Mode=TwoWay}">
@@ -90,7 +90,7 @@ Pretty cool, huh?
 
 The code here is a little more involved (and you can find all of this in the source of the CODE Framework under the test bench app and the AutoCompleteTest.xaml file):
 
-```
+```xml
 <TextBox Margin="25,0,25,370"
          Text="{Binding File, UpdateSourceTrigger=PropertyChanged}"
          my:AutoComplete.AutoCompleteItemsSource="{Binding FilesAutoComplete}" 

@@ -4,7 +4,7 @@ _The following is an excerpt from an internal email at EPS/CODE related to creat
 
 Here’s the main code snippet that is responsible for the background colors:
 
-```
+```xml
 <Style TargetType="ListBox" x:Key="Metro-Control-ListBox-Columns" BasedOn="{StaticResource Metro-Control-ListBox-Stack}">
     <Style.Resources>
         <Style TargetType="ListBoxItem">

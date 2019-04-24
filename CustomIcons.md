@@ -27,7 +27,7 @@ There are several aspects of interest here. Note that the whole icon is defined 
 
 Such an icon can be defined in any resource dictionary or resources element in XAML. However, we recommend putting it into the Themes folder and the sub-folder named after the theme you are using. For instance, if you are using the Workplace theme, put it into the Themes\Workplace folder. Typically, this is done in a resource dictionary specific to icons (such as Icons.xaml). Note that that dictionary needs to be loaded by linking it into another resource dictionary. Most commonly, this is done in the "theme root" XAML file of the same name as the theme. Therefore, in the Workplace theme there is a ```Workplace.xaml``` file where you can add the link to the existing ones like so:
 
-```
+```xml
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     
     <ResourceDictionary.MergedDictionaries>
@@ -42,13 +42,13 @@ Such an icon can be defined in any resource dictionary or resources element in X
 
 Now that this icon is defined, it can be used in various places. For instance, if you like using the [ThemeIcon](Icons-Theme-Icons) control, you can use your new icon like this:
 
-```
+```xml
 <mvvm:ThemeIcon IconResourceKey="MyGreatSaveIcon" />
 ```
 
 Similarly, the new icon can be used in View-Actions:
 
-```
+```cs
 new ViewAction("Save",
                execute: (a, o) => Save(), 
                brushResourceKey: "MyGreatSaveIcon");
@@ -56,13 +56,13 @@ new ViewAction("Save",
 
 Note that a Save icon is perhaps not the best example for us to use here, since CODE Framework comes with its own Save icon that is appropriate for each theme (see also: [Standard Icons](Theme-Standard-Icon-Resources)). Therefore, if you want to use a Save icon, it is perhaps better to use this syntax:
 
-```
+```xml
 <mvvm:ThemeIcon IconResourceKey="CODE.Framework-Icon-Save" />
 ```
 
 Or, the more intuitive short-hand using the ```StandardIcons``` enumeration:
 
-```
+```xml
 <mvvm:ThemeIcon StandardIcon="Save" />
 ```
 
@@ -70,7 +70,7 @@ This second version is really identical to the first version, because setting th
 
 But what if you want a different Save icon rather than the one defined by CODE Framework? Easy: You simply define a local icon of the same name, which then overrules the standard one. Therefore, instead of creating a new icon with a different name/key, simply create the same icon but give it the standard key:
 
-```
+```xml
 <DrawingBrush x:Key="CODE.Framework-Icon-Save" Stretch="Uniform">
   <!-- more definition here -->
 </DrawingBrush>

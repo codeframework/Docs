@@ -38,7 +38,7 @@ So this can be turned on and off individually for each controller. In most cases
 
 The only thing you may need to be aware of is that in some ASP.NET project setups, settings in web.config can interfere with this by high jacking some calls we need to handle. You should have the following in your web.config:
 
-```
+```xml
 <system.webServer>
   <handlers>
     <remove name="ExtensionlessUrlHandler-Integrated-4.0" />

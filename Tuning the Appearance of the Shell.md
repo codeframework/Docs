@@ -25,7 +25,7 @@ This forces a new shell window to be opened for that specific view. Since we are
 4. Copy the style into this new resource dictionary, which gives you a local copy of the style you can change to your heart’s content. (Further instructions follow below). 
 5. The Workplace folder in your project should already contain a Workplace.xaml file. In that file, add a resource link to your new resource dictionary. Something like the following code example should do the trick (don’t override existing links though if there already are any!):
 
-```
+```xml
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
@@ -38,20 +38,20 @@ This forces a new shell window to be opened for that specific view. Since we are
 
 You are now ready to make changes to the style of the shell. The first thing we want to do is change the way the title is displayed. Since we intend to hide the tabs at the bottom, titles such as “Customer Search” will not be visible anymore, and we instead want to show those titles in the window title, such as “Customer Search – Business Application”. We can define this by changing the TitleMode property of the shell. To do so, make sure you have the following code in the style (the property may already be there and you may have to change its value, or you may simply have to add it):
 
-```
+```xml
 <Style TargetType="mvvm:Shell" x:Key="CODE.Framework.Wpf.Mvvm.Shell-Style">
   <Setter Property="TitleMode" Value="ViewTitleDashOriginalTitle" />
 ```
 
 Now, let’s hide the tabs. To do so, find the definition of the ViewHostTabControl in the template (a simple text search will do). In it, set the ShowHeaders property to false:
 
-```
+```xml
 <mvvm:ViewHostTabControl ShowHeaders="False" …
 ```
 
 This hides the headers/footers. Now all that’s left to do is adjust the behavior of the Ribbon to not show special colors. Find the definition of the view action ribbon and set the HighlightLocalCategories property to false.
 
-```
+```xml
 <mvvm:ViewActionRibbon HighlightLocalCategories="False" ...
 ```
 

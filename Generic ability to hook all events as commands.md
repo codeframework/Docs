@@ -4,7 +4,7 @@ _Excerpt from an internal email at EPS/CODE:_
 
 CODE Framework (probably released tomorrow or the day after) has the ability to hook any event on any object using a command. In other words: Rather than writing an event handler, you can now bind an event to a command like so:
 
-```
+```xml
 <Window x:Class="CODE.Framework.Wpf.TestBench.EventCommandTest"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -28,7 +28,7 @@ Typically, you will use this to bind one of our ViewActions to any event you wan
 
 Note that the above version only allows hooking a single event that way. If you want to hook more than one vent, you need to use the following, slightly more verbose syntax: 
 
-```
+```xml
 <Window x:Class="CODE.Framework.Wpf.TestBench.EventCommandTest"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -49,7 +49,7 @@ Note that the above version only allows hooking a single event that way. If you 
 
 In this example, you set the EventCommands property (with an S at the end!) and unlike in the first version, you set this to a collection first, and then populate the collection of commands. You can bind to any number of events, and you could even bind more than one command to an event like this:
 
-```
+```xml
 <c:Ex.EventCommands>
   <c:EventCommandsCollection>
     <c:EventCommand Command="{Binding TestCommand2}" Event="MouseEnter" />

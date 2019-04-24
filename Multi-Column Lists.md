@@ -4,7 +4,7 @@ All CODE Framework WPF components expose the ability to generically define colum
 
 The fundamental idea is to define listboxes (or other lists) and declaratively state which columns one desires. Here is an example:
 
-```
+```xml
 <ListBox>
   <c:ListEx.Columns>
     <c:ListColumnsCollection>
@@ -32,7 +32,7 @@ Note that these styles are quite functional. For instance, one of the cool featu
 
 Other styles may choose to show their lists differently. Some may completely ignore columns. By default, Metro-style applications use “tiles” rather than columns for their lists, and thus ignore this information. It is however possible to use an explicit style even in Metro and force a multi-column list. All that’s needed for that is a small change in the listbox definition like so:
 
-```
+```xml
 <ListBox  Style="{DynamicResource Metro-Control-ListBox-Columns}"> …
 ```
 
@@ -46,7 +46,7 @@ Note that some default features in the framework (especially standard view templ
 
 Multi-column listboxes also support templates, both for individual items (cells) as well as headers. Consider the following column definitions:
 
-```
+```xml
 <c:ListColumn BindingPath="Text4" Header="Text 4" IsResizable="True" Width="150">
 <c:ListColumn.HeaderTemplate>
     <ControlTemplate>
@@ -61,7 +61,7 @@ Multi-column listboxes also support templates, both for individual items (cells)
 
 And:
 
-```
+```xml
 <c:ListColumn Header="Text 5" IsResizable="True" Width="200">
   <c:ListColumn.ItemTemplate>
     <DataTemplate>
@@ -81,7 +81,7 @@ The result of these templated columns (the first one defines the header template
 
 Similarly, each and every cell can have an item template. The above screen shot shows such a template in column 5. The following code was used to create that column:
 
-```
+```xml
 <c:ListColumn Header="Text 5" IsResizable="True" Width="200">
   <c:ListColumn.ItemTemplate>
     <DataTemplate>
@@ -99,7 +99,7 @@ Using this technique, the developer has full freedom over the content of these U
 
 Another interesting technique for column headers is the ability to associate a click command for header clicks. This way, a command can be fired whenever the user clicks a header (in many cases, this is used to perform sorting operations). The click command is wired up to a column like so:
 
-```
+```xml
 <c:ListColumn BindingPath="Text1" Header="Text 1" HeaderClickCommandBindingPath="HeaderClick" />
 ```
 
@@ -109,7 +109,7 @@ Note: Binding the command has to be done using a path expression rather than "{B
 
 It is also possible to create tool-tips for the contents of a column. This can be done by either hard-coding a tool-tip, or by setting a binding path, like this:
 
-```
+```xml
 <Controls:ListColumnsCollection>
   <Controls:ListColumn Width="30" IsResizable="False" BindingPath="Image1" />
   <Controls:ListColumn Width="250" IsResizable="True" BindingPath="Text1" Header="Subscriber Name" ToolTip="Test Tool-Tip" />
@@ -129,7 +129,7 @@ Another cool feature for multi-column lists is the ability to sort and filter by
 
 For sorting to work, one can simply use the AutoSort property of the column definitions:
 
-```
+```xml
 <ListBox Style="{DynamicResource SearchListStyle}">
   <controls:ListEx.Columns>
     <controls:ListColumnsCollection>
@@ -166,7 +166,7 @@ Another nifty detail is in the first column. Since that column is numeric, note 
 
 Here is the source that defines this list (with non-filter related properties removed):
 
-```
+```xml
 <ListBox>
   <controls:ListEx.Columns>
     <controls:ListColumnsCollection>
@@ -179,7 +179,7 @@ Here is the source that defines this list (with non-filter related properties re
 
 The list itself can define the filter modus operandi. For instance, one can do this:
 
-```
+```xml
 <ListBox c:ListEx.AutoFilterMode="AllColumnsOr">
 ```
 
@@ -187,13 +187,13 @@ This would change the mode from ANDing all column filters together and instead u
 
 Whether or not the filter-controls show up in the first place depends on the ShowHeaderEditControls setting. If true, then the filter textboxes show up, if it is false, they are hidden, even if AutoFilter is set to true. Which is nice, because it means that these controls can be shown and hidden easily:
 
-```
+```xml
 <ListBox c:ListEx.ShowHeaderEditControls="True">
 ```
 
 Side-note: A nifty trick is setting these properties app-wide using a style like this, which means that they don’t have to be set on each control:
 
-```
+```xml
 <Style TargetType="ListBox" BasedOn="{StaticResource {x:Type ListBox}}">
   <Setter Property="controls:ListEx.AutoFilterMode" Value="AllColumnsAnd" />
   <Setter Property="controls:ListEx.ShowHeaderEditControls" Value="{Binding Actions[ShowFilterHeaders].IsChecked}" />

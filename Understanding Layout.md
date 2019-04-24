@@ -16,7 +16,7 @@ But before we talk about the details of the different layout containers, let’s
 
 Using a standard WPF layout container is simple. Here is an example that shows the aforementioned StackPanekl, an example you are probably familiar with:
 
-```
+```xml
 <StackPanel>
     <Label>Hello World!</Label>
     <TextBox />
@@ -26,7 +26,7 @@ Using a standard WPF layout container is simple. Here is an example that shows t
 
 The result works, but it is not very visually pleasing. Using a CODE Framework layout element to spruce this up a little is just about as simple:
 
-```
+```xml
 <l:BidirectionalStackPanel ChildItemMargin="5">
     <Label>Hello World!</Label>
     <TextBox />
@@ -36,7 +36,7 @@ The result works, but it is not very visually pleasing. Using a CODE Framework l
 
 > Note: CODE Framework layout containers are defined in the CODE.Framework.Wpf.dll assembly in a namespace called CODE.Framework.Wpf.Layout. I am using this .NET namespace in XAML using the “l” namespace (but you can name it anything you want). If you use tools such as Resharper, they will help you to add the namespace in XAML if it isn’t there already. Otherwise, you have to add this attribute to your root element:
 
-```
+```xml
 xmlns:l="clr-namespace:CODE.Framework.Wpf.Layout;assembly=CODE.Framework.Wpf"
 ```
 
@@ -56,7 +56,7 @@ Fundamentally, you now know what it takes! CODE Framework provides a number of c
 
 We can also take this concept a step further. In WPF, we can either use layout elements directly as we have done so far, or we can use them by means of a template. Consider the following code snippet:
 
-```
+```xml
 <ItemsControl>
     <ItemsControl.ItemsPanel>
         <ItemsPanelTemplate>
@@ -74,7 +74,7 @@ An ItemsControl is a generic container control for UI elements. It doesn’t its
 
 But why would I ever want to do that? It seems it just made the example more convoluted and the result was the same. However, there is a considerable difference. This approach is much more flexible and maintainable, because we decoupled the container and its children from the chosen layout. While the prior example hard-coded the layout, this version defers layout to a template. We can take this one step further yet, and move the template definition into a style:
 
-```
+```xml
 <Style TargetType="ItemsControl" xml:Key="MyLayout">
     <Setter Property="ItemsPanel">
         <Setter.Value>
@@ -88,7 +88,7 @@ But why would I ever want to do that? It seems it just made the example more con
 
 And then we can refer to this layout in the ItemsControl:
 
-```
+```xml
 <ItemsControl Style="{DynamicResource MyLayout}">
     <Label>Hello World!</Label>
     <TextBox />
@@ -100,7 +100,7 @@ That’s much nicer! The definition of the ItemsControl is now only marginally m
 
 In this example, we defined our own layout style for the items control. However, CODE Framework ships with quite a number of out-of-the-box layout styles. Instead of our own style with its own name, we could have simply referred to an existing CODE Framework style:
 
-```
+```xml
 <ItemsControl Style="{DynamicResource CODE.Framework-Layout-SimpleFormLayout}">
     <Label>Hello World!</Label>
     <TextBox />
@@ -112,7 +112,7 @@ Done! This style is guaranteed to exist in every CODE Framework theme. You do no
 
 So how would you know what name resources exist? Well, you could look into the CODE Framework XAML resources. Or you can read this article (see below for a complete list). But we also have an easier way: Instead of using the default WPF ItemsControl, you can use CODE Framework’s View element. This element is a sub-class of the default ItemsControl with a bunch of convenience features added. Such as StandardLayout property that makes it easy to pick one of the default layout styles:
 
-```
+```xml
 <mvvm:View StandardLayout="SimpleForm">
     <Label>Hello World!</Label>
     <TextBox />
@@ -126,7 +126,7 @@ The StandardLayout property is really just a convenience property. When set, the
 
 The use of the View object is entirely optional, but it sure is convenient. Most people like using this object and we thus make this the default root element of UI definitions. Therefore, if all you wanted in your UI was these three elements, you could go with the following:
 
-```
+```xml
 <mvvm:View xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
            xmlns:mvvm="clr-namespace:CODE.Framework.Wpf.Mvvm;assembly=CODE.Framework.Wpf.Mvvm"
            Title="Bidirectional Stack Panel Example" 
@@ -159,7 +159,7 @@ This is a very powerful feature and a very deliberate and well thought out desig
 
 Another feature that most WPF developers overlook is the ability to define styles that are only available within other styles. This is similar to the ability in CSS to create selectors, although the approach is slightly different. Take a look at this example:
 
-```
+```xml
 <Style TargetType="ItemsControl" x:Key="CODE.Framework-Layout-SimpleFormLayout" 
        BasedOn="{StaticResource CODE.Framework-Layout-SimpleFormLayout}">
     <Style.Resources>
@@ -176,7 +176,7 @@ How cool is that? Using this simple trick, we now define that our buttons are to
 
 The end result of all this is that the following code results in the display shown in Figure 2:
 
-```
+```xml
 <mvvm:View xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
            xmlns:mvvm="clr-namespace:CODE.Framework.Wpf.Mvvm;assembly=CODE.Framework.Wpf.Mvvm"
            Title="Bidirectional Stack Panel Example" 
@@ -241,7 +241,7 @@ This layout approach can be referenced in the following ways:
 
 The basic use of this layout element is the following:
 
-```
+```xml
 <l:BidirectionalStackPanel>
     <Label>Hello World!</Label>
     <TextBox />
@@ -253,7 +253,7 @@ This creates the result shown in Figure 1.
 
 The default approach lays elements out top-to-bottom (or left-to-right if the Orientation property is set accordingly) with no margin around elements. However, it is possible to set the margin for child items to create a visual appearance that is more useful for laying out controls in a user interface. Margin for child items will be applied to all elements within the panel. However, it is often desirable to not have a margin at the bottom of text elements. For instance, when laying out a UI that has text elements (like text blocks) followed by textboxes, followed by text element, followed by textbox, then it is reasonable to assume that the text is a label that goes with the control that follows, and therefore, it often makes sense to not add any special margin between these controls. This can be achieved by setting the IgnoreChildItemBottomMarginForTextElements property to true (which is actually the default). The following example takes advantage of these features:
 
-```
+```xml
 <l:BidirectionalStackPanel ChildItemMargin="10,8" IgnoreChildItemBottomMarginForTextElements="true">
     <Label>Hello World!</Label>
     <TextBox />
@@ -269,7 +269,7 @@ Figure 5: Setting a child item margin creates a pleasing margin around each of t
 
 The reason the control is called a bidirectional stack panel is that it can flow elements in from two direction (contrary to the default StackPanel control, which flows elements from one direction only). Therefore, all elements with a VerticalAlignment of Bottom, will be flown in from the bottom, while everything else flows from the top. (This also works in a horizontally aligned bidirectional panel, but in that case the HorizontalAlignment property is used to determine flow direction). The following example always arranges the button at the bottom:
 
-```
+```xml
 <l:BidirectionalStackPanel ChildItemMargin="10,8" IgnoreChildItemBottomMarginForTextElements="true">
     <Label>Hello World!</Label>
     <TextBox />
@@ -285,7 +285,7 @@ Figure 6: The button is positioned at the bottom of the available space, due to 
 
 In some scenarios, it is desirable to have the last top element fill the available space. For instance, in our current example, the textbox could always fill the space “in the middle”, no matter how much space there is. This can be done by setting the LastTopItemFillsSpace property to true:
 
-```
+```xml
 <l:BidirectionalStackPanel ChildItemMargin="10,8" IgnoreChildItemBottomMarginForTextElements="true" LastTopItemFillsSpace="true">
     <Label>Hello World!</Label>
     <TextBox />
@@ -301,7 +301,7 @@ Figure 7: With the BidirectionalStackPanel set to fill the space with the last t
 
 Sometimes, not all the elements fit into the available space on screen. The default StackPanel class simply causes elements to flow out the bottom (or right) of the panel. The BidirectionalStackPanel on the other hand will show a scroll bar in those cases. (This behavior can be turned off using the ScrollBarMode property). We can easily force this behavior by setting a minimum height for the last top item:
 
-```
+```xml
 <l:BidirectionalStackPanel ChildItemMargin="10,8" IgnoreChildItemBottomMarginForTextElements="true" LastTopItemFillsSpace="true">
     <Label>Hello World!</Label>
     <TextBox MinHeight="300"/>
@@ -317,7 +317,7 @@ Figure 8: Whenever there isn’t enough space to fit all elements into the avail
 
 As always, it is often desirable to not use the control directly, but to use a View container instead. The version that fills the space (identical to Figure 8, although different themes will apply different spaces) can be coded like this:
 
-```
+```xml
 <mvvm:View StandardLayout="SimpleFormToFill">
     <Label>Hello World!</Label>
     <TextBox MinHeight="300"/>
@@ -327,7 +327,7 @@ As always, it is often desirable to not use the control directly, but to use a V
 
 Note that the chosen standard layout is the “…ToFill” variation, which simply invokes a style that sets the LastTopItemFillsSpace property to true. The standard version on the other hand, produces the same result as Figure 6:
 
-``` 
+``` xml
 <mvvm:View StandardLayout="SimpleForm">
     <Label>Hello World!</Label>
     <TextBox/>
@@ -346,7 +346,7 @@ Note that the chosen standard layout is the “…ToFill” variation, which sim
 
 An example of the use of this style looks like this:
 
-```
+```xml
 <mvvm:View StandardLayout="StandardForm">
     <Label Margin="20,40,0,0" VerticalAlignment="Top">Hello World!</Label>
     <TextBox Margin="20,80,20,0" VerticalAlignment="Top"/>
@@ -356,7 +356,7 @@ An example of the use of this style looks like this:
 
 This is really the same as this:
 
-```
+```xml
 <Grid>
     <Label Margin="20,40,0,0" VerticalAlignment="Top">Hello World!</Label>
     <TextBox Margin="20,80,20,0" VerticalAlignment="Top"/>
@@ -383,7 +383,7 @@ Figure 9: A multi-panel form with 3 panels (the colored rectangles serve as simp
 
 The simplest version of a MultiPanel layout, simply takes all contained (and visible) child elements, and splits the available space between them. Consider this example:
 
-```
+```xml
 <l:MultiPanel>
     <Rectangle Fill="Red"/>
     <Rectangle Fill="Green"/>
@@ -399,7 +399,7 @@ Figure 10: A very simple MultiPanel, with the contained UI elements splitting th
 
 By default, all elements are sized the same. However, the relative size of elements can be changed in a fashion very similar to changing Grid dimensions. Of course, the Rectangle object used in this example has no concept of having a certain size in a MultiPanel layout. Therefore, the size is set by means of an attached property provided by the View object:
 
-```
+```xml
 <Rectangle Fill="Red" mvvm:View.RelativeHeight="2*"/>
 ```
 
@@ -419,7 +419,7 @@ Another setting that is often useful is the ability to change the spacing betwee
 
 It is often desirable (although completely optional) to show headers for each panel. Headers are completely customizable (either by setting properties on header renderer objects, or by implementing custom renderers) and can be turned on by configuring a header renderer object on the MultiPanel:
 
-```
+```xml
 <l:MultiPanel>
   <l:MultiPanel.HeaderRenderer>
     <l:MultiPanelHeaderRenderer Background="Black" Foreground="White" FontSize="16" Orientation="Vertical"/>
@@ -445,19 +445,19 @@ Figure 14: The same UI as in Figure 13, but with horizontal headers configured.
 
 Elements within the multi-panel layout are only displayed when they are visible. Collapsed icons are not displayed at all and completely ignored for layout. (Elements with collapsed visibility are considered “closed”). It is often useful to bind the Visibility property of contained elements to a view-model property to be able to toggle their visibility on and off. Another option is to display a clickable icon in the header that “closes” the element (by collapsing it). To enable this, two things have to be done: 1) the header renderer has to define an icon, and 2) each contained element has to indicate whether it can be collapsed. Defining an icon can be done by referring to one of the standard CODE Framework icons, or by defining your own icon resource:
 
-```
+```xml
 <l:MultiPanelHeaderRenderer CloseIcon="{DynamicResource CODE.Framework-Icon-ClosePane}"/>
 ```
 
 Then, each element can individually decide whether it wants to be closable. To make the red rectangle closable, we can do this:
 
-```
+```xml
 <Rectangle Fill="Red" mvvm:View.Title="First Panel" mvvm:View.Closable="True"/>
 ```
 
 Now, when the user clicks on the close icon in the header, the red rectangle disappears as its visibility is set to collapsed state. Note that sometimes it is desirable to have more control over what happens when the icon is clicked. For this purpose, a ViewAction can be assigned to the icon, like so:
 
-```
+```xml
 <Rectangle Fill="Red" mvvm:View.Title="First Panel" mvvm:View.Closable="True" 
            mvvm:View.CloseAction="{Binding CloseAction}" Visibility="{Binding Panel1Visible}"/>
 ```
@@ -466,7 +466,7 @@ This triggers the specified action, which can do anything desired. Usually, this
 
 MultiPanels have a few more tricks up their sleeve. One is the ability to set a panel to “flow with the previous” element. This means that it doesn’t get pushed into a new row or column, but it instead flows in along the previous. Figure 15 shows an example of such a UI. Here is the code that produces it:
 
-```
+```xml
 <l:MultiPanel>
   <Rectangle mvvm:View.Title="One" mvvm:View.Closable="True" mvvm:View.RelativeHeight="2*" Fill="Red" Stroke="Green" StrokeThickness="2"/>
   <Rectangle mvvm:View.Title="One B" mvvm:View.Closable="True" Fill="Maroon" Stroke="Green" StrokeThickness="2" mvvm:View.FlowsWithPrevious="True" Width="150"/>
@@ -489,7 +489,7 @@ Figure 16: An undocked panel floating on the desktop as an independent window.
 
 In most CODE Framework uses, it is not necessary to hard-code the use of a MultiPanel. Instead, it is more desirable to create a View that uses this layout approach. The following code snippet shows such an example:
 
-```
+```xml
 <mvvm:View xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
            xmlns:mvvm="clr-namespace:CODE.Framework.Wpf.Mvvm;assembly=CODE.Framework.Wpf.Mvvm"
            Title="MultiPanel Eample" StandardLayout="MultiPanelWithHeaders">
@@ -503,7 +503,7 @@ This creates the result shown in Figure 9. Note that there are two standard layo
 
 In most scenarios, MultiPanel layouts do not lay out random elements, but they often use contained view elements, which themselves have advanced child layouts. It is also quite common that the contained child elements are a combination of individual elements and View elements:
 
-```
+```xml
 <mvvm:View xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
            xmlns:mvvm="clr-namespace:CODE.Framework.Wpf.Mvvm;assembly=CODE.Framework.Wpf.Mvvm"
            Title="Advanced MultiPanel Layout" StandardLayout="MultiPanelWithHeaders">
@@ -534,7 +534,7 @@ Blade UIs are conceptually quite similar to multi-panels, and in fact, people te
 
 To use an example similar to the one used for multi-panels, here is a simple blade setup with three differently sized and colored rectangles:
 
-```
+```xml
 <l:BladePanel>
   <Rectangle Width="300" Fill="Red"/>
   <Rectangle Width="400" Fill="Green"/>
@@ -550,7 +550,7 @@ Figure 18: Three colored rectangles are shown as blades arranged left-to-right. 
 
 It is also possible to force the last element to use up all the available space. This is done by setting the LastTopItemFillsPace property to true. (Note: The naming of this property is done for consistency with other CODE Framework elements, even though it is actually the right-most item that fills the space, rather than the top one).
 
-```
+```xml
 <l:BladePanel LastTopItemFillsSpace="True">
   <Rectangle Width="300" Fill="Red"/>
   <Rectangle Width="400" Fill="Green"/>
@@ -562,7 +562,7 @@ In this case, the yellow rectangle fills up however much space there is left for
 
 It is also possible to have some blades stick to the right edge (similar to a bidirectional stack panel) by setting the horizontal alignment:
 
-```
+```xml
 <l:BladePanel LastTopItemFillsSpace="True">
   <Rectangle Width="300" Fill="Red"/>
   <Rectangle Fill="Green"/>
@@ -574,7 +574,7 @@ Not only does that keep the yellow rectangle docked to the left, but a potential
 
 The BladePanel class has properties to set spacing between the elements. Also, as with the multi-panel setup, it is possible (and often desired) to show headers for each blade:
 
-```
+```xml
 <l:BladePanel LastTopItemFillsSpace="True">
   <l:BladePanel.HeaderRenderer>
     <l:BladePanelHeaderRenderer Background="Black" Foreground="White" Orientation="Vertical" FontSize="18"/>
@@ -597,7 +597,7 @@ Figure 20: Blades with horizontal headers.
 
 As is the case with most CODE Framework layouts, it is desirable to use blade layouts simply by invoking a style or standard-layout, rather than hard-coding the layout. Here is an example that produces the same result as in Figure 19/18, but simply by applying a View with a style. (Note that exact colors and orientation change with each theme):
 
-```
+```xml
 <mvvm:View xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
            xmlns:mvvm="clr-namespace:CODE.Framework.Wpf.Mvvm;assembly=CODE.Framework.Wpf.Mvvm"
            Title="BladePanel Example" StandardLayout="BladesWithHeadersToFill">
@@ -611,7 +611,7 @@ As is the case with most CODE Framework layouts, it is desirable to use blade la
 
 And just like in the MultiPanel example, BladePanel layouts are generally used to have more complex items as their child elements, such as lists or other views. The following is essentially the same example as shown in Figure 17, but using the BladePanel approach. (Note that switching layouts between different approaches without changing the embedded elements is one of the major advantages of this approach):
 
-```
+```xml
 <mvvm:View xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
            xmlns:mvvm="clr-namespace:CODE.Framework.Wpf.Mvvm;assembly=CODE.Framework.Wpf.Mvvm"
            Title="Advanced BladePanel Layout" StandardLayout="BladesWithHeaders">
@@ -647,7 +647,7 @@ Note that the TabPanel layout is not meant to replace the standard WPF TabContro
 
 Here is the code that produces the UI shown in Figure 22:
 
-```
+```xml
 <mvvm:View xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
            xmlns:mvvm="clr-namespace:CODE.Framework.Wpf.Mvvm;assembly=CODE.Framework.Wpf.Mvvm"
            Title="Advanced TabPanel Layout" StandardLayout="Tabs">
@@ -682,7 +682,7 @@ Figure 24: The same search UI as shown in Figure 23, but this time using the Met
 
 Primary/Secondary forms almost always use a View element to be invoked. (It is possible to use the primary/secondary layout element directly, but this is almost never done, which is why I am not covering it in this article). Here is the code for the examples shown in Figures 23 and 24:
 
-```
+```xml
 <mvvm:View xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
            xmlns:mvvm="clr-namespace:CODE.Framework.Wpf.Mvvm;assembly=CODE.Framework.Wpf.Mvvm"
            xmlns:controls="clr-namespace:CODE.Framework.Wpf.Controls;assembly=CODE.Framework.Wpf"
@@ -716,7 +716,7 @@ There are a few aspects about these forms to point out: Secondary elements may b
 
 The primary/secondary panel layout has an interesting peculiarity: It is capable of swapping the position of the secondary element dynamically. For instance, if the element turns out to be very wide but now very tall, it may be positioned above the main element, but once the secondary element grows over a certain height, it snaps to the left. This behavior is driven by the SecondaryUIElementAlignmentChangeSize property. Take a look at an example definition of the style:
 
-```
+```xml
 <Style TargetType="ItemsControl" x:Key="CODE.Framework-Layout-PrimarySecondaryFormLayout">
   <Setter Property="ItemsPanel">
     <Setter.Value>
@@ -745,7 +745,7 @@ Figure 25: A Property Sheet layout using the Geek theme.
 
 Here is the code that goes with the definition of the UI in Figure 25:
 
-```
+```xml
 <mvvm:View xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
            xmlns:mvvm="clr-namespace:CODE.Framework.Wpf.Mvvm;assembly=CODE.Framework.Wpf.Mvvm"
            xmlns:l="clr-namespace:CODE.Framework.Wpf.Layout;assembly=CODE.Framework.Wpf"
@@ -803,7 +803,7 @@ As you can see, the combination of all these controls gives us the ability to la
 
 The EditForm UI is the Big Bertha of layout components. It is the most advanced, complex, and feature-rich generic layout component we have ever built (and quite likely anyone else, for that matter). The EditForm layout container is based on a relatively simple idea: Many data entry forms (“edit forms”) in business applications tend to use the same pattern: They lay out groups of labels and controls. There often is a label, followed by a control such as a textbox. Then there is the next label, and it is followed by another control, perhaps a drop-down list. The layout of these element is usually such that the labels and the controls are aligned to create a UI that is pleasing and easy to take in by the human eye. Figure 26 shows the most basic of such an example. The following code snippet creates that UI:
 
-```
+```xml
 <l:EditForm>
   <TextBlock>Name:</TextBlock>
   <TextBox Width="300"/>
@@ -830,7 +830,7 @@ Figure 27: An advanced edit form layout.
 
 How is this done? Here is the code snippet that creates that layout:
 
-```
+```xml
 <l:EditForm>
     <Label mvvm:View.GroupTitle="Name Information:">First Name:</Label>
     <TextBox mvvm:View.WidthEx="30"/>
@@ -880,7 +880,7 @@ Finally, we have the textbox to enter a second street address. It has no label. 
 
 Using this set of features, one can create many different edit forms. Most of the time, all other features are set to appropriate defaults by themes and styles. Therefore, the same UI is usually just defined by means of a View with a StandardLayout applied:
 
-```
+```xml
 <mvvm:View xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
            xmlns:mvvm="clr-namespace:CODE.Framework.Wpf.Mvvm;assembly=CODE.Framework.Wpf.Mvvm"
            Title="EditForm Example" StandardLayout="EditForm">

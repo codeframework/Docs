@@ -2,7 +2,7 @@
 
 WPF TextBoxes do not automatically select their content when the cursor moves into them. CODE Framework supports a feature that remedies the situation. Using the Ex object, one can set select-on-entry behavior. Consider the following 3 TextBoxes:
 
-```
+```xml
 <TextBox Text="Test" c:Ex.SelectOnEntry="True" />
 <TextBox Text="Test" c:Ex.SelectOnEntry="False" />
 <TextBox Text="Test" c:Ex.SelectOnEntry="True" />
