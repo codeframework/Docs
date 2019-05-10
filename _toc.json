@@ -1417,6 +1417,11 @@
           "title": "How To - Creating a Simple Business Object",
           "slug": "milos/howto/createsimplebusinessobject",
           "link": "Milos/CreatingASimpleBusinessObject.md"
+        },
+        {
+          "title": "How To - Creating a Simple Business Entity",
+          "slug": "milos/howto/createsimplebusinessentity",
+          "link": "Milos/CreatingASimpleBusinessEntity.md"
         }
       ]
     }
