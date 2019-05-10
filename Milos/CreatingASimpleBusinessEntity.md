@@ -127,13 +127,13 @@ public class EmployeeEntity : BusinessEntity
 Also, entities that are based on string or integer primary keys, we need to use different properties to query the keys. Here's the integer version:
 
 ```cs
-int intKey = oEnt.PKInteger;
+int intKey = entity.PKInteger;
 ```
 
 And the string version:
 
 ```cs
-string strKey = oEnt.PKString;
+string strKey = entity.PKString;
 ```
 
 Asides from these differences, simple entities behave exactly the same way, no matter what keys the are based on. Most of the differences are absorbed by the business object (see also: HowTo_CreateBusinessObject). However, there are additional considerations for entities that manage related child records. For more information, see HowTo_CreateChildItemsInEntities).
