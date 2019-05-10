@@ -34,24 +34,23 @@ public class ProductBusinessObject : Milos.BusinessObjects.BusinessObject
 }
 ```
 
-Note: Do not forget that whatever client application uses this business object needs to configure data access as defined in Documentation_ConfigurationOptions
+> Do not forget that whatever client application uses this business object needs to configure data access as defined in Documentation_ConfigurationOptions
 
-Note: The private constructor and the static method is not strictly required, but it is a good idea. (For simplicity, this detail is ommited in subsequent examples).
-
-Note: In real-life scenarios, business objects use Stored Procedures as their means to access data (at least that is the case when SQL Server - as well as a few other databases - is/are used). For simplicity, we will ignore that fact in this section. However, in a real life implementation, the Configure() method would probably have one more line of code:
-
-```cs
-protected override void Configure()
-{
-    SetDataAccessMethod(DataRowProcessMethod.StoredProcedures);
-    MasterEntity = "products";
-    PrimaryKeyField = "product_pk";
-}
-```
+> The private constructor and the static method is not strictly required, but it is a good idea. (For simplicity, this detail is ommited in subsequent examples).
 
 ## Retrieving Data
 
-By default, the new business object has the ability to retrieve all fields and all records from the default entity using the GetList() method. However, this is not likely to be the desired behavior. However, you can easily limit the list of fields you would like to retrieve by setting the ```DefaultFields``` property like to:
+By default, the new business object has the ability to retrieve all fields and all records from the default entity using the GetList() method:
+
+```cs
+using (var biz = ProductBusinessObject.NewInstance())
+using (var ds = biz.GetList())
+{
+    Consolw.WriteLine(ds.Tables[0].Rows[0][0]);
+}
+```
+
+Retrieving all fields works well in simple scenarios, but it isn't usually the desired behavior. However, you can easily limit the list of fields you would like to retrieve by setting the ```DefaultFields``` property like to:
 
 ```cs
 DefaultFields = "Product_PK, ProductName";
@@ -70,9 +69,11 @@ public DataSet GetListByName(string productName)
 }
 ```
 
-As you can see, the ```ExecuteQuery()``` method makes it very easy to firedata commands against the server back end. Note also that this is done in a very generic fashion. The generated command object is very generic and can be used with most databases. Much of this functionality is based on the ```NewDbCommand()``` method which returns a generic command object. (Note: During runtime, this will generate a command object specific to the used database. In SQL Server scenarios for instance, this would be an ```SqlCommand``` object.) 
+As you can see, the ```ExecuteQuery()``` method makes it very easy to firedata commands against the server back end. Note also that this is done in a very generic fashion. The generated command object is very generic and can be used with most databases. Much of this functionality is based on the ```NewDbCommand()``` method which returns a generic command object. 
 
-Note the user of the Parameters collection on the command object. This is mandatory for all operations! (Especially SQL Server.) Although some versions of the framework may let you get away with specifying where clause conditions directly (```...WHERE ProductName LIKE 'A%'```), we try to catch such operations whever possible (without too much of a performance hit... which sometimes is difficult). This is done for security reasons, as the parameters collection protects from SQL injection attacks.
+> Note: During runtime, this will generate a command object specific to the used database. In SQL Server scenarios for instance, this would be an ```SqlCommand``` object.
+
+> Note the user of the Parameters collection on the command object. This is mandatory for all operations! (Especially SQL Server.) Although some versions of the framework may let you get away with specifying where clause conditions directly (```...WHERE ProductName LIKE 'A%'```), we try to catch such operations whever possible (without too much of a performance hit... which sometimes is difficult). This is done for security reasons, as the parameters collection protects from SQL injection attacks.
 
 Note also that there is a helper method to easily add parameters to the generic command object. One can also use the command object's ```Parameters``` collection, however, that is unnecessarily difficult for generic command objects (it would be much easier for more specific command objects, such as ```SqlCommand```).
 
