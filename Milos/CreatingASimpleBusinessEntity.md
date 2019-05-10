@@ -1,13 +1,13 @@
 # Creating a Simple Business Entity
 
 1) Add a new class to your project called ```ProductBusinessEntity```
-  1) Change the class so it inherits from ```Milos.BusinessObjects.BusinessEntity```. Note that this class must overwrite the ```GetBusinessObject``` method if this code isn't added automatically, add it yourself.
+   1) Change the class so it inherits from ```Milos.BusinessObjects.BusinessEntity```. Note that this class must overwrite the ```GetBusinessObject``` method if this code isn't added automatically, add it yourself.
 2) In the ```GetBusinessObject()``` method, create an instance of ```ProductBusinessObject``` and return it. Note that the return type of this object needs to be typed as an ```IBusinessObject```.
 3) At this point, you also need to override the object's constructors.
-  1) Simply override  two overloaded constructors with calls to their base methods only.
+   1) Simply override  two overloaded constructors with calls to their base methods only.
 4) At this point, you can add properties that reference data in the internal dataset
-  1) To access field values within the internal dataset, use the ```ReadFieldValue<T>()``` method.
-  2) To set vield values, use the ```WriteFieldValue()``` method. Note that the properties can be significantly different from the actual values in the database. (See below)
+   1) To access field values within the internal dataset, use the ```ReadFieldValue<T>()``` method.
+   2) To set vield values, use the ```WriteFieldValue()``` method. Note that the properties can be significantly different from the actual values in the database. (See below)
   
 Here is an example of what your business entity may look like at this point:
 
