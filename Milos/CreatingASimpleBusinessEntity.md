@@ -99,6 +99,24 @@ entity.Remove();
 ```
 
 > Note that after removing an entity, the Save() method needs to be called to actually cause the operation on the server. Note also that after calling the Remove() object, the business entity is no longer valid and one should not interact with it in any way, other than calling the Save() method.
+
+## Adding Static Instantiation Methods
+
+In many cases, it can be benefitial to load entities through static methods. These methods can be added like this for Guid-based entities:
+
+```cs
+public class EmployeeEntity : BusinessEntity 
+{
+   public static EmployeeEntity NewEntity() => new EmployeeEntity();
+   public static EmployeeEntity LoadEntity(Guid pressReleaseId) => new EmployeeEntity(pressReleaseId);
+```
+
+Entities can then be instantiated like this:
+
+```cs
+var newEntity = EmployeeEntity.NewEntity();
+var existingEntity = EmployeeEntity.LoadEntity(key);
+```
  
 ## Creating Business Entities with non-Guid Primary Keys
 
