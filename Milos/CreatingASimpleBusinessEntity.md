@@ -71,6 +71,20 @@ Load an existing entity:
 var entity = new ProductBusinessEntity(key);
 ```
 
+Get field values:
+
+```cs
+Console.WriteLine(entity.ProductName);
+Console.WriteLine(entity.Description);
+```
+
+Updating field values:
+
+```cs
+entity.ProductName = "My Product";
+entity.Description = "This is a great product!";
+```
+
 Save a new or modified entity:
 
 ```cs
@@ -82,7 +96,7 @@ Figure out whether an entity needs saving:
 ```cs
 if (entity.IsDirty) 
 {
-   entity.Save();
+   Console.WriteLine("This entity has unsaved data.");
 }
 ```
 
