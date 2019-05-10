@@ -12,12 +12,12 @@
 Here is an example of what your business entity may look like at this point:
 
 ```cs
-public class ProductBusinessEntity : EPS.Business.BusinessObjects.BusinessEntity 
+public class ProductBusinessEntity : Milos.BusinessObjects.BusinessEntity 
 {
     public ProductBusinessEntity() : base() {}
     public ProductBusinessEntity(Guid id) : base(id) {}
 
-    public override EPS.Business.BusinessObjects.IBusinessObject GetBusinessObject() => new ProductBusinessObject();
+    public override Milos.BusinessObjects.IBusinessObject GetBusinessObject() => new ProductBusinessObject();
 
     public string Name
     {
@@ -105,17 +105,17 @@ entity.Remove();
 In many cases, it can be benefitial to load entities through static methods. These methods can be added like this for Guid-based entities:
 
 ```cs
-public class EmployeeEntity : BusinessEntity 
+public class ProductBusinessEntity : BusinessEntity 
 {
-   public static EmployeeEntity NewEntity() => new EmployeeEntity();
-   public static EmployeeEntity LoadEntity(Guid pressReleaseId) => new EmployeeEntity(pressReleaseId);
+   public static ProductBusinessEntity NewEntity() => new ProductBusinessEntity();
+   public static ProductBusinessEntity LoadEntity(Guid pressReleaseId) => new ProductBusinessEntity(pressReleaseId);
 ```
 
 Entities can then be instantiated like this:
 
 ```cs
-var newEntity = EmployeeEntity.NewEntity();
-var existingEntity = EmployeeEntity.LoadEntity(key);
+var newEntity = ProductBusinessEntity.NewEntity();
+var existingEntity = ProductBusinessEntity.LoadEntity(key);
 ```
  
 ## Creating Business Entities with non-Guid Primary Keys
@@ -125,20 +125,20 @@ Whenever business objects are based on non-guid keys (see HowTo_CreateBusinessOb
 The first example shows the integer version:
 
 ```cs
-public class EmployeeEntity : BusinessEntity 
+public class ProductBusinessEntity : BusinessEntity 
 {
-   public EmployeeEntity() : base() {}
-   public EmployeeEntity(int id) : base(id) {}
+   public ProductBusinessEntity() : base() {}
+   public ProductBusinessEntity(int id) : base(id) {}
    // ... the rest of the class continues on as usual.
 ```
 
 A string-based entity is created in a very similar fashion:
 
 ```cs
-public class EmployeeEntity : BusinessEntity 
+public class ProductBusinessEntity : BusinessEntity 
 {
-   public EmployeeEntity() : base() {}
-   public EmployeeEntity(string id) : base(id) {}
+   public ProductBusinessEntity() : base() {}
+   public ProductBusinessEntity(string id) : base(id) {}
    // ... the rest of the class continues on as usual.
 ```
 
