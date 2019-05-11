@@ -1428,6 +1428,16 @@
           "title": "How To - Creating Child Items in Entities",
           "slug": "milos/howto/createchilditemsinentities",
           "link": "Milos/CreatingChildItemsInEntities.md"
+        },
+        {
+          "title": "How To - Creating a Collection of Cross Referenced Child Entities",
+          "slug": "milos/howto/createcrossrefchilditemsinentities",
+          "link": "Milos/CreateCrossRefChildItemsInEntities.md"
+        },
+        {
+          "title": "How To - Creating Child Items in Entities",
+          "slug": "milos/howto/createspecialdataloadingscenrios",
+          "link": "Milos/CreateSpecialDataLoadingScenrios.md"
         }
       ]
     }
