@@ -5,3 +5,5 @@ The Milos Solution Platform is the spiritual predecessor of CODE Framework. It i
 ## NuGet Support
 
 Milos Components that are maintained as part of CODE Framework can be added to your project from NuGet. The following link provides a quick way to search for Milos NuGet components (although this search may also return other packages): https://www.nuget.org/packages?q=Milos.
+
+> Typical uses of Milos require adding the Milos.BusinessObjects and Milos.Data.SqlServer packages. (This also brings along other dependencies and thus provide what is usually needed in most business applications).
