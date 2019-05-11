@@ -1423,6 +1423,11 @@
           "title": "How To - Creating a Simple Business Entity",
           "slug": "milos/howto/createsimplebusinessentity",
           "link": "Milos/CreatingASimpleBusinessEntity.md"
+        },
+        {
+          "title": "How To - Creating Child Items in Entities",
+          "slug": "milos/howto/createchilditemsinentities",
+          "link": "Milos/CreatingChildItemsInEntities.md"
         }
       ]
     }
