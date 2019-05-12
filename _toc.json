@@ -1406,8 +1406,13 @@
       "topics": [
         {
           "title": "Milos Overview",
-          "slug": "overview",
+          "slug": "milos/overview",
           "link": "Milos/Overview.md"
+        },
+        {
+          "title": "Data Access Layer",
+          "slug": "milos/dataaccesslayer",
+          "link": "Milos/DataAccessLayer.md"
         },
         {
           "title": "Business Object Layer",

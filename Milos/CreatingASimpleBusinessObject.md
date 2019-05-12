@@ -11,10 +11,10 @@ Delete the default class that gets created automatically.
 1) Add a Nuget Package Reference to ```Milos.BusinessObjects```.
    1) Add a new class to your business objects and give it a name such as ```ProductBusinessObject```.
    2) Change this class so it inherits from ```Milos.BusinessObjects.BusinessObject```.
-2) Add a private constructor to prevent direct instantiation of an object (we want more control than that!).
+2) Optional: Add a private constructor to prevent direct instantiation of an object. (Note: The static instantiation method is an extension point that allows for added functionality when the object is instantiated. However, this is not strictly required and not done in most scenarios).
    1) Add a static/shared ```NewInstance()``` method for the purpose of allowing controlled instantiation of the object.
-   2) Note that the editor automatically adds an overridden method named ```Configure```. (If not, override this method manually... otherwise the app won't compile)
-3) Set the ```MasterEntity``` and ```PrimaryKeyField``` properties in an overridden version of the ```Configure()``` methods which is provided by many framework objects.
+3) Note that the editor automatically adds an overridden method named ```Configure```. (If not, override this method manually... otherwise the app won't compile)
+   1) Set the ```MasterEntity``` and ```PrimaryKeyField``` properties in an overridden version of the ```Configure()``` methods which is provided by many framework objects.
 4) Compile your new application
 
 Here's the code we have created so far:
@@ -26,6 +26,19 @@ public class ProductBusinessObject : Milos.BusinessObjects.BusinessObject
 
     public static ProductBusinessObject NewInstance() => new ProductBusinessObject();
 
+    protected override void Configure()
+    {
+        MasterEntity = "products";
+        PrimaryKeyField = "product_pk";
+    }
+}
+```
+
+Here is the same example without the static initialization helper:
+
+```cs
+public class ProductBusinessObject : Milos.BusinessObjects.BusinessObject
+{
     protected override void Configure()
     {
         MasterEntity = "products";
@@ -87,13 +100,37 @@ Note however, that saving data through the dataset is NOT the recommended way. I
 
 ## Instantiating the Business Object
 
-A business object can be used by declaring a local variable of the type of the business object, and subsequently, creating an instance of the business object using the ```NewInstance()``` static/shared method:
+A business object can be used by declaring a local variable of the type of the business object, and subsequently, creating an instance of the business object using the ```NewInstance()``` static/shared method (if you chose the static instantiation helper approach from above):
 
 ```cs
 using (var biz = ProductBusinessObject.NewInstance())
 {
     var dataset = biz.GetList();
 }
+```
+
+If you chose to go with a standard constructor, the object can be create like this:
+
+```cs
+using (var biz = new ProductBusinessObject())
+{
+    var dataset = biz.GetList();
+}
+```
+
+Note that whatever app is using this business object needs to be configured to know how to access the database. This is explained in detail in the data configuration how-to, but for now, you can create an app.config (or web.config) file with the following contents (replace this with settings that match your SQL Server setup):
+
+```xml
+<xml version="1.0" encoding="utf-8" ?>
+<configuration>
+   <appSettings>
+      <add key="DataServices" value="SqlDataService"/>
+      <add key="database:UserName" value="devuser"/>
+      <add key="database:Password" value="devuser"/>
+      <add key="database:Server" value="(local)"/>
+      <add key="database:Catalog" value="Northwind"/>
+   </appSettings>
+</configuration>
 ```
 
 ## Creating Business Objects that use non-Guid based Primary Keys 
