@@ -226,3 +226,71 @@ else
     ConfigurationSettings.Sources["SpecialConfiguration"].Write();
 }
 ```
+
+## Available Configuration Options
+
+The following configuration options (relevant to business objects and data access) can currently be set in the applications configuration file:
+
+| **Key** | **Value** | **Required** | **Notes** |
+| --- | --- | --- | --- |
+| database:UserName | SQL Server user name | Mostly, unless ConnectionString or trusted connection setting is provided. | Prefix (database) can change depending on the configuration of the data service. |
+| database:Password | SQL Server password | Mostly, unless ConnectionString or trusted connection setting is provided. | Prefix (database) can change depending on the configuration of the data service. |
+| database:Server | SQL Server name | Mostly, unless ConnectionString is provided. | Prefix (database) can change depending on the configuration of the data service. |
+| database:TrustedConnection | Yes, True, False, No | Only if no other connection string and no user name is provided. | Prefix (database) can change depending on the configuration of the data service. If this setting is True or Yes, the user name and password settings will be ignored by all data services that support trusted connections (such as the SQL Server data services). |
+| database:Catalog | SQL Server database name | Mostly, unless ConnectionString is provided. | Prefix (database) can change depending on the configuration of the data service. |
+| database:ConnectionString | Fully qualified SQL Connection String | No | Prefix (database) can change depending on the configuration of the data service. If this setting is provided, it will override the previous 4 settings. |
+| DataService | DataService class | Yes (Data.dll) | This can be a list of data services, separated by commas. Typically, this setting would be "SqlDataService" or "SqlDataService,WsSqlDataService". |
+| database:WebServiceURL | URL of the WsSqlDataService web service | Only if the WsSqlDataService is configured as one of the possible options. | This setting will point to a fully qualified URL. This URL will be used by the WsSqlDataService to retrieve data from Sql Server. In other words, this URL has to be the web service component used by the web service driven Sql data service. |
+| database:StoredProcedurePrefix | SP prefix (default: "milos\_") | No | This setting defines the prefix used by stored procedures that are created for automatic use. For instance, if the system is configured to use stored procedures, then business objects will use default stored procedures, such as an SP that queries all records from a table such as the customer table. In that case, the SP will be called something like "milos\_getCustomerAllRecords". The "milos\_" prefix is used to differentiate these SPs from manually created ones. This setting allows the developer to customize the prefix.<br/>*Note that this setting may not be supported by all data services.* |
+| database:AllowedDataMethod | StoredProcedures or IndividualCommands | No | If this setting is present, the system will limit data access to the method specified. For instance, if this is set to "StoredProcedures", then the system will only allow data access through stored procedures. All other calls will cause errors. If this setting is absent, all data access methods will be allowed. |
+| database:AppRole | Database App Role | No | Prefix (database) can change depending on the configuration of the data service. Note that app roles can not co-exist with ADO.NET connection pooling. All connection pooling will be disabled whenever app roles are used. |
+| database:AppRolePassword | Password for an App Role | Required if AppRole is specified. | Prefix (database) can change depending on the configuration of the data service. |
+| database:AutoLoadSchemaInformation | True (default) of False | No | Defines whether schema information is retrieved from the database. This allows Milos to automatically perform checks and fix things like trim data to the maximum lenght of a text fields. Note that this also adds a layer of restraint checking in ADO.NET internally. For instance, identity fields can not be updated on the client of schema information is retrieved. |
+| SqlServerParameterType | Undefined (default), Unicode, NotUnicode | No | Defines whether parameters by default are unicode parameters (such as NVarChar) or not (such as VarChar). The default is undefined, which means that the system will not interfere with the parameter types. |
+| database:TransactionIsolationLevel | Default, Chaos, ReadCommited, ReadUncommited, RepeatableRead, Serializable, Unspecified | No | Defines the transaction isolation level. This setting is used for all transactions. Note that different objects can use different transaction isolation levels through different database configuraiton prefixes. |
+| MinimumCommandTimeout | Command timeout in seconds | No | Sets the minimum command timeout in seconds. All commands fired against the database will set a timeout to at least that. Note that if a specific command uses a higher timeout, then the higher timeout applies. |
+| database:StoredProcedureFacade | Assembly/Class | No | This setting can be used to specify a stored procedure facade the dataservice is to use. |
+
+### Configuration Example
+
+Configuration options are set in the application configuration file (app.config on windows, and web.config in web apps). Here is an example:
+
+```xml
+<xml version="1.0" encoding="utf-8" ?>
+<configuration>
+   <appSettings>
+        <add key="database:UserName" value="sa"/>
+        <add key="database:Password" value=""/>
+        <add key="database:Server" value="(local)"/>
+        <add key="database:Catalog" value="Northwind"/>
+        <add key="database:TrustedConnection" value="False"/>
+        <add key="database:StoredProcedurePrefix" value="something_"/>
+        <add key="database:AutoLoadSchemaInformation" value="False"/>
+        <add key="database:AppRole" value="MySQLServerRole"/>
+        <add key="database:AppRolePassword" value="MyGreatPassword_"/>
+        <add key="DataServices" value="SqlDataService,WsSqlDataService"/>
+        <add key="AllowedDataMethod" value="StoredProcedures"/>  
+        <add key="SqlServerParameterType" value="NotUnicode"/> 
+        <add key="MinimumCommandTimeout" value="120"/> 
+        <add key="database:TransactionIsolationLevel" value="ReadUncommited"/>
+        <add key="database:StoredProcedureFacade" value="MyAssembly/MyNamespace.MyFacadeClassName"/>
+     <appSettings>
+<configuration>
+```
+
+### Data Service Settings
+
+The ```DataService``` setting specifies which data service is to be used to load data. The data service is the object that talks to the database and performs database operations. There are two ways to configure the data service: 1) Use one of the natively supported data services, and 2) provide a fully qualified class name to specify the service.
+
+The following services are supported natively (in .NET Core, it is currently only the SqlDataservice option):
+
+* ```SqlDataService``` - Direct access to SQL Server on a local area network.
+* ```WsSqlDataService``` - Access to SQL Server using a web service model.
+* ```MySqlDataService``` - Direct access to MySQL on a local area network.
+
+
+In addition, custom data services can be used by providing an assembly name, as well as a fully qualified class name. For instance, if an assembly called ```MyService.dll``` has a class called ```MyService.DataAccess.MyDataService```, then that class can be used with the following configuration setting:
+
+```xml
+<add key="DataServices" value="MyService.dll/MyService.DataAccess.MyDataService"/>
+```
