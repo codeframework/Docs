@@ -117,7 +117,7 @@ public class ProductBusinessEntity : Milos.BusinessObjects.BusinessEntity
     protected override void LoadSubItemCollections()
     {
        imagesCollection = new ProductImagesCollection(this);
-       imagesCollection.SetTable(InternalDataSet.Tables[productimages"]);
+       imagesCollection.SetTable(InternalDataSet.Tables["productimages"]);
     }
 
     // New method fired whenever Milos decides background loading should be initiated
@@ -138,7 +138,7 @@ public class ProductBusinessEntity : Milos.BusinessObjects.BusinessEntity
     // Rest of class continues as in the previous example
 ```
 
-Most of this code is the same every time. Note that the actual process of background loading is somewhat sophisticated. However, almost all the complexity of this task is abstracted away. The only small glimps of the underlying functionality is the need to instantiate a Callback object in ```InitiateBackgroundLoading()``. However, the task is a simple one, since the code remains the same in every implementation. The only thing that changes is the table name that gets passed to ```LoadSecondaryTablesAsync()```.
+Most of this code is the same every time. Note that the actual process of background loading is somewhat sophisticated. However, almost all the complexity of this task is abstracted away. The only small glimps of the underlying functionality is the need to instantiate a Callback object in ```InitiateBackgroundLoading()```. However, the task is a simple one, since the code remains the same in every implementation. The only thing that changes is the table name that gets passed to ```LoadSecondaryTablesAsync()```.
 
 Talking about ```LoadSecondaryTablesAsync()```: This is the only missing piece to the puzzle at this point. We have to add that method to our business object:
 
@@ -175,6 +175,8 @@ if (product.ProductImages.LoadState == EntityLoadState.LoadComplete)
 > Note: All async loading is implemented on the ```BusinessObject``` and ```BusinessEntity``` classes. This is NOT done on an ```IBusinessEntity``` or ```IBusinessObject``` interface level. Therefore, non-Milos implementations of ```IBusinessObject``` and ```IBusinessEntity``` may not support this functionality.
 
 ## Semi Advanced Topic: Async Loading with Business Objects
+
+> Note: **All async loading is currently in the process of being re-engineered.** Original Milos async loading was done on the thread-pool with manual operations. We have temporarily switched all operations to .NET async (using ```await``` and ```async``` syntax). However, we are currently evaluating what the most efficient way is to handle this going forward, because as it turns out, .NET async is not really the best option for all these scenarios. Current documentation here is still based on original Milos async operations.
 
 As implied int he above example, business objects and data services have the ability to execute queries asynchronously. This functionality is implemented on the abstract DataService? class. All data services inheriting from this class (which means all default Milos data services) therefore support asynchronous queries.
 

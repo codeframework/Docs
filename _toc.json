@@ -1438,6 +1438,31 @@
           "title": "How To - Creating Child Items in Entities",
           "slug": "milos/howto/createspecialdataloadingscenrios",
           "link": "Milos/CreateSpecialDataLoadingScenrios.md"
+        },
+        {
+          "title": "How To - Validate Data",
+          "slug": "milos/howto/validatedata",
+          "link": "Milos/ValidateData.md"
+        },
+        {
+          "title": "How To - Use Data Events",
+          "slug": "milos/howto/dataevets",
+          "link": "Milos/DataEvets.md"
+        },
+        {
+          "title": "How To - Use Transactions",
+          "slug": "milos/howto/transactions",
+          "link": "Milos/Transactions.md"
+        },
+        {
+          "title": "How To - Use a Stored Procedure Facade",
+          "slug": "milos/howto/storedprocedurefacade",
+          "link": "Milos/StoredProcedureFacade.md"
+        },
+        {
+          "title": "How To - Business Object and Data Configuration",
+          "slug": "milos/howto/dataconfiguration",
+          "link": "Milos/DataConfiguration.md"
         }
       ]
     }
