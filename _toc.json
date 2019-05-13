@@ -1410,6 +1410,11 @@
           "link": "Milos/Overview.md"
         },
         {
+          "title": "Change Log",
+          "slug": "milos/changelog",
+          "link": "Milos/ChangeLog.md"
+        },
+        {
           "title": "Data Access Layer",
           "slug": "milos/dataaccesslayer",
           "link": "Milos/DataAccessLayer.md"
