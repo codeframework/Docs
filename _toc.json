@@ -1410,6 +1410,11 @@
           "link": "Milos/Overview.md"
         },
         {
+          "title": "Change Log",
+          "slug": "milos/changelog",
+          "link": "Milos/ChangeLog.md"
+        },
+        {
           "title": "Data Access Layer",
           "slug": "milos/dataaccesslayer",
           "link": "Milos/DataAccessLayer.md"
@@ -1418,11 +1423,6 @@
           "title": "Business Object Layer",
           "slug": "milos/businessobjectlayer",
           "link": "Milos/BusinessObjectLayer.md"
-        },
-        {
-          "title": "Data Access Layer",
-          "slug": "milos/dataaccesslayer",
-          "link": "Milos/DataAccessLayer.md"
         },
         {
           "title": "How To - Creating a Simple Business Object",
