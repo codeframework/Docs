@@ -2,7 +2,7 @@
 
 The Data Service object is used to execute basic data access command against a database back end. The Data Service object features methods such as ```ExecuteQuery()``` and ```ExecuteStoredProcedure()``` that pass commands to the database and may retrieve results.
 
-While in theory, the data service can be used anywhere within an application, it is typically only used by business objects. Therefore, most developers will never directly talk to a data service object, unless they create a new breed of business object (or perform some very specialized programming tasks).
+While in theory, the data service can be used anywhere within an application, it is typically only used by business objects. Therefore, most developers will never directly talk to a data service object, unless they create a new breed of business object (or perform some very specialized programming tasks)..
 
 Data services are never created directly. Instead, a data service factory serves up a data service that is appropriate for the current application configuration. Whenever a developer chooses to use a data service directly, the data service factory class has to be used to gain access to the desired service.
 
@@ -49,7 +49,7 @@ The first line creates an instance of the service and configures it with all the
 
 Line two gives us a command object that queries all records from the Customers table, and includes all fields (*) and sets the sort-order to "LastName". The next line then executes that query, creates a ```DataSet``` object and adds a table named "Cust" (in most scenarios that would be the same as the SQL table name, but this example aims to show that it can be different). The following code can then access and update information in that table.
 
-> Note that this is a somewhat low-level way of accessing the database. The business object layer provides another layer of abstraction. In a business object, essentially the same code is available using the ```GetList()``` method.
+> Note that this is a somewhat low-level way of accessing the database. The business object layer provides another layer of abstraction. In a business object, essentially the same code is availabel using the ```GetList()``` method.
 
 Note that it is possible to configure the system with different data services to create a fail-over chain:
 
@@ -77,7 +77,7 @@ using (var command = service.NewCommandObject())
 
 In this example, a custom query with added parameters (using the parameters collection for injection-safety) is executed to retrieve data.
 
-These are just two examples of how to use the data services directly to access data. There are a number of additional methods that can be explored that run various types of queries and even update data. Note, however, that it is generally easier to use business objects (which in turn use this data service infrastructure) to access data, as business objects create a higher level of abstraction for easier use. For instance, querying all data in a table can be done with every business object like this:
+These are just two examples of how to use the data services directly to access data. There are a number of additional methods that can be explored that run various types of queries and even update data. Note however that it is generally easier to use business objects (which in turn use this data service infrastructure) to access data, as busines objects create a higher level of abstraction for easier use. For instance, querying all data in a table can be done with every business object like this:
 
 ```cs
 using (var biz = new CustomerBusinessObject())
@@ -87,7 +87,7 @@ using (var ds = biz.GetList())
 }
 ```
 
-Similarily, a new method that queries customers by name can be added to a business object like this:
+Similarily, a new method that queryies customers by name can be added to a business object like this:
 
 ```cs
 public DataSet GetCustomersByLastName(string lastName)
@@ -100,4 +100,4 @@ public DataSet GetCustomersByLastName(string lastName)
 }
 ```
 
-As you can see, this hides much of the complexity, although, it uses exactly the same infrastructure under the hood. Note, that this setup provides very generic database access. The code shown here can run against a variety of databases (local or remote) without change. (Note that the exact query syntax may not work with all databases, although the example shown here can be executed by Milos against all supported databases, as Milos can handle syntax differences and "patch up" the provided command as needed).
+As you can see, this hides much of the complexity, although it uses exactly the same infrastructure under the hood. Note also that this setup provides very generic database access. The code shown here can run against a variety of databases (local or remote) without change. (Note that the exact query syntax may not work with all database, although the example shown here can be executed by Milos against all supported databases, as Milos can handle syntax differences and "patch up" the provided command as needed).
