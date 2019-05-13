@@ -38,7 +38,7 @@ This provides all the configuration needed to let our data service infrastructur
 
 ```cs
 using (var service = DataServiceFactory.GetDataService("database"))
-using (var dataSet = service.GetList("Customers", "*", Cust"))
+using (var dataSet = service.GetList("Customers", "*", "Cust"))
 {
     Console.WriteLine(dataSet.Tables["Cust"].Rows[0][0]);
 }
