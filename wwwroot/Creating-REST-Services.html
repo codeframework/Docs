@@ -1,0 +1,259 @@
+﻿<!DOCTYPE html>
+<!-- saved from url=(0016)http://localhost -->
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Creating REST Services - CODE Framework Documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/scripts/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/scripts/fontawesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/kavadocs.css" />
+
+    <script src="_kavadocs/themes/scripts/jquery/jquery.min.js"></script>
+
+    <script src="_kavadocs/themes/scripts/highlightjs/highlight.pack.js"></script>
+    <link href="_kavadocs/themes/scripts/highlightjs/styles/twilight.css" rel="stylesheet" />
+
+    <script src="_kavadocs/themes/scripts/ww.jquery.min.js"></script>
+    <script src="_kavadocs/themes/scripts/kavadocs.js"></script>
+    
+    <topictype value="topic" />
+
+    <script>    
+        $(document).ready(function () {
+            helpBuilder.initializeLayout();
+            // expand all top level topics
+            setTimeout(helpBuilder.tocExpandTop, 5);
+        });
+    </script>
+</head>
+<body>    
+    <!-- Documentation Monster Content -->
+    <div class="flex-master">
+        <div class="banner">
+
+            <div class="pull-right sidebar-toggle">
+                <i class="fa fa-bars"
+                   title="Show or hide the topics list"></i>
+            </div>
+            <img src="images/logo.png" class="banner-logo" />
+
+            	<div class="projectname">CODE Framework Documentation</div>
+            
+            <div class="byline">
+                                
+            </div>
+        </div>
+
+        <div class="page-content">
+            <div id="toc" class="sidebar-left toc-content">
+                <nav class="visually-hidden">
+                    <a href="tableofcontents.htm">Table of Contents</a>
+                </nav>
+            </div>
+
+            <div class="splitter">
+            </div>
+
+            <div class="main-content">
+                <!-- Rendered Content -->
+                <article class="content-pane">
+                    <header class="content-title">
+    <img src="_kavadocs/icons/topic.png">
+    Creating REST Services
+</header>
+
+<div class="content-body" id="body">
+    <h1 id="creating-rest-services-with-code-framework">Creating REST Services with CODE Framework</h1>
+<p>CODE Framework allows for the creation of various types of services, including REST services with JSON data structures.</p>
+<p>Note that in the CODE Framework paradigm, services are created in a very generic fashion. The same service may then be hosted in various ways, such as WCF, ASP.NET, WebApi, or .NET Core. However, the way the service is created doesn't change.</p>
+<p>One of the unique features of CODE Framework is that services can be created that are hosted as REST as well as binary (and other) standards. This is unusual, because most services in .NET are either created for WCF, or for another technology such as WebApi. The approaches in doing so are drastically different. Not so if you use CODE Framework.</p>
+<p>Let's consider a basic service definition:</p>
+<pre><code class="language-c#">public interface ICustomerService
+{
+    [OperationContract]
+    GetCustomerListResponse GetCustomerList(GetCustomerListRequest request);
+
+    [OperationContract]
+    GetCustomerResponse GetCustomer(GetCustomerRequest request);
+
+    [OperationContract]
+    SaveCustomerResponse SaveCustomer(SaveCustomerRequest request);
+}
+</code></pre>
+<p>This service definition looks very much like a WCF service. And it is true that this service <em>can</em> be implemented as a WCF service and hosted as a SOAP, TCP/IP, or other service. However, there is nothing in this service that forces it to be WCF hosted. In CODE Framework, this very service can be hosted in WebApi as a REST service (see also: <a target="top" href="WebApi%20Service%20Hosting">WebApi Service Hosting</a>) or a .NET Core Service (even deployed to Docker and all kinds of other things).</p>
+<p>The question is: What would a service like this look like if accessed using REST?</p>
+<p>Well, that's debatable. There is no automatic answer that leads to a really satisfying result from a REST point-of-view. However, the service could be hosted in a way where every method becomes accessible using an HTTP POST operation, posting the input message (&quot;parameter&quot;) as the payload in JSON format. In fact, that is the default CODE Framework applies. Hence if this service is hosted as REST, either in one of the CODE Framework hosts (development or runtime), or in WebApi, all these operations will be REST callable. Not the most elegant of solutions (and we will improve on this if you keep reading), but at least it works.</p>
+<h2 id="designing-for-rest">Designing for REST</h2>
+<p>We can improve on the above scenario by giving CODE Framework some hints as to how to better expose the service. Consider the following operation for instance:</p>
+<pre><code class="language-c#">[OperationContract]
+GetCustomerResponse GetCustomer(GetCustomerRequest request);
+</code></pre>
+<p>The GetCustomer() operation is designed to return a customer by some kind of identifier (such as the name or the customer ID which is part of the request parameter/object/message). By default, it would be exposed on a URL like this (which you could post the input message/parameter/object to):</p>
+<pre><code class="language-c#">http://mydomain.com/Customer/GetCustomer
+</code></pre>
+<p>This URL has to be accessed using an HTTP POST operation and the &quot;request&quot; parameter needs to be posted to the URL as the HTTP payload.</p>
+<p>For completeness, here is the structure of the request parameter (the &quot;input message&quot;):</p>
+<pre><code class="language-c#">[DataContract]
+public class GetCustomerRequest
+{
+    [DataMember](DataMember)
+    public string CustomerId { get; set; }
+}
+</code></pre>
+<p><em>Note: The DataContract and DataMember attributes are often considered to be &quot;WCF Attributes&quot;. However, they are really just serialization attributes and are perfectly fine to use, even if the service has nothing to do with WCF.</em></p>
+<p>In a typical REST world, we would now like to call this service using a GET operation (which means we could simply type the URL into a browser) like this:</p>
+<pre><code class="language-c#">http://mydomain.com/Customer/1234
+</code></pre>
+<p>There are several things that have changed compared to the previous example. For one, we are now using a GET operation. Secondly, the &quot;/GetCustomer/&quot; part of the URL (which identifies the method/operation) is not necessarily desirable in REST, where the URI is simply supposed to identify a certain customer. Furthermore, the filter information is now not posted to the URL anymore as the HTTP payload, but it instead makes up for the last part of the URL.</p>
+<p>How can we adorn our service so CODE Framework knows that this is what we want to do? Well, there are two small steps to take. First, we have to tell the system how we want to expose the name of the method on the URL. We can do this by adding a small bit of information to our operation definition:</p>
+<pre><code class="language-c#">[OperationContract]
+[Rest(Method = RestMethods.Get, Name = &quot;&quot;)]
+GetCustomerResponse GetCustomer(GetCustomerRequest request);
+</code></pre>
+<p>This uses a custom attribute provided by CODE Framework, called &quot;Rest&quot; (which can also be applied to non-REST services, but it would be completely ignored there). The Rest attribute has several parameters. For one, we are setting the &quot;Method&quot; (also known as the &quot;HTTP Verb&quot;) to GET. Secondly, we are setting the REST-exposed name of the operation to an empty string. This tells the system that we do not want the /GetCustomer/ part of the URL and completely omit the method name.</p>
+<p>Note that you can set the REST-exposed name of the operation to anything you want. If this attribute is not set, the default method name will be used. If it is set to an empty string, the name will be completely omitted from the URL (this can only done once per HTTP Method, otherwise, the system will fail to identify the correct method). Or, you can of course choose to expose the method as anything you want for instance, using this attribute:</p>
+<pre><code class="language-c#">[Rest(Method = RestMethods.Get, Name = &quot;Hello&quot;)]
+GetCustomerResponse GetCustomer(GetCustomerRequest request);
+</code></pre>
+<p>Will result in the following URL:</p>
+<pre><code class="language-c#">http://mydomain.com/Customer/Hello/1234
+</code></pre>
+<p>The second piece of the puzzle is that we need to tell the system that part of the URL (the &quot;/1234&quot; part) is meant to be part of the input object/message. We can do so by changing the data contract in the following fashion:</p>
+<pre><code class="language-c#">[DataContract]
+public class GetCustomerRequest
+{
+    [DataMember]
+    [RestUrlParameter(Mode = UrlParameterMode.Inline)]
+    public string CustomerId { get; set; }
+}
+</code></pre>
+<p>Again, a custom CODE Framework attribute is used to provide the additional information needed. In this case, the CustomerId property is decorated with the RestUrlParameter attribute, and it's Mode parameter is set to &quot;Inline&quot;. This tells that system that the CustomerId property is to be populated from a piece of information that is provided as an inline URL parameter.</p>
+<p>Voila! We have designed our first REST service!</p>
+<p><em>Note: Both the Rest and RestUrlParameter attributes are completely ignored in non-REST scenarios and do in no way interfere or impact other service standards. For instance, an operation that has its REST-exposed name set to &quot;Hello&quot; will not in any way change the name of the operation as it is accessed using SOAP or other standards.</em></p>
+<p>This is a relatively simple (although very common) scenario. What if things get more complex? Let's say we have more than one property on the input message. Perhaps something like this:</p>
+<pre><code class="language-c#">[DataContract]
+public class GetCustomerRequest
+{
+    [DataMember]
+    [RestUrlParameter(Mode = UrlParameterMode.Inline)]
+    public string CustomerId { get; set; }
+
+    [DataMember]
+    [RestUrlParameter(Mode = UrlParameterMode.Inline, Sequence = 1)]
+    public bool IncludeInactive { get; set; }
+}
+</code></pre>
+<p>In this case, we have a second property on the input message called &quot;IncludeInactive&quot;. This property is also set to be an inline parameter on the URL. It also has its sequence set to 1 (the previous property didn't specify the Sequence, hence the default - 0 - applied), meaning that the CustomerId parameter is expected before the IncludeInactive parameter. Therefore, our URL now follows this pattern:</p>
+<pre><code class="language-c#">http://mydomain.com/Customer/1234/true
+</code></pre>
+<p>Note that if the second parameter is not provided on the URL, the default value for the parameter (false in this case) is assumed.</p>
+<p><em>Note: When hosting this service in WebApi, you need to make sure that the routing configuration supports as many parameters as you want to pass this way. For more information, see <a target="top" href="WebApi%20Service%20Hosting">WebApi Service Hosting</a>).</em></p>
+<p>A slightly different approach would be to use named parameters rather than inline parameters. To do so, we change the contract to the following:</p>
+<pre><code class="language-c#">[DataContract]
+public class GetCustomerRequest
+{
+    [DataMember]
+    [RestUrlParameter(Mode = UrlParameterMode.Inline)]
+    public string CustomerId { get; set; }
+
+    [DataMember]
+    [RestUrlParameter(Mode = UrlParameterMode.Named)]
+    public bool IncludeInactive { get; set; }
+}
+</code></pre>
+<p>The RestUrlParameter attribute now has it's mode set to &quot;Named&quot;. Actually, that is the default, so we could change the definition of that parameter to the following:</p>
+<pre><code class="language-c#">[RestUrlParameter]
+public bool IncludeInactive { get; set; }
+</code></pre>
+<p>Either way, this now ends up with the following URL pattern:</p>
+<pre><code class="language-c#">http://mydomain.com/Customer/1234?IncludeInactive=true
+</code></pre>
+<p>Our service has more than just a GetCustomer method. Another method of interest is the following:</p>
+<pre><code class="language-c#">[OperationContract]
+GetCustomerListResponse GetCustomerList(GetCustomerListRequest request);
+</code></pre>
+<p>Just like in the case of GetCustomer, this operation should probably be exposed as a GET operation. Perhaps the URL should be something like this:</p>
+<pre><code class="language-c#">http://mydomain.com/Customer/List
+</code></pre>
+<p>We can easily do so by decorating that operation appropriately:</p>
+<pre><code class="language-c#">[OperationContract]
+[Rest(Method = RestMethods.Get, Name = &quot;List&quot;)]
+GetCustomerListResponse GetCustomerList(GetCustomerListRequest request);
+</code></pre>
+<p>Not all operations on our contract are suitable to be called a GET operations. For instance, the SaveCustomer operation should perhaps be exposed using a PUT Verb, yet on the same URL pattern as the GetCustomer operation:</p>
+<pre><code class="language-c#">// Called with a PUT HTTP Verb!!!
+http://mydomain.com/Customer/1234
+</code></pre>
+<p>Since we are using a different HTTP Verb, it is fine and indeed desired to use the same URL. This is in fact one of the very core ideas of REST. We can do this by decorating our operation definition like so:</p>
+<pre><code class="language-c#">[OperationContract]
+[Rest(Method = RestMethods.Put, Name = &quot;&quot;)]
+SaveCustomerResponse SaveCustomer(SaveCustomerRequest request);
+</code></pre>
+<p>There are some interesting details here. To explore those, let's first take a look at the input message's structure (omitting serialization attributes for brevity):</p>
+<pre><code class="language-c#">public class SaveCustomerRequest
+{
+    public string FirstName { get; set; }
+    public string LastName { get; set; }
+    public string Id { get; set; }
+    public string Address { get; set; }
+    public string Phone { get; set; }
+    public decimal CreditLimit { get; set; }
+    public DateTime CustomerSince { get; set; }
+}
+</code></pre>
+<p>To achieve the desires URL pattern, what want to do is to map the Id property to a URL parameter, which we can do like so:</p>
+<pre><code class="language-c#">[RestUrlParameter(Mode = UrlParameterMode.Inline)]
+public string Id { get; set; }
+</code></pre>
+<p>And that's it! We can now call the service on the desired URL with a PUT Verb (you will have to use a tool like Fiddler, if you want to try this out... this URL can NOT be called by just typing it into a browser... which is a desired side-effect!).</p>
+<p>A typical example would be to call this from a JavaScript client. The actual customer data has to be passed along as the HTTP payload in JSON format. You may wonder how you would know the correct JSON format. Well, you can probably deduce it from the C# contract. A simpler version is to use the CODE Framework Service Test Harness (see also: <a target="top" href="Using%20the%20Service%20Test%20Harness">Using the Service Test Harness</a>), which always gives you access to the contract in various formats, including JSON. Here's an example of the input message in JSON format:</p>
+<pre><code class="language-javascript">{
+    &quot;Address&quot;:&quot;6605 Cypresswood Dr.&quot;,
+    &quot;CreditLimit&quot;:10000,
+    &quot;CustomerSince&quot;:&quot;\/Date(946706400000-0600)\/&quot;,
+    &quot;FirstName&quot;:&quot;Markus&quot;,
+    &quot;Id&quot;:&quot;1234&quot;,
+    &quot;LastName&quot;:&quot;Egger&quot;,
+    &quot;Phone&quot;:&quot;555-555-5555&quot;
+}
+</code></pre>
+<p>The eagle-eyed observer may notice an interesting detail here: The Id is actually passed both as the payload as well as the URL parameter. This is technically unnecessary. In fact, we could simply go for the following URL pattern (without ID parameter):</p>
+<pre><code class="language-c#">http://mydomain.com/Customer
+</code></pre>
+<p>This would work. However, this would not follow the REST paradigm of &quot;the URL identifies the resource, and the verb defines the action&quot;. In other words: The URL should uniquely identify the customer we want to &quot;put&quot; into the system. It is thus probably advisable to include the URL parameter.</p>
+<p>Another option would be to simply remove the Id information from the JSON payload to avoid duplication. In real-world scenarios however, that may not be practical, since the JSON may often simply result from data binding in the user interface or it may be provided in some other way. Removing the Id would this be a pain.</p>
+<p><em>Note: There is no actual JSON/REST standard that defines how this is supposed to work. Technically, all approaches are fine. You can pass the Id on the URL. You can pass it as part as the payload. Or you can pass it in both places.</em></p>
+<p>The way CODE Framework handles this is as follows: First, the payload is considered and re-hydrated back into a real object. Then, the URL is inspected. All Parameter passed on the URL are then used to update the in-memory object. Therefore, if no Id is passed on the URL, the Id from the JSON payload is used, but if there is an Id in the URL, the JSON will be overridden with the URL information. If no Id information is passed in the payload, the system simply picks up the URL Id. This way, all scenarios work, allowing the developer to pick the approach that suits them best. Simply be aware that URL parameters always win. Sometimes, developers will pass different values for the parameter in the URL and in the payload (a highly discouraged scenario that is probably indicative of a bug). In that case, the URL parameter always wins out.</p>
+
+</div>
+
+
+
+
+
+
+                </article>
+
+                <hr />
+                <div class="pull-right">
+                    <a href="http://helpbuilder.west-wind.com" target="_blank"><img src="images/wwhelp.png" /></a>
+                </div>
+
+                <small>
+                    &copy; Markus Egger Inc., 2019 &bull;
+                    Updated: 1/1/0001 12:00:00 AM
+                    <br />
+                    <a href="mailto:support@yoursite.com?subject=Creating REST Services ()&body=Topic: CODE Framework Documentation - http://yoursite.com/docs/.htm">Comment or report problem with topic</a>
+                </small>
+                <br class="clearfix" />
+                <br />
+                <!-- End Rendered Content -->
+            </div>
+        </div>
+    </div>
+    <!-- End Documentation Monster Content -->
+</body>
+</html>
+

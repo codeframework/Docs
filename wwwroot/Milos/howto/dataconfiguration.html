@@ -1,0 +1,425 @@
+﻿<!DOCTYPE html>
+<!-- saved from url=(0016)http://localhost -->
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>How To - Business Object and Data Configuration - CODE Framework Documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1" />
+    <link rel="stylesheet" type="text/css" href="../../_kavadocs/themes/scripts/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_kavadocs/themes/scripts/fontawesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_kavadocs/themes/kavadocs.css" />
+
+    <script src="../../_kavadocs/themes/scripts/jquery/jquery.min.js"></script>
+
+    <script src="../../_kavadocs/themes/scripts/highlightjs/highlight.pack.js"></script>
+    <link href="../../_kavadocs/themes/scripts/highlightjs/styles/twilight.css" rel="stylesheet" />
+
+    <script src="../../_kavadocs/themes/scripts/ww.jquery.min.js"></script>
+    <script src="../../_kavadocs/themes/scripts/kavadocs.js"></script>
+    
+    <topictype value="topic" />
+
+    <script>    
+        $(document).ready(function () {
+            helpBuilder.initializeLayout();
+            // expand all top level topics
+            setTimeout(helpBuilder.tocExpandTop, 5);
+        });
+    </script>
+</head>
+<body>    
+    <!-- Documentation Monster Content -->
+    <div class="flex-master">
+        <div class="banner">
+
+            <div class="pull-right sidebar-toggle">
+                <i class="fa fa-bars"
+                   title="Show or hide the topics list"></i>
+            </div>
+            <img src="../../images/logo.png" class="banner-logo" />
+
+            	<div class="projectname">CODE Framework Documentation</div>
+            
+            <div class="byline">
+                                
+            </div>
+        </div>
+
+        <div class="page-content">
+            <div id="toc" class="sidebar-left toc-content">
+                <nav class="visually-hidden">
+                    <a href="../../tableofcontents.htm">Table of Contents</a>
+                </nav>
+            </div>
+
+            <div class="splitter">
+            </div>
+
+            <div class="main-content">
+                <!-- Rendered Content -->
+                <article class="content-pane">
+                    <header class="content-title">
+    <img src="../../_kavadocs/icons/topic.png">
+    How To - Business Object and Data Configuration
+</header>
+
+<div class="content-body" id="body">
+    <h1 id="configuration-for-business-objects-and-data-access">Configuration for Business Objects and Data Access</h1>
+<p>Milos (and CODE Framework) provides a native system that allows developers to query application settings. This is similar to using the <code>ConfigurationSettings</code> class provided by the .NET Framework, but the Milos Configuration System is much more powerful as it fully supports everything in the .NET configuration system, but also a lot more. For this reason, developers should always use the Milos system.</p>
+<p>There are a number of ways to set configuration options for applications using this system. The system supports things such as XML configuration files, SQL Server configuration, and much more. (See Spec_ApplicationConfiguration for details on the configuration system). For simplicity's sake, we will assume that you are using an app.config (windows applications) or web.config (web application) file. Just be aware that the system supports a lot of other options as well. Here is the example configuration file we are using here:</p>
+<pre><code class="language-xml">&lt;xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
+&lt;configuration&gt;
+   &lt;appSettings&gt;
+      &lt;add key=&quot;database:UserName&quot; value=&quot;devuser&quot;/&gt;
+      &lt;add key=&quot;database:Password&quot; value=&quot;devuser&quot;/&gt;
+      &lt;add key=&quot;database:Server&quot; value=&quot;(local)&quot;/&gt;
+      &lt;add key=&quot;database:Catalog&quot; value=&quot;Northwind&quot;/&gt;
+      &lt;add key=&quot;DataServices&quot; value=&quot;SqlDataService&quot;/&gt;
+   &lt;/appSettings&gt;
+&lt;/configuration&gt;
+</code></pre>
+<blockquote>
+<p>Note: that all sample code in this How-To will assume that you have added using Milos.Configuration to the program file.</p>
+</blockquote>
+<p>To query the one of these settings such as the <code>DataServices</code> setting in the following fashion:</p>
+<pre><code class="language-cs">string result = ConfigurationSettings.Settings[&quot;DataServices&quot;];
+</code></pre>
+<p>In case the setting doesn't exist, an exception of type <code>SettingNotSupportedException</code> will be thrown. For this reason, one should first check whether that setting is available/supported. The <code>IsSettingSupported()</code> method does the trick:</p>
+<pre><code class="language-cs">if (ConfigurationSettings.Settings.IsSettingSupported(&quot;DataServices&quot;))
+   string result = ConfigurationSettings.Settings[&quot;DataServices&quot;];
+</code></pre>
+<p>You can also update configuration settings:</p>
+<pre><code class="language-cs">ConfigurationSettings.Settings[&quot;DataServices&quot;] = &quot;OracleDataService&quot;;
+</code></pre>
+<p>This will detirmine where the setting was defined (app.config file in this example) and attempt to update the definition file (an individual configuration file - such as the app.config file - is referred to as a &quot;configuration source&quot;). Notice however that the source might be read-only (such as the native <code>AppSettings</code> section from the native config file). In such case, attempting to change a setting's value will throw an exception of type <code>SettingReadOnlyException</code>.</p>
+<h2 id="overriding-settings-temporarily">Overriding Settings Temporarily</h2>
+<p>It is possible to override the value of a setting temporarily, so that all the application will make use of the overriden value until shut-down (although the setting will not be preserved in the original source... this is just an &quot;in-memory&quot; override):</p>
+<pre><code class="language-cs">// Override the setting on the native file by adding the setting to the Memory source.
+ConfigurationSettings.Sources[&quot;Memory&quot;].Settings[&quot;DataServices&quot;] = &quot;OracleDataService&quot;;
+
+// Do whatever has to be done.....
+
+// This returns &quot;OracleDataService&quot;
+var dataService = ConfigurationSettings.Settings[&quot;DataServices&quot;];
+
+// Remove overriden setting from memory if you do not want to use it anymore.
+ConfigurationSettings.Sources[&quot;Memory&quot;].Settings[&quot;DataServices&quot;] = null;
+
+// This returns &quot;SqlDataService&quot;
+var dataService2 = ConfigurationSettings.Settings[&quot;DataServices&quot;];
+</code></pre>
+<p>In this example, we are writing the new option to a different source (memory). Settings made in memory always override settings from the app.config file (well, unless you manually change that order).</p>
+<h2 id="getting-direct-access-to-a-source">Getting Direct Access to a Source</h2>
+<p>The <code>ConfigurationSettings</code> object can hold any number of configuration sources. When a setting is getting retrieved as in:</p>
+<pre><code class="language-cs">var result = ConfigurationSettings.Settings[&quot;DataServices&quot;];
+</code></pre>
+<p>The mechanism will look for the first setting it can find based on the order different sources have been added. However, sometimes the developer may want to retrieve a setting from a specific source. The following example shows how to retrieve a setting from the app.config file and the app.config file only (even if other sources - such as memory - have the same setting):</p>
+<pre><code class="language-cs">var result = ConfigurationSettings.Sources[&quot;DotNetConfigurationFile&quot;].Settings[&quot;DataServices&quot;];
+</code></pre>
+<p>Accessing a config source that doesn't exist on the collection used to throw an exception. That behavior has been changed, and now instead of throwing an exception, just a &quot;null&quot; gets returned, and it's up to the developer to decide on what to do when the source hasn't been found (like instantiating the source and adding it to the collection).</p>
+<h2 id="supporting-custom-config-files">Supporting Custom Config Files</h2>
+<p>It is possible to work with specialized custom config files, using the same sort of interface for it. For instance, consider there's a UIConfig.xml file that looks like so:</p>
+<pre><code class="language-cs">&lt;xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;specialsettings&gt;
+   &lt;backgroundcolor&gt;Brown&lt;/backgroundcolor&gt;
+   &lt;foregroundcolor&gt;Yellow&lt;/foregroundcolor&gt;
+&lt;/specialsettings&gt;
+</code></pre>
+<p>The content of this file looks very different than the native config file. In order to handle it, a new configuration class must be created, and this class must implement the <code>IConfigurationSource</code> interface (defined under EPS.Configuration). There's a <code>ConfigurationSource</code> abstract class that implements that interface, and could be used as well, since it provides some default behavior. The new class could look like the one below:</p>
+<pre><code class="language-cs">using System;
+using System.IO;
+using System.Xml;
+
+namespace EPS.Configuration
+{
+    public class SpecialConfiguration : Milos.ConfigurationSource
+    {
+        FileInfo settingsFile;
+
+        string file = @&quot;C:\Path\UIConfig.xml&quot;;
+
+        public SpecialConfiguration()
+        {
+            Read();
+        }
+
+        public override string FriendlyName
+        {
+            get =&gt; &quot;SpecialConfiguration&quot;;
+        }
+
+        public override void Read()
+        {
+            settingsFile = new FileInfo(file);
+
+            Settings.Clear();
+
+            var dom = new XmlDocument?();
+            dom.Load(this.file);
+
+            var node = dom.DocumentElement.SelectSingleNode(&quot;backgroundcolor&quot;);
+            if (node != null) 
+                Settings.Add(&quot;backgroundcolor&quot;, node.InnerXml);
+
+            node = dom.DocumentElement.SelectSingleNode(&quot;foregroundcolor&quot;);
+            if (node != null) 
+                Settings.Add(&quot;foregroundcolor&quot;, node.InnerXml);
+        }
+
+        public override void Write()
+        {
+            settingsFile = new FileInfo(this.file);
+            var dom = new XmlDocument();
+            dom.Load(settingsFile.ToString());
+
+            node = dom.DocumentElement.SelectSingleNode(&quot;backgroundcolor&quot;);
+            if (node != null) 
+                node.InnerXml = Settings[&quot;backgroundcolor&quot;].ToString();
+
+            node = dom.DocumentElement.SelectSingleNode(&quot;foregroundcolor&quot;);
+            if (node != null) 
+                node.InnerXml = Settings[&quot;foregroundcolor&quot;].ToString();
+
+            dom.Save(this.fiSettingsFile.ToString());
+        }
+    }
+}
+</code></pre>
+<p>The most important piece of the class is the Read and the Write methods. It is in those methods that we manually retrieve and store settings into the custom XML file. The Read method basically adds settings from the XML file to a collection (as in <code>Settings.Add(&quot;backgroundcolor&quot;, node.InnerXml)</code>), whereas the Write method reads the values from the collection, updates the XML document, and save it to disk.</p>
+<p>Both the Write and Read methods are inherited from the abstract class, and those two methods are part of other methods that come from the abstract class and must be overridden by this derived class.</p>
+<p>The new class can be easily used. It just has to be added to the Sources list, and settings can be retrieved in the same fashion we've already seen:</p>
+<pre><code class="language-cs">ConfigurationSettings.Sources.Add(new SpecialConfiguration());
+var backcolor = ConfigurationSettings.Settings[&quot;backgroundcolor&quot;];
+</code></pre>
+<h2 id="creating-and-using-strongly-typed-settings">Creating and Using Strongly-Typed Settings</h2>
+<p>In order to create and use strongly-typed settings, the configuration source must provide the typed-interface. That can be done by exposing the settings through properties on the object. A good way of doing it is by first creating an Interface that determines what are the settings and their types. Supposing we want to expose the &quot;special configuration&quot; settings created previously, but instead of exposing them as string we want to expose them as Color objects instead, the interface could be defined like so:</p>
+<pre><code class="language-cs">public interface ISpecialConfiguration
+{
+    Color BackColor { get; set; }
+    Color ForeColor { get; set; }
+}
+</code></pre>
+<blockquote>
+<p>Note that instead of exposing one of the settings as <code>backgroundcolor</code> , we expose it with a better casing and name, as in <code>BackColor</code>.</p>
+</blockquote>
+<p>The <code>SpecialConfiguration</code> class created previously has to implement the <code>ISpecialConfiguration</code> interface. The class definition has to be changed to:</p>
+<pre><code class="language-cs">public class SpecialConfiguration : ConfigurationSource, ISpecialConfiguration
+</code></pre>
+<p>And the implementation for the interface members could look like so:</p>
+<pre><code class="language-cs">public Color BackColor
+{
+    get =&gt; Color.FromName(Settings[&quot;backgroundcolor&quot;]);
+    set =&gt; Settings[&quot;backgroundcolor&quot;] = value.Name;
+}
+
+public Color ForeColor
+{
+    get =&gt; Color.FromName(Settings[&quot;foregroundcolor&quot;]);
+    set =&gt; Settings[&quot;foregroundcolor&quot;] = value.Name;
+}
+</code></pre>
+<p>In this implementation, the get method of each property just creates a new <code>Color</code> object based on the value of the settings (which comes as a string). The set method takes the color's name off of the <code>Color</code> object and put that value back to the Settings collection.</p>
+<p>Now the usage of those settings can happen like so:</p>
+<pre><code class="language-cs">ConfigurationSettings.Sources.Add(new DotNetConfigurationFile());
+ConfigurationSettings.Sources.Add(new SpecialConfiguration());
+
+var config = ConfigurationSettings.Sources[&quot;SpecialConfiguration&quot;] as ISpecialConfiguration;
+if (config == null)
+{
+    // &quot;It failed retrieving the SpecialConfiguration? source. It shouldn't.&quot;
+}
+else
+{
+    // Read strongly-typed settings.
+    Color backcolor = config.BackColor;
+    Color forecolor = config.ForeColor;
+
+    // Values can be changed...
+    config.ForeColor = Color.FromName(&quot;Blue&quot;);
+
+    // ...and can get Saved to disk.
+    ConfigurationSettings.Sources[&quot;SpecialConfiguration&quot;].Write();
+}
+</code></pre>
+<h2 id="available-configuration-options">Available Configuration Options</h2>
+<p>The following configuration options (relevant to business objects and data access) can currently be set in the applications configuration file:</p>
+<table>
+<thead>
+<tr>
+<th><strong>Key</strong></th>
+<th><strong>Value</strong></th>
+<th><strong>Required</strong></th>
+<th><strong>Notes</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>database:UserName</td>
+<td>SQL Server user name</td>
+<td>Mostly, unless ConnectionString or trusted connection setting is provided.</td>
+<td>Prefix (database) can change depending on the configuration of the data service.</td>
+</tr>
+<tr>
+<td>database:Password</td>
+<td>SQL Server password</td>
+<td>Mostly, unless ConnectionString or trusted connection setting is provided.</td>
+<td>Prefix (database) can change depending on the configuration of the data service.</td>
+</tr>
+<tr>
+<td>database:Server</td>
+<td>SQL Server name</td>
+<td>Mostly, unless ConnectionString is provided.</td>
+<td>Prefix (database) can change depending on the configuration of the data service.</td>
+</tr>
+<tr>
+<td>database:TrustedConnection</td>
+<td>Yes, True, False, No</td>
+<td>Only if no other connection string and no user name is provided.</td>
+<td>Prefix (database) can change depending on the configuration of the data service. If this setting is True or Yes, the user name and password settings will be ignored by all data services that support trusted connections (such as the SQL Server data services).</td>
+</tr>
+<tr>
+<td>database:Catalog</td>
+<td>SQL Server database name</td>
+<td>Mostly, unless ConnectionString is provided.</td>
+<td>Prefix (database) can change depending on the configuration of the data service.</td>
+</tr>
+<tr>
+<td>database:ConnectionString</td>
+<td>Fully qualified SQL Connection String</td>
+<td>No</td>
+<td>Prefix (database) can change depending on the configuration of the data service. If this setting is provided, it will override the previous 4 settings.</td>
+</tr>
+<tr>
+<td>DataService</td>
+<td>DataService class</td>
+<td>Yes (Data.dll)</td>
+<td>This can be a list of data services, separated by commas. Typically, this setting would be &quot;SqlDataService&quot; or &quot;SqlDataService,WsSqlDataService&quot;.</td>
+</tr>
+<tr>
+<td>database:WebServiceURL</td>
+<td>URL of the WsSqlDataService web service</td>
+<td>Only if the WsSqlDataService is configured as one of the possible options.</td>
+<td>This setting will point to a fully qualified URL. This URL will be used by the WsSqlDataService to retrieve data from Sql Server. In other words, this URL has to be the web service component used by the web service driven Sql data service.</td>
+</tr>
+<tr>
+<td>database:StoredProcedurePrefix</td>
+<td>SP prefix (default: &quot;milos_&quot;)</td>
+<td>No</td>
+<td>This setting defines the prefix used by stored procedures that are created for automatic use. For instance, if the system is configured to use stored procedures, then business objects will use default stored procedures, such as an SP that queries all records from a table such as the customer table. In that case, the SP will be called something like &quot;milos_getCustomerAllRecords&quot;. The &quot;milos_&quot; prefix is used to differentiate these SPs from manually created ones. This setting allows the developer to customize the prefix.<br/><em>Note that this setting may not be supported by all data services.</em></td>
+</tr>
+<tr>
+<td>database:AllowedDataMethod</td>
+<td>StoredProcedures or IndividualCommands</td>
+<td>No</td>
+<td>If this setting is present, the system will limit data access to the method specified. For instance, if this is set to &quot;StoredProcedures&quot;, then the system will only allow data access through stored procedures. All other calls will cause errors. If this setting is absent, all data access methods will be allowed.</td>
+</tr>
+<tr>
+<td>database:AppRole</td>
+<td>Database App Role</td>
+<td>No</td>
+<td>Prefix (database) can change depending on the configuration of the data service. Note that app roles can not co-exist with ADO.NET connection pooling. All connection pooling will be disabled whenever app roles are used.</td>
+</tr>
+<tr>
+<td>database:AppRolePassword</td>
+<td>Password for an App Role</td>
+<td>Required if AppRole is specified.</td>
+<td>Prefix (database) can change depending on the configuration of the data service.</td>
+</tr>
+<tr>
+<td>database:AutoLoadSchemaInformation</td>
+<td>True (default) of False</td>
+<td>No</td>
+<td>Defines whether schema information is retrieved from the database. This allows Milos to automatically perform checks and fix things like trim data to the maximum lenght of a text fields. Note that this also adds a layer of restraint checking in ADO.NET internally. For instance, identity fields can not be updated on the client of schema information is retrieved.</td>
+</tr>
+<tr>
+<td>SqlServerParameterType</td>
+<td>Undefined (default), Unicode, NotUnicode</td>
+<td>No</td>
+<td>Defines whether parameters by default are unicode parameters (such as NVarChar) or not (such as VarChar). The default is undefined, which means that the system will not interfere with the parameter types.</td>
+</tr>
+<tr>
+<td>database:TransactionIsolationLevel</td>
+<td>Default, Chaos, ReadCommited, ReadUncommited, RepeatableRead, Serializable, Unspecified</td>
+<td>No</td>
+<td>Defines the transaction isolation level. This setting is used for all transactions. Note that different objects can use different transaction isolation levels through different database configuraiton prefixes.</td>
+</tr>
+<tr>
+<td>MinimumCommandTimeout</td>
+<td>Command timeout in seconds</td>
+<td>No</td>
+<td>Sets the minimum command timeout in seconds. All commands fired against the database will set a timeout to at least that. Note that if a specific command uses a higher timeout, then the higher timeout applies.</td>
+</tr>
+<tr>
+<td>database:StoredProcedureFacade</td>
+<td>Assembly/Class</td>
+<td>No</td>
+<td>This setting can be used to specify a stored procedure facade the dataservice is to use.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="configuration-example">Configuration Example</h3>
+<p>Configuration options are set in the application configuration file (app.config on windows, and web.config in web apps). Here is an example:</p>
+<pre><code class="language-xml">&lt;xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
+&lt;configuration&gt;
+   &lt;appSettings&gt;
+        &lt;add key=&quot;database:UserName&quot; value=&quot;sa&quot;/&gt;
+        &lt;add key=&quot;database:Password&quot; value=&quot;&quot;/&gt;
+        &lt;add key=&quot;database:Server&quot; value=&quot;(local)&quot;/&gt;
+        &lt;add key=&quot;database:Catalog&quot; value=&quot;Northwind&quot;/&gt;
+        &lt;add key=&quot;database:TrustedConnection&quot; value=&quot;False&quot;/&gt;
+        &lt;add key=&quot;database:StoredProcedurePrefix&quot; value=&quot;something_&quot;/&gt;
+        &lt;add key=&quot;database:AutoLoadSchemaInformation&quot; value=&quot;False&quot;/&gt;
+        &lt;add key=&quot;database:AppRole&quot; value=&quot;MySQLServerRole&quot;/&gt;
+        &lt;add key=&quot;database:AppRolePassword&quot; value=&quot;MyGreatPassword_&quot;/&gt;
+        &lt;add key=&quot;DataServices&quot; value=&quot;SqlDataService,WsSqlDataService&quot;/&gt;
+        &lt;add key=&quot;AllowedDataMethod&quot; value=&quot;StoredProcedures&quot;/&gt;  
+        &lt;add key=&quot;SqlServerParameterType&quot; value=&quot;NotUnicode&quot;/&gt; 
+        &lt;add key=&quot;MinimumCommandTimeout&quot; value=&quot;120&quot;/&gt; 
+        &lt;add key=&quot;database:TransactionIsolationLevel&quot; value=&quot;ReadUncommited&quot;/&gt;
+        &lt;add key=&quot;database:StoredProcedureFacade&quot; value=&quot;MyAssembly/MyNamespace.MyFacadeClassName&quot;/&gt;
+     &lt;appSettings&gt;
+&lt;configuration&gt;
+</code></pre>
+<h3 id="data-service-settings">Data Service Settings</h3>
+<p>The <code>DataService</code> setting specifies which data service is to be used to load data. The data service is the object that talks to the database and performs database operations. There are two ways to configure the data service: 1) Use one of the natively supported data services, and 2) provide a fully qualified class name to specify the service.</p>
+<p>The following services are supported natively (in .NET Core, it is currently only the SqlDataservice option):</p>
+<ul>
+<li><code>SqlDataService</code> - Direct access to SQL Server on a local area network.</li>
+<li><code>WsSqlDataService</code> - Access to SQL Server using a web service model.</li>
+<li><code>MySqlDataService</code> - Direct access to MySQL on a local area network.</li>
+</ul>
+<p>In addition, custom data services can be used by providing an assembly name, as well as a fully qualified class name. For instance, if an assembly called <code>MyService.dll</code> has a class called <code>MyService.DataAccess.MyDataService</code>, then that class can be used with the following configuration setting:</p>
+<pre><code class="language-xml">&lt;add key=&quot;DataServices&quot; value=&quot;MyService.dll/MyService.DataAccess.MyDataService&quot;/&gt;
+</code></pre>
+
+</div>
+
+
+
+
+
+
+                </article>
+
+                <hr />
+                <div class="pull-right">
+                    <a href="http://helpbuilder.west-wind.com" target="_blank"><img src="../../images/wwhelp.png" /></a>
+                </div>
+
+                <small>
+                    &copy; Markus Egger Inc., 2019 &bull;
+                    Updated: 1/1/0001 12:00:00 AM
+                    <br />
+                    <a href="mailto:support@yoursite.com?subject=How To - Business Object and Data Configuration ()&body=Topic: CODE Framework Documentation - http://yoursite.com/docs/.htm">Comment or report problem with topic</a>
+                </small>
+                <br class="clearfix" />
+                <br />
+                <!-- End Rendered Content -->
+            </div>
+        </div>
+    </div>
+    <!-- End Documentation Monster Content -->
+</body>
+</html>
+

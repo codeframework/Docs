@@ -1,0 +1,123 @@
+﻿<!DOCTYPE html>
+<!-- saved from url=(0016)http://localhost -->
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Self-Hosted In-Process Client-Side Services - CODE Framework Documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/scripts/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/scripts/fontawesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/kavadocs.css" />
+
+    <script src="_kavadocs/themes/scripts/jquery/jquery.min.js"></script>
+
+    <script src="_kavadocs/themes/scripts/highlightjs/highlight.pack.js"></script>
+    <link href="_kavadocs/themes/scripts/highlightjs/styles/twilight.css" rel="stylesheet" />
+
+    <script src="_kavadocs/themes/scripts/ww.jquery.min.js"></script>
+    <script src="_kavadocs/themes/scripts/kavadocs.js"></script>
+    
+    <topictype value="topic" />
+
+    <script>    
+        $(document).ready(function () {
+            helpBuilder.initializeLayout();
+            // expand all top level topics
+            setTimeout(helpBuilder.tocExpandTop, 5);
+        });
+    </script>
+</head>
+<body>    
+    <!-- Documentation Monster Content -->
+    <div class="flex-master">
+        <div class="banner">
+
+            <div class="pull-right sidebar-toggle">
+                <i class="fa fa-bars"
+                   title="Show or hide the topics list"></i>
+            </div>
+            <img src="images/logo.png" class="banner-logo" />
+
+            	<div class="projectname">CODE Framework Documentation</div>
+            
+            <div class="byline">
+                                
+            </div>
+        </div>
+
+        <div class="page-content">
+            <div id="toc" class="sidebar-left toc-content">
+                <nav class="visually-hidden">
+                    <a href="tableofcontents.htm">Table of Contents</a>
+                </nav>
+            </div>
+
+            <div class="splitter">
+            </div>
+
+            <div class="main-content">
+                <!-- Rendered Content -->
+                <article class="content-pane">
+                    <header class="content-title">
+    <img src="_kavadocs/icons/topic.png">
+    Self-Hosted In-Process Client-Side Services
+</header>
+
+<div class="content-body" id="body">
+    <h1 id="client-side-in-process-service-hosting">Client-Side In-Process Service Hosting</h1>
+<p>One of the truly unique features of CODE Framework is that services can be &quot;hosted&quot; in a mode we call &quot;in-process&quot;. This is a way of saying that while an application can be completely built and architected with services, the end result can be compiled into a single EXE. This is useful for apps that are truly client-only applications, or at least have a mode where that may be an interesting additional deployment choice. An example could be an application that may usually connect to services in the Cloud that use a standard database server on the back-end, but there could be a second version of that app that is installed on laptops and uses a local database and nobody wants to run a separate service process. Nevertheless, the architecture of those two versions can be completely the same, down to calling the services.</p>
+<p>The fundamental setup of such as project is the same as all other service projects. (For more info see also: <a target="top" href="Understanding-Services">Understanding Services in CODE Framework</a>). However, there now is the additional option of registering the services for &quot;hosting&quot; in the client app. Typically, this is a WPF app (although you can use the same approach in any kind of application), in which case the setup code can be added to <code>startup.cs</code>. Hosting itself works very similar to other self-hosting options in CODE Framework. The key is the use of the <code>ServiceGardenLocal</code> object:</p>
+<pre><code class="language-cs">ServiceGardenLocal.AddServiceHost(typeof(CustomerService));
+ServiceGardenLocal.AddServiceHost(typeof(InvoiceService));
+</code></pre>
+<p>Note that this requires references to the assemblies that define the services (<code>CustomerService</code> and <code>InvoiceService</code> in this example) as well as all their dependencies as well as potential configuration, such as database access settings.</p>
+<blockquote>
+<p>Note: This registers the service objects as local object that is to be used as a service. It doesn't truly launch the objects as services. Instead, it tells the system that these services are to be made available as highly efficient local objects that are instantiated as needed. This also means that this creates a highly efficient environment with no serialization our out-of-process invokation overhead.</p>
+</blockquote>
+<p>Now that these objects are registered locally, the system needs to still be configured to tell all calls to the service to use the local object. This can be done using the <a target="top" href="Configuration-System">CODE Framework configuration system</a>. Often this means adding the following setting to your app.config file:</p>
+<pre><code class="language-xml">&lt;xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
+&lt;configuration&gt;
+  &lt;appSettings&gt;
+    &lt;add key=&quot;ServiceProtocol:ICustomerService&quot; value=&quot;InProcess&quot;/&gt;
+    &lt;add key=&quot;ServiceProtocol:IInvoiceService&quot; value=&quot;InProcess&quot;/&gt;
+  &lt;/appSettings&gt;
+&lt;/configuration&gt;
+</code></pre>
+<p>Now, whenever a call is made to either of these services (based on their defined service contracts), the call is <em>not</em> calling to an external service, but the local object is used in-process. Here is an example call to one of these services:</p>
+<pre><code class="language-cs">ServiceClient.Call&lt;ICustomerService&gt;(s =&gt; {
+  var response = s.GetCustomers(new GetCustomersRequest()
+});
+</code></pre>
+<p>As you can see, this code does not change at all. Therefore, all it takes to switch from local, in-process operation to calls across the Internet, is a simple change in the config settings.</p>
+
+</div>
+
+
+
+
+
+
+                </article>
+
+                <hr />
+                <div class="pull-right">
+                    <a href="http://helpbuilder.west-wind.com" target="_blank"><img src="images/wwhelp.png" /></a>
+                </div>
+
+                <small>
+                    &copy; Markus Egger Inc., 2019 &bull;
+                    Updated: 1/1/0001 12:00:00 AM
+                    <br />
+                    <a href="mailto:support@yoursite.com?subject=Self-Hosted In-Process Client-Side Services ()&body=Topic: CODE Framework Documentation - http://yoursite.com/docs/.htm">Comment or report problem with topic</a>
+                </small>
+                <br class="clearfix" />
+                <br />
+                <!-- End Rendered Content -->
+            </div>
+        </div>
+    </div>
+    <!-- End Documentation Monster Content -->
+</body>
+</html>
+

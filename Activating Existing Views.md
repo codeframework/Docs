@@ -1,4 +1,4 @@
-# Activating Existing Views
+﻿# Activating Existing Views
 
 There is a feature to CODE Framework that makes it easier to activate a view/model that is already open. For instance, if you have an item edit form, and fire it up to edit item #1, and then, while that form is still open, fire up another edit form for item #1, then you may or may not want to prevent that from happening and instead bring the first instance of that view to the foreground. This has been possible in the past, but it was harder than people wanted it to be. I made this easier, by allowing developers to run this code in the controller:
 

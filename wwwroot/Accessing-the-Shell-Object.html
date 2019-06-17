@@ -1,0 +1,104 @@
+﻿<!DOCTYPE html>
+<!-- saved from url=(0016)http://localhost -->
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Accessing the Shell Object - CODE Framework Documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/scripts/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/scripts/fontawesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/kavadocs.css" />
+
+    <script src="_kavadocs/themes/scripts/jquery/jquery.min.js"></script>
+
+    <script src="_kavadocs/themes/scripts/highlightjs/highlight.pack.js"></script>
+    <link href="_kavadocs/themes/scripts/highlightjs/styles/twilight.css" rel="stylesheet" />
+
+    <script src="_kavadocs/themes/scripts/ww.jquery.min.js"></script>
+    <script src="_kavadocs/themes/scripts/kavadocs.js"></script>
+    
+    <topictype value="topic" />
+
+    <script>    
+        $(document).ready(function () {
+            helpBuilder.initializeLayout();
+            // expand all top level topics
+            setTimeout(helpBuilder.tocExpandTop, 5);
+        });
+    </script>
+</head>
+<body>    
+    <!-- Documentation Monster Content -->
+    <div class="flex-master">
+        <div class="banner">
+
+            <div class="pull-right sidebar-toggle">
+                <i class="fa fa-bars"
+                   title="Show or hide the topics list"></i>
+            </div>
+            <img src="images/logo.png" class="banner-logo" />
+
+            	<div class="projectname">CODE Framework Documentation</div>
+            
+            <div class="byline">
+                                
+            </div>
+        </div>
+
+        <div class="page-content">
+            <div id="toc" class="sidebar-left toc-content">
+                <nav class="visually-hidden">
+                    <a href="tableofcontents.htm">Table of Contents</a>
+                </nav>
+            </div>
+
+            <div class="splitter">
+            </div>
+
+            <div class="main-content">
+                <!-- Rendered Content -->
+                <article class="content-pane">
+                    <header class="content-title">
+    <img src="_kavadocs/icons/topic.png">
+    Accessing the Shell Object
+</header>
+
+<div class="content-body" id="body">
+    <h1 id="accessing-the-shell-object">Accessing the Shell object</h1>
+<p>CODE Framework WPF applications (as well as other variations, such as WinRT and Windows Phone apps) launch a Shell object as the main application &quot;frame&quot;. You can think of this as &quot;the root object that ties all the UI stuff together&quot;. A Shell object gets created whenever a controller does a &quot;return Shell()&quot;. Typically there is only one.</p>
+<p>Sometimes it is beneficial to access the Shell object programmatically. For instance, accessing the Shell object provides access to its properties, such as NormalViews and TopLevelViews collections (to see which views are open or selected) as well as other features.</p>
+<p>The current shell object instance can be accessed using the Shell.Current static property. For instance, the following code snippet looks at the number of currently opened normal views:</p>
+<pre><code class="language-cs">Console.WriteLine(Shell.Current.NormalViews.Count); 
+</code></pre>
+
+</div>
+
+
+
+
+
+
+                </article>
+
+                <hr />
+                <div class="pull-right">
+                    <a href="http://helpbuilder.west-wind.com" target="_blank"><img src="images/wwhelp.png" /></a>
+                </div>
+
+                <small>
+                    &copy; Markus Egger Inc., 2019 &bull;
+                    Updated: 1/1/0001 12:00:00 AM
+                    <br />
+                    <a href="mailto:support@yoursite.com?subject=Accessing the Shell Object ()&body=Topic: CODE Framework Documentation - http://yoursite.com/docs/.htm">Comment or report problem with topic</a>
+                </small>
+                <br class="clearfix" />
+                <br />
+                <!-- End Rendered Content -->
+            </div>
+        </div>
+    </div>
+    <!-- End Documentation Monster Content -->
+</body>
+</html>
+

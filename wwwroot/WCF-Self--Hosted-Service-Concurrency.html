@@ -1,0 +1,123 @@
+﻿<!DOCTYPE html>
+<!-- saved from url=(0016)http://localhost -->
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>WCF Self-Hosted Service Concurrency - CODE Framework Documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/scripts/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/scripts/fontawesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/kavadocs.css" />
+
+    <script src="_kavadocs/themes/scripts/jquery/jquery.min.js"></script>
+
+    <script src="_kavadocs/themes/scripts/highlightjs/highlight.pack.js"></script>
+    <link href="_kavadocs/themes/scripts/highlightjs/styles/twilight.css" rel="stylesheet" />
+
+    <script src="_kavadocs/themes/scripts/ww.jquery.min.js"></script>
+    <script src="_kavadocs/themes/scripts/kavadocs.js"></script>
+    
+    <topictype value="topic" />
+
+    <script>    
+        $(document).ready(function () {
+            helpBuilder.initializeLayout();
+            // expand all top level topics
+            setTimeout(helpBuilder.tocExpandTop, 5);
+        });
+    </script>
+</head>
+<body>    
+    <!-- Documentation Monster Content -->
+    <div class="flex-master">
+        <div class="banner">
+
+            <div class="pull-right sidebar-toggle">
+                <i class="fa fa-bars"
+                   title="Show or hide the topics list"></i>
+            </div>
+            <img src="images/logo.png" class="banner-logo" />
+
+            	<div class="projectname">CODE Framework Documentation</div>
+            
+            <div class="byline">
+                                
+            </div>
+        </div>
+
+        <div class="page-content">
+            <div id="toc" class="sidebar-left toc-content">
+                <nav class="visually-hidden">
+                    <a href="tableofcontents.htm">Table of Contents</a>
+                </nav>
+            </div>
+
+            <div class="splitter">
+            </div>
+
+            <div class="main-content">
+                <!-- Rendered Content -->
+                <article class="content-pane">
+                    <header class="content-title">
+    <img src="_kavadocs/icons/topic.png">
+    WCF Self-Hosted Service Concurrency
+</header>
+
+<div class="content-body" id="body">
+    <h1 id="wcf-self-hosted-service-concurrency">WCF Self-Hosted Service Concurrency</h1>
+<p>WCF Services allow calling a single hosted service concurrently, assuming certain settings are set correctly. This is especially critical for self-hosted services (such as standard CODE Framework SOA services hosted in a Windows Service) since those usually default to single-use (this is the WCF default in this case). Note that CODE Framework services default to allow multiple callers at the same time (default is a maximum of 10 concurrent callers). Here is a bit more information about this feature:</p>
+<p>When CODE Framework service hosts are launched (this is generally done through a class called ServiceGarden) then the new host is automatically configured to allow multiple callers by setting the Host object’s ServiceBehaviorAttribute (found in hist.Description.Behaviors[]) to ConcurrencyMode = Multiple (and InstanceContextMode = Single). In addition, MaxConcurrentSessions and MaxConcurrentCalls on the ServiceThrottlingBehavior definition is set as well (to 10 by default). So this is the out-of-the-box behavior one gets for all services hosted by the CODE Framework infrastructure. (Note: Of course CODE Framework services are just standard WCF services that can be hosted in other environments, such as IIS, as well. In that case, the defaults of those environments apply and CODE Framework does not interfere).</p>
+<p>There are a few additional things to know:</p>
+<h2 id="implementation-classes-with-servicebehavior-attributes">Implementation Classes with ServiceBehavior Attributes</h2>
+<p>Whenever a ServiceBehavior attribute is added to a service implementation class, that attribute includes a setting (that may be set explicitly, but it is also there by default of course) for ConcurrencyMode. If that attribute is attached, CODE Framework will NOT apply the concurrency settings described above UNLESS additional settings are made in the configuration of the host application (see below).</p>
+<h2 id="code-framework-service-concurrency-configuration-settings">CODE Framework Service Concurrency Configuration Settings</h2>
+<p>CODE Framework concurrency settings can be applied in the configuration of the host application. These settings then override both the CODE Framework defaults as well as settings provided by a ServiceBehavior attribute applied to a service implementation class (see above). Note that settings can be made for all services hosted in a host environment, or on a service-by-service basis.</p>
+<p>The following settings are available:</p>
+<ul>
+<li><strong>ServiceConcurrencyMode</strong>: Can be set to “single”, “multiple”, or “reentrant”. This defines the concurrency mode of a hosted service (or all hosted services, as described below).</li>
+<li><strong>ServiceMaxConcurrentCalls</strong>: Defines how many maximum concurrent callers per service are allowed. The default is 10. Note that this is per service. If you host 5 different services and the max concurrent calls setting is set to 20, there could be up to 100 callers processed simultaneously.</li>
+<li><strong>ServiceMaxConcurrentSessions</strong>: Defines how many sessions an individual host can launch. The default is 10. Note that this is per service. If you host 5 different services and the max concurrent sessions setting is set to 20, there could be up to 100 total sessions.</li>
+</ul>
+<p>Note that each of these settings can be made for all services or per service. For instance, a ServiceMaxConcurrentCalls setting can be set to 5 to generally configure all services to allow for 5 concurrent callers. However, if you need more concurrent callers for the ICustomerService, an additional setting for ServiceMaxConcurrentCalls:ICustomerService can be added and set to a higher number, which then only applies to ICustomerService.</p>
+<p>Settings for services are set through the standard CODE Framework settings system, which means that these settings could be specified in a number of places. A typical place however is an app.config file and it’s appSettings section, as in the following example:</p>
+<pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
+&lt;configuration&gt;
+  &lt;appSettings&gt;
+    &lt;add key=&quot;ServiceMaxConcurrentCalls&quot; value=&quot;5&quot;/&gt;
+    &lt;add key=&quot;ServiceMaxConcurrentCalls:ICustomerService&quot; value=&quot;15&quot;/&gt;
+  &lt;/appSettings&gt;
+&lt;/configuration&gt;
+</code></pre>
+<p>For more information on service configuration, see also <a target="top" href="WCF%20Service%20Configuration">WCF Service Configuration</a>.</p>
+
+</div>
+
+
+
+
+
+
+                </article>
+
+                <hr />
+                <div class="pull-right">
+                    <a href="http://helpbuilder.west-wind.com" target="_blank"><img src="images/wwhelp.png" /></a>
+                </div>
+
+                <small>
+                    &copy; Markus Egger Inc., 2019 &bull;
+                    Updated: 1/1/0001 12:00:00 AM
+                    <br />
+                    <a href="mailto:support@yoursite.com?subject=WCF Self-Hosted Service Concurrency ()&body=Topic: CODE Framework Documentation - http://yoursite.com/docs/.htm">Comment or report problem with topic</a>
+                </small>
+                <br class="clearfix" />
+                <br />
+                <!-- End Rendered Content -->
+            </div>
+        </div>
+    </div>
+    <!-- End Documentation Monster Content -->
+</body>
+</html>
+

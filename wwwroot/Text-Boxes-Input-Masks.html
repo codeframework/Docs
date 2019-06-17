@@ -1,0 +1,233 @@
+﻿<!DOCTYPE html>
+<!-- saved from url=(0016)http://localhost -->
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Text Boxes - Input Masks - CODE Framework Documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/scripts/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/scripts/fontawesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/kavadocs.css" />
+
+    <script src="_kavadocs/themes/scripts/jquery/jquery.min.js"></script>
+
+    <script src="_kavadocs/themes/scripts/highlightjs/highlight.pack.js"></script>
+    <link href="_kavadocs/themes/scripts/highlightjs/styles/twilight.css" rel="stylesheet" />
+
+    <script src="_kavadocs/themes/scripts/ww.jquery.min.js"></script>
+    <script src="_kavadocs/themes/scripts/kavadocs.js"></script>
+    
+    <topictype value="topic" />
+
+    <script>    
+        $(document).ready(function () {
+            helpBuilder.initializeLayout();
+            // expand all top level topics
+            setTimeout(helpBuilder.tocExpandTop, 5);
+        });
+    </script>
+</head>
+<body>    
+    <!-- Documentation Monster Content -->
+    <div class="flex-master">
+        <div class="banner">
+
+            <div class="pull-right sidebar-toggle">
+                <i class="fa fa-bars"
+                   title="Show or hide the topics list"></i>
+            </div>
+            <img src="images/logo.png" class="banner-logo" />
+
+            	<div class="projectname">CODE Framework Documentation</div>
+            
+            <div class="byline">
+                                
+            </div>
+        </div>
+
+        <div class="page-content">
+            <div id="toc" class="sidebar-left toc-content">
+                <nav class="visually-hidden">
+                    <a href="tableofcontents.htm">Table of Contents</a>
+                </nav>
+            </div>
+
+            <div class="splitter">
+            </div>
+
+            <div class="main-content">
+                <!-- Rendered Content -->
+                <article class="content-pane">
+                    <header class="content-title">
+    <img src="_kavadocs/icons/topic.png">
+    Text Boxes - Input Masks
+</header>
+
+<div class="content-body" id="body">
+    <h1 id="textbox-input-masks">TextBox Input Masks</h1>
+<p>It is often desirable to limit input in textboxes to certain keystrokes only. For instance, a textbox may be designed to only accept numeric input, or only character input, and so forth. CODE Framework provides a standard mechanism for this by means of a TextBoxEx class and its attached properties.</p>
+<h2 id="standard-masked-input">Standard Masked Input</h2>
+<p>CODE Framework provides a feature to create textboxes with masked input using standard input mask syntax. This can be used to create text fields for entering phone numbers. In addition, CODE Framework provides enhanced features for currency and decimal input.</p>
+<p>The feature is similar to other masked textbox classes/controls that are available. However, there are some key differences:</p>
+<ol>
+<li>In true CODE Framework fashion, we didn’t want to create a separate control, but instead have an attached property that can be applied to any textbox control.</li>
+<li>We wanted to support the standard MaskedTextProvider features .NET provides to make sure we support all those features…</li>
+<li>...but also add some additional features that neither the default .NET functionality, nor any of the other controls handle well. In particular, this has to do with decimal entry and currency entry.</li>
+</ol>
+<p>So here is how it basically works. If you want to create a textbox for currency entry, you can simply do this:</p>
+<pre><code class="language-xml">&lt;TextBox controls:TextBoxEx.InputMask=&quot;$&quot;/&gt;
+</code></pre>
+<p>Or, if you wanted to create a textbox for a US phone number, you can do this:</p>
+<pre><code class="language-xml">&lt;TextBox controls:TextBoxEx.InputMask=&quot;(999) 999-9999&quot; /&gt;
+</code></pre>
+<p>So the basic idea is pretty simple. The user can now only enter what you’d expect. The Text property contains the full value as displayed. So if you used the phone number input mask, the actual Text of the control would be something like “(832) 717-4445”. If that is what you want, you can simply bind the Text property. However, it is often also desirable to just get the value without any special mask characters. For that, we have a special property that can be used like this:</p>
+<pre><code class="language-xml">&lt;TextBox controls:TextBoxEx.InputMask=&quot;(999) 999-9999&quot; controls:TextBoxEx.TextUnmasked=&quot;{Binding TestValue}&quot; /&gt;
+</code></pre>
+<p>The unmasked text property then would contain “8327174445”. Similarly, for the currency textbox, the text would be something like “$ 19.95” (a string), while the unmasked version would simply be 19.95 (which is suitable to bind to a decimal field.</p>
+<p>We also support a few extra features for currencies. Here is a more complete example:</p>
+<pre><code class="language-xml">&lt;TextBox controls:TextBoxEx.InputMask=&quot;$&quot; controls:TextBoxEx.InputMaskCurrencySymbol=&quot;Z$&quot; controls:TextBoxEx.TextUnmasked=&quot;{Binding Amount}&quot; /&gt;
+</code></pre>
+<p>This uses a currency format, but it uses Zimbabwe $ as the currency. This prevents the problem that often makes currency formats useless, because they are tied to the Windows UI currency. So if you have a machine that is set to Euros, the display mask would actually switch to Euros, even though what you want to save may be US$.</p>
+<p>The currency handling (as well as generic decimal handling, which can be done by setting the mask to “d”) is quite special in our control. It handles a lot of special cases. For instance, many of the other masked textboxes do not handle correctly when the user hits “.” as well as many other scenarios. So that should be quite helpful overall.</p>
+<p>So what are all the masks we support? Well, there are the “$” and the “d” masks that are special for CODE Framework. In addition, we support all standard mask strings as described in the MaskedTextProvider documentation: <a target="top" href="https://msdn.microsoft.com/en-us/library/system.windows.forms.maskedtextbox.mask(v=vs.110).aspx">https://msdn.microsoft.com/en-us/library/system.windows.forms.maskedtextbox.mask(v=vs.110).aspx</a></p>
+<p>The following table shows the supported mask characters:</p>
+<table>
+<thead>
+<tr>
+<th>Masking element</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$</td>
+<td>Currency input (decimal, with configurable or default currency symbol based on current UI culture settings). See below for information about negative values.</td>
+</tr>
+<tr>
+<td>d</td>
+<td>Decimal input. See below for information about negative values and number of digits allowed.</td>
+</tr>
+<tr>
+<td>%</td>
+<td>Percentage input. Similar to decimal, but with a trailing % symbol. See below for information about negative values and number of digits allowed.</td>
+</tr>
+<tr>
+<td>0</td>
+<td>Digit, required. This element will accept any single digit between 0 and 9.</td>
+</tr>
+<tr>
+<td>9</td>
+<td>Digit or space, optional.</td>
+</tr>
+<tr>
+<td>#</td>
+<td>Digit or space, optional. If this position is blank in the mask, it will be rendered as a space in the Text property. Plus (+) and minus (-) signs are allowed.</td>
+</tr>
+<tr>
+<td>L</td>
+<td>Letter, required. Restricts input to the ASCII letters a-z and A-Z. This mask element is equivalent to [a-zA-Z] in regular expressions.</td>
+</tr>
+<tr>
+<td>?</td>
+<td>Letter, optional. Restricts input to the ASCII letters a-z and A-Z. This mask element is equivalent to [a-zA-Z]? in regular expressions.</td>
+</tr>
+<tr>
+<td>&amp;</td>
+<td>Character, required. If the AsciiOnly property is set to true, this element behaves like the &quot;L&quot; element.</td>
+</tr>
+<tr>
+<td>C</td>
+<td>Character, optional. Any non-control character. If the AsciiOnly property is set to true, this element behaves like the &quot;?&quot; element.</td>
+</tr>
+<tr>
+<td>A</td>
+<td>Alphanumeric, required. If the AsciiOnly property is set to true, the only characters it will accept are the ASCII letters a-z and A-Z. This mask element behaves like the &quot;a&quot; element.</td>
+</tr>
+<tr>
+<td>a</td>
+<td>Alphanumeric, optional. If the AsciiOnly property is set to true, the only characters it will accept are the ASCII letters a-z and A-Z. This mask element behaves like the &quot;A&quot; element.</td>
+</tr>
+<tr>
+<td>.</td>
+<td>Decimal placeholder. The actual display character used will be the decimal symbol appropriate to the format provider, as determined by the control's FormatProvider property.</td>
+</tr>
+<tr>
+<td>,</td>
+<td>Thousands placeholder. The actual display character used will be the thousands placeholder appropriate to the format provider, as determined by the control's FormatProvider property.</td>
+</tr>
+<tr>
+<td>:</td>
+<td>Time separator. The actual display character used will be the time symbol appropriate to the format provider, as determined by the control's FormatProvider property.</td>
+</tr>
+<tr>
+<td>/</td>
+<td>Date separator. The actual display character used will be the date symbol appropriate to the format provider, as determined by the control's FormatProvider property.</td>
+</tr>
+<tr>
+<td>&lt;</td>
+<td>Shift down. Converts all characters that follow to lowercase.</td>
+</tr>
+<tr>
+<td>&gt;</td>
+<td>Shift up. Converts all characters that follow to uppercase.</td>
+</tr>
+<tr>
+<td>|</td>
+<td>Disable a previous shift up or shift down.</td>
+</tr>
+<tr>
+<td>\</td>
+<td>Escape. Escapes a mask character, turning it into a literal. &quot;\&quot; is the escape sequence for a backslash.</td>
+</tr>
+</tbody>
+</table>
+<p>All other characters are literals. All non-mask elements will appear as themselves within MaskedTextBox. Literals always occupy a static position in the mask at run time, and cannot be moved or deleted by the user.</p>
+<p>Decimal (d), currency ($), and percentage (%) formatted fields also support negative values. However, this can be disabled by setting TextBoxEx.InputMaskSupportsNegative to false.</p>
+<p>The number of digits allowed to the left of the decimal point (the &quot;characteristic&quot; of the entered value) for decimal (d), currency ($), and percentage (%) formatted fields is defined through the TextBoxEx.InputMaskDecimalCharacteristicMask property. The default is &quot;###.###.###.##0&quot;, which allows for 12 digits to the left of the decimal point.</p>
+<p>The number of digits allowed to the right of the decimal point (known as the &quot;mantissa&quot;) for decimal (d) and percentage (%) formatted fields is defined through the TextBoxEx.InputMaskDecimalFractionalMask property. The default is &quot;00&quot;, which calls for 2 fractional/mantissa digits being entered. For currency ($) format, the number of mantissa digits are driven by currency system settings.</p>
+<h2 id="regular-expression-input-masks">Regular Expression Input Masks</h2>
+<p>Consider the following example:</p>
+<pre><code class="language-xml">&lt;Window x:Class=&quot;CODE.Framework.Wpf.TestBench.TextBoxTest&quot;
+        xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot;
+        xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;
+        xmlns:controls=&quot;clr-namespace:CODE.Framework.Wpf.Controls;assembly=CODE.Framework.Wpf&quot;
+        Title=&quot;TextBoxTest&quot; Height=&quot;300&quot; Width=&quot;300&quot;&gt;
+    &lt;StackPanel&gt;
+        &lt;TextBox controls:TextBoxEx.InputMaskRegEx=&quot;^\p{L}*$&quot; /&gt;
+    &lt;/StackPanel&gt;
+&lt;/Window&gt;
+</code></pre>
+<p>In this case, the input in the textbox is limited by means of a regular expression to accept only alpha characters. You can use different regular expressions to limit input to different keystrokes.</p>
+<p>Note: This only works for regular expressions that are generic enough to match any keystroke. The expression used in the above example matches all alpha characters. Thus when the user presses a key such as “a”, the expression matches and thus the input is allowed. When the user then presses “b”, the complete text is now “ab”, which still matches the expression, and the input is allowed. Expressions that requires a specific combination of input elements are more problematic. For instance, if you use a regular expression that matches an email address, then that requires some text, followed by the @ symbol, followed by more text, a dot, and some more text. However, then the user starts out with an empty textbox and then presses “a”, then “a” does not match the regular expression since it is missing elements such as the @ symbol and so the input is considered invalid and the user can never really type in a complete email address. Using a RegEx input mask is not appropriate for such a scenario.</p>
+
+</div>
+
+
+
+
+
+
+                </article>
+
+                <hr />
+                <div class="pull-right">
+                    <a href="http://helpbuilder.west-wind.com" target="_blank"><img src="images/wwhelp.png" /></a>
+                </div>
+
+                <small>
+                    &copy; Markus Egger Inc., 2019 &bull;
+                    Updated: 1/1/0001 12:00:00 AM
+                    <br />
+                    <a href="mailto:support@yoursite.com?subject=Text Boxes - Input Masks ()&body=Topic: CODE Framework Documentation - http://yoursite.com/docs/.htm">Comment or report problem with topic</a>
+                </small>
+                <br class="clearfix" />
+                <br />
+                <!-- End Rendered Content -->
+            </div>
+        </div>
+    </div>
+    <!-- End Documentation Monster Content -->
+</body>
+</html>
+

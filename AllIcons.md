@@ -1,4 +1,4 @@
-# Standard CODE Framework Icons
+﻿# Standard CODE Framework Icons
 
 ## Standard Icon Resources
 

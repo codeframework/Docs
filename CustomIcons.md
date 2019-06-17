@@ -1,4 +1,4 @@
-# Creating Custom Icons and Overriding Standard Icons
+﻿# Creating Custom Icons and Overriding Standard Icons
 
 In addition to the set of standard icons, it is possible to create custom icons, or override the standard ones, and use them in place of CODE Framework standard icons.
 

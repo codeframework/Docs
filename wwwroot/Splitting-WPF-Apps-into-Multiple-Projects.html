@@ -1,0 +1,124 @@
+﻿<!DOCTYPE html>
+<!-- saved from url=(0016)http://localhost -->
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Splitting WPF Apps into Multiple Projects - CODE Framework Documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/scripts/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/scripts/fontawesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/kavadocs.css" />
+
+    <script src="_kavadocs/themes/scripts/jquery/jquery.min.js"></script>
+
+    <script src="_kavadocs/themes/scripts/highlightjs/highlight.pack.js"></script>
+    <link href="_kavadocs/themes/scripts/highlightjs/styles/twilight.css" rel="stylesheet" />
+
+    <script src="_kavadocs/themes/scripts/ww.jquery.min.js"></script>
+    <script src="_kavadocs/themes/scripts/kavadocs.js"></script>
+    
+    <topictype value="topic" />
+
+    <script>    
+        $(document).ready(function () {
+            helpBuilder.initializeLayout();
+            // expand all top level topics
+            setTimeout(helpBuilder.tocExpandTop, 5);
+        });
+    </script>
+</head>
+<body>    
+    <!-- Documentation Monster Content -->
+    <div class="flex-master">
+        <div class="banner">
+
+            <div class="pull-right sidebar-toggle">
+                <i class="fa fa-bars"
+                   title="Show or hide the topics list"></i>
+            </div>
+            <img src="images/logo.png" class="banner-logo" />
+
+            	<div class="projectname">CODE Framework Documentation</div>
+            
+            <div class="byline">
+                                
+            </div>
+        </div>
+
+        <div class="page-content">
+            <div id="toc" class="sidebar-left toc-content">
+                <nav class="visually-hidden">
+                    <a href="tableofcontents.htm">Table of Contents</a>
+                </nav>
+            </div>
+
+            <div class="splitter">
+            </div>
+
+            <div class="main-content">
+                <!-- Rendered Content -->
+                <article class="content-pane">
+                    <header class="content-title">
+    <img src="_kavadocs/icons/topic.png">
+    Splitting WPF Apps into Multiple Projects
+</header>
+
+<div class="content-body" id="body">
+    <h1 id="splitting-wpf-apps-into-muiltiple-projects">Splitting WPF Apps into Muiltiple Projects</h1>
+<p><em>Excerpt from an internal email at CODE/EPS:</em></p>
+<p>We just completed a new CODE Framework feature. It allows splitting WPF apps into multiple projects. This isn’t really as such a new feature in that this has always been possible, but it was a pain, so nobody did it. Using the new feature, it has now become trivial.</p>
+<p>So the main idea is this: Rather than having everything that goes with your client app in a single project, you can create secondary projects that have internally the same structure, but compile to DLLs rather than EXEs. For instance, you may have a business application that deals with invoices and customers, and you have one project each for the customer and the invoice UIs, rather than having it all in one big project.</p>
+<p>These “secondary” projects need to be structurally similar to standard CODE Framework WPF applications. In particular, they should have a Controller and an Views folder (and probably a Models folder). They will NOT have a Themes folder, since the theme is driven by the main EXE only! They also do not have an app.config or app.xaml file, since that is also exclusive to the main startup project. You can get such a project either by creating a CODE Framework WPF project and then remove everything unneeded and then setting the compiler output to produce a DLL rather than an EXE. You can also create such a project by adding a standard WPF class library project and then adding CODE Framework DLL references and folders as needed.</p>
+<p>Anyway: Once you have such a project, you can use it from a main startup project by first adding a standard .NET assembly reference. Then, you also need to let CODE Framework know that there now is a new DLL that may have elements that are loaded dynamically (such as controllers and views). This is done by calling ApplicationEx.RegisterSecondaryAssembly(…); Usually, this is done as the first line of the startup code in the application object (app.xaml.cs). Here is an example:</p>
+<pre><code class="language-cs">public partial class App
+{
+    public App()
+    {
+        Startup += ApplicationStartup;
+    }
+    
+    private void ApplicationStartup(object sender, StartupEventArgs e)
+    {
+        // This registers the components in the secondary assembly
+        RegisterSecondaryAssembly(&quot;SecondaryComponents&quot;);
+        
+        Controller.Action(&quot;Home&quot;, &quot;Start&quot;);
+        Controller.Action(&quot;User&quot;, &quot;Login&quot;);
+    }
+}
+</code></pre>
+<p>And that’s it! Everything now works as always, except you can put your stuff into multiple projects.</p>
+<p>Here’s an example setup for a CODE Framework WPF solution with two projects:</p>
+<p><img src="Splitting%20WPF%20Apps%20into%20Multiple%20Projects/Splitting%20WPF%20Apps%20into%20Multiple%20Projects_clip_image004_2.jpg" alt="" /></p>
+
+</div>
+
+
+
+
+
+
+                </article>
+
+                <hr />
+                <div class="pull-right">
+                    <a href="http://helpbuilder.west-wind.com" target="_blank"><img src="images/wwhelp.png" /></a>
+                </div>
+
+                <small>
+                    &copy; Markus Egger Inc., 2019 &bull;
+                    Updated: 1/1/0001 12:00:00 AM
+                    <br />
+                    <a href="mailto:support@yoursite.com?subject=Splitting WPF Apps into Multiple Projects ()&body=Topic: CODE Framework Documentation - http://yoursite.com/docs/.htm">Comment or report problem with topic</a>
+                </small>
+                <br class="clearfix" />
+                <br />
+                <!-- End Rendered Content -->
+            </div>
+        </div>
+    </div>
+    <!-- End Documentation Monster Content -->
+</body>
+</html>
+

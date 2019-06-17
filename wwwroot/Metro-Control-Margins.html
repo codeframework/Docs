@@ -1,0 +1,111 @@
+﻿<!DOCTYPE html>
+<!-- saved from url=(0016)http://localhost -->
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Metro - Control Margins - CODE Framework Documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/scripts/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/scripts/fontawesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/kavadocs.css" />
+
+    <script src="_kavadocs/themes/scripts/jquery/jquery.min.js"></script>
+
+    <script src="_kavadocs/themes/scripts/highlightjs/highlight.pack.js"></script>
+    <link href="_kavadocs/themes/scripts/highlightjs/styles/twilight.css" rel="stylesheet" />
+
+    <script src="_kavadocs/themes/scripts/ww.jquery.min.js"></script>
+    <script src="_kavadocs/themes/scripts/kavadocs.js"></script>
+    
+    <topictype value="topic" />
+
+    <script>    
+        $(document).ready(function () {
+            helpBuilder.initializeLayout();
+            // expand all top level topics
+            setTimeout(helpBuilder.tocExpandTop, 5);
+        });
+    </script>
+</head>
+<body>    
+    <!-- Documentation Monster Content -->
+    <div class="flex-master">
+        <div class="banner">
+
+            <div class="pull-right sidebar-toggle">
+                <i class="fa fa-bars"
+                   title="Show or hide the topics list"></i>
+            </div>
+            <img src="images/logo.png" class="banner-logo" />
+
+            	<div class="projectname">CODE Framework Documentation</div>
+            
+            <div class="byline">
+                                
+            </div>
+        </div>
+
+        <div class="page-content">
+            <div id="toc" class="sidebar-left toc-content">
+                <nav class="visually-hidden">
+                    <a href="tableofcontents.htm">Table of Contents</a>
+                </nav>
+            </div>
+
+            <div class="splitter">
+            </div>
+
+            <div class="main-content">
+                <!-- Rendered Content -->
+                <article class="content-pane">
+                    <header class="content-title">
+    <img src="_kavadocs/icons/topic.png">
+    Metro - Control Margins
+</header>
+
+<div class="content-body" id="body">
+    <h1 id="metro-style-control-margins-and-layout">Metro-Style Control Margins and Layout</h1>
+<p><em>This is an excerpt from an internal email at CODE:</em></p>
+<p>We have made a minor but important change in how views are positioned in Metro. Consider the following screen shot:</p>
+<p><img src="Metro-Style%20Control%20Margins/Metro-Style%20Control%20Margins_clip_image001_2.jpg" alt="" /></p>
+<p>Note that there is quite a bit of spacing to the left of the blue area (116 pixels to be exact, which is Metro standard).</p>
+<p>In the past, this was achieved by setting the margin on the view’s style. Now, the margin on the view itself should not be set anymore. Instead, the Shell (main window) positions loaded views using that margin. So do not set that margin in custom view styles, otherwise you will end up with a double margin.</p>
+<p>Note that the new approach is also a bit smarter about how it applies the margin. In Windows 8, Metro apps are always at least 1024 pixels wide. Metro style WPF apps can be made smaller. When they are smaller, the “waste” of those 116 pixels starts to hurt. Our style is thus smart and starts to reduce that margin when the window is realized smaller. So this is kind of another type of “elasticity”. Here’s what the same screen looks like when the window is smaller.</p>
+<p><img src="Metro-Style%20Control%20Margins/Metro-Style%20Control%20Margins_clip_image002_2.jpg" alt="" /></p>
+<p>Note that the margin on the left has now disappeared.</p>
+<p>On another, related change, I have now changed the way tiles scroll horizontally. In the past, there was always a left margin even when scrolling like this:</p>
+<p><img src="Metro-Style%20Control%20Margins/Metro-Style%20Control%20Margins_clip_image003_2.jpg" alt="" /></p>
+<p>Note how the scrollbar at the bottom has a left margin and tiles will never scroll over all the way to the left edge. This has now been changed. While tiles should start out with a left margin of 116 pixels in Metro start screens, they are supposed to scroll all the way over once the user scrolls manually. This is now implemented correctly:</p>
+<p><img src="Metro-Style%20Control%20Margins/Metro-Style%20Control%20Margins_clip_image004_2.jpg" alt="" /></p>
+
+</div>
+
+
+
+
+
+
+                </article>
+
+                <hr />
+                <div class="pull-right">
+                    <a href="http://helpbuilder.west-wind.com" target="_blank"><img src="images/wwhelp.png" /></a>
+                </div>
+
+                <small>
+                    &copy; Markus Egger Inc., 2019 &bull;
+                    Updated: 1/1/0001 12:00:00 AM
+                    <br />
+                    <a href="mailto:support@yoursite.com?subject=Metro - Control Margins ()&body=Topic: CODE Framework Documentation - http://yoursite.com/docs/.htm">Comment or report problem with topic</a>
+                </small>
+                <br class="clearfix" />
+                <br />
+                <!-- End Rendered Content -->
+            </div>
+        </div>
+    </div>
+    <!-- End Documentation Monster Content -->
+</body>
+</html>
+

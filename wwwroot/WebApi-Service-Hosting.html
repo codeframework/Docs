@@ -1,0 +1,142 @@
+﻿<!DOCTYPE html>
+<!-- saved from url=(0016)http://localhost -->
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>WebApi Service Hosting - CODE Framework Documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/scripts/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/scripts/fontawesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/kavadocs.css" />
+
+    <script src="_kavadocs/themes/scripts/jquery/jquery.min.js"></script>
+
+    <script src="_kavadocs/themes/scripts/highlightjs/highlight.pack.js"></script>
+    <link href="_kavadocs/themes/scripts/highlightjs/styles/twilight.css" rel="stylesheet" />
+
+    <script src="_kavadocs/themes/scripts/ww.jquery.min.js"></script>
+    <script src="_kavadocs/themes/scripts/kavadocs.js"></script>
+    
+    <topictype value="topic" />
+
+    <script>    
+        $(document).ready(function () {
+            helpBuilder.initializeLayout();
+            // expand all top level topics
+            setTimeout(helpBuilder.tocExpandTop, 5);
+        });
+    </script>
+</head>
+<body>    
+    <!-- Documentation Monster Content -->
+    <div class="flex-master">
+        <div class="banner">
+
+            <div class="pull-right sidebar-toggle">
+                <i class="fa fa-bars"
+                   title="Show or hide the topics list"></i>
+            </div>
+            <img src="images/logo.png" class="banner-logo" />
+
+            	<div class="projectname">CODE Framework Documentation</div>
+            
+            <div class="byline">
+                                
+            </div>
+        </div>
+
+        <div class="page-content">
+            <div id="toc" class="sidebar-left toc-content">
+                <nav class="visually-hidden">
+                    <a href="tableofcontents.htm">Table of Contents</a>
+                </nav>
+            </div>
+
+            <div class="splitter">
+            </div>
+
+            <div class="main-content">
+                <!-- Rendered Content -->
+                <article class="content-pane">
+                    <header class="content-title">
+    <img src="_kavadocs/icons/topic.png">
+    WebApi Service Hosting
+</header>
+
+<div class="content-body" id="body">
+    <h1 id="webapi-service-hosting">WebApi Service Hosting</h1>
+<p>CODE Framework Services can be hosted in a variety of ways, including WebApi. Using WebApi, one typically creates an &quot;ASP.NET App&quot; that contains API Controllers that have methods that are invoked according to certain naming conventions. These methods take JSON and URL parameters as input and create JSON as output. Using CODE Framework extensions, any service can be hosted using the same mechanism.</p>
+<p>Assuming a service implementation called CustomerService (perhaps based on an ICustomerService contract/interface), one can host the service in a new controller like this:</p>
+<pre><code class="language-c#">public class CustomerController : ServiceHostController&lt;CustomerService&gt;
+{
+}
+</code></pre>
+<p>Note: The ServiceHostController class is defined in the CODE.Framework.Service.Server.WebApi namespace/dll, which needs to be included in your project/file.</p>
+<p>Fundamentally, that's all that's needed. The service will now be hosted in the overall environment according to general system configuration. In particular important is the routing setup. By default, ASP.NET creates a routing setup for WebApi (typically found in the WebApiConfig.cs file in the App_Start folder) similar to this:</p>
+<pre><code class="language-c#">config.Routes.MapHttpRoute(&quot;DefaultApi&quot;, &quot;api/{controller}/{id}&quot;, new {id = RouteParameter.Optional});
+</code></pre>
+<p>Using this default setup, the CustomerService can now be called using a URL like this:</p>
+<pre><code class="language-c#">http://mydomain.com/api/Customer/...
+</code></pre>
+<p>You can easily change the overall URL pattern in the route configuration. For instance, if you do not want the /api/ part of the URL, you can define the route like this:</p>
+<pre><code class="language-c#">config.Routes.MapHttpRoute(&quot;DefaultApi&quot;, &quot;{controller}/{id}&quot;, new {id = RouteParameter.Optional});
+</code></pre>
+<p>This results in the following URL:</p>
+<pre><code class="language-c#">http://mydomain.com/Customer/...
+</code></pre>
+<p>Note that the default route configuration doesn't allow for many unnamed URL parameters. In fact, it only allows for one (&quot;id&quot;). In many REST scenarios, you may design your services to have additional unnamed URL parameters. You can add as many as you need. Here is an example:</p>
+<pre><code class="language-c#">config.Routes.MapHttpRoute(&quot;DefaultApi&quot;, &quot;{controller}/{id}/{id2}/{id3}/{id4}/{id5}&quot;, new {id = RouteParameter.Optional, id2 = RouteParameter.Optional, id3 = RouteParameter.Optional, id4 = RouteParameter.Optional, id5 = RouteParameter.Optional});
+</code></pre>
+<p>Note that the full URL each service operation is available at is defined by the service itself. Any REST hosting version of the same service will result in the same URL patterns (not just WebApi). For more information on how REST services are exposed, see: <a target="top" href="Creating%20REST%20Services">Creating REST Services</a></p>
+<h2 id="camel-case-json-serialization">Camel-Case JSON Serialization</h2>
+<p>When creating WebApi services using REST and JSON, all return values from services get serialized to JSON (essentially using JSON.NET). By default, property names appear exactly like they are defined in your .NET contracts (which usually means they use ProperCase property names). However, when used from clients such as JavaScript (and others), developers often prefer camelCase property names. Using our infrastructure, it is possible to force camelCase naming, regardless of the actual property names.</p>
+<p>One way of forcing camelCase is to specify as much in the controller:</p>
+<pre><code class="language-c#">public class CustomerController : ServiceHostController&lt;CustomerService&gt;
+{
+    public CustomerController()
+    {
+        JsonPropertyCaseMode = JsonPropertyCaseMode.ForceCamelCase;
+    }
+}
+</code></pre>
+<p>This allows turning this behavior on for each controller individually.</p>
+<p>It is also possible to turn this on globally in the web.config file, but adding the following setting:</p>
+<pre><code class="language-xml">&lt;configuration&gt;
+  &lt;appSettings&gt;
+    &lt;add key=&quot;JsonPropertyCaseMode&quot; value=&quot;ForceCamelCase&quot; /&gt;
+  &lt;/appSettings&gt;
+&lt;/configuration&gt;
+</code></pre>
+<p>All controllers automatically pick that up, as long as the JsonPropertyCaseMode property has not been explicitly set to anything other than &quot;Default&quot; (which is the default).</p>
+
+</div>
+
+
+
+
+
+
+                </article>
+
+                <hr />
+                <div class="pull-right">
+                    <a href="http://helpbuilder.west-wind.com" target="_blank"><img src="images/wwhelp.png" /></a>
+                </div>
+
+                <small>
+                    &copy; Markus Egger Inc., 2019 &bull;
+                    Updated: 1/1/0001 12:00:00 AM
+                    <br />
+                    <a href="mailto:support@yoursite.com?subject=WebApi Service Hosting ()&body=Topic: CODE Framework Documentation - http://yoursite.com/docs/.htm">Comment or report problem with topic</a>
+                </small>
+                <br class="clearfix" />
+                <br />
+                <!-- End Rendered Content -->
+            </div>
+        </div>
+    </div>
+    <!-- End Documentation Monster Content -->
+</body>
+</html>
+

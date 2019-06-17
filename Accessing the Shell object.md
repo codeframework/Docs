@@ -1,4 +1,4 @@
-# Accessing the Shell object
+﻿# Accessing the Shell object
 
 CODE Framework WPF applications (as well as other variations, such as WinRT and Windows Phone apps) launch a Shell object as the main application "frame". You can think of this as "the root object that ties all the UI stuff together". A Shell object gets created whenever a controller does a "return Shell()". Typically there is only one.
 

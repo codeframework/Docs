@@ -1,0 +1,122 @@
+﻿<!DOCTYPE html>
+<!-- saved from url=(0016)http://localhost -->
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Metro - ListBoxes - CODE Framework Documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/scripts/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/scripts/fontawesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/kavadocs.css" />
+
+    <script src="_kavadocs/themes/scripts/jquery/jquery.min.js"></script>
+
+    <script src="_kavadocs/themes/scripts/highlightjs/highlight.pack.js"></script>
+    <link href="_kavadocs/themes/scripts/highlightjs/styles/twilight.css" rel="stylesheet" />
+
+    <script src="_kavadocs/themes/scripts/ww.jquery.min.js"></script>
+    <script src="_kavadocs/themes/scripts/kavadocs.js"></script>
+    
+    <topictype value="topic" />
+
+    <script>    
+        $(document).ready(function () {
+            helpBuilder.initializeLayout();
+            // expand all top level topics
+            setTimeout(helpBuilder.tocExpandTop, 5);
+        });
+    </script>
+</head>
+<body>    
+    <!-- Documentation Monster Content -->
+    <div class="flex-master">
+        <div class="banner">
+
+            <div class="pull-right sidebar-toggle">
+                <i class="fa fa-bars"
+                   title="Show or hide the topics list"></i>
+            </div>
+            <img src="images/logo.png" class="banner-logo" />
+
+            	<div class="projectname">CODE Framework Documentation</div>
+            
+            <div class="byline">
+                                
+            </div>
+        </div>
+
+        <div class="page-content">
+            <div id="toc" class="sidebar-left toc-content">
+                <nav class="visually-hidden">
+                    <a href="tableofcontents.htm">Table of Contents</a>
+                </nav>
+            </div>
+
+            <div class="splitter">
+            </div>
+
+            <div class="main-content">
+                <!-- Rendered Content -->
+                <article class="content-pane">
+                    <header class="content-title">
+    <img src="_kavadocs/icons/topic.png">
+    Metro - ListBoxes
+</header>
+
+<div class="content-body" id="body">
+    <h1 id="metro-listboxes-in-wpf-applications">Metro ListBoxes in WPF Applications</h1>
+<p>The Metro theme for WPF applications in CODE Framework features special styles for ListBoxes to make them look like Metro and even like a Metro Live Tile view.</p>
+<p>The simplest use of a Metro ListBox is a listbox that doesn’t show any borders or backgrounds and uses a Metro-style ScrollBar. To use this kind of ListBox, define it like this:</p>
+<pre><code class="language-xml">&lt;ListBox Style=&quot;{DynamicResource Metro-Control-ListBox}&quot; /&gt;
+</code></pre>
+<p>In fact, this style is the default style that gets applied to ListBoxes if the overall app is using the Metro theme. So the above line of code is only necessary if you want to use this style explicit for some reason. It can also be helpful if you want to create a new style based on this style:</p>
+<pre><code class="language-xml">&lt;Style TargetType=&quot;ListBox&quot; BasedOn=&quot;{StaticResource Metro-Control-ListBox}&quot; /&gt;
+</code></pre>
+<p>A slightly more interesting style is the following, which includes a Metro-style item selection:</p>
+<pre><code class="language-xml">&lt;ListBox Style=&quot;{DynamicResource Metro-Control-ListBox}&quot; /&gt;
+</code></pre>
+<p>This produces the following style of list (second item selected):</p>
+<p><img src="Metro%20ListBoxes/Metro%20ListBoxes%20in%20WPF_image_2.png" alt="" /></p>
+<p>Note that the colors used for the outline and check mark are by default based on theme colors. However, they can be redefined on an individual basis like this:</p>
+<pre><code class="language-xml">&lt;ListBox Style=&quot;{DynamicResource Metro-Control-ListBox}&quot;&gt;
+    &lt;ListBox.Resources&gt;
+        &lt;SolidColorBrush x:Key=&quot;CODE.Framework-Metro-TileSelectionColor&quot; Color=&quot;Black&quot; /&gt;
+        &lt;SolidColorBrush x:Key=&quot;CODE.Framework-Metro-TileSelectionCheckMarkColor&quot; Color=&quot;White&quot; /&gt;
+    &lt;ListBox.Resources&gt;
+&lt;/ListBox&gt;
+</code></pre>
+<p>In addition, there is the Metro-Control-ListBox-Tiles style, which lays a ListBox out like Windows 8 Metro Live Tiles. The start screen view in typical Metro applications uses this style under the hood:</p>
+<p><img src="Metro%20ListBoxes/Metro%20ListBoxes%20in%20WPF_image_4.png" alt="" /></p>
+<p>You can apply this style to any ListBox.</p>
+
+</div>
+
+
+
+
+
+
+                </article>
+
+                <hr />
+                <div class="pull-right">
+                    <a href="http://helpbuilder.west-wind.com" target="_blank"><img src="images/wwhelp.png" /></a>
+                </div>
+
+                <small>
+                    &copy; Markus Egger Inc., 2019 &bull;
+                    Updated: 1/1/0001 12:00:00 AM
+                    <br />
+                    <a href="mailto:support@yoursite.com?subject=Metro - ListBoxes ()&body=Topic: CODE Framework Documentation - http://yoursite.com/docs/.htm">Comment or report problem with topic</a>
+                </small>
+                <br class="clearfix" />
+                <br />
+                <!-- End Rendered Content -->
+            </div>
+        </div>
+    </div>
+    <!-- End Documentation Monster Content -->
+</body>
+</html>
+

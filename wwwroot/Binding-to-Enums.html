@@ -1,0 +1,137 @@
+﻿<!DOCTYPE html>
+<!-- saved from url=(0016)http://localhost -->
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Binding to Enums - CODE Framework Documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/scripts/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/scripts/fontawesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/kavadocs.css" />
+
+    <script src="_kavadocs/themes/scripts/jquery/jquery.min.js"></script>
+
+    <script src="_kavadocs/themes/scripts/highlightjs/highlight.pack.js"></script>
+    <link href="_kavadocs/themes/scripts/highlightjs/styles/twilight.css" rel="stylesheet" />
+
+    <script src="_kavadocs/themes/scripts/ww.jquery.min.js"></script>
+    <script src="_kavadocs/themes/scripts/kavadocs.js"></script>
+    
+    <topictype value="topic" />
+
+    <script>    
+        $(document).ready(function () {
+            helpBuilder.initializeLayout();
+            // expand all top level topics
+            setTimeout(helpBuilder.tocExpandTop, 5);
+        });
+    </script>
+</head>
+<body>    
+    <!-- Documentation Monster Content -->
+    <div class="flex-master">
+        <div class="banner">
+
+            <div class="pull-right sidebar-toggle">
+                <i class="fa fa-bars"
+                   title="Show or hide the topics list"></i>
+            </div>
+            <img src="images/logo.png" class="banner-logo" />
+
+            	<div class="projectname">CODE Framework Documentation</div>
+            
+            <div class="byline">
+                                
+            </div>
+        </div>
+
+        <div class="page-content">
+            <div id="toc" class="sidebar-left toc-content">
+                <nav class="visually-hidden">
+                    <a href="tableofcontents.htm">Table of Contents</a>
+                </nav>
+            </div>
+
+            <div class="splitter">
+            </div>
+
+            <div class="main-content">
+                <!-- Rendered Content -->
+                <article class="content-pane">
+                    <header class="content-title">
+    <img src="_kavadocs/icons/topic.png">
+    Binding to Enums
+</header>
+
+<div class="content-body" id="body">
+    <h1 id="binding-to-enums">Binding to Enums</h1>
+<p><em>Excerpt from an internal email at EPS/CODE:</em></p>
+<p>FYI: Based on a suggestion from Antonio (and Mike), I have added a new feature to the CODE Framework. This has to do with the ability to bind to enum lists. Let’s say you have the following enum and want to display a drop-down list that displays all possible values:</p>
+<pre><code class="language-c#">public enum PaymentMethods
+{
+    BillMe,
+    CreditCard,
+    DirectDebit
+}
+</code></pre>
+<p>So now if you want to display a drop down list with these 3 values, you typically need a property in your view model that exposes these 3 values as a list and you need to preserve the values as well as the name and potentially a separate display text. This can now be done easily. You can simply create a view model (in ASP.NET or WPF or anything, really) with this property:</p>
+<pre><code class="language-c#">public IEnumerable&lt;EnumInformation&gt; PaymentOptions
+{
+    get
+    {
+        return EnumHelper.GetEnumInformation&lt;PaymentMethods&gt;();
+    }
+}
+</code></pre>
+<p>And that’s it, really.</p>
+<p>You can now bind to this in a variety of ways. For instance, in a WPF listbox, you could simply bind the items source to “{Binding PaymentOptions}”. Furthermore, you can then either create a data template or set display values and such to properties on the object in the list. Typically, the value field would be bound to the Value: “{Binding Value}”. The display would be bound either to the enum names or a more suitable display name. Setting the display template to this {Binding Name} shows the following items in the list:</p>
+<pre><code>BillMe
+CreditCard
+DirectDebit
+</code></pre>
+<p>Setting it to {Binding DisplayText} on the other hand, displays a usually more suitable list:</p>
+<pre><code>Bill Me
+Credit Card
+Direct Debit 
+</code></pre>
+<p>Note: The DisplayText property can be overridden manually if you feel like it.</p>
+<p>Also, note that this is very fast, as the EnumHelper class is smart enough to cache known types. So repeatedly calling the GetEnumInformation() metod with the same type is fine as it will just serve up the cached values.</p>
+<pre><code class="language-c#">public enum PaymentMethods
+{
+    BillMe,
+    CreditCard,
+    DirectDebit
+}
+</code></pre>
+
+</div>
+
+
+
+
+
+
+                </article>
+
+                <hr />
+                <div class="pull-right">
+                    <a href="http://helpbuilder.west-wind.com" target="_blank"><img src="images/wwhelp.png" /></a>
+                </div>
+
+                <small>
+                    &copy; Markus Egger Inc., 2019 &bull;
+                    Updated: 1/1/0001 12:00:00 AM
+                    <br />
+                    <a href="mailto:support@yoursite.com?subject=Binding to Enums ()&body=Topic: CODE Framework Documentation - http://yoursite.com/docs/.htm">Comment or report problem with topic</a>
+                </small>
+                <br class="clearfix" />
+                <br />
+                <!-- End Rendered Content -->
+            </div>
+        </div>
+    </div>
+    <!-- End Documentation Monster Content -->
+</body>
+</html>
+

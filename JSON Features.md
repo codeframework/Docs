@@ -1,4 +1,4 @@
-# CODE Framework JSON Features
+﻿# CODE Framework JSON Features
 
 CODE Framework features a variety of features related to JSON. One of the most significant aspects is that CODE Framework includes a branched version of JSON.NET, which is available through the CODE.Framework.Core.Newtonsoft namespace. You will find all the usual JSON.NET classes in this namespace and can use them according to the JSON.NET documentation.
 

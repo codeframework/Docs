@@ -1,4 +1,4 @@
-# ServiceClient Events
+﻿# ServiceClient Events
 
 The ServiceClient class (which can be used to call services in an easy and generic fashion), fires a number of static events that can be used to add generic functionality to service calls.
 

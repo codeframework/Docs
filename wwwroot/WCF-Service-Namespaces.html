@@ -1,0 +1,110 @@
+﻿<!DOCTYPE html>
+<!-- saved from url=(0016)http://localhost -->
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>WCF Service Namespaces - CODE Framework Documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/scripts/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/scripts/fontawesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/kavadocs.css" />
+
+    <script src="_kavadocs/themes/scripts/jquery/jquery.min.js"></script>
+
+    <script src="_kavadocs/themes/scripts/highlightjs/highlight.pack.js"></script>
+    <link href="_kavadocs/themes/scripts/highlightjs/styles/twilight.css" rel="stylesheet" />
+
+    <script src="_kavadocs/themes/scripts/ww.jquery.min.js"></script>
+    <script src="_kavadocs/themes/scripts/kavadocs.js"></script>
+    
+    <topictype value="topic" />
+
+    <script>    
+        $(document).ready(function () {
+            helpBuilder.initializeLayout();
+            // expand all top level topics
+            setTimeout(helpBuilder.tocExpandTop, 5);
+        });
+    </script>
+</head>
+<body>    
+    <!-- Documentation Monster Content -->
+    <div class="flex-master">
+        <div class="banner">
+
+            <div class="pull-right sidebar-toggle">
+                <i class="fa fa-bars"
+                   title="Show or hide the topics list"></i>
+            </div>
+            <img src="images/logo.png" class="banner-logo" />
+
+            	<div class="projectname">CODE Framework Documentation</div>
+            
+            <div class="byline">
+                                
+            </div>
+        </div>
+
+        <div class="page-content">
+            <div id="toc" class="sidebar-left toc-content">
+                <nav class="visually-hidden">
+                    <a href="tableofcontents.htm">Table of Contents</a>
+                </nav>
+            </div>
+
+            <div class="splitter">
+            </div>
+
+            <div class="main-content">
+                <!-- Rendered Content -->
+                <article class="content-pane">
+                    <header class="content-title">
+    <img src="_kavadocs/icons/topic.png">
+    WCF Service Namespaces
+</header>
+
+<div class="content-body" id="body">
+    <h1 id="wcf-service-namespaces">WCF Service Namespaces</h1>
+<p>By default, WCF services are tied to the (not very useful)  <a target="top" href="http://tempuri.org">http://tempuri.org</a> namespace. Microsoft recommends to replace that namespace with a more meaningful namespace for each service. This is usually done through a Namespace setting on the ServiceContract attribute, a Namespace setting on the ServiceBehavior attribute, and a config file setting. CODE Framework aims to make this as simple as possible.</p>
+<p>By default, CODE Framework service contract templates put the Namespace setting into the ServiceContract attribute. By default, it sets it to “http://www.mydomain.com/service”, which is really no more useful than the tempuri one, but it is only meant to serve as a reminder that the setting needs to be set (the tempuri setting is done invisibly and is thus often forgotten). Please replace this setting to something more sensible for your needs. Here is an example:</p>
+<pre><code class="language-cs">[ServiceContract(Namespace = &quot;http://www.epsservices.net/customer&quot;)]
+public interface ICustomerService { }
+</code></pre>
+<p>The service implementation then also needs to define a ServiceBehavior attribute with a matching namespace setting. Unfortunately, there is no reliable way to get around the need to have this hardcoded that works in all cases, but the framework tools aim to make this step as easy as possible. If you add a new service implementation based on the service implementation template provided, the chosen service interface is automatically inspected for namespace settings and a ServiceBehavior attribute is automatically added to the new implementation, like so:</p>
+<pre><code class="language-cs">[ServiceContract(Namespace = &quot;http://www.epsservices.net/customer&quot;)]
+public class CustomerService : ICustomerService { }
+</code></pre>
+<p>Note: If there is no Namespace setting on the service contract, the ServiceBehavior attribute on the implementation is omitted.</p>
+<p>No other settings are needed in config files or elsewhere. When this service is hosted by any of the CODE Framework hosts (which are all based on the ServiceGarden class), then the hosting environment will make all further settings automatically for the service to be hosted under the specified namespace.</p>
+
+</div>
+
+
+
+
+
+
+                </article>
+
+                <hr />
+                <div class="pull-right">
+                    <a href="http://helpbuilder.west-wind.com" target="_blank"><img src="images/wwhelp.png" /></a>
+                </div>
+
+                <small>
+                    &copy; Markus Egger Inc., 2019 &bull;
+                    Updated: 1/1/0001 12:00:00 AM
+                    <br />
+                    <a href="mailto:support@yoursite.com?subject=WCF Service Namespaces ()&body=Topic: CODE Framework Documentation - http://yoursite.com/docs/.htm">Comment or report problem with topic</a>
+                </small>
+                <br class="clearfix" />
+                <br />
+                <!-- End Rendered Content -->
+            </div>
+        </div>
+    </div>
+    <!-- End Documentation Monster Content -->
+</body>
+</html>
+

@@ -1,0 +1,278 @@
+﻿<!DOCTYPE html>
+<!-- saved from url=(0016)http://localhost -->
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>How To - Creating a Simple Business Object - CODE Framework Documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1" />
+    <link rel="stylesheet" type="text/css" href="../../_kavadocs/themes/scripts/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_kavadocs/themes/scripts/fontawesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_kavadocs/themes/kavadocs.css" />
+
+    <script src="../../_kavadocs/themes/scripts/jquery/jquery.min.js"></script>
+
+    <script src="../../_kavadocs/themes/scripts/highlightjs/highlight.pack.js"></script>
+    <link href="../../_kavadocs/themes/scripts/highlightjs/styles/twilight.css" rel="stylesheet" />
+
+    <script src="../../_kavadocs/themes/scripts/ww.jquery.min.js"></script>
+    <script src="../../_kavadocs/themes/scripts/kavadocs.js"></script>
+    
+    <topictype value="topic" />
+
+    <script>    
+        $(document).ready(function () {
+            helpBuilder.initializeLayout();
+            // expand all top level topics
+            setTimeout(helpBuilder.tocExpandTop, 5);
+        });
+    </script>
+</head>
+<body>    
+    <!-- Documentation Monster Content -->
+    <div class="flex-master">
+        <div class="banner">
+
+            <div class="pull-right sidebar-toggle">
+                <i class="fa fa-bars"
+                   title="Show or hide the topics list"></i>
+            </div>
+            <img src="../../images/logo.png" class="banner-logo" />
+
+            	<div class="projectname">CODE Framework Documentation</div>
+            
+            <div class="byline">
+                                
+            </div>
+        </div>
+
+        <div class="page-content">
+            <div id="toc" class="sidebar-left toc-content">
+                <nav class="visually-hidden">
+                    <a href="../../tableofcontents.htm">Table of Contents</a>
+                </nav>
+            </div>
+
+            <div class="splitter">
+            </div>
+
+            <div class="main-content">
+                <!-- Rendered Content -->
+                <article class="content-pane">
+                    <header class="content-title">
+    <img src="../../_kavadocs/icons/topic.png">
+    How To - Creating a Simple Business Object
+</header>
+
+<div class="content-body" id="body">
+    <h1 id="creating-a-simple-business-object">Creating a Simple Business Object</h1>
+<p>Follow these steps to create a new project with a new business object (manually).</p>
+<p>In this example, I assume you are creating a simple business objects that handles a simple products table stored in SQL Server (such as the Northwind products table).</p>
+<h2 id="create-a-new-class-library-project">Create a new class library project</h2>
+<p>Delete the default class that gets created automatically.</p>
+<ol>
+<li>Add a Nuget Package Reference to <code>Milos.BusinessObjects</code>.
+<ol>
+<li>Add a new class to your business objects and give it a name such as <code>ProductBusinessObject</code>.</li>
+<li>Change this class so it inherits from <code>Milos.BusinessObjects.BusinessObject</code>.</li>
+</ol>
+</li>
+<li>Optional: Add a private constructor to prevent direct instantiation of an object. (Note: The static instantiation method is an extension point that allows for added functionality when the object is instantiated. However, this is not strictly required and not done in most scenarios).
+<ol>
+<li>Add a static/shared <code>NewInstance()</code> method for the purpose of allowing controlled instantiation of the object.</li>
+</ol>
+</li>
+<li>Note that the editor automatically adds an overridden method named <code>Configure</code>. (If not, override this method manually... otherwise the app won't compile)
+<ol>
+<li>Set the <code>MasterEntity</code> and <code>PrimaryKeyField</code> properties in an overridden version of the <code>Configure()</code> methods which is provided by many framework objects.</li>
+</ol>
+</li>
+<li>Compile your new application</li>
+</ol>
+<p>Here's the code we have created so far:</p>
+<pre><code class="language-cs">public class ProductBusinessObject : Milos.BusinessObjects.BusinessObject
+{
+    private ProductBusinessObject() {}
+
+    public static ProductBusinessObject NewInstance() =&gt; new ProductBusinessObject();
+
+    protected override void Configure()
+    {
+        MasterEntity = &quot;products&quot;;
+        PrimaryKeyField = &quot;product_pk&quot;;
+    }
+}
+</code></pre>
+<p>Here is the same example without the static initialization helper:</p>
+<pre><code class="language-cs">public class ProductBusinessObject : Milos.BusinessObjects.BusinessObject
+{
+    protected override void Configure()
+    {
+        MasterEntity = &quot;products&quot;;
+        PrimaryKeyField = &quot;product_pk&quot;;
+    }
+}
+</code></pre>
+<blockquote>
+<p>Do not forget that whatever client application uses this business object needs to configure data access as defined in Documentation_ConfigurationOptions</p>
+</blockquote>
+<blockquote>
+<p>The private constructor and the static method is not strictly required, but it is a good idea. (For simplicity, this detail is ommited in subsequent examples).</p>
+</blockquote>
+<h2 id="retrieving-data">Retrieving Data</h2>
+<p>By default, the new business object has the ability to retrieve all fields and all records from the default entity using the GetList() method:</p>
+<pre><code class="language-cs">using (var biz = ProductBusinessObject.NewInstance())
+using (var ds = biz.GetList())
+{
+    Consolw.WriteLine(ds.Tables[0].Rows[0][0]);
+}
+</code></pre>
+<p>Retrieving all fields works well in simple scenarios, but it isn't usually the desired behavior. However, you can easily limit the list of fields you would like to retrieve by setting the <code>DefaultFields</code> property like to:</p>
+<pre><code class="language-cs">DefaultFields = &quot;Product_PK, ProductName&quot;;
+</code></pre>
+<p>In many cases however, we need the ability to query data in a more organized and filtered fashion. For instance, we may want to query all records with a certain product name. We could do this by adding a new method. That method could either have a brand new name, or it could overload <code>GetList()</code> with parameter. In this example, we will create a new method:</p>
+<pre><code class="language-cs">public DataSet GetListByName(string productName)
+{
+    using (var command = NewDbCommand(&quot;SELECT Product_PK, ProductName FROM Products WHERE ProductName LIKE @Name&quot;))
+    {
+        AddDbCommandParameter(command, &quot;@Name&quot;, productName + &quot;%&quot; );
+        return ExecuteQuery(command);
+    }
+}
+</code></pre>
+<p>As you can see, the <code>ExecuteQuery()</code> method makes it very easy to firedata commands against the server back end. Note also that this is done in a very generic fashion. The generated command object is very generic and can be used with most databases. Much of this functionality is based on the <code>NewDbCommand()</code> method which returns a generic command object.</p>
+<blockquote>
+<p>Note: During runtime, this will generate a command object specific to the used database. In SQL Server scenarios for instance, this would be an <code>SqlCommand</code> object.</p>
+</blockquote>
+<blockquote>
+<p>Note the user of the Parameters collection on the command object. This is mandatory for all operations! (Especially SQL Server.) Although some versions of the framework may let you get away with specifying where clause conditions directly (<code>...WHERE ProductName LIKE 'A%'</code>), we try to catch such operations whever possible (without too much of a performance hit... which sometimes is difficult). This is done for security reasons, as the parameters collection protects from SQL injection attacks.</p>
+</blockquote>
+<p>Note also that there is a helper method to easily add parameters to the generic command object. One can also use the command object's <code>Parameters</code> collection, however, that is unnecessarily difficult for generic command objects (it would be much easier for more specific command objects, such as <code>SqlCommand</code>).</p>
+<h2 id="saving-data">Saving Data</h2>
+<p>By default, the new business object also has the ability to save recordsets we modify, assuming they have a primary key field with the same name as the one we specified, and assuming there is a table in the dataset with the same name as our master entity (by default, this should be true).</p>
+<p>To save a modified dataset, simply call the <code>Save()</code> method on the business object and pass along the dataset.</p>
+<p>Note however, that saving data through the dataset is NOT the recommended way. Instead, editing and saving data is done through a business entity. See HowTo_CreateBusinessEntityObject.</p>
+<h2 id="instantiating-the-business-object">Instantiating the Business Object</h2>
+<p>A business object can be used by declaring a local variable of the type of the business object, and subsequently, creating an instance of the business object using the <code>NewInstance()</code> static/shared method (if you chose the static instantiation helper approach from above):</p>
+<pre><code class="language-cs">using (var biz = ProductBusinessObject.NewInstance())
+{
+    var dataset = biz.GetList();
+}
+</code></pre>
+<p>If you chose to go with a standard constructor, the object can be create like this:</p>
+<pre><code class="language-cs">using (var biz = new ProductBusinessObject())
+{
+    var dataset = biz.GetList();
+}
+</code></pre>
+<p>Note that whatever app is using this business object needs to be configured to know how to access the database. This is explained in detail in the data configuration how-to, but for now, you can create an app.config (or web.config) file with the following contents (replace this with settings that match your SQL Server setup):</p>
+<pre><code class="language-xml">&lt;xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
+&lt;configuration&gt;
+   &lt;appSettings&gt;
+      &lt;add key=&quot;DataServices&quot; value=&quot;SqlDataService&quot;/&gt;
+      &lt;add key=&quot;database:UserName&quot; value=&quot;devuser&quot;/&gt;
+      &lt;add key=&quot;database:Password&quot; value=&quot;devuser&quot;/&gt;
+      &lt;add key=&quot;database:Server&quot; value=&quot;(local)&quot;/&gt;
+      &lt;add key=&quot;database:Catalog&quot; value=&quot;Northwind&quot;/&gt;
+   &lt;/appSettings&gt;
+&lt;/configuration&gt;
+</code></pre>
+<h2 id="creating-business-objects-that-use-non-guid-based-primary-keys">Creating Business Objects that use non-Guid based Primary Keys</h2>
+<p>In general, Milos uses Guid-based primary keys to identify records in a database. However, we will not always have the luxury of specifying that. For instance, we may have to work with an existing database that uses other key types. Or perhaps, Milos needs to interact with a database that does not support guids. Therefore, Milos business objects also support integer (identity and non-identity) based keys as well as string-based keys.</p>
+<h3 id="using-integer-identity-keys">Using Integer (Identity) Keys</h3>
+<p>The basic concept used by business objects that use auto-increment (identity) integer fields as primary keys is identical to guid-based business objects. However, in addition to specifying the master entity and primary key field names, we also have to switch the business object into IndentityKey mode. The following example shows a simple C# exmaple for a business object that can modify the Employees table in the SQL Northwind database example:</p>
+<pre><code class="language-cs">public class EmployeeBusinessObject : BusinessObject
+{
+   protected override void Configure()
+   {
+      MasterEntity = &quot;Employees&quot; ;
+      PrimaryKeyField = &quot;EmployeeID&quot; ;
+      PrimaryKeyType = KeyType.IntegerAutoIncrement; 
+   }
+}
+</code></pre>
+<p>The important part is the very last line of this sample, which indicates to the business object that an auto-increment primary key is to be used.</p>
+<p>Note that there are some far-reaching implication when using identity keys. Whenever an identity key is used, data that is created on the client machine needs to be assigned a temporary key until that data is saved to the database, which will trigger the actual creation of the real identity key. Milos automatically creates temporary keys on the client. All these temporary keys are negative (minus) values (and are therefore easy to spot). Once the data gets saved to the database, SQL Server (or whatever the database may be) will automatically create real identity keys. At that point, the data on the client is out of sync with the data on the server. While &quot;real&quot; keys are used on the server, the client still has the temporary keys. Milos will therefore query the database to retrieve the keys that were actually generated and replace the temporary key in the updated row, so the row can later be re-identified. There are a few important aspects to this however:</p>
+<p>This requires that Milos has access to the database in some form, so the actual keys can be queried. This means that integer keys can not be used in offline scenarios.</p>
+<blockquote>
+<p>Important: Tables that are related to the table that was just saved were linked through the temporary keys. For instance, if we create a new employee, that employee will receive the key &quot;-1&quot; until it is saved the first time. Once the employee is saved, that id will be replaced with a real indentity key, such as &quot;25&quot;. Milos handles all of that automatically. However, there might be related tables, such as EmployeeTerritories. Lets say we also created 2 new territories, which will receive the keys -1 and -2 respectively. Both of those records would be linked to employee -1. Once employee -1 is assigned the key 25 however, the two territory records become orphaned untill their foreign key is updated to 25 as well. This needs to be handled in the PrimaryKeyValueChanged() method of the business object. (See also: HowTo_CreateChildItemsInEntities).</p>
+</blockquote>
+<h3 id="using-non-identity-integer-keys">Using Non-Identity Integer Keys</h3>
+<p>Generally, integer keys will be identity keys, meaning that the database server will automatically assign unique (generally sequential) key values. However, integer keys could also be manually generated. This is supported by the Milos framework as well (although it is error prone and therefore not recommended).</p>
+<p>The main difference between identity and manual integer keys is that the key type of the business object has to be set to <code>KeyType.Integer</code>, and also, the <code>GetNewIntegerKey()</code> method has to be overridden as in the following example:</p>
+<pre><code>public class EmployeeBusinessObject : BusinessObject
+{
+   protected override void Configure()
+   {
+      MasterEntity = &quot;Employees&quot;;
+      PrimaryKeyField = &quot;EmployeeID&quot;;
+      PrimaryKeyType = KeyType.Integer;
+   }
+
+   public  override int GetNewIntegerKey(string entityName, DataSet dataSetWithNewRecord)
+   {
+      return 1;  // Return a real value here, rather than 1
+   }
+}
+</code></pre>
+<p>The tricky part is that the <code>GetNewIntegerKey()</code> method needs to return a unique key value (which is not the case in the example above). It is up to the the developer to ensure that the routine creates a key that is unique. This could be achieved through some kind of mechanism that generates unique integers, such as a &quot;pseudo guid&quot; algorithm. Another popular implementation would be to connect to the database and query some kind of key table.</p>
+<h3 id="using-string-keys">Using String Keys</h3>
+<p>Milos also supports the use of string keys in addition to Guids and Integers. The situation with string keys is similar to the situation with manual integer keys (see above) in that the developer has to make sure that whatever key gets generated is unique. However, string keys are somewhat easier to handle than manual integers, because strings could be converted guids. This is the default string-key implementation milos provides. String keys can be used in the following fashion:</p>
+<pre><code class="language-cs">public class CustomerBusinessObject : BusinessObject 
+{
+   protected override void Configure()
+   {
+      MasterEntity = &quot;Customers&quot;;
+      PrimaryKeyField = &quot;CustID&quot;;
+      PrimaryKeyType = KeyType.String;
+   }
+}
+</code></pre>
+<p>This example assumes that the CustID field is a string field that is big enough to hold the string representation of a Guid. This may not always be the case though. Often, a string key may be an abritrary alphanumeric key generated by some type of algorithm, as in the following example:</p>
+<pre><code class="language-cs">public class CustomerBusinessObject : BusinessObject
+{
+   protected override void Configure()
+   {
+      this.MasterEntity = &quot;Customers&quot;;
+      this.PrimaryKeyField = &quot;CustID&quot;;
+      this.PrimaryKeyType = KeyType.String;
+   }
+
+   public  override int GetNewStringKey(string entityName, DataSet dataSetWithNewRecord)
+   {
+      return &quot;NEWKEY&quot; ;  // Return a real value here, rather than &quot;NEWKEY&quot;
+   }
+}
+</code></pre>
+<p>As in the integer example above, this version would not work in a real-live application, since the value needs to be unique. Once again, a more sophisticated algorithm would be required.</p>
+
+</div>
+
+
+
+
+
+
+                </article>
+
+                <hr />
+                <div class="pull-right">
+                    <a href="http://helpbuilder.west-wind.com" target="_blank"><img src="../../images/wwhelp.png" /></a>
+                </div>
+
+                <small>
+                    &copy; Markus Egger Inc., 2019 &bull;
+                    Updated: 1/1/0001 12:00:00 AM
+                    <br />
+                    <a href="mailto:support@yoursite.com?subject=How To - Creating a Simple Business Object ()&body=Topic: CODE Framework Documentation - http://yoursite.com/docs/.htm">Comment or report problem with topic</a>
+                </small>
+                <br class="clearfix" />
+                <br />
+                <!-- End Rendered Content -->
+            </div>
+        </div>
+    </div>
+    <!-- End Documentation Monster Content -->
+</body>
+</html>
+

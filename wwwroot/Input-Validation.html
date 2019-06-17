@@ -1,0 +1,159 @@
+﻿<!DOCTYPE html>
+<!-- saved from url=(0016)http://localhost -->
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Input Validation - CODE Framework Documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/scripts/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/scripts/fontawesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/kavadocs.css" />
+
+    <script src="_kavadocs/themes/scripts/jquery/jquery.min.js"></script>
+
+    <script src="_kavadocs/themes/scripts/highlightjs/highlight.pack.js"></script>
+    <link href="_kavadocs/themes/scripts/highlightjs/styles/twilight.css" rel="stylesheet" />
+
+    <script src="_kavadocs/themes/scripts/ww.jquery.min.js"></script>
+    <script src="_kavadocs/themes/scripts/kavadocs.js"></script>
+    
+    <topictype value="topic" />
+
+    <script>    
+        $(document).ready(function () {
+            helpBuilder.initializeLayout();
+            // expand all top level topics
+            setTimeout(helpBuilder.tocExpandTop, 5);
+        });
+    </script>
+</head>
+<body>    
+    <!-- Documentation Monster Content -->
+    <div class="flex-master">
+        <div class="banner">
+
+            <div class="pull-right sidebar-toggle">
+                <i class="fa fa-bars"
+                   title="Show or hide the topics list"></i>
+            </div>
+            <img src="images/logo.png" class="banner-logo" />
+
+            	<div class="projectname">CODE Framework Documentation</div>
+            
+            <div class="byline">
+                                
+            </div>
+        </div>
+
+        <div class="page-content">
+            <div id="toc" class="sidebar-left toc-content">
+                <nav class="visually-hidden">
+                    <a href="tableofcontents.htm">Table of Contents</a>
+                </nav>
+            </div>
+
+            <div class="splitter">
+            </div>
+
+            <div class="main-content">
+                <!-- Rendered Content -->
+                <article class="content-pane">
+                    <header class="content-title">
+    <img src="_kavadocs/icons/topic.png">
+    Input Validation
+</header>
+
+<div class="content-body" id="body">
+    <h1 id="input-validation">Input Validation</h1>
+<p>As discussed previously, you can now use standard .NET data annotation attributes to add input validation to view-model properties. For instance, you can have a view-model like this:</p>
+<pre><code class="language-cs">public class EditViewModel : ViewModel
+{
+    [Required]
+    public string FirstName { get; set; }
+    
+    [Required]
+    public string LastName { get; set; }
+    
+    public string Company { get; set; }
+    public string Division { get; set; }
+}
+</code></pre>
+<p>In this case, two properties are fundamentally flagged as required by means of a validation attribute (these are found in the System.ComponentModel.DataAnnotations namespace of the .NET Framework). By themselves, they do not do anything, but these attributes can be used in various ways. For instance, we could add a method in the view model that checks whether the model is valid:</p>
+<pre><code class="language-cs">public void Validate()
+{
+    var result = InputValidation.ValidateObject(this);
+
+    if (!result.IsValid)
+        foreach (var properties in result.InvalidProperties)
+            foreach (var message in properties.ErrorMessages)
+                Controller.Message(message);
+}
+</code></pre>
+<p>The ValidateObject() method inspects an object for all properties with validation attributes and then performs the validation defined in these attributes. If any of them fail, IsValid is false. In that case, a list of all invalid properties can be used to find out what is wrong. Each property with validation errors specifies all errors that occurred (there could be more than one validation attribute that indicated validation errors).</p>
+<p>Note that the ValidateObject() method does not go through object hierarchies. For instance, if you had a InvoiceViewModel object, it would NOT automatically iterate over all line items. However, it is easy to add this on your own:</p>
+<pre><code class="language-cs">protected ValidationResults Validate()
+{
+    var results = InputValidation.ValidateObject(this);
+    foreach (var lineItem in LineItems)
+        InputValidation.ValidateObject(lineItem, results);
+    return results;
+}
+</code></pre>
+<p>There are quite a few validation attributes the .NET Framework defines. This will cover a very wide range of needs, ranging from simply validation such as the [Required] attribute, to sophisticated [RegularExpression] validation patterns, and even specialized attributes, such as [Phone]. In addition, it is possible to create custom validation attributes. Here is an example:</p>
+<pre><code class="language-cs">public class NotEmptyOnSundayAttribute : ValidationAttribute
+{
+    public override bool IsValid(object value)
+    {
+        if (DateTime.Today.DayOfWeek != DayOfWeek.Sunday) return true;
+        return !string.IsNullOrEmpty(value.ToString());
+    }
+}
+</code></pre>
+<p>This special rule doesn’t allow empty values on Sundays. It can be applied to a property like so:</p>
+<pre><code class="language-cs">[NotEmptyOnSunday]
+public string LastName { get; set; }
+</code></pre>
+<p>Note that it is perfectly acceptable, and indeed common, to have multiple validation attributes on a single property:</p>
+<pre><code class="language-cs">[MinLength(10, ErrorMessage = &quot;Please provide at least 10 characters for a description.&quot;)]
+[MaxLength(50, ErrorMessage = &quot;Please provide no more than 50 characters for a description.&quot;)]
+public string Description { get; set; }
+</code></pre>
+<p>It is of course also important to have the UI layer respect these rules. Therefore, we can now bind all validation attributes to UI elements in the following fashion:</p>
+<pre><code class="language-xml">&lt;TextBox Text=&quot;{Binding LastName}&quot;
+         val:InputValidation.ValidationAttributes=&quot;{ex:AttributeValidationBinding LastName}&quot;/&gt;
+</code></pre>
+<p>However, there is an even simpler way. Instead of binding the text and the attributes separately, we can use the new CODE Framework binding syntax:</p>
+<pre><code class="language-xml">&lt;TextBox Text=&quot;{cf:Bind LastName}&quot;/&gt;
+</code></pre>
+
+</div>
+
+
+
+
+
+
+                </article>
+
+                <hr />
+                <div class="pull-right">
+                    <a href="http://helpbuilder.west-wind.com" target="_blank"><img src="images/wwhelp.png" /></a>
+                </div>
+
+                <small>
+                    &copy; Markus Egger Inc., 2019 &bull;
+                    Updated: 1/1/0001 12:00:00 AM
+                    <br />
+                    <a href="mailto:support@yoursite.com?subject=Input Validation ()&body=Topic: CODE Framework Documentation - http://yoursite.com/docs/.htm">Comment or report problem with topic</a>
+                </small>
+                <br class="clearfix" />
+                <br />
+                <!-- End Rendered Content -->
+            </div>
+        </div>
+    </div>
+    <!-- End Documentation Monster Content -->
+</body>
+</html>
+

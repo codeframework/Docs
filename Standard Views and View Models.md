@@ -1,4 +1,4 @@
-# Standard Views and View Models
+﻿# Standard Views and View Models
 
 CODE Framework provides standard views, view models, and data templates to enable developers to build interfaces as quickly as possible while creating a professional appearance and maintainable and resusable UIs, without giving up control.
 

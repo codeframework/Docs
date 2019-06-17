@@ -1,4 +1,4 @@
-# CODE Framework Theme Icons
+﻿# CODE Framework Theme Icons
 
 CODE Framework WPF has a special ```ThemeIcon``` control, which is kind of cool. In its simplest fashion, it just makes it easy to add an icon into a view and bind it to one of the default icons we support, by means of setting an enum. Like this:
 

@@ -75,6 +75,7 @@ public interface ICustomerService
     SaveCustomerResponse SaveCustomer( CustomerInformation request);
 }
 ```
+
 Note that this is a standard WCF service contract using standard WCF attributes such as `[ServiceContract]` and `[OperationContract]` to indicate our intentions to WCF.
 
 As you can see, each of these classes uses a different custom class for parameters and return values. Some of them are rather simple, such as the `GetAllCustomersRequest` class:
@@ -93,13 +94,8 @@ Some other classes are a bit more sophisticated, such as the `GetCustomerRequest
 [DataContract]
 public class GetCustomerRequest
 {
-    public GetCustomerRequest()
-    {
-        CustomerId = Guid.Empty;
-    }
-    
     [DataMember(IsRequired = true)]
-    public Guid CustomerId { get; set; }
+    public Guid CustomerId { get; set; } = Guid.Empty;
 }
 ```
 

@@ -1,0 +1,156 @@
+﻿<!DOCTYPE html>
+<!-- saved from url=(0016)http://localhost -->
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Notifications - CODE Framework Documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/scripts/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/scripts/fontawesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/kavadocs.css" />
+
+    <script src="_kavadocs/themes/scripts/jquery/jquery.min.js"></script>
+
+    <script src="_kavadocs/themes/scripts/highlightjs/highlight.pack.js"></script>
+    <link href="_kavadocs/themes/scripts/highlightjs/styles/twilight.css" rel="stylesheet" />
+
+    <script src="_kavadocs/themes/scripts/ww.jquery.min.js"></script>
+    <script src="_kavadocs/themes/scripts/kavadocs.js"></script>
+    
+    <topictype value="topic" />
+
+    <script>    
+        $(document).ready(function () {
+            helpBuilder.initializeLayout();
+            // expand all top level topics
+            setTimeout(helpBuilder.tocExpandTop, 5);
+        });
+    </script>
+</head>
+<body>    
+    <!-- Documentation Monster Content -->
+    <div class="flex-master">
+        <div class="banner">
+
+            <div class="pull-right sidebar-toggle">
+                <i class="fa fa-bars"
+                   title="Show or hide the topics list"></i>
+            </div>
+            <img src="images/logo.png" class="banner-logo" />
+
+            	<div class="projectname">CODE Framework Documentation</div>
+            
+            <div class="byline">
+                                
+            </div>
+        </div>
+
+        <div class="page-content">
+            <div id="toc" class="sidebar-left toc-content">
+                <nav class="visually-hidden">
+                    <a href="tableofcontents.htm">Table of Contents</a>
+                </nav>
+            </div>
+
+            <div class="splitter">
+            </div>
+
+            <div class="main-content">
+                <!-- Rendered Content -->
+                <article class="content-pane">
+                    <header class="content-title">
+    <img src="_kavadocs/icons/topic.png">
+    Notifications
+</header>
+
+<div class="content-body" id="body">
+    <h1 id="notifications">Notifications</h1>
+<p>The WPF MVVM/MVC sub-set of CODE Framework features a standardized notification system. This allows to issue simple notifications to the user that may be displayed using “notification toasts” or similar visual paradigms. Notification messages are typically displayed for a short duration (10-12 seconds) and then disappear without any user interaction.</p>
+<p>The CODE Framework notification system follows the same patterns as many sub-systems in the framework. In particular, the there is a simple way to issue notifications through the controller class like this:</p>
+<pre><code class="language-cs">Controller.Notification(&quot;Hello World!&quot;);
+</code></pre>
+<p>Notifications are then displayed in a matter that is specific to the chosen theme. The following screen shot shows notifications in a Metro-themed WPF application:</p>
+<p><img src="WPF%20MVVM/MVC%20Notifications_image_2.png" alt="" /></p>
+<p>The exact visual style of the notification within Metro applications depends on standardized color settings. Here are the settings one can override:</p>
+<pre><code class="language-xml">&lt;Color x:Key=&quot;CODE.Framework-Metro-NotificationForegroundColor&quot;&gt;White&lt;/Color&gt;
+&lt;Color x:Key=&quot;CODE.Framework-Metro-NotificationBackgroundColor&quot;&gt;DarkRed&lt;/Color&gt;
+</code></pre>
+<p>Of course it is also possible to completely restyle notifications.</p>
+<p>The following screen shot shows the default appearance of notifications using the Battleship theme (Windows 95):</p>
+<p><img src="WPF%20MVVM/MVC%20Notifications_image_4.png" alt="" /></p>
+<p>Notifications can be issued with a a few simple standard parameters, typically at least one or two lines of text, and sometimes an icon resource (stored as some sort of brush, often a drawing brush or an image brush). The following code snippet shows the code used to display the first of the notifications in the above screen shots:</p>
+<pre><code class="language-cs">Controller.Notification(&quot;Fox &amp; Hound&quot;, &quot;The quick brown fox jumps over the lazy dog.&quot;, imageResource: &quot;Notification-Message&quot;));
+</code></pre>
+<p>Note that it is up to each theme to determine how long each notification is displayed and how many notifications to display at once. Most themes display notifications for about 10 seconds and show up to 5 notifications. In most themes these settings can be changed by setting the MaximumNotificationCount and NotificationTimeout properties on the Shell (which can be easily done in the Shell’s style definition).</p>
+<h2 id="custom-notifications">Custom Notifications</h2>
+<p>Following a standard CODE Framework pattern, notifications messages use standardized view and view models under the hood to make the notification system tick. When a user calls Controller.Notification() as shown in the examples above, the system creates a standard notification view model and view, populates appropriate data in the model, and passes the result on for processing. This is just the default. Developers can take advantage of this setup and pass custom views and view models to the system to achieve complete freedom in what is being displayed in notification messages.</p>
+<p>Consider the following example:</p>
+<pre><code class="language-cs">Controller.Notification(model: new ExampleNotificationViewModel(), viewName: &quot;ExampleNotification&quot;, controllerType: typeof(CustomerController));
+</code></pre>
+<p>This displays a custom notification that even includes an interactive element (button). It also uses a custom view. Here is the code for the view model:</p>
+<pre><code class="language-cs">public class ExampleNotificationViewModel : NotificationViewModel 
+{ 
+    public ExampleNotificationViewModel()
+    {
+        Text1 = &quot;Click Now!&quot;; 
+        Text2 = &quot;This is an important...&quot;; 
+        Logo1 = Application.Current.FindResource(&quot;Notification-Message&quot;) as Brush; 
+        ExampleAction = new ViewAction(&quot;Example&quot;, execute: (o, a) =&gt; Controller.Message(&quot;Well done!&quot;)); 
+    } 
+
+    public ViewAction ExampleAction { get; set; } 
+}
+</code></pre>
+<p>And here is the actual view definition:</p>
+<pre><code class="language-xml">&lt;Grid xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot;&gt;
+  &lt;Grid.ColumnDefinitions&gt;
+    &lt;ColumnDefinition Width=&quot;Auto&quot; /&gt;
+    &lt;ColumnDefinition Width=&quot;*&quot; /&gt;
+  &lt;/Grid.ColumnDefinitions&gt;
+ 
+  &lt;Rectangle Height=&quot;60&quot; Width=&quot;60&quot; Margin=&quot;0,0,10,0&quot; Fill=&quot;{Binding Logo1}&quot; /&gt;
+  &lt;StackPanel Grid.Column=&quot;1&quot;&gt;
+    &lt;Button Content=&quot;{Binding Text1}&quot; Command=&quot;{Binding ExampleAction}&quot; /&gt;
+    &lt;TextBlock TextWrapping=&quot;Wrap&quot; Text=&quot;{Binding Text2}&quot;
+               FontSize=&quot;{DynamicResource FontSize-Normal}&quot;
+               FontFamily=&quot;{DynamicResource DefaultFont}&quot;/&gt;
+  &lt;/StackPanel&gt;
+&lt;/Grid&gt;
+</code></pre>
+<p>Note that this view has to be defined in one of the standard view locations. If that location is not the shared location (typically it isn’t), then the system needs to know which controller the view goes with in order to find the view, which is why the controller type has to be passed as a parameter in the example above. This information provides overall execution context, so view engines can find their way around.</p>
+<p>This results in the following UI:</p>
+<p><img src="WPF%20MVVM/MVC%20Notifications_image_6.png" alt="" /></p>
+<p>Note: Be careful with the amount of interactivity you put into notifications. Notifications are messages that are displayed for short periods of time. They are not suited for interaction that goes beyond a single click or something comparable since they are simply not on screen long enough. (Some themes may choose to only show a single notification at a time and thus scroll notifications through very quickly, or they may choose to show notifications for only 3 or 4 seconds or less.)</p>
+<p>Note that it is also possible to add explicitly coded actions to a controller that returns a Notification Message. In most cases, this doesn’t provide much of a benefit though and is rarely done.</p>
+
+</div>
+
+
+
+
+
+
+                </article>
+
+                <hr />
+                <div class="pull-right">
+                    <a href="http://helpbuilder.west-wind.com" target="_blank"><img src="images/wwhelp.png" /></a>
+                </div>
+
+                <small>
+                    &copy; Markus Egger Inc., 2019 &bull;
+                    Updated: 1/1/0001 12:00:00 AM
+                    <br />
+                    <a href="mailto:support@yoursite.com?subject=Notifications ()&body=Topic: CODE Framework Documentation - http://yoursite.com/docs/.htm">Comment or report problem with topic</a>
+                </small>
+                <br class="clearfix" />
+                <br />
+                <!-- End Rendered Content -->
+            </div>
+        </div>
+    </div>
+    <!-- End Documentation Monster Content -->
+</body>
+</html>
+

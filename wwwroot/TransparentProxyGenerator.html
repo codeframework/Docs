@@ -1,0 +1,124 @@
+﻿<!DOCTYPE html>
+<!-- saved from url=(0016)http://localhost -->
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>TransparentProxyGenerator - CODE Framework Documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/scripts/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/scripts/fontawesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/kavadocs.css" />
+
+    <script src="_kavadocs/themes/scripts/jquery/jquery.min.js"></script>
+
+    <script src="_kavadocs/themes/scripts/highlightjs/highlight.pack.js"></script>
+    <link href="_kavadocs/themes/scripts/highlightjs/styles/twilight.css" rel="stylesheet" />
+
+    <script src="_kavadocs/themes/scripts/ww.jquery.min.js"></script>
+    <script src="_kavadocs/themes/scripts/kavadocs.js"></script>
+    
+    <topictype value="topic" />
+
+    <script>    
+        $(document).ready(function () {
+            helpBuilder.initializeLayout();
+            // expand all top level topics
+            setTimeout(helpBuilder.tocExpandTop, 5);
+        });
+    </script>
+</head>
+<body>    
+    <!-- Documentation Monster Content -->
+    <div class="flex-master">
+        <div class="banner">
+
+            <div class="pull-right sidebar-toggle">
+                <i class="fa fa-bars"
+                   title="Show or hide the topics list"></i>
+            </div>
+            <img src="images/logo.png" class="banner-logo" />
+
+            	<div class="projectname">CODE Framework Documentation</div>
+            
+            <div class="byline">
+                                
+            </div>
+        </div>
+
+        <div class="page-content">
+            <div id="toc" class="sidebar-left toc-content">
+                <nav class="visually-hidden">
+                    <a href="tableofcontents.htm">Table of Contents</a>
+                </nav>
+            </div>
+
+            <div class="splitter">
+            </div>
+
+            <div class="main-content">
+                <!-- Rendered Content -->
+                <article class="content-pane">
+                    <header class="content-title">
+    <img src="_kavadocs/icons/topic.png">
+    TransparentProxyGenerator
+</header>
+
+<div class="content-body" id="body">
+    <h1 id="using-the-transparent-proxy-generator">Using the Transparent Proxy Generator</h1>
+<p>Some operations require what is called a &quot;transparent proxy&quot;. For instance, when you make a WCF service call using a channel factory, you specify that you want to make a call to a service that conforms with a certain interface. WCF then gives you <strong>a real object</strong> that implements that interface. But where did that object/class come from? It doesn't exist as a real class that is part of your project. Instead, WCF generated it on the fly. That is what is called a &quot;transparent proxy&quot;. CODE Framework also uses transparent proxies. One such scenario is when making a strongly typed call to a REST service. (See also: <a target="top" href="Calling%20REST%20Services%20through%20ServiceClient">Calling REST Services through ServiceClient</a>.</p>
+<p>Creating transparent proxies is not a trivial matter. Code has to be generated and compiled on the fly to make this happen. CODE Framework has a TransparentProxyGenerator class that does this. It takes an interface and then generates a live class from it. This new class doesn't do much on its own. Instead, it takes a reference to a handler class. It is very generic and can be used for other things.</p>
+<p>Let's take a look at a simple example: Let's say we have this interface:</p>
+<pre><code class="language-c#">public interface ITest
+{
+    Customer GetCustomer(GetCustomerRequest request);
+    SaveResult SaveCustomer(Customer customerToSave);
+}
+</code></pre>
+<p>Using the transparent proxy generator, you can create an implementation of this class on the fly like this:</p>
+<pre><code class="language-c#">var implementation = TransparentProxyGenerator.GetProxy&lt;ITest&gt;(handler);
+var customer = implementation.GetCustomer(new GetCustomerRequest());
+</code></pre>
+<p>One of the key details here is the &quot;handler&quot; parameter. The transparent proxy generator creates a class that satisfies the requirements of the interface, but it can't know what to do within the methods it creates. This is instead handled by a handler class. For instance, if all you wanted to do is create a class that echos something to the output window whenever a method is called, you could do this:</p>
+<pre><code class="language-c#">public class MyProxyHandler : IProxyHandler
+{
+    public object OnMethod(MethodInfo method, object[]() args)
+    {
+        Console.WriteLine(&quot;Method called: &quot; + method.Name);
+        return Activator.CreateInstance(method.ReturnType);
+    }
+}
+</code></pre>
+<p>The handler object has a single method called &quot;OnMethod&quot; that is called whenever any method in the proxy is called. The OnMethod method receives information about the actual method as its first parameter, and the actual parameters of the method call as an object array. You can use this information to perform whatever task needs to be performed (in the REST case implemented by CODE Framework, this method is used to perform the actual REST call).</p>
+<p>Note that the method absolutely MUST return an object that conforms with the called method. This example satisfies this criteria by creating a new instance of the expected method return type. Your specific implementation may have other needs. (In the REST case, the return value is deserialized from JSON for instance).</p>
+
+</div>
+
+
+
+
+
+
+                </article>
+
+                <hr />
+                <div class="pull-right">
+                    <a href="http://helpbuilder.west-wind.com" target="_blank"><img src="images/wwhelp.png" /></a>
+                </div>
+
+                <small>
+                    &copy; Markus Egger Inc., 2019 &bull;
+                    Updated: 1/1/0001 12:00:00 AM
+                    <br />
+                    <a href="mailto:support@yoursite.com?subject=TransparentProxyGenerator ()&body=Topic: CODE Framework Documentation - http://yoursite.com/docs/.htm">Comment or report problem with topic</a>
+                </small>
+                <br class="clearfix" />
+                <br />
+                <!-- End Rendered Content -->
+            </div>
+        </div>
+    </div>
+    <!-- End Documentation Monster Content -->
+</body>
+</html>
+

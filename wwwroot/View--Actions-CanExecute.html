@@ -1,0 +1,149 @@
+﻿<!DOCTYPE html>
+<!-- saved from url=(0016)http://localhost -->
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>View-Actions - CanExecute - CODE Framework Documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/scripts/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/scripts/fontawesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/kavadocs.css" />
+
+    <script src="_kavadocs/themes/scripts/jquery/jquery.min.js"></script>
+
+    <script src="_kavadocs/themes/scripts/highlightjs/highlight.pack.js"></script>
+    <link href="_kavadocs/themes/scripts/highlightjs/styles/twilight.css" rel="stylesheet" />
+
+    <script src="_kavadocs/themes/scripts/ww.jquery.min.js"></script>
+    <script src="_kavadocs/themes/scripts/kavadocs.js"></script>
+    
+    <topictype value="topic" />
+
+    <script>    
+        $(document).ready(function () {
+            helpBuilder.initializeLayout();
+            // expand all top level topics
+            setTimeout(helpBuilder.tocExpandTop, 5);
+        });
+    </script>
+</head>
+<body>    
+    <!-- Documentation Monster Content -->
+    <div class="flex-master">
+        <div class="banner">
+
+            <div class="pull-right sidebar-toggle">
+                <i class="fa fa-bars"
+                   title="Show or hide the topics list"></i>
+            </div>
+            <img src="images/logo.png" class="banner-logo" />
+
+            	<div class="projectname">CODE Framework Documentation</div>
+            
+            <div class="byline">
+                                
+            </div>
+        </div>
+
+        <div class="page-content">
+            <div id="toc" class="sidebar-left toc-content">
+                <nav class="visually-hidden">
+                    <a href="tableofcontents.htm">Table of Contents</a>
+                </nav>
+            </div>
+
+            <div class="splitter">
+            </div>
+
+            <div class="main-content">
+                <!-- Rendered Content -->
+                <article class="content-pane">
+                    <header class="content-title">
+    <img src="_kavadocs/icons/topic.png">
+    View-Actions - CanExecute
+</header>
+
+<div class="content-body" id="body">
+    <h1 id="using-canexecute-on-viewactions">Using CanExecute on ViewActions</h1>
+<p><em>Excerpt from an internal email at CODE/EPS:</em></p>
+<p>ViewActions in the framework are just commands (objects that implement the <code>ICommand</code> interface). Commands have a <code>CanExecute()</code> method than can be overridden/implemented. When an object is bound to a command, it automatically evaluates the <code>CanExecute()</code> method. If it returns true, the control is enabled, otherwise is disabled. This is standard WPF functionality, and it of course also works as such in CODE Framework.</p>
+<p>Question is: How can you change this after the initial assignment? In other words: How can you indicate to WPF that the state may have changed and thus the <code>CanExecute()</code> method needs to be executed again to determine the latest correct state? As it turns out, <code>ICommand</code> defines an event called <code>CanExecuteChanged</code> and whenever a command is bound to a control, that control listens for that event and when it fires, it knows to call <code>CanExecute()</code> again. So you can fire that event manually and everything should work. (The only slight trouble is that in order to do that, you have to usually subclass the command or implement the entire interface, which is something I am trying to protect you from. Nevertheless, this is how it works and it isn’t super-difficult).</p>
+<p>So with the CODE Framework, we use these <code>ViewAction</code> objects which are really just fancy commands (and they implement <code>ICommand</code>), so everything I said above is valid. Of course we are trying to make it as simple to use these actions/commands as possible, so you generally do not have to implement those yourself, but you can simply instantiate a <code>ViewAction</code> object and pass it a few parameters (such as delegates for the <code>Execute()</code> method, a caption, and a few other things). As it turns out, you can (and always have been able to) pass a second delegate for <code>CanExecute()</code>, which is supposed to be a piece of code that returns true or false depending on whether you want the command to be executable.</p>
+<p>Example: Let’s say you have a view model with a <code>SearchText</code> property and a Search command, allowing people to search based on text they specify. And you only want the command to be enabled when <code>SearchText</code> is not empty. You can define such a command like so:</p>
+<pre><code class="language-cs">Search = new `ViewAction`(&quot;Search&quot;, 
+    execute: (a, o) =&gt; MessageBox.Show(&quot;Searching for &quot; + SearchText), 
+    canExecute: (a, o) =&gt; !string.IsNullOrEmpty(SearchText)); 
+</code></pre>
+<p>As you can see, this executes a single line of code, which is a message box that shows what we want to search for (which would be a more sophisticated piece of code that actually performed some search in the real world). The <code>canExecute</code> delegate on the other hand returns true only when <code>SearchText</code> is not empty.</p>
+<p>If you were to just create this action and then bind it to a control such as a button, chances are the <code>SearchText</code> property is going to be empty by default, thus <code>CanExecute</code> returns false when initially evaluated, and the button will automatically be disabled. (There is nothing you need to do further to cause disabling. You do NOT need to bind the enabled property or anything like that. Enabling and disabling is simply an automatic behavior of controls that use commands).</p>
+<p>So now the question is: How would you cause this command to be re-evaluated when someone puts some text into <code>SearchText</code>? For this, you actually have to raise that <code>CanExecuteChanged</code> event, which up to now, you could only do by subclassing the <code>ViewAction</code> class. But here is the good news: I just made this simpler by adding an <code>InvalidateCanExecute()</code> method to the <code>ViewAction</code> class. You can call this method to indicate to the command/action that the prior can-execute state is now not valid anymore and needs to be re-evaluated. This could be done from the setter of the <code>SearchText</code> property for instance. (The <code>InvalidateXxx</code> naming convention goes along with quite a view other things in Windows that can be invalidated).</p>
+<p>So a complete view model for the scenario described above could be this:</p>
+<pre><code class="language-cs">public class CanExecuteChangedViewModel : ViewModel
+{
+    public CanExecuteChangedViewModel()
+    {
+        Search = new ViewAction(&quot;Search&quot;, 
+           execute: (a, o) =&gt; MessageBox.Show(&quot;Searching for &quot; + SearchText), 
+           canExecute: (a, o) =&gt; !string.IsNullOrEmpty(SearchText));
+    }
+
+    public ViewAction Search { get; set; }
+
+    private string _searchText;
+    public string SearchText
+    {
+        get { return _searchText; }
+        set
+        {
+            _searchText = value;
+            NotifyChanged(&quot;SearchText&quot;);
+            Search.InvalidateCanExecute();
+        }
+    }
+}
+</code></pre>
+<p>You could now use this view model to bind to the following XAML, and it would behave exactly like you would expect it to, with the search button being enabled and disabled depending on whether or not the textbox is empty:</p>
+<pre><code class="language-xml">&lt;Window x:Class=&quot;CODE.Framework.Wpf.TestBench.CanExecuteChangedTest&quot;
+        xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot;
+        xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;
+        xmlns:Controls=&quot;clr-namespace:CODE.Framework.Wpf.Controls;assembly=CODE.Framework.Wpf&quot;
+        Title=&quot;CanExecuteChangedTest&quot; Height=&quot;300&quot; Width=&quot;300&quot;&gt;
+  &lt;Grid Controls:GridEx.RowHeights=&quot;Auto,*&quot; Controls:GridEx.ColumnWidths=&quot;*,Auto&quot;&gt;
+    &lt;TextBox Text=&quot;{Binding SearchText, UpdateSourceTrigger=PropertyChanged}&quot; /&gt;
+    &lt;Button Command=&quot;{Binding Search}&quot; Grid.Column=&quot;1&quot; Content=&quot;{Binding Search.Caption}&quot; /&gt;
+    &lt;ListBox Grid.ColumnSpan=&quot;2&quot; Grid.Row=&quot;1&quot; /&gt;
+  &lt;/Grid&gt;
+&lt;/Window&gt; 
+</code></pre>
+
+</div>
+
+
+
+
+
+
+                </article>
+
+                <hr />
+                <div class="pull-right">
+                    <a href="http://helpbuilder.west-wind.com" target="_blank"><img src="images/wwhelp.png" /></a>
+                </div>
+
+                <small>
+                    &copy; Markus Egger Inc., 2019 &bull;
+                    Updated: 1/1/0001 12:00:00 AM
+                    <br />
+                    <a href="mailto:support@yoursite.com?subject=View-Actions - CanExecute ()&body=Topic: CODE Framework Documentation - http://yoursite.com/docs/.htm">Comment or report problem with topic</a>
+                </small>
+                <br class="clearfix" />
+                <br />
+                <!-- End Rendered Content -->
+            </div>
+        </div>
+    </div>
+    <!-- End Documentation Monster Content -->
+</body>
+</html>
+

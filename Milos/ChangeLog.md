@@ -1,4 +1,4 @@
-# Milos Solution Platform - Change Log
+﻿# Milos Solution Platform - Change Log
 
 ## 5.0.0-preview1-190512.0
 

@@ -1,0 +1,862 @@
+{
+  "title": "CODE Framework Documentation",
+  "owner": "Markus Egger Inc.",
+  "baseUrl": "http://docs.codeframework.com/",
+  "version": "1.0",
+  "language": "en-US",
+  "menu": [
+    {
+      "title": "Docs Home",
+      "link": "/"
+    },
+    {
+      "title": "Framework Home",
+      "link": "http://codeframework.io"
+    },
+    {
+      "title": "CODE Magazine",
+      "link": "http://codemag.com/magazine"
+    },
+    {
+      "title": "CODE Consulting",
+      "link": "http://codemag.com/consulting"
+    },
+    {
+      "title": "CODE Training",
+      "link": "http://codemag.com/training"
+    }
+  ],
+  "topics": [
+    {
+      "title": "Getting Started",
+      "slug": "Getting-Started",
+      "link": "Getting Started.md",
+      "displayType": "header",
+      "type": "markdown",
+      "isExpanded": true,
+      "topics": [
+        {
+          "title": "Installing CODE Framework",
+          "slug": "Installation",
+          "link": "Installation.md",
+          "displayType": "topic",
+          "type": "markdown"
+        }
+      ]
+    },
+    {
+      "title": "What's New?",
+      "slug": "Whats-New",
+      "link": "",
+      "displayType": "header",
+      "type": "markdown",
+      "isExpanded": true,
+      "topics": [
+        {
+          "title": "Framework Change Log",
+          "slug": "Framework-Change-Log",
+          "link": "CODE Framework (.NET) Change Log.md",
+          "displayType": "topic",
+          "type": "markdown",
+          "seeAlso": "Tools Change Log"
+        },
+        {
+          "title": "Tools Change Log",
+          "slug": "Tools-Change-Log",
+          "link": "CODE Framework Tools Change Log.md",
+          "displayType": "topic",
+          "type": "markdown",
+          "seeAlso": "Framework Change Log"
+        }
+      ]
+    },
+    {
+      "title": "Services",
+      "slug": "Services",
+      "displayType": "header",
+      "type": "markdown",
+      "isExpanded": true,
+      "topics": [
+        {
+          "title": "Understanding Services in CODE Framework",
+          "slug": "Understanding-Services",
+          "link": "Understanding Services.md",
+          "displayType": "topic",
+          "type": "markdown",
+          "isExpanded": true
+        },
+        {
+          "title": "WCF Service Configuration",
+          "slug": "WCF-Service-Configuration",
+          "link": "WCF Service Configuration.md",
+          "displayType": "topic",
+          "type": "markdown",
+          "isExpanded": true
+        },
+        {
+          "title": "Services: Server-Side Hosting",
+          "slug": "Services-Server--Side-Hosting",
+          "displayType": "header",
+          "type": "markdown",
+          "topics": [
+            {
+              "title": "Creating REST Services",
+              "slug": "Creating-REST-Services",
+              "link": "Creating REST Services.md",
+              "displayType": "topic",
+              "type": "markdown"
+            },
+            {
+              "title": "WebApi Service Hosting",
+              "slug": "WebApi-Service-Hosting",
+              "link": "WebApi Service Hosting.md",
+              "displayType": "topic",
+              "type": "markdown",
+              "keywords": "REST, service, WebApi"
+            },
+            {
+              "title": "Using the Service Test Host/Harness",
+              "slug": "Using-the-Service-Test-HostHarness",
+              "link": "Using the Service Test Harness.md",
+              "displayType": "topic",
+              "type": "markdown"
+            },
+            {
+              "title": "Fixing Service Hosting Security Errors",
+              "slug": "Fixing-Service-Hosting-Security-Errors",
+              "link": "Fixing Service Hosting Security Errors.md",
+              "displayType": "topic",
+              "type": "markdown"
+            },
+            {
+              "title": "WCF HTTPS Service Hosting",
+              "slug": "WCF-HTTPS-Service-Hosting",
+              "link": "WCF HTTPS Service Hosting.md",
+              "displayType": "topic",
+              "type": "markdown"
+            },
+            {
+              "title": "WCF Self-Hosted Service Concurrency",
+              "slug": "WCF-Self--Hosted-Service-Concurrency",
+              "link": "WCF Self-Hosted Service Concurrency.md",
+              "displayType": "topic",
+              "type": "markdown"
+            },
+            {
+              "title": "WCF Service Namespaces",
+              "slug": "WCF-Service-Namespaces",
+              "link": "WCF Service Namespaces.md",
+              "displayType": "topic",
+              "type": "markdown"
+            },
+            {
+              "title": "CORS Support in ServiceHostController",
+              "slug": "CORS-Support-in-ServiceHostController",
+              "link": "CORS Support in ServiceHostController.md",
+              "displayType": "topic",
+              "type": "markdown"
+            },
+            {
+              "title": "Self-Hosted In-Process Client-Side Services",
+              "slug": "Hosting-In-Process-Services",
+              "link": "Client-Side In-Process Service Hosting.md",
+              "displayType": "topic",
+              "type": "markdown"
+            }
+          ]
+        },
+        {
+          "title": "Services: Client-Side Calling",
+          "slug": "Services-Client--Side-Calling",
+          "displayType": "header",
+          "type": "markdown",
+          "topics": [
+            {
+              "title": "Calling REST Services through ServiceClient",
+              "slug": "Calling-REST-Services-through-ServiceClient",
+              "link": "Calling REST Services through ServiceClient.md",
+              "displayType": "topic",
+              "type": "markdown"
+            },
+            {
+              "title": "ServiceClient Events",
+              "slug": "ServiceClient-Events",
+              "link": "ServiceClient Events.md",
+              "displayType": "topic",
+              "type": "markdown"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "WPF Client Development",
+      "slug": "WPF-Client-Development",
+      "displayType": "header",
+      "type": "markdown",
+      "topics": [
+        {
+          "title": "Understanding WPF Development",
+          "slug": "Understanding-WPF",
+          "link": "Understanding WPF.md",
+          "displayType": "topic",
+          "type": "markdown"
+        },
+        {
+          "title": "Binding the UI to Data",
+          "slug": "Binding-the-UI-to-Data",
+          "displayType": "header",
+          "type": "markdown",
+          "topics": [
+            {
+              "title": "Bind, Security, and Input Validation",
+              "slug": "Bind-Security-and-Input-Validation",
+              "link": "Bind-Security-and-Input-Validation.md",
+              "displayType": "topic",
+              "type": "markdown"
+            },
+            {
+              "title": "Binding to Enums",
+              "slug": "Binding-to-Enums",
+              "link": "Binding to Enums.md",
+              "displayType": "topic",
+              "type": "markdown"
+            }
+          ]
+        },
+        {
+          "title": "Controls",
+          "slug": "Controls",
+          "displayType": "header",
+          "type": "markdown",
+          "topics": [
+            {
+              "title": "Auto-Complete UIs",
+              "slug": "Auto--Complete-UIs",
+              "link": "Auto-Complete in WPF UIs.md",
+              "displayType": "topic",
+              "type": "markdown"
+            },
+            {
+              "title": "Caps-Lock Warning (and Global Key Handlers)",
+              "slug": "Caps--Lock-Warning-and-Global-Key-Handlers",
+              "link": "Caps-Lock Warning and Global Key Handlers.md",
+              "displayType": "topic",
+              "type": "markdown"
+            },
+            {
+              "title": "Icons - Theme Icons",
+              "slug": "Icons-Theme-Icons",
+              "link": "Theme Icons.md",
+              "displayType": "topic",
+              "type": "markdown",
+              "seeAlso": "Standard CODE Framework Icons|Themes - Standard Icon Resources|Custom Icons|Custom-Icons"
+            },
+            {
+              "title": "ListBox - Multi-Column Lists",
+              "slug": "ListBox-Multi--Column-Lists",
+              "link": "Multi-Column Lists.md",
+              "displayType": "topic",
+              "type": "markdown"
+            },
+            {
+              "title": "Odd and Even Row Background Colors in Lists",
+              "slug": "Odd-and-Even-Row-Background-Colors-in-Lists",
+              "link": "Odd and Even Row Background Color in Lists.md",
+              "displayType": "topic",
+              "type": "markdown"
+            },
+            {
+              "title": "Progress Animations",
+              "slug": "Progress-Animations",
+              "link": "Progress Animations.md",
+              "displayType": "topic",
+              "type": "markdown"
+            },
+            {
+              "title": "Range Slider",
+              "slug": "Range-Slider",
+              "link": "RangeSlider Control.md",
+              "displayType": "topic",
+              "type": "markdown"
+            },
+            {
+              "title": "Ribbon - Custom Views and View-Models in the Ribbon",
+              "slug": "Ribbon-Custom-Views-and-View--Models-in-the-Ribbon",
+              "link": "Custom Views and View-Models in Ribbons.md",
+              "displayType": "topic",
+              "type": "markdown"
+            },
+            {
+              "title": "Ribbon - Setting a Default Page",
+              "slug": "Ribbon-Setting-a-Default-Page",
+              "link": "Ribbon - Setting a Default Page.md",
+              "displayType": "topic",
+              "type": "markdown"
+            },
+            {
+              "title": "Sticky Notes",
+              "slug": "Sticky-Notes",
+              "link": "Sticky Notes Features.md",
+              "displayType": "topic",
+              "type": "markdown"
+            },
+            {
+              "title": "Text Boxes - Select on Entry",
+              "slug": "Text-Boxes-Select-on-Entry",
+              "link": "Select WPF TextBoxes on Entry.md",
+              "displayType": "topic",
+              "type": "markdown"
+            },
+            {
+              "title": "Text Boxes - Input Masks",
+              "slug": "Text-Boxes-Input-Masks",
+              "link": "TextBox Input Masks.md",
+              "displayType": "topic",
+              "type": "markdown"
+            },
+            {
+              "title": "TouchEx and Scroll Bars",
+              "slug": "TouchEx-and-Scroll-Bars",
+              "link": "TouchEx and Scroll Bars.md",
+              "displayType": "topic",
+              "type": "markdown"
+            }
+          ]
+        },
+        {
+          "title": "Layout and Visuals",
+          "slug": "Layout-and-Visuals",
+          "displayType": "header",
+          "type": "markdown",
+          "topics": [
+            {
+              "title": "Understanding Layout",
+              "slug": "Understanding-Layout",
+              "link": "Understanding Layout.md",
+              "displayType": "topic",
+              "type": "markdown"
+            },
+            {
+              "title": "Automatic Layout - Bidirectional Stack Panel",
+              "slug": "Automatic-Layout-Bidirectional-Stack-Panel",
+              "link": "Bidirectional Stack Panel.md",
+              "displayType": "topic",
+              "type": "markdown"
+            },
+            {
+              "title": "Automatic Layout - Edit Form",
+              "slug": "Automatic-Layout-Edit-Form",
+              "link": "Automatic Layout and Elasticity.md",
+              "displayType": "topic",
+              "type": "markdown"
+            },
+            {
+              "title": "Automatic Layout - Flow Layout",
+              "slug": "Automatic-Layout-Flow-Layout",
+              "link": "Automatic Layout - Flow Layout.md",
+              "displayType": "topic",
+              "type": "markdown"
+            },
+            {
+              "title": "Automatic Layout - Multi-Panel Layout",
+              "slug": "Automatic-Layout-Multi--Panel-Layout",
+              "link": "Automatic Layout - MultiPanel.md",
+              "displayType": "topic",
+              "type": "markdown"
+            },
+            {
+              "title": "Font Sizes and Font Families in WPF Apps",
+              "slug": "Font-Sizes-and-Font-Families-in-WPF-Apps",
+              "link": "Font Sizes and Styles in WPF Apps.md",
+              "displayType": "topic",
+              "type": "markdown"
+            },
+            {
+              "title": "Layout - Setting Generic/Abstract Dimensions on Controls",
+              "slug": "Layout-Setting-GenericAbstract-Dimensions-on-Controls",
+              "link": "Setting Generic and Abstract Control Dimensions in WPF.md",
+              "displayType": "topic",
+              "type": "markdown"
+            },
+            {
+              "title": "MessageBoxes in WPF MVVM/MVC",
+              "slug": "MessageBoxes-in-WPF-MVVMMVC",
+              "link": "MessageBoxes in WPF MVVM_MVC.md",
+              "displayType": "topic",
+              "type": "markdown"
+            },
+            {
+              "title": "Metro - ListBoxes",
+              "slug": "Metro-ListBoxes",
+              "link": "Metro ListBoxes in WPF.md",
+              "displayType": "topic",
+              "type": "markdown"
+            },
+            {
+              "title": "Metro - Control Margins",
+              "slug": "Metro-Control-Margins",
+              "link": "Metro-Style Control Margins.md",
+              "displayType": "topic",
+              "type": "markdown"
+            },
+            {
+              "title": "Metro - Start Screen",
+              "slug": "Metro-Start-Screen",
+              "link": "Metro Start Screen.md",
+              "displayType": "topic",
+              "type": "markdown"
+            },
+            {
+              "title": "Metro - Transparent ListBoxes",
+              "slug": "Metro-Transparent-ListBoxes",
+              "link": "Transparent ListBoxes in WPF Metro-style Apps.md",
+              "displayType": "topic",
+              "type": "markdown"
+            },
+            {
+              "title": "Styling - MVVM Shell Styling Tips",
+              "slug": "Styling-MVVM-Shell-Styling-Tips",
+              "link": "WPF MVVM Shell Styling Tips.md",
+              "displayType": "topic",
+              "type": "markdown"
+            },
+            {
+              "title": "Styling - Tuning the Shell",
+              "slug": "Styling-Tuning-the-Shell",
+              "link": "Tuning the Appearance of the Shell.md",
+              "displayType": "topic",
+              "type": "markdown"
+            },
+            {
+              "title": "Themes - Simplified Resource Dictionary Download",
+              "slug": "Themes-Simplified-Resource-Dictionary-Download",
+              "link": "WPF Theme Resource Dictionary Download.md",
+              "displayType": "topic",
+              "type": "markdown"
+            },
+            {
+              "title": "Themes - Standard Icon Resources",
+              "slug": "Themes-Standard-Icon-Resources",
+              "link": "AllIcons.md",
+              "displayType": "topic",
+              "type": "markdown",
+              "seeAlso": "Theme Icon Control|Icons - Theme Icons|Custom Icons|Custom-Icons"
+            },
+            {
+              "title": "Custom Icons",
+              "slug": "Custom-Icons",
+              "link": "CustomIcons.md",
+              "displayType": "topic",
+              "type": "markdown",
+              "seeAlso": "Theme Icon Control|Icons - Theme Icons|Standard CODE Framework Icons|Themes - Standard Icon Resources"
+            }
+          ]
+        },
+        {
+          "title": "Understanding View-Models",
+          "slug": "Understanding-View--Models",
+          "displayType": "header",
+          "type": "markdown",
+          "topics": [
+            {
+              "title": "Async Worker",
+              "slug": "Async-Worker",
+              "link": "CODE Framework AsyncWorker.md",
+              "displayType": "topic",
+              "type": "markdown",
+              "seeAlso": "Async Worker - Part 2"
+            },
+            {
+              "title": "Async Worker - Part 2",
+              "slug": "Async-Worker-Part-2",
+              "link": "AsyncWorker Part 2.md",
+              "displayType": "topic",
+              "type": "markdown",
+              "seeAlso": "Async Worker"
+            },
+            {
+              "title": "Fast Loading of Standard View-Models with Image Resources",
+              "slug": "Fast-Loading-of-Standard-View--Models-with-Image-Resources",
+              "link": "Fast loading of Standard ViewModels with image resources.md",
+              "displayType": "topic",
+              "type": "markdown"
+            },
+            {
+              "title": "Standard Views and View-Models",
+              "slug": "Standard-Views-and-View--Models",
+              "link": "Standard Views and View Models.md",
+              "displayType": "topic",
+              "type": "markdown"
+            },
+            {
+              "title": "Standard View-Models Tips",
+              "slug": "Standard-View--Models-Tips",
+              "link": "StandardViewModel Tips.md",
+              "displayType": "topic",
+              "type": "markdown"
+            }
+          ]
+        },
+        {
+          "title": "Understanding Views",
+          "slug": "Understanding-Views",
+          "displayType": "header",
+          "type": "markdown",
+          "topics": [
+            {
+              "title": "Default Focus in Views",
+              "slug": "Default-Focus-in-Views",
+              "link": "Default Focus in Views.md",
+              "displayType": "topic",
+              "type": "markdown"
+            },
+            {
+              "title": "Partial Views",
+              "slug": "Partial-Views",
+              "link": "Partial Views in CODE Framework WPF.md",
+              "displayType": "topic",
+              "type": "markdown"
+            },
+            {
+              "title": "Reacting when Views Close",
+              "slug": "Reacting-when-Views-Close",
+              "link": "Reacting when Views Close.md",
+              "displayType": "topic",
+              "type": "markdown"
+            },
+            {
+              "title": "Standard Views and View-Models",
+              "slug": "Standard-Views-and-View--Models",
+              "link": "Standard Views and View Models.md",
+              "displayType": "topic",
+              "type": "markdown"
+            },
+            {
+              "title": "Using the View Visualizer",
+              "slug": "Using-the-View-Visualizer",
+              "link": "Using the View-Visualizer.md",
+              "displayType": "topic",
+              "type": "markdown"
+            },
+            {
+              "title": "Local Views",
+              "slug": "Local-Views",
+              "link": "Local Views in WPF.md",
+              "displayType": "topic",
+              "type": "markdown"
+            }
+          ]
+        },
+        {
+          "title": "General WPF Framework Topics",
+          "slug": "General-WPF-Framework-Topics",
+          "displayType": "header",
+          "type": "markdown",
+          "topics": [
+            {
+              "title": "Accessing the Shell Object",
+              "slug": "Accessing-the-Shell-Object",
+              "link": "Accessing the Shell object.md",
+              "displayType": "topic",
+              "type": "markdown"
+            },
+            {
+              "title": "Activating Existing/Loaded Views",
+              "slug": "Activating-ExistingLoaded-Views",
+              "link": "Activating Existing Views.md",
+              "displayType": "topic",
+              "type": "markdown"
+            },
+            {
+              "title": "Configuration System",
+              "slug": "Configuration-System",
+              "link": "CODE Framework Configuration System.md",
+              "displayType": "topic",
+              "type": "markdown"
+            },
+            {
+              "title": "Hooking Events with Commands",
+              "slug": "Hooking-Events-with-Commands",
+              "link": "Generic ability to hook all events as commands.md",
+              "displayType": "topic",
+              "type": "markdown"
+            },
+            {
+              "title": "Input Validation",
+              "slug": "Input-Validation",
+              "link": "Input Validation in WPF.md",
+              "displayType": "topic",
+              "type": "markdown"
+            },
+            {
+              "title": "Notifications",
+              "slug": "Notifications",
+              "link": "WPF MVVM_MVC Notifications.md",
+              "displayType": "topic",
+              "type": "markdown"
+            },
+            {
+              "title": "Observable Collection Helper",
+              "slug": "Observable-Collection-Helper",
+              "link": "ObservableCollection Helper.md",
+              "displayType": "topic",
+              "type": "markdown",
+              "seeAlso": "Async Worker,Async Worker - Part 2"
+            },
+            {
+              "title": "Resource Dictionary Loading",
+              "slug": "Resource-Dictionary-Loading",
+              "link": "WPF Resource Dictionary Loading.md",
+              "displayType": "topic",
+              "type": "markdown"
+            },
+            {
+              "title": "Splitting WPF Apps into Multiple Projects",
+              "slug": "Splitting-WPF-Apps-into-Multiple-Projects",
+              "link": "Splitting WPF Apps into Multiple Projects.md",
+              "displayType": "topic",
+              "type": "markdown"
+            },
+            {
+              "title": "Status Bars",
+              "slug": "Status-Bars",
+              "link": "WPF MVVM_MVC Status Bar.md",
+              "displayType": "topic",
+              "type": "markdown"
+            },
+            {
+              "title": "WPF ImageHelper",
+              "slug": "WPF-ImageHelper",
+              "link": "WPF ImageHelper.md",
+              "displayType": "topic",
+              "type": "markdown"
+            },
+            {
+              "title": "View-Actions - CanExecute",
+              "slug": "View--Actions-CanExecute",
+              "link": "CanExecute on ViewActions.md",
+              "displayType": "topic",
+              "type": "markdown"
+            },
+            {
+              "title": "View-Actions - Checked and Toggle",
+              "slug": "View--Actions-Checked-and-Toggle",
+              "link": "Checked and Toggle View-Actions.md",
+              "displayType": "topic",
+              "type": "markdown"
+            },
+            {
+              "title": "View-Actions - Pinned Actions",
+              "slug": "View--Actions-Pinned-Actions",
+              "link": "Pinned View Actions.md",
+              "displayType": "topic",
+              "type": "markdown"
+            },
+            {
+              "title": "View-Actions - String Indexers",
+              "slug": "View--Actions-String-Indexers",
+              "link": "String Indexer for ViewActionsCollection.md",
+              "displayType": "topic",
+              "type": "markdown"
+            },
+            {
+              "title": "Window Resize and Drag for Borderless Windows",
+              "slug": "Window-Resize-and-Drag-for-Borderless-Windows",
+              "link": "Window Resize and Drag for Borderless Windows.md",
+              "displayType": "topic",
+              "type": "markdown"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "General Topics",
+      "slug": "General-Topics",
+      "displayType": "header",
+      "type": "markdown",
+      "topics": [
+        {
+          "title": "JSON Features",
+          "slug": "JSON-Features",
+          "link": "JSON Features.md",
+          "displayType": "topic",
+          "type": "markdown"
+        },
+        {
+          "title": "Logging Framework",
+          "slug": "Logging-Framework",
+          "link": "Logging Framework.md",
+          "displayType": "topic",
+          "type": "markdown"
+        },
+        {
+          "title": "ObjectHelper and Complex Paths",
+          "slug": "ObjectHelper-and-Complex-Paths",
+          "link": "ObjectHelper and Complex Paths.md",
+          "displayType": "topic",
+          "type": "markdown"
+        },
+        {
+          "title": "Settings Manager",
+          "slug": "Settings-Manager",
+          "link": "SettingsManager.md",
+          "displayType": "topic",
+          "type": "markdown"
+        },
+        {
+          "title": "TransparentProxyGenerator",
+          "slug": "TransparentProxyGenerator",
+          "link": "Using the Transparent Proxy Generator.md",
+          "displayType": "topic",
+          "type": "markdown"
+        },
+        {
+          "title": "Type and Null Checking Convenience Method",
+          "slug": "Type-and-Null-Checking-Convenience-Method",
+          "link": "Type and Null Checking Convenience Method.md",
+          "displayType": "topic",
+          "type": "markdown"
+        }
+      ]
+    },
+    {
+      "title": "Milos",
+      "slug": "Milos",
+      "displayType": "header",
+      "type": "markdown",
+      "isExpanded": true,
+      "topics": [
+        {
+          "title": "Milos Overview",
+          "slug": "milos/overview",
+          "link": "Milos/Overview.md",
+          "displayType": "topic",
+          "type": "markdown"
+        },
+        {
+          "title": "Change Log",
+          "slug": "milos/changelog",
+          "link": "Milos/ChangeLog.md",
+          "displayType": "topic",
+          "type": "markdown"
+        },
+        {
+          "title": "Data Access Layer",
+          "slug": "milos/dataaccesslayer",
+          "link": "Milos/DataAccessLayer.md",
+          "displayType": "topic",
+          "type": "markdown"
+        },
+        {
+          "title": "Business Object Layer",
+          "slug": "milos/businessobjectlayer",
+          "link": "Milos/BusinessObjectLayer.md",
+          "displayType": "topic",
+          "type": "markdown"
+        },
+        {
+          "title": "How To - Creating a Simple Business Object",
+          "slug": "milos/howto/createsimplebusinessobject",
+          "link": "Milos/CreatingASimpleBusinessObject.md",
+          "displayType": "topic",
+          "type": "markdown"
+        },
+        {
+          "title": "How To - Creating a Simple Business Entity",
+          "slug": "milos/howto/createsimplebusinessentity",
+          "link": "Milos/CreatingASimpleBusinessEntity.md",
+          "displayType": "topic",
+          "type": "markdown"
+        },
+        {
+          "title": "How To - Creating Child Items in Entities",
+          "slug": "milos/howto/createchilditemsinentities",
+          "link": "Milos/CreatingChildItemsInEntities.md",
+          "displayType": "topic",
+          "type": "markdown"
+        },
+        {
+          "title": "How To - Creating a Collection of Cross Referenced Child Entities",
+          "slug": "milos/howto/createcrossrefchilditemsinentities",
+          "link": "Milos/CreateCrossRefChildItemsInEntities.md",
+          "displayType": "topic",
+          "type": "markdown"
+        },
+        {
+          "title": "How To - Creating Child Items in Entities",
+          "slug": "milos/howto/createspecialdataloadingscenrios",
+          "link": "Milos/CreateSpecialDataLoadingScenrios.md",
+          "displayType": "topic",
+          "type": "markdown"
+        },
+        {
+          "title": "How To - Validate Data",
+          "slug": "milos/howto/validatedata",
+          "link": "Milos/ValidateData.md",
+          "displayType": "topic",
+          "type": "markdown"
+        },
+        {
+          "title": "How To - Use Data Events",
+          "slug": "milos/howto/dataevets",
+          "link": "Milos/DataEvets.md",
+          "displayType": "topic",
+          "type": "markdown"
+        },
+        {
+          "title": "How To - Use Transactions",
+          "slug": "milos/howto/transactions",
+          "link": "Milos/Transactions.md",
+          "displayType": "topic",
+          "type": "markdown"
+        },
+        {
+          "title": "How To - Use a Stored Procedure Facade",
+          "slug": "milos/howto/storedprocedurefacade",
+          "link": "Milos/StoredProcedureFacade.md",
+          "displayType": "topic",
+          "type": "markdown"
+        },
+        {
+          "title": "How To - Business Object and Data Configuration",
+          "slug": "milos/howto/dataconfiguration",
+          "link": "Milos/DataConfiguration.md",
+          "displayType": "topic",
+          "type": "markdown"
+        }
+      ]
+    }
+  ],
+  "settings": {
+    "topicTypes": {
+      "index": "Top level topic for the documentation.",
+      "header": "Header topic for sub-topics",
+      "topic": "Generic topic",
+      "whatsnew": "What's new",
+      "weblink": "External link",
+      "classheader": "Class Header",
+      "interface": "Interface",
+      "namespace": "Namespace",
+      "classmethod": "Class method",
+      "classproperty": "Class property",
+      "classfield": "Class field",
+      "classevent": "Class event",
+      "classconstructor": "Class constructor",
+      "enum": "Enumeration",
+      "delegate": "Delegate",
+      "webservice": "Web Service",
+      "database": "Database",
+      "datacolumn": "Data columns",
+      "datafunction": "Data function",
+      "datastoredproc": "Data stored procedure",
+      "datatable": "Data table",
+      "dataview": "Data view",
+      "vstsworkitem": "VSTS work item",
+      "vstsworkitemquery": "VSTS work item query"
+    },
+    "siteIcon": "_kavadocs/SiteIcon-code.png",
+    "customCssPath": "_kavadocs/cf.css"
+  }
+}

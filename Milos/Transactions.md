@@ -1,4 +1,4 @@
-# Using Local Transactions
+﻿# Using Local Transactions
 
 Local transactions are transactions that occur within a single data source, such as a database in SQL Server. Many of the transactions needed by Milos applications fall under this category. The exception are transactions that span across multiple databases, such as transactions that involve a table in SQL Server, and another table in an Oracle database. That would be considered a "distributed transaction" which is not covered in this topic.
 

@@ -1,4 +1,4 @@
-# Business Object Introduction
+﻿# Business Object Introduction
 
 In the Milos Solution Platform Framework, there are two different entities that are combined to provide the functionality that is normally referred to as "Business Object". Most of the time, developers will use a type of object known as a "Business Entity". Entities are stateful object that deal with - well - entities. For instance, an entity could be an invoice (a single invoice that is). This would mean that the business entity contains information about a single record for the invoice, but also additional records for things such as line items, recipients, addresses, and so forth.
 

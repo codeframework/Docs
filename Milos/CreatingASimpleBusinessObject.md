@@ -1,4 +1,4 @@
-# Creating a Simple Business Object
+﻿# Creating a Simple Business Object
 
 Follow these steps to create a new project with a new business object (manually).
 

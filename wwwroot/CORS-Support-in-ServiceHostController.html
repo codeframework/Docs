@@ -1,0 +1,136 @@
+﻿<!DOCTYPE html>
+<!-- saved from url=(0016)http://localhost -->
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>CORS Support in ServiceHostController - CODE Framework Documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/scripts/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/scripts/fontawesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/kavadocs.css" />
+
+    <script src="_kavadocs/themes/scripts/jquery/jquery.min.js"></script>
+
+    <script src="_kavadocs/themes/scripts/highlightjs/highlight.pack.js"></script>
+    <link href="_kavadocs/themes/scripts/highlightjs/styles/twilight.css" rel="stylesheet" />
+
+    <script src="_kavadocs/themes/scripts/ww.jquery.min.js"></script>
+    <script src="_kavadocs/themes/scripts/kavadocs.js"></script>
+    
+    <topictype value="topic" />
+
+    <script>    
+        $(document).ready(function () {
+            helpBuilder.initializeLayout();
+            // expand all top level topics
+            setTimeout(helpBuilder.tocExpandTop, 5);
+        });
+    </script>
+</head>
+<body>    
+    <!-- Documentation Monster Content -->
+    <div class="flex-master">
+        <div class="banner">
+
+            <div class="pull-right sidebar-toggle">
+                <i class="fa fa-bars"
+                   title="Show or hide the topics list"></i>
+            </div>
+            <img src="images/logo.png" class="banner-logo" />
+
+            	<div class="projectname">CODE Framework Documentation</div>
+            
+            <div class="byline">
+                                
+            </div>
+        </div>
+
+        <div class="page-content">
+            <div id="toc" class="sidebar-left toc-content">
+                <nav class="visually-hidden">
+                    <a href="tableofcontents.htm">Table of Contents</a>
+                </nav>
+            </div>
+
+            <div class="splitter">
+            </div>
+
+            <div class="main-content">
+                <!-- Rendered Content -->
+                <article class="content-pane">
+                    <header class="content-title">
+    <img src="_kavadocs/icons/topic.png">
+    CORS Support in ServiceHostController
+</header>
+
+<div class="content-body" id="body">
+    <h1 id="cors-support-in-servicehostcontroller-webapi">CORS Support in ServiceHostController (WebApi)</h1>
+<p>ServiceHostController support CORS for WebApi hosted services, enabling cross domain calls to services.</p>
+<p>Let's say you have a service like this:</p>
+<pre><code class="language-c#">public class UserController : ServiceHostController&lt;UserService&gt; {}
+</code></pre>
+<p>This service simply supports CORS out of the box for all origins. In other words: It supports cross-domain calls from clients such as Angular apps (including pre-flight options checks). There really shouldn’t be anything else you have to do.</p>
+<p>You can however control it further, if you want. For instance, you can restrict the origins like this:</p>
+<pre><code class="language-c#">public class UserController : ServiceHostController&lt;UserService&gt; 
+{
+    public UserController()
+    {
+        AllowableCorsOrigin = “codemag.com”;
+    }
+}
+</code></pre>
+<p>Now it can only be called from codemag.com. Or, if you want to turn it off, you can do this:</p>
+<pre><code class="language-c#">public class UserController : ServiceHostController&lt;UserService&gt; 
+{
+    public UserController()
+    {
+        EnableCors = false;
+    }
+}
+</code></pre>
+<p>So this can be turned on and off individually for each controller. In most cases, you won’t have to do anything though. It should just work the way you expect it.</p>
+<p>The only thing you may need to be aware of is that in some ASP.NET project setups, settings in web.config can interfere with this by high jacking some calls we need to handle. You should have the following in your web.config:</p>
+<pre><code class="language-xml">&lt;system.webServer&gt;
+  &lt;handlers&gt;
+    &lt;remove name=&quot;ExtensionlessUrlHandler-Integrated-4.0&quot; /&gt;
+    &lt;remove name=&quot;OPTIONSVerbHandler&quot; /&gt;
+    &lt;remove name=&quot;TRACEVerbHandler&quot; /&gt;
+    &lt;add name=&quot;ExtensionlessUrlHandler-Integrated-4.0&quot; path=&quot;*.&quot;
+      type=&quot;System.Web.Handlers.TransferRequestHandler&quot; 
+      preCondition=&quot;integratedMode,runtimeVersionv4.0&quot; /&gt;
+  &lt;/handlers&gt;
+&lt;/system.webServer&gt;
+</code></pre>
+<p>Most likely, this isn’t something to worry about though. I think the newer ASP.NET project templates put this in automatically.</p>
+
+</div>
+
+
+
+
+
+
+                </article>
+
+                <hr />
+                <div class="pull-right">
+                    <a href="http://helpbuilder.west-wind.com" target="_blank"><img src="images/wwhelp.png" /></a>
+                </div>
+
+                <small>
+                    &copy; Markus Egger Inc., 2019 &bull;
+                    Updated: 1/1/0001 12:00:00 AM
+                    <br />
+                    <a href="mailto:support@yoursite.com?subject=CORS Support in ServiceHostController ()&body=Topic: CODE Framework Documentation - http://yoursite.com/docs/.htm">Comment or report problem with topic</a>
+                </small>
+                <br class="clearfix" />
+                <br />
+                <!-- End Rendered Content -->
+            </div>
+        </div>
+    </div>
+    <!-- End Documentation Monster Content -->
+</body>
+</html>
+

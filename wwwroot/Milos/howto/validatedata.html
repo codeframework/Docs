@@ -1,0 +1,213 @@
+﻿<!DOCTYPE html>
+<!-- saved from url=(0016)http://localhost -->
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>How To - Validate Data - CODE Framework Documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1" />
+    <link rel="stylesheet" type="text/css" href="../../_kavadocs/themes/scripts/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_kavadocs/themes/scripts/fontawesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_kavadocs/themes/kavadocs.css" />
+
+    <script src="../../_kavadocs/themes/scripts/jquery/jquery.min.js"></script>
+
+    <script src="../../_kavadocs/themes/scripts/highlightjs/highlight.pack.js"></script>
+    <link href="../../_kavadocs/themes/scripts/highlightjs/styles/twilight.css" rel="stylesheet" />
+
+    <script src="../../_kavadocs/themes/scripts/ww.jquery.min.js"></script>
+    <script src="../../_kavadocs/themes/scripts/kavadocs.js"></script>
+    
+    <topictype value="topic" />
+
+    <script>    
+        $(document).ready(function () {
+            helpBuilder.initializeLayout();
+            // expand all top level topics
+            setTimeout(helpBuilder.tocExpandTop, 5);
+        });
+    </script>
+</head>
+<body>    
+    <!-- Documentation Monster Content -->
+    <div class="flex-master">
+        <div class="banner">
+
+            <div class="pull-right sidebar-toggle">
+                <i class="fa fa-bars"
+                   title="Show or hide the topics list"></i>
+            </div>
+            <img src="../../images/logo.png" class="banner-logo" />
+
+            	<div class="projectname">CODE Framework Documentation</div>
+            
+            <div class="byline">
+                                
+            </div>
+        </div>
+
+        <div class="page-content">
+            <div id="toc" class="sidebar-left toc-content">
+                <nav class="visually-hidden">
+                    <a href="../../tableofcontents.htm">Table of Contents</a>
+                </nav>
+            </div>
+
+            <div class="splitter">
+            </div>
+
+            <div class="main-content">
+                <!-- Rendered Content -->
+                <article class="content-pane">
+                    <header class="content-title">
+    <img src="../../_kavadocs/icons/topic.png">
+    How To - Validate Data
+</header>
+
+<div class="content-body" id="body">
+    <h1 id="validating-data">Validating Data</h1>
+<p>When creating business objects and business entities, one needs to worry about validity of the data that is being stored and modified. This How-To assumes that you have already created a business object and a business entity, as described in the HowTo_CreateBusinessObject and HowTo_CreateBusinessEntityObject documents.</p>
+<h2 id="adding-simple-rules">Adding Simple Rules</h2>
+<p>We can easily enhance the business object we already created to verify the data's validity. In this example, we assume that we do not want the <code>ProductName</code> field to be empty. We can achieve this by modifying the product business object in the following fashion:</p>
+<pre><code class="language-cs">public class ProductBusinessObject : Milos.BusinessObjects.BusinessObject 
+{
+    protected override void Configure()
+    {
+        this.MasterEntity = &quot;products&quot;;
+        this.PrimaryKeyField = &quot;product_pk&quot;;
+        this.BusinessRules.AddRequiredField(&quot;ProductName&quot;, &quot;products&quot;);
+    }
+}
+</code></pre>
+<p>The <code>BusinessRules</code> collection is the simplest way to define business rules that apply to the data handled by a specific business object. In this case, we used the collection to add a rule that prevents the product name field from being empty. If we attempted to use this business object to save data that contained an empty, the <code>Save()</code> method would perform a rule check, realize that the data is invalid, and it would then refuse to save the invalid data.</p>
+<blockquote>
+<p>Note: Business objects have <code>AllowSaveWithViolations</code> and <code>AllowSaveWithWarnings</code> properties. If those are set to true, the business object would allow saving data with problems. However, those properties should not be modified unless approved by a supervisor.</p>
+</blockquote>
+<h2 id="adding-standard-rules">Adding Standard Rules</h2>
+<p>The above example shows how to flag a field as required, which is the simplest form of adding a rule, which only applies for that standardized scenario. Internally, this is actually achieved through a special rule object. There are several such rule objects included in Milos (and others can be added... see below).</p>
+<p>The following is a short list of &quot;out of the box&quot; rules.</p>
+<blockquote>
+<p>Note: All standard business rules can be found in the EPS.Business.BusinessObjects.Rules namespace.</p>
+</blockquote>
+<h3 id="required-field-rule">Required Field Rule</h3>
+<p>The above example of indicating a field to be required is a perfectly valid way to indicate that rule. The same can be achieved in the following (equally valid) fashion:</p>
+<pre><code class="language-cs">BusinessRules.Add(new EmptyFieldBusinessRule(&quot;ProductName&quot;, &quot;Products&quot;, &quot;Product name required!&quot;));
+</code></pre>
+<p>Note that the <code>EmptyFieldBusinessRule</code> class is somewhat of a special case in that the first parameter can be a comma-separated list of fields, rather than just a single field. This is unique to this class and has been done for performance reasons.</p>
+<h3 id="greater-than-rule">Greater Than Rule</h3>
+<p>The following example indicates that a certain field must be greater than a certain value:</p>
+<pre><code class="language-cs">BusinessRules.Add(new GreaterThanBusinessRule(&quot;Price&quot;, &quot;Products&quot;, 0, &quot;Price must be greater than 0!&quot;));
+</code></pre>
+<p>Note that this works with any comparable data type (any type that implements <code>IComparable</code>). The following is valid as well:</p>
+<pre><code class="language-cs">BusinessRules.Add(new GreaterThanBusinessRule(&quot;Release&quot;, &quot;Product&quot;, DateTime.Now, &quot;Release date must be in the future&quot;));
+</code></pre>
+<p>This is also possible:</p>
+<pre><code class="language-cs">BusinessRules.Add(new GreaterThanBusinessRule(&quot;MtoZNames&quot;, &quot;Product&quot;, &quot;N&quot;, &quot;Name must be greater than N&quot;));
+</code></pre>
+<p>Note that it is important that the type of the verified field is the same as the type one compares to. For instance, it would not be possible to compare a decimal price to a date, even though both objects implement <code>IComparable</code>. Similarly, it is not possible to compare an integer to a decimal, and so on.</p>
+<h3 id="less-than-rule">Less Than Rule</h3>
+<p>This is the opposite of the greater-than rule. Here is an example:</p>
+<pre><code class="language-cs">BusinessRules.Add(new LessThanBusinessRule(&quot;Date&quot;, &quot;Incident&quot;, DateTime?.Now, &quot;Incidents can only occur in the past!&quot;));
+</code></pre>
+<h3 id="field-uniqueness-within-an-entity-rule">Field Uniqueness (within an entity) Rule</h3>
+<p>Sometimes it is necessary to verify that a certain value is unique within a business entity or a DataSet. This can be done with a unique field business rule. Here is an example:</p>
+<pre><code class="language-cs">BusinessRules.Add(new UniqueFieldInEntityBusinessRule(&quot;Index&quot;,&quot;Segments&quot;,&quot;The segment index must be unique within each item!&quot;));
+</code></pre>
+<p>Note that this only verifies uniqueness within each entity or <code>DataSet</code>. It does not check for uniqueness compared to other data that may exist in unrelated entities.</p>
+<p>Example: This can check to make sure your line items collection has unique values within an invoice, but it can not check if other invoices use the same value.</p>
+<h2 id="checking-for-broken-rules">Checking for Broken Rules</h2>
+<p>When updating data, one usually uses a business entity object. Using business entities, it is very easy to check for broken business rules using the business entitie's <code>BrokenRules</code> collection. Consider the following example:</p>
+<pre><code class="language-cs">var productEntity = ProductBusinessEntity.LoadEntity(&quot;...&quot;); 
+
+// The following line is a problem, since the Product property maps to the ProductName field
+productEntity.Product = string.Empty;
+productEntity.Verify();
+
+if (productEntity.BrokenRules.Count &gt; 0)
+{
+   // There are broken rules
+   MessageBox.Show(productEntity.BrokenRules[0].Message); 
+}
+</code></pre>
+<p>Note: The <code>Verify()</code> method should be called before one uses the <code>BrokenRules</code> collection. Business entities do not constantly check rules (for performance reasons), which means that the broken rules collection can be outdated if the <code>Verify()</code> method is not called. However, data is automatically verified during a <code>Save()</code> operation, so the <code>BrokenRules</code> collection can be used immediately after a <code>Save()</code> as well.</p>
+<p>Each item in the <code>BrokenRules</code> collection has detailed information about the rule violation, including a message, the name of the rule class that detected the problem, the severity of the problem, and even a reference to the data row that caused the rule violation.</p>
+<p>Of course, developers can also check for broken business rules inside the business object (rather than the business entity). The business object has methods such as <code>DataSetHasRuleViolations()</code> that indicate whether violations occured.</p>
+<h2 id="checking-for-broken-rules-within-a-sub-item-collection">Checking for Broken Rules within a Sub-Item Collection</h2>
+<p>The <code>BrokenRules</code> collection of the main business entity contains all errors that apply to the entity. This includes errors on the main entity as well as sub-item collections. However, whenever one wants to check for errors on a specific collection, one can use the local <code>BrokenRoles</code> collection:</p>
+<pre><code class="language-cs">productEntity.Parts.BrokenRules.Count;
+</code></pre>
+<p>This collection contains the errors for that particular collection only (Parts in this example).</p>
+<p>It is also possible to go a step further and check broken rules for a specific item within the collection:</p>
+<pre><code class="language-cs">productEntity.Parts[3].BrokenRules.Count;
+</code></pre>
+<p>In this example, we access the count of broken rules for part number 4 (index 3).</p>
+<h2 id="getting-a-description-of-all-broken-rules">Getting a Description of All Broken Rules</h2>
+<p>It is often necessary to get a simple text representation of all broken rules. The <code>GetAllViolations()</code> method makes this task easy. It provides a simple text representation of all rules. Various parameters that can be passed to this method (optionally) allow for modifications of the exact format, such as whether the table name is to be included, and how different violations are to be separated (default is separation by line feeds).</p>
+<p>There also is a similar method called <code>GetAllViolationsHtml()</code>, which returns the same information, but formated as an HTML segment.</p>
+<h2 id="adding-custom-rules">Adding Custom Rules</h2>
+<p>The default rules supported by Milos are very useful and used a lot. However, all the more sophisticated rules that really define an application have to be created by the developer as they are completely specific to each application. For instance, we may want to add a fictional rule to our business object that makes sure the product name isn't &quot;Microsoft Windows&quot;. We could do this in the following fashion:</p>
+<pre><code class="language-cs">public class OurSpecialRule : BusinessRule
+{
+   public OurSpecialRule() : base (&quot;products&quot;, RuleViolationType.Violation)
+   {}
+
+   public override void VerifyRow(DataRow currentRow, int rowIndex)
+   {
+      if (currentRow[&quot;ProductName&quot;].ToString() == &quot;Microsoft Windows&quot;)
+        LogBusinessRuleViolation(currentRow, rowIndex, &quot;ProductName&quot;, &quot;Product name can not be 'Microsoft Windows'&quot;);
+   }
+}
+</code></pre>
+<p>All business rules have to call the constructor with the name of the table this rule applies to and the severity of the rule violation passed as parameters. In this example, I hard-coded these names since the rule I made up is so specific, but this of course could also have been passed as parameters of the constructor of the current class. The right way depends entirely on the particular need.</p>
+<p>The important part of a rule object is the <code>VerifyRow()</code> method. This method is called for every row in the table this rule applies to. The code inside this method inspects the row and applies any number of rules to the row. When a rule violation is detected, we use the <code>LogBusinessRuleViolation()</code> method to log that a violated rule has been detected.</p>
+<p>Now that we have this new business rule, we can add it to our business object like so:</p>
+<pre><code class="language-cs">public class ProductBusinessObject : Milos.BusinessObjects.BusinessObject 
+{
+    protected override void Configure()
+    {
+        MasterEntity = &quot;products&quot;;
+        PrimaryKeyField = &quot;product_pk&quot;;
+        BusinessRules.AddRequiredField(&quot;ProductName&quot;, &quot;products&quot;);
+        BusinessRules.Add(new OurSpecialRule());
+    }
+} 
+</code></pre>
+<blockquote>
+<p>Note: Each business object can have an unlimited number of business rules. Each business rule can also check for any number of conditions. This allows for great flexibility in how developers want to structure their rule checking. Note however, that it is considered &quot;better style&quot; to not overload one particular rule object with a great number of different rules that are not logically connected.</p>
+</blockquote>
+<blockquote>
+<p>Note: Theoretically, business rule checks can also be performed by overriding the <code>Verify()</code> method of a business object. However, this is an advanced operation that only yields advantages in very special cases. In short: Overriding the <code>Verify()</code> method of a business object is not recommended.</p>
+</blockquote>
+<h2 id="overriding-verify">Overriding Verify()</h2>
+<p>In Milos, every business object has a <code>Verify()</code> method. This method is what triggers rule checking. It is possible to simply override <code>Verify()</code>, rather than defining or implementing specific business rules. However, this is only recommended for developers who are familiar with how the <code>Verify()</code> method works and what it does.</p>
+
+</div>
+
+
+
+
+
+
+                </article>
+
+                <hr />
+                <div class="pull-right">
+                    <a href="http://helpbuilder.west-wind.com" target="_blank"><img src="../../images/wwhelp.png" /></a>
+                </div>
+
+                <small>
+                    &copy; Markus Egger Inc., 2019 &bull;
+                    Updated: 1/1/0001 12:00:00 AM
+                    <br />
+                    <a href="mailto:support@yoursite.com?subject=How To - Validate Data ()&body=Topic: CODE Framework Documentation - http://yoursite.com/docs/.htm">Comment or report problem with topic</a>
+                </small>
+                <br class="clearfix" />
+                <br />
+                <!-- End Rendered Content -->
+            </div>
+        </div>
+    </div>
+    <!-- End Documentation Monster Content -->
+</body>
+</html>
+

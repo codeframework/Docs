@@ -1,4 +1,4 @@
-# Validating Data
+﻿# Validating Data
 
 When creating business objects and business entities, one needs to worry about validity of the data that is being stored and modified. This How-To assumes that you have already created a business object and a business entity, as described in the HowTo_CreateBusinessObject and HowTo_CreateBusinessEntityObject documents. 
 

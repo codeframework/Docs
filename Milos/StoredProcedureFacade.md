@@ -1,4 +1,4 @@
-# Stored Procedure Facade
+﻿# Stored Procedure Facade
 
 > Note: Support for Stored Procedure Facades is mainly provides for legacy reasons. This feature is not very commonly used for new development anymore, as most people seem to have moved away from using stored procedures for all data access.
 

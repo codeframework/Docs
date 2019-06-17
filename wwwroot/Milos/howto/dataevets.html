@@ -1,0 +1,159 @@
+﻿<!DOCTYPE html>
+<!-- saved from url=(0016)http://localhost -->
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>How To - Use Data Events - CODE Framework Documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1" />
+    <link rel="stylesheet" type="text/css" href="../../_kavadocs/themes/scripts/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_kavadocs/themes/scripts/fontawesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_kavadocs/themes/kavadocs.css" />
+
+    <script src="../../_kavadocs/themes/scripts/jquery/jquery.min.js"></script>
+
+    <script src="../../_kavadocs/themes/scripts/highlightjs/highlight.pack.js"></script>
+    <link href="../../_kavadocs/themes/scripts/highlightjs/styles/twilight.css" rel="stylesheet" />
+
+    <script src="../../_kavadocs/themes/scripts/ww.jquery.min.js"></script>
+    <script src="../../_kavadocs/themes/scripts/kavadocs.js"></script>
+    
+    <topictype value="topic" />
+
+    <script>    
+        $(document).ready(function () {
+            helpBuilder.initializeLayout();
+            // expand all top level topics
+            setTimeout(helpBuilder.tocExpandTop, 5);
+        });
+    </script>
+</head>
+<body>    
+    <!-- Documentation Monster Content -->
+    <div class="flex-master">
+        <div class="banner">
+
+            <div class="pull-right sidebar-toggle">
+                <i class="fa fa-bars"
+                   title="Show or hide the topics list"></i>
+            </div>
+            <img src="../../images/logo.png" class="banner-logo" />
+
+            	<div class="projectname">CODE Framework Documentation</div>
+            
+            <div class="byline">
+                                
+            </div>
+        </div>
+
+        <div class="page-content">
+            <div id="toc" class="sidebar-left toc-content">
+                <nav class="visually-hidden">
+                    <a href="../../tableofcontents.htm">Table of Contents</a>
+                </nav>
+            </div>
+
+            <div class="splitter">
+            </div>
+
+            <div class="main-content">
+                <!-- Rendered Content -->
+                <article class="content-pane">
+                    <header class="content-title">
+    <img src="../../_kavadocs/icons/topic.png">
+    How To - Use Data Events
+</header>
+
+<div class="content-body" id="body">
+    <h1 id="using-data-events">Using Data Events</h1>
+<p>Whenever data base commands are executed against a database back end, events are fired for a number of reasons. Most of these events are triggered by the data service. However, most developers never come in direct contact with data service objects, since data services are instantiated and used behind the scenes. For this reason data events are exposed as static events on the data service factory object. The factory automatically hooks events on all data service objects it creates and passes them on. In addition, the data service factory also fires a few events on its own. In sum, the factory object is a single mediator object that makes all data events available in a single place, which makes it the prime object of interest for all data events.</p>
+<blockquote>
+<p>Note: In special cases, developers may write low-level code that hooks data service events directly. The signature of those events is the same on data services and on the data service factory.</p>
+</blockquote>
+<h2 id="detecting-new-data-connections">Detecting New Data Connections</h2>
+<p>Whenever Milos needs to talk to data, it initializes a data service (either by creating a new service object, or by recycling an existing one). Whenever a data service gets initialized successfully, the factory object raises a <code>DataServiceInitialization</code> event. This event (like all data service factory events) is a static event. This means that the event can be hooked on the <code>DataServiceFactory</code> class, without first instantiating that object.</p>
+<p>Before the event can be used, we need to create an event handler method, which will be executed whenever the event fires. The following code shows such a method:</p>
+<pre><code class="language-cs">public void DataServiceInitializationHandler(object sender, DataServiceInitiationEventArgs e)
+{
+    MessageBox.Show(e.ConnectionStatus.ToString());
+}
+</code></pre>
+<p>Once we have such a method, we can hook it up the the data service factory object's <code>DataServiceInitialization</code> event:</p>
+<pre><code class="language-cs">DataServiceFactory.DataServiceInitialization += new DataServiceInitiationEventHandler(DataServiceInitializationHandler);
+</code></pre>
+<p>Note that it is not required (or desired) to instantiate the <code>DataServiceFactory</code> before executing this line of code, since this event is static.</p>
+<blockquote>
+<p>Note: This assumes that the above method is a member of the same object, as the object that runs the line of code.</p>
+</blockquote>
+<p>The result of this is that whenever a new service is initialized, we see a message box that shows the connection status. Possible values include <code>Offline</code>, <code>OnlineInternet</code>, and <code>OnlineLAN</code>.</p>
+<p>If is of course also possible (and common) to use lambdas eather than point at another method:</p>
+<pre><code class="language-cs">DataServiceFactory.DataServiceInitialization += new DataServiceInitiationEventHandler((s, e) =&gt; { /* do something */ };
+</code></pre>
+<h2 id="reacting-to-completed-queries">Reacting to Completed Queries</h2>
+<p>Whenever data is queried and returned in a DataSet, the data service factory raises a <code>QueryComplete</code> event (this is true for synchronous and async queries, no matter whether they were executed by simple commands or stored procedure calls) . <code>QueryComplete</code> event handlers have access to the data set and all its data, as well as other information, such as the command executed to generate the data as well as the name of the table within the data set that was created by the executed command. Note that the data set may contain other data that may have been queried previously or that has been generated manually.</p>
+<p>This event requires an event handler similar to the following:</p>
+<pre><code class="language-cs">private void DataServiceFactory_QueryComplete(object sender, QueryEventArgs e)
+{
+    Console.WriteLine(e.ResultDataSet.Tables[e.QueriedEntity].Rows.Count);
+    Console.WriteLine(e.GetSerializedCommandXml());
+}
+</code></pre>
+<p>This event handler can be hooked to the event with the following code (C#):</p>
+<pre><code class="language-cs">DataServiceFactory.QueryComplete +=
+    new QueryEventHandler(DataServiceFactory_QueryComplete);
+</code></pre>
+<h2 id="reacting-to-completed-scalar-queries">Reacting to Completed Scalar Queries</h2>
+<p>Scalar queries raise a <code>ScalarQueryComplete</code> event, which is very similar to the <code>QueryComplete</code> event. The main difference is that these queries do not return data sets, but single values. The resulting value is accessible through the Result property.</p>
+<p>The following event handling code is required to hook scalar query complete events:</p>
+<pre><code class="language-cs">private void DataServiceFactory_ScalarQueryComplete(object sender, ScalarEventArgs e)
+{
+    Console.WriteLine(e.Result);
+    Console.WriteLine(e.GetSerializedCommandXml());
+}
+</code></pre>
+<p>This event handler can be hooked ot the event with the following code:</p>
+<pre><code class="language-cs">DataServiceFactory.ScalarQueryComplete += new ScalarEventHandler(DataServiceFactory_ScalarQueryComplete);
+</code></pre>
+<h2 id="reacting-to-completed-non-query-commands">Reacting to Completed Non-Query Commands</h2>
+<p>Database commands that do not return a query result (such as UPDATE commands) raise a <code>NonQueryComplete</code> event. This event is similar to the last two events, but instead of returning a result or result set, this event provides access to the number of records affected by the command.</p>
+<p>The following event handling code is required to hook a non-query event:</p>
+<pre><code class="language-cs">private void DataServiceFactory_NonQueryComplete(object sender, NonQueryEventArgs e)
+{
+    Console.WriteLine(e.AffectedRecords);
+    Console.WriteLine(e.GetSerializedCommandXml());
+}
+</code></pre>
+<p>This event handler can be hooked ot the event with the following code:</p>
+<pre><code class="language-cs">DataServiceFactory.NonQueryComplete += new NonQueryEventHandler(DataServiceFactory_NonQueryComplete);
+</code></pre>
+
+</div>
+
+
+
+
+
+
+                </article>
+
+                <hr />
+                <div class="pull-right">
+                    <a href="http://helpbuilder.west-wind.com" target="_blank"><img src="../../images/wwhelp.png" /></a>
+                </div>
+
+                <small>
+                    &copy; Markus Egger Inc., 2019 &bull;
+                    Updated: 1/1/0001 12:00:00 AM
+                    <br />
+                    <a href="mailto:support@yoursite.com?subject=How To - Use Data Events ()&body=Topic: CODE Framework Documentation - http://yoursite.com/docs/.htm">Comment or report problem with topic</a>
+                </small>
+                <br class="clearfix" />
+                <br />
+                <!-- End Rendered Content -->
+            </div>
+        </div>
+    </div>
+    <!-- End Documentation Monster Content -->
+</body>
+</html>
+

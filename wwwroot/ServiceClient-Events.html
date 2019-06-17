@@ -1,0 +1,152 @@
+﻿<!DOCTYPE html>
+<!-- saved from url=(0016)http://localhost -->
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>ServiceClient Events - CODE Framework Documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/scripts/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/scripts/fontawesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/kavadocs.css" />
+
+    <script src="_kavadocs/themes/scripts/jquery/jquery.min.js"></script>
+
+    <script src="_kavadocs/themes/scripts/highlightjs/highlight.pack.js"></script>
+    <link href="_kavadocs/themes/scripts/highlightjs/styles/twilight.css" rel="stylesheet" />
+
+    <script src="_kavadocs/themes/scripts/ww.jquery.min.js"></script>
+    <script src="_kavadocs/themes/scripts/kavadocs.js"></script>
+    
+    <topictype value="topic" />
+
+    <script>    
+        $(document).ready(function () {
+            helpBuilder.initializeLayout();
+            // expand all top level topics
+            setTimeout(helpBuilder.tocExpandTop, 5);
+        });
+    </script>
+</head>
+<body>    
+    <!-- Documentation Monster Content -->
+    <div class="flex-master">
+        <div class="banner">
+
+            <div class="pull-right sidebar-toggle">
+                <i class="fa fa-bars"
+                   title="Show or hide the topics list"></i>
+            </div>
+            <img src="images/logo.png" class="banner-logo" />
+
+            	<div class="projectname">CODE Framework Documentation</div>
+            
+            <div class="byline">
+                                
+            </div>
+        </div>
+
+        <div class="page-content">
+            <div id="toc" class="sidebar-left toc-content">
+                <nav class="visually-hidden">
+                    <a href="tableofcontents.htm">Table of Contents</a>
+                </nav>
+            </div>
+
+            <div class="splitter">
+            </div>
+
+            <div class="main-content">
+                <!-- Rendered Content -->
+                <article class="content-pane">
+                    <header class="content-title">
+    <img src="_kavadocs/icons/topic.png">
+    ServiceClient Events
+</header>
+
+<div class="content-body" id="body">
+    <h1 id="serviceclient-events">ServiceClient Events</h1>
+<p>The ServiceClient class (which can be used to call services in an easy and generic fashion), fires a number of static events that can be used to add generic functionality to service calls.</p>
+<p>One set of events has to do with &quot;opening a channel&quot; to a service. For instance, consider the following service operation:</p>
+<pre><code class="language-c#">ServiceClient.Call&lt;ICustomerService&gt;(s =&gt; {
+    // Service calling code goes here...
+};
+</code></pre>
+<p>This opens up a channel to an instance of a customer service (which implements/supports the ICustomerService interface. When this happens, the ServiceClient class fires the following events:</p>
+<ul>
+<li>BeforeChannelOpens - Fires before the channel is opened. All parameters and configuration options (typically WCF objects) are passed along with the event as parameters and can be manipulated to further configure the channel.</li>
+<li>BeforeEndpointAdded - Fires before a new endpoint is established on the client. Can be used to manipulate all parameters associated with creating endpoints.</li>
+<li>ChannelException - Fires when a channel triggers an error.</li>
+</ul>
+<p>As an example (and among other things), BeforeEndpointAdded can be used to configure endpoint parameters, such as the settings on a specific binding. This example looks for TCP/IP (NetTcp) connections to be opened, and whenever that happens, the security model is set to &quot;Transport&quot; security:</p>
+<pre><code class="language-c#">ServiceClient.BeforeEndpointAdded += (s, e2) =&gt;
+{
+    var binding = e2.Binding as NetTcpBinding;
+    if (binding != null)
+        binding.Security.Mode = SecurityMode.Transport;
+};
+</code></pre>
+<p>Note that this setting needs to be matched on the server, otherwise, the server will reject the request. There is a server-side equivalent event on the ServiceGarden hosting environment object that can be used for this purpose:</p>
+<pre><code class="language-c#">ServiceGarden.BeforeEndpointAdded += (s, e) =&gt;
+{
+    var binding = e.Binding as NetTcpBinding;
+    if (binding != null)
+        binding.Security.Mode = SecurityMode.Transport;
+};
+</code></pre>
+<p>ServiceClient also fires events every time one calls a service. Consider this example:</p>
+<pre><code class="language-c#">ServiceClient.Call&lt;ICustomerService&gt;(s =&gt; {
+    s.SearchCustomers(criteriaA);
+    s.SearchCustomers(criteriaB);
+};
+</code></pre>
+<p>In this example, after opening the channel (see above), two separate calls are made to the service. For each of these calls, ServiceClient fires a pair of before/after events called BeforeServiceOperationCall and AfterServiceOperationCall. These events are very useful, since they can be used to intercept and remove ALL service calls.</p>
+<p>One example that demonstrates the power of this is that of a multi-tenant system (in which the data for multiple companies is kept in a single database and accessed through the same set of services, as is often the case in cloud-based systems). In such a scenario, most of the service calls will have to include a Company ID to make sure the user only sees the records for his or her company. This can be achieved by adding the following code to the startup code of the application:</p>
+<pre><code class="language-c#">ServiceClient.BeforeServiceOperationCall += (s, e) =&gt;
+{
+    var principal = Thread.CurrentPrincipal as MyPrincipal;
+    if (principal == null) return;
+
+    foreach (var inputContract in e.InputDataContracts)
+    {
+        var companyIdContract = inputContract as ICompanyIdentifier;
+        if (companyIdContract == null) continue;
+        if (companyIdContract.CompanyId == Guid.Empty)
+            companyIdContract.CompanyId = principal.CompanyId;
+    }
+};
+</code></pre>
+<p>In this example, absolutely every service call made through ServiceClient has its parameters inspected. If the parameter implements a certain interface, the event handler code checks to see if a company ID was passed along, and if not, it sets it based on the currently logged in user. This is extremely powerful, since it ensures that no developer can make the mistake of forgetting to set the right company ID on the call and potentially retrieve the wrong data and show it to the wrong user.</p>
+<p>This is just one of many examples of where these events are useful.</p>
+<p>Note: Handler code for the Before/After events need to be set before the ServiceClient.Call() line of code executes. This is due to the overall channel being monitored for calls. If no event handlers are set up when the channel is established, events are never fired for performance reasons.</p>
+
+</div>
+
+
+
+
+
+
+                </article>
+
+                <hr />
+                <div class="pull-right">
+                    <a href="http://helpbuilder.west-wind.com" target="_blank"><img src="images/wwhelp.png" /></a>
+                </div>
+
+                <small>
+                    &copy; Markus Egger Inc., 2019 &bull;
+                    Updated: 1/1/0001 12:00:00 AM
+                    <br />
+                    <a href="mailto:support@yoursite.com?subject=ServiceClient Events ()&body=Topic: CODE Framework Documentation - http://yoursite.com/docs/.htm">Comment or report problem with topic</a>
+                </small>
+                <br class="clearfix" />
+                <br />
+                <!-- End Rendered Content -->
+            </div>
+        </div>
+    </div>
+    <!-- End Documentation Monster Content -->
+</body>
+</html>
+

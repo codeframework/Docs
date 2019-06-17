@@ -1,4 +1,4 @@
-# Creating a Collection of Cross Referenced Child Entities
+﻿# Creating a Collection of Cross Referenced Child Entities
 
 In many scenarios, entities are assigned references to other entities. For instance, a name record could be cross-referenced to some type of category or group as illustrated here:
 

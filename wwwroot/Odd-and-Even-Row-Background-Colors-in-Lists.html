@@ -1,0 +1,131 @@
+﻿<!DOCTYPE html>
+<!-- saved from url=(0016)http://localhost -->
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Odd and Even Row Background Colors in Lists - CODE Framework Documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/scripts/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/scripts/fontawesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/kavadocs.css" />
+
+    <script src="_kavadocs/themes/scripts/jquery/jquery.min.js"></script>
+
+    <script src="_kavadocs/themes/scripts/highlightjs/highlight.pack.js"></script>
+    <link href="_kavadocs/themes/scripts/highlightjs/styles/twilight.css" rel="stylesheet" />
+
+    <script src="_kavadocs/themes/scripts/ww.jquery.min.js"></script>
+    <script src="_kavadocs/themes/scripts/kavadocs.js"></script>
+    
+    <topictype value="topic" />
+
+    <script>    
+        $(document).ready(function () {
+            helpBuilder.initializeLayout();
+            // expand all top level topics
+            setTimeout(helpBuilder.tocExpandTop, 5);
+        });
+    </script>
+</head>
+<body>    
+    <!-- Documentation Monster Content -->
+    <div class="flex-master">
+        <div class="banner">
+
+            <div class="pull-right sidebar-toggle">
+                <i class="fa fa-bars"
+                   title="Show or hide the topics list"></i>
+            </div>
+            <img src="images/logo.png" class="banner-logo" />
+
+            	<div class="projectname">CODE Framework Documentation</div>
+            
+            <div class="byline">
+                                
+            </div>
+        </div>
+
+        <div class="page-content">
+            <div id="toc" class="sidebar-left toc-content">
+                <nav class="visually-hidden">
+                    <a href="tableofcontents.htm">Table of Contents</a>
+                </nav>
+            </div>
+
+            <div class="splitter">
+            </div>
+
+            <div class="main-content">
+                <!-- Rendered Content -->
+                <article class="content-pane">
+                    <header class="content-title">
+    <img src="_kavadocs/icons/topic.png">
+    Odd and Even Row Background Colors in Lists
+</header>
+
+<div class="content-body" id="body">
+    <h1 id="odd-and-even-row-background-colors-in-lists">Odd and Even Row Background Colors in Lists</h1>
+<p><em>The following is an excerpt from an internal email at EPS/CODE related to creating listbox themes with odd and even row background colors:</em></p>
+<p>Here’s the main code snippet that is responsible for the background colors:</p>
+<pre><code class="language-xml">&lt;Style TargetType=&quot;ListBox&quot; x:Key=&quot;Metro-Control-ListBox-Columns&quot; BasedOn=&quot;{StaticResource Metro-Control-ListBox-Stack}&quot;&gt;
+    &lt;Style.Resources&gt;
+        &lt;Style TargetType=&quot;ListBoxItem&quot;&gt;
+            &lt;Setter Property=&quot;Template&quot;&gt;
+                &lt;Setter.Value&gt;
+                    &lt;ControlTemplate TargetType=&quot;ListBoxItem&quot;&gt;
+                        &lt;c:GridEx BackgroundBrush=&quot;{DynamicResource CODE.Framework-Application-ThemeBrush1}&quot;
+                                  BackgroundBrushLightFactor=&quot;.85&quot; 
+                                  UseItemIndex=&quot;True&quot; x:Name=&quot;bg&quot;
+                                  Margin=&quot;0,0,0,2&quot;&gt;
+                            &lt;ContentPresenter HorizontalAlignment=&quot;{TemplateBinding HorizontalContentAlignment}&quot; 
+                                              SnapsToDevicePixels=&quot;{TemplateBinding SnapsToDevicePixels}&quot; 
+                                              VerticalAlignment=&quot;{TemplateBinding VerticalContentAlignment}&quot;
+                                              Margin=&quot;5,2&quot;/&gt;
+                        &lt;/c:GridEx&gt;
+                        &lt;ControlTemplate.Triggers&gt;
+                            &lt;Trigger Property=&quot;IsOddRow&quot; SourceName=&quot;bg&quot; Value=&quot;True&quot;&gt;
+                                &lt;Setter Property=&quot;BackgroundBrushLightFactor&quot; TargetName=&quot;bg&quot; Value=&quot;.75&quot; /&gt;
+                            &lt;/Trigger&gt;
+                        &lt;/ControlTemplate.Triggers&gt;
+                    &lt;/ControlTemplate&gt;
+                &lt;/Setter.Value&gt;
+            &lt;/Setter&gt;
+        &lt;/Style&gt;
+    &lt;/Style.Resources&gt;
+&lt;/Style&gt;
+</code></pre>
+<p>The basic idea is actually pretty simple: This defines a style for a ListBox. Then within that style’s resources, I define another style for ListBoxItem. So this basically means “use this listboxitem style automatically/implicitly for all items within this listbox”. It’s WPF’s equivalent of a CSS rule that applies for a certain element within another element… so in CSS this would probably be written as: .Metro-Control-ListBox-Columns ListBoxItem {}</p>
+<p>Anyway: Within this listboxitem style, I define the control template with a grid that has a background color of whatever. And then I define a trigger that says “if IsOddRow is on the grid I use as the background then…” and I use that trigger to change the background color.</p>
+<p>Now the trick is that I use GridEx as the object to set the background color on. That is where CODE Framework comes in (everything else is standard WPF). GridEx has the capability to know whether it is in an odd or even row within a listbox IF UseItemIndex is set to true. So that is important to turn on! (On a side-node: This isn’t the fastest thing ever, so you wouldn’t want to do it on a very large list).</p>
+
+</div>
+
+
+
+
+
+
+                </article>
+
+                <hr />
+                <div class="pull-right">
+                    <a href="http://helpbuilder.west-wind.com" target="_blank"><img src="images/wwhelp.png" /></a>
+                </div>
+
+                <small>
+                    &copy; Markus Egger Inc., 2019 &bull;
+                    Updated: 1/1/0001 12:00:00 AM
+                    <br />
+                    <a href="mailto:support@yoursite.com?subject=Odd and Even Row Background Colors in Lists ()&body=Topic: CODE Framework Documentation - http://yoursite.com/docs/.htm">Comment or report problem with topic</a>
+                </small>
+                <br class="clearfix" />
+                <br />
+                <!-- End Rendered Content -->
+            </div>
+        </div>
+    </div>
+    <!-- End Documentation Monster Content -->
+</body>
+</html>
+

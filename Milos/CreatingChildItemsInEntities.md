@@ -1,4 +1,4 @@
-# Creating a Collection of Child Objects
+﻿# Creating a Collection of Child Objects
 
 Child entity objects are generally used to implement entities that are composed of multiple tables. A typical example would be an invoice and it's line items:
 

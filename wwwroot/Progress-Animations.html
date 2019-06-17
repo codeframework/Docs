@@ -1,0 +1,122 @@
+﻿<!DOCTYPE html>
+<!-- saved from url=(0016)http://localhost -->
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Progress Animations - CODE Framework Documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/scripts/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/scripts/fontawesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/kavadocs.css" />
+
+    <script src="_kavadocs/themes/scripts/jquery/jquery.min.js"></script>
+
+    <script src="_kavadocs/themes/scripts/highlightjs/highlight.pack.js"></script>
+    <link href="_kavadocs/themes/scripts/highlightjs/styles/twilight.css" rel="stylesheet" />
+
+    <script src="_kavadocs/themes/scripts/ww.jquery.min.js"></script>
+    <script src="_kavadocs/themes/scripts/kavadocs.js"></script>
+    
+    <topictype value="topic" />
+
+    <script>    
+        $(document).ready(function () {
+            helpBuilder.initializeLayout();
+            // expand all top level topics
+            setTimeout(helpBuilder.tocExpandTop, 5);
+        });
+    </script>
+</head>
+<body>    
+    <!-- Documentation Monster Content -->
+    <div class="flex-master">
+        <div class="banner">
+
+            <div class="pull-right sidebar-toggle">
+                <i class="fa fa-bars"
+                   title="Show or hide the topics list"></i>
+            </div>
+            <img src="images/logo.png" class="banner-logo" />
+
+            	<div class="projectname">CODE Framework Documentation</div>
+            
+            <div class="byline">
+                                
+            </div>
+        </div>
+
+        <div class="page-content">
+            <div id="toc" class="sidebar-left toc-content">
+                <nav class="visually-hidden">
+                    <a href="tableofcontents.htm">Table of Contents</a>
+                </nav>
+            </div>
+
+            <div class="splitter">
+            </div>
+
+            <div class="main-content">
+                <!-- Rendered Content -->
+                <article class="content-pane">
+                    <header class="content-title">
+    <img src="_kavadocs/icons/topic.png">
+    Progress Animations
+</header>
+
+<div class="content-body" id="body">
+    <h1 id="progress-animations">Progress Animations</h1>
+<h2 id="progress-ring-circular-progress-animation">Progress Ring/ Circular Progress Animation</h2>
+<p>Our WPF modules of CODE Framework feature a circular progress animation that looks much like the Windows 8 progress ring. Here are a few examples:</p>
+<p><img src="Progress%20Animations/Progress%20Animations_ProgressRing.png" alt="" /></p>
+<h2 id="progress-rings">Progress Rings</h2>
+<p>This has been supported for a while, actually. In fact, this has been supported since before the WinRT SDK was available. This is simply a control found in the Metro namespace (CODE.Framework.Wpf.Theme.Metro.dll). This control was originally called CircularProgressAnimation, and it’s still available under that name. WinRT on the other hand calls this control ProgressRing. For compatibility, we are now also making this available as a ProgressRing class (it’s a straight subclass of CircularProgressAnimation).</p>
+<p>Using the control is relatively easy and works the same way as in WinRT. Put the control on a form, set Visibility = Visible and set IsActive = true, and there it goes!</p>
+<p>Our version supports quite a few additional settings. In particular, you can change how many dots there are, how fast they rotate, how far they are spaced apart, what color they are, and how big they are. All these properties are named DotXxx. DotCount, DotDiameter, DotSpaceFactor, and so on.</p>
+<p>Here's the code that was used to create the above example:</p>
+<pre><code class="language-xml">&lt;Controls:ProgressRing IsActive=&quot;True&quot; Height=&quot;48&quot; Width=&quot;48&quot; Margin=&quot;12,12,218,202&quot;/&gt;
+&lt;Controls:ProgressRing IsActive=&quot;True&quot; DotCount=&quot;6&quot; DotDiameter=&quot;8&quot; DotBrush=&quot;Blue&quot; Height=&quot;48&quot; Margin=&quot;87,12,143,201&quot; Width=&quot;48&quot; DotSpaceFactor=&quot;1.5&quot;/&gt;
+&lt;Controls:ProgressRing IsActive=&quot;True&quot; DotCount=&quot;6&quot; Height=&quot;48&quot; Margin=&quot;13,76,217,137&quot; Width=&quot;48&quot;/&gt;
+&lt;Controls:ProgressRing IsActive=&quot;True&quot; DotCount=&quot;5&quot;  Margin=&quot;87,76,158,154&quot; /&gt;
+&lt;Controls:ProgressRing IsActive=&quot;True&quot; DotBrush=&quot;Green&quot; DotCount=&quot;12&quot; DotDiameter=&quot;10&quot; DotSpaceFactor=&quot;0.8&quot; Margin=&quot;152,12,12,137&quot; DotAnimationSpeedFactor=&quot;1.25&quot; /&gt;
+</code></pre>
+<h2 id="linear-progress-animation">Linear Progress Animation</h2>
+<p>Similar to the circular progress animation, we also support a Metro-style linear animation. It’s a bit difficult to see in a still screen shot, but here  is an example that shows 3 of them in progress:</p>
+<p><img src="Progress%20Animations/Progress%20Animations_image_2.png" alt="" /></p>
+<p>The overall properties available are practically identical to the circular version. Here is the XAML that defines the 3 animations shown above:</p>
+<pre><code class="language-xml">&lt;Controls:LinearProgressAnimation VerticalAlignment=&quot;Bottom&quot; Margin=&quot;0,0,0,10&quot; IsActive=&quot;True&quot; /&gt;
+&lt;Controls:LinearProgressAnimation VerticalAlignment=&quot;Bottom&quot; Margin=&quot;0,0,0,30&quot; IsActive=&quot;True&quot; DotBrush=&quot;Teal&quot; DotDiameter=&quot;12&quot; /&gt;
+&lt;Controls:LinearProgressAnimation VerticalAlignment=&quot;Bottom&quot; Margin=&quot;0,0,0,50&quot; IsActive=&quot;True&quot; DotBrush=&quot;Green&quot; DotDiameter=&quot;10&quot; DotCount=&quot;7&quot; /&gt;
+</code></pre>
+<p>Note that linear progress animations do not look good below a certain width. It probably shouldn’t be used below a width of 400 or 500 pixels.</p>
+
+</div>
+
+
+
+
+
+
+                </article>
+
+                <hr />
+                <div class="pull-right">
+                    <a href="http://helpbuilder.west-wind.com" target="_blank"><img src="images/wwhelp.png" /></a>
+                </div>
+
+                <small>
+                    &copy; Markus Egger Inc., 2019 &bull;
+                    Updated: 1/1/0001 12:00:00 AM
+                    <br />
+                    <a href="mailto:support@yoursite.com?subject=Progress Animations ()&body=Topic: CODE Framework Documentation - http://yoursite.com/docs/.htm">Comment or report problem with topic</a>
+                </small>
+                <br class="clearfix" />
+                <br />
+                <!-- End Rendered Content -->
+            </div>
+        </div>
+    </div>
+    <!-- End Documentation Monster Content -->
+</body>
+</html>
+

@@ -1,0 +1,122 @@
+﻿<!DOCTYPE html>
+<!-- saved from url=(0016)http://localhost -->
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Installing CODE Framework - CODE Framework Documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/scripts/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/scripts/fontawesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/kavadocs.css" />
+
+    <script src="_kavadocs/themes/scripts/jquery/jquery.min.js"></script>
+
+    <script src="_kavadocs/themes/scripts/highlightjs/highlight.pack.js"></script>
+    <link href="_kavadocs/themes/scripts/highlightjs/styles/twilight.css" rel="stylesheet" />
+
+    <script src="_kavadocs/themes/scripts/ww.jquery.min.js"></script>
+    <script src="_kavadocs/themes/scripts/kavadocs.js"></script>
+    
+    <topictype value="topic" />
+
+    <script>    
+        $(document).ready(function () {
+            helpBuilder.initializeLayout();
+            // expand all top level topics
+            setTimeout(helpBuilder.tocExpandTop, 5);
+        });
+    </script>
+</head>
+<body>    
+    <!-- Documentation Monster Content -->
+    <div class="flex-master">
+        <div class="banner">
+
+            <div class="pull-right sidebar-toggle">
+                <i class="fa fa-bars"
+                   title="Show or hide the topics list"></i>
+            </div>
+            <img src="images/logo.png" class="banner-logo" />
+
+            	<div class="projectname">CODE Framework Documentation</div>
+            
+            <div class="byline">
+                                
+            </div>
+        </div>
+
+        <div class="page-content">
+            <div id="toc" class="sidebar-left toc-content">
+                <nav class="visually-hidden">
+                    <a href="tableofcontents.htm">Table of Contents</a>
+                </nav>
+            </div>
+
+            <div class="splitter">
+            </div>
+
+            <div class="main-content">
+                <!-- Rendered Content -->
+                <article class="content-pane">
+                    <header class="content-title">
+    <img src="_kavadocs/icons/topic.png">
+    Installing CODE Framework
+</header>
+
+<div class="content-body" id="body">
+    <h1 id="code-framework-installation">CODE Framework Installation</h1>
+<h2 id="installing-the-framework-tools">Installing the Framework Tools</h2>
+<blockquote>
+<p>Note: There currently is a problem installing the CODE Framework Tools in Visual Studio 2017. We are aware of the issue and are working on a fix. Unfortunately, Visual Studio 2017 broke a lot of things, causing us to completely re-write the tools. However, it is possible to install the tools in Visual Studio 2015, start your project there, and then continue on in VS 2017. It's not the solution we want, but it's better than nothing. We apologize for the inconvenience.</p>
+</blockquote>
+<p>The easiest way to get started with the CODE Framework, is to install the CODE Framework Tools Visual Studio Extension through the Visual Studio Extension Manager:</p>
+<p><img src="Getting%20Started/Figure1.png" alt="" /></p>
+<p>Once these extensions are installed, new project templates become available in Visual Studio, such as these:</p>
+<p><img src="Getting%20Started/Figure2.png" alt="" /></p>
+<p>Note that this does not install the actual framework, but only the tools. However, if you use a template that requires framework components (such as the CODE Framework WPF MVVM/MVC template), the tools detect the dependency and show a dialog like this:</p>
+<p><img src="Getting%20Started/Figure3.png" alt="" /></p>
+<p>Using this dialog, CODE Framework assemblies can be added to the current project, either by adding files stored locally in a folder or ZIP file (after having downloaded the desired version manually from CodePlex), or you can let the tool retrieve the latest version from CodePlex for you and add the assemblies directly.</p>
+<p>Note that CODE Framework assemblies are generally not installed in the GAC (although you could do so yourself if you prefer this option) but they are put into a dummy location in the local solution. This has the advantage that different solutions built with the CODE Framework can use different versions without colliding with each other, and allowing the developer full control over when and to what version a certain solution is to be upgraded to. It also has the advantage that all external assemblies can be checked into source control, allowing other developers to simply join the project through source control without relying on additional installs. This also allows them to always retrieve the correct version of these dependencies automatically. This generally works very well for typical business applications.</p>
+<p>For more information and samples, please see the article links at the top of this page.</p>
+<h2 id="installing-through-nuget">Installing Through Nuget</h2>
+<p>Some CODE Framework components can be installed through Nuget. Please search for &quot;CODE Framework&quot; on Nuget.</p>
+<blockquote>
+<p>Note: We are working on more detailed information about how to use CODE Framework through Nuget.</p>
+</blockquote>
+<h2 id="installing-through-docker">Installing Through Docker</h2>
+<p>Some CODE Framework components can be installed through Docker. Please search for &quot;CODE Framework&quot; on Docker Hub.</p>
+<blockquote>
+<p>Note: We are working on more detailed information about how to use CODE Framework through Docker Hub.</p>
+</blockquote>
+
+</div>
+
+
+
+
+
+
+                </article>
+
+                <hr />
+                <div class="pull-right">
+                    <a href="http://helpbuilder.west-wind.com" target="_blank"><img src="images/wwhelp.png" /></a>
+                </div>
+
+                <small>
+                    &copy; Markus Egger Inc., 2019 &bull;
+                    Updated: 1/1/0001 12:00:00 AM
+                    <br />
+                    <a href="mailto:support@yoursite.com?subject=Installing CODE Framework ()&body=Topic: CODE Framework Documentation - http://yoursite.com/docs/.htm">Comment or report problem with topic</a>
+                </small>
+                <br class="clearfix" />
+                <br />
+                <!-- End Rendered Content -->
+            </div>
+        </div>
+    </div>
+    <!-- End Documentation Monster Content -->
+</body>
+</html>
+

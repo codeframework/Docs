@@ -1,0 +1,183 @@
+﻿<!DOCTYPE html>
+<!-- saved from url=(0016)http://localhost -->
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Status Bars - CODE Framework Documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/scripts/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/scripts/fontawesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/kavadocs.css" />
+
+    <script src="_kavadocs/themes/scripts/jquery/jquery.min.js"></script>
+
+    <script src="_kavadocs/themes/scripts/highlightjs/highlight.pack.js"></script>
+    <link href="_kavadocs/themes/scripts/highlightjs/styles/twilight.css" rel="stylesheet" />
+
+    <script src="_kavadocs/themes/scripts/ww.jquery.min.js"></script>
+    <script src="_kavadocs/themes/scripts/kavadocs.js"></script>
+    
+    <topictype value="topic" />
+
+    <script>    
+        $(document).ready(function () {
+            helpBuilder.initializeLayout();
+            // expand all top level topics
+            setTimeout(helpBuilder.tocExpandTop, 5);
+        });
+    </script>
+</head>
+<body>    
+    <!-- Documentation Monster Content -->
+    <div class="flex-master">
+        <div class="banner">
+
+            <div class="pull-right sidebar-toggle">
+                <i class="fa fa-bars"
+                   title="Show or hide the topics list"></i>
+            </div>
+            <img src="images/logo.png" class="banner-logo" />
+
+            	<div class="projectname">CODE Framework Documentation</div>
+            
+            <div class="byline">
+                                
+            </div>
+        </div>
+
+        <div class="page-content">
+            <div id="toc" class="sidebar-left toc-content">
+                <nav class="visually-hidden">
+                    <a href="tableofcontents.htm">Table of Contents</a>
+                </nav>
+            </div>
+
+            <div class="splitter">
+            </div>
+
+            <div class="main-content">
+                <!-- Rendered Content -->
+                <article class="content-pane">
+                    <header class="content-title">
+    <img src="_kavadocs/icons/topic.png">
+    Status Bars
+</header>
+
+<div class="content-body" id="body">
+    <h1 id="wpf-status-bars">WPF Status Bars</h1>
+<p>The WPF MVVM/MVC modules of CODE framework support a standardized status update feature (this is typically used to implement status bars, but the exact visuals can vary from theme to theme and are fully stylable and customizable).</p>
+<p>The basic idea is relatively simple: The Controller class has a Status() method that can be called to update the status like so:</p>
+<pre><code class="language-cs">Controller.Status(&quot;Ready.&quot;);
+</code></pre>
+<p>This sets the status message to “Ready.” and communicates this setting to the current Shell (main window). Depending on the chosen theme, this may then look different. For instance, a Metro application with this status could look like this:</p>
+<p><img src="WPF%20MVVM_MVC%20Status%20Bar/StatusBar1.png" alt="" /></p>
+<p><em>Note: By default, status  notifications in Metro applications are only shown for 10-12 seconds before they fade to transparency. This behavior can of course be restyled.</em></p>
+<p>A Battleship (Windows 95) themed application with the same status could look like this:</p>
+<p><img src="WPF%20MVVM_MVC%20Status%20Bar/StatusBar2.png" alt="" /></p>
+<p>In addition to setting status messages, one can also pass an overall status indicator to indicate whether the status is just informative or a warning or an error indicator, and so forth. Here is an example:</p>
+<pre><code class="language-cs">Controller.Status(&quot;Pretending to load data...&quot;, ApplicationStatus.Processing);
+</code></pre>
+<p>Depending on the theme, this information may result in a different visual style. For instance, the Metro skin by default shows status messages in a different color based on the overall state. The following screenshot shows Ready, Processing, Warning, and Error statuses respectively:</p>
+<p><img src="WPF%20MVVM_MVC%20Status%20Bar/StatusBar3.png" alt="" /></p>
+<p><em>Note: Ready and Processing states by default use the same colors.</em></p>
+<p>Like everything else in CODE Framework, these visuals are completely stylable both by simply re-defining the colors and brushes used as well as by creating brand new styles for the status area of the Shell. The default definition for the colors and brushes looks like this (and can be re-defined for your own purposes):</p>
+<pre><code class="language-xml">&lt;!-- Application status bar --&gt;
+&lt;Color x:Key=&quot;CODE.Framework-Metro-StatusReadyBackgroundColor&quot;&gt;White&lt;/Color&gt;
+&lt;Color x:Key=&quot;CODE.Framework-Metro-StatusReadyForegroundColor&quot;&gt;Black&lt;/Color&gt;
+&lt;Color x:Key=&quot;CODE.Framework-Metro-StatusProcessingBackgroundColor&quot;&gt;White&lt;/Color&gt;
+&lt;Color x:Key=&quot;CODE.Framework-Metro-StatusProcessingForegroundColor&quot;&gt;Black&lt;/Color&gt;
+&lt;Color x:Key=&quot;CODE.Framework-Metro-StatusWarningBackgroundColor&quot;&gt;DarkOrange&lt;/Color&gt;
+&lt;Color x:Key=&quot;CODE.Framework-Metro-StatusWarningForegroundColor&quot;&gt;White&lt;/Color&gt;
+&lt;Color x:Key=&quot;CODE.Framework-Metro-StatusErrorBackgroundColor&quot;&gt;DarkRed&lt;/Color&gt;
+&lt;Color x:Key=&quot;CODE.Framework-Metro-StatusErrorForegroundColor&quot;&gt;White&lt;/Color&gt;
+</code></pre>
+<p>As usual, there are brush equivalents for all those.</p>
+<h2 id="customized-status-bars">Customized Status Bars</h2>
+<p>Following a standard CODE Framework pattern, status updates under the hood use standardized views and view models. So when sending status updates as in the examples above, the Controller creates a standard StatusViewModel, sets Message and Status properties, uses a standardized view, and loads it into a registered view handler that can handle status updates (typically a standard Shell). All of this can be customized.</p>
+<pre><code class="language-cs">Consider the following example:
+Controller.Status(model: new ExampleStatusViewModel { Message = &quot;Some example custom message&quot; },
+                  viewName: &quot;ExampleStatus&quot;, 
+                  controllerType: typeof (CustomerController));
+</code></pre>
+<p>This sets the status using a custom view model and a custom view. Here is the custom view model used here:</p>
+<pre><code class="language-cs">public class ExampleStatusViewModel : StatusViewModel
+{
+    public ExampleStatusViewModel()
+    {
+        Panel2 = &quot;User: CODE Framework User&quot;;
+        Panel3 = &quot;Time: &quot; + DateTime.Now.ToShortTimeString();
+    }
+ 
+    private string _panel2;
+    public string Panel2
+    {
+        get { return _panel2; }
+        set
+        {
+            _panel2 = value;
+            NotifyChanged(&quot;Panel2&quot;);
+        }
+    }
+ 
+    private string _panel3;
+    public string Panel3
+    {
+        get { return _panel3; }
+        set
+        {
+            _panel3 = value;
+            NotifyChanged(&quot;Panel3&quot;);
+        }
+    }
+}
+</code></pre>
+<p>Here is the example view used by this model:</p>
+<pre><code class="language-xml">&lt;Controls:GridEx ColumnWidths=&quot;*,25,Auto,25,Auto&quot;
+  xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot;
+  xmlns:Controls=&quot;clr-namespace:CODE.Framework.Wpf.Controls;assembly=CODE.Framework.Wpf&quot;&gt;
+ 
+  &lt;TextBlock Text=&quot;{Binding Message}&quot; /&gt;
+  &lt;TextBlock Text=&quot;{Binding Panel2}&quot; Grid.Column=&quot;2&quot; /&gt;
+  &lt;TextBlock Text=&quot;{Binding Panel3}&quot; Grid.Column=&quot;4&quot; /&gt;
+ 
+&lt;/Controls:GridEx&gt;
+</code></pre>
+<p>Note that this view has to be defined in one of the standard view locations. If that location is not the shared location (typically it isn’t), then the system needs to know which controller the view goes with in order to find the view, which is why the controller type has to be passed as a parameter in the example above. This information provides overall execution context, so view engines can find their way around.</p>
+<p>The following screenshot shows the result of this example in both Battleship and Metro modes:</p>
+<p><img src="WPF%20MVVM_MVC%20Status%20Bar/StatusBar4.png" alt="" /></p>
+<p>When using custom view models, the Message and Status parameters if the Controller.Status() method are ignored, but one can simply set the Message and Status properties on the view model instead. Created styles still react to these properties the same way. In other words: If the Status was set to Error, without any further modifications of the view, it would look like this (assuming the default Metro style):</p>
+<p><img src="WPF%20MVVM_MVC%20Status%20Bar/StatusBar5.png" alt="" /></p>
+<p>Note that status views and view models are unrestricted as far as features go and behave and work just like any other view. They can have any amount of data and any layout. They can have interactive controls and actions. Limitations are only set by screen real-estate. One would not want to create status bars that take up large amounts of the screen.</p>
+<p>It is also possible to add custom actions to controllers that return status results. In most cases however, that is not needed.</p>
+
+</div>
+
+
+
+
+
+
+                </article>
+
+                <hr />
+                <div class="pull-right">
+                    <a href="http://helpbuilder.west-wind.com" target="_blank"><img src="images/wwhelp.png" /></a>
+                </div>
+
+                <small>
+                    &copy; Markus Egger Inc., 2019 &bull;
+                    Updated: 1/1/0001 12:00:00 AM
+                    <br />
+                    <a href="mailto:support@yoursite.com?subject=Status Bars ()&body=Topic: CODE Framework Documentation - http://yoursite.com/docs/.htm">Comment or report problem with topic</a>
+                </small>
+                <br class="clearfix" />
+                <br />
+                <!-- End Rendered Content -->
+            </div>
+        </div>
+    </div>
+    <!-- End Documentation Monster Content -->
+</body>
+</html>
+

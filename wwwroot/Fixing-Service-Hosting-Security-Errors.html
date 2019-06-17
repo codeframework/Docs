@@ -1,0 +1,112 @@
+﻿<!DOCTYPE html>
+<!-- saved from url=(0016)http://localhost -->
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Fixing Service Hosting Security Errors - CODE Framework Documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/scripts/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/scripts/fontawesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/kavadocs.css" />
+
+    <script src="_kavadocs/themes/scripts/jquery/jquery.min.js"></script>
+
+    <script src="_kavadocs/themes/scripts/highlightjs/highlight.pack.js"></script>
+    <link href="_kavadocs/themes/scripts/highlightjs/styles/twilight.css" rel="stylesheet" />
+
+    <script src="_kavadocs/themes/scripts/ww.jquery.min.js"></script>
+    <script src="_kavadocs/themes/scripts/kavadocs.js"></script>
+    
+    <topictype value="topic" />
+
+    <script>    
+        $(document).ready(function () {
+            helpBuilder.initializeLayout();
+            // expand all top level topics
+            setTimeout(helpBuilder.tocExpandTop, 5);
+        });
+    </script>
+</head>
+<body>    
+    <!-- Documentation Monster Content -->
+    <div class="flex-master">
+        <div class="banner">
+
+            <div class="pull-right sidebar-toggle">
+                <i class="fa fa-bars"
+                   title="Show or hide the topics list"></i>
+            </div>
+            <img src="images/logo.png" class="banner-logo" />
+
+            	<div class="projectname">CODE Framework Documentation</div>
+            
+            <div class="byline">
+                                
+            </div>
+        </div>
+
+        <div class="page-content">
+            <div id="toc" class="sidebar-left toc-content">
+                <nav class="visually-hidden">
+                    <a href="tableofcontents.htm">Table of Contents</a>
+                </nav>
+            </div>
+
+            <div class="splitter">
+            </div>
+
+            <div class="main-content">
+                <!-- Rendered Content -->
+                <article class="content-pane">
+                    <header class="content-title">
+    <img src="_kavadocs/icons/topic.png">
+    Fixing Service Hosting Security Errors
+</header>
+
+<div class="content-body" id="body">
+    <h1 id="fixing-service-hosting-security-errors">Fixing Service Hosting Security Errors</h1>
+<p>When self-hosting services, especially in development scenarios using the development service host, there are several reasons why one might experience security errors. This usually has to do with the environment already having HTTP handlers listening on port 80, such as a development web server or IIS being active on a developer’s machine.</p>
+<h2 id="general-security-errors">General Security Errors</h2>
+<p>There are several ways to fix general security errors that indicate a conflicting HTTP listener. It is possible to configure the system so certain URLs are excluded by other listeners. This is mostly overkill however. The easiest way to fix these problems is to simply run Visual Studio with Administrator rights, which simply allows taking over those URLs while the development host is up and running, with no ill effects or system changes once the host shuts down.</p>
+<h2 id="skype-problems">Skype Problems</h2>
+<p>Sometimes, running Visual Studio as Admin does not fix the problem. We have discovered that this is often due to Skype running on the same machine (this problem may or may not be Windows 8 specific… we have only seen it on Windows 8).</p>
+<p>Here is an example of what this may look like:</p>
+<p><img src="Fixing%20Service%20Host%20Security%20Errors/Fixing%20Service%20Hosting%20Security%20Errors1.jpg" alt="" /></p>
+<p>If this occurs while already running as Admin, or on a machine that seemingly shouldn’t have anything conflicting running, you can run the following command at the command prompt to find out a bit more:</p>
+<pre><code>netstat -o -n -a | findstr 0.0:80 
+</code></pre>
+<p>This will give you the Process ID of what is running on port 80.  Armed with that information you can look in Task Manager to identify the culprit. The reason is likely that Skype now defaults to using port 80 and 443 for incoming connections. You can turn it off (it requires a restart of Skype) in the options:</p>
+<p><img src="Fixing%20Service%20Host%20Security%20Errors/Fixing%20Service%20Hosting%20Security%20Errors2.jpg" alt="" /></p>
+<p>Voila! This should fix the problem.</p>
+
+</div>
+
+
+
+
+
+
+                </article>
+
+                <hr />
+                <div class="pull-right">
+                    <a href="http://helpbuilder.west-wind.com" target="_blank"><img src="images/wwhelp.png" /></a>
+                </div>
+
+                <small>
+                    &copy; Markus Egger Inc., 2019 &bull;
+                    Updated: 1/1/0001 12:00:00 AM
+                    <br />
+                    <a href="mailto:support@yoursite.com?subject=Fixing Service Hosting Security Errors ()&body=Topic: CODE Framework Documentation - http://yoursite.com/docs/.htm">Comment or report problem with topic</a>
+                </small>
+                <br class="clearfix" />
+                <br />
+                <!-- End Rendered Content -->
+            </div>
+        </div>
+    </div>
+    <!-- End Documentation Monster Content -->
+</body>
+</html>
+

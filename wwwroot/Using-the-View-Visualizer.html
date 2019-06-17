@@ -1,0 +1,118 @@
+﻿<!DOCTYPE html>
+<!-- saved from url=(0016)http://localhost -->
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Using the View Visualizer - CODE Framework Documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/scripts/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/scripts/fontawesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/kavadocs.css" />
+
+    <script src="_kavadocs/themes/scripts/jquery/jquery.min.js"></script>
+
+    <script src="_kavadocs/themes/scripts/highlightjs/highlight.pack.js"></script>
+    <link href="_kavadocs/themes/scripts/highlightjs/styles/twilight.css" rel="stylesheet" />
+
+    <script src="_kavadocs/themes/scripts/ww.jquery.min.js"></script>
+    <script src="_kavadocs/themes/scripts/kavadocs.js"></script>
+    
+    <topictype value="topic" />
+
+    <script>    
+        $(document).ready(function () {
+            helpBuilder.initializeLayout();
+            // expand all top level topics
+            setTimeout(helpBuilder.tocExpandTop, 5);
+        });
+    </script>
+</head>
+<body>    
+    <!-- Documentation Monster Content -->
+    <div class="flex-master">
+        <div class="banner">
+
+            <div class="pull-right sidebar-toggle">
+                <i class="fa fa-bars"
+                   title="Show or hide the topics list"></i>
+            </div>
+            <img src="images/logo.png" class="banner-logo" />
+
+            	<div class="projectname">CODE Framework Documentation</div>
+            
+            <div class="byline">
+                                
+            </div>
+        </div>
+
+        <div class="page-content">
+            <div id="toc" class="sidebar-left toc-content">
+                <nav class="visually-hidden">
+                    <a href="tableofcontents.htm">Table of Contents</a>
+                </nav>
+            </div>
+
+            <div class="splitter">
+            </div>
+
+            <div class="main-content">
+                <!-- Rendered Content -->
+                <article class="content-pane">
+                    <header class="content-title">
+    <img src="_kavadocs/icons/topic.png">
+    Using the View Visualizer
+</header>
+
+<div class="content-body" id="body">
+    <h1 id="using-the-view-visualizer">Using the View Visualizer</h1>
+<p><em>This is an excerpt from an internal email at EPS/CODE, explaining improved features of the View-Visualizer tool:</em></p>
+<p>The main screen of the visualizer had some cosmetic improvements:</p>
+<p><img src="Using%20the%20View-Visualizer/Using%20the%20View-Visualizer_clip_image001_2.jpg" alt="" /></p>
+<p>More importantly, the View Hierarchy display has been improved. Here’s the display that shows the styles for a selected textbox:</p>
+<p><img src="Using%20the%20View-Visualizer/Using%20the%20View-Visualizer_clip_image002_2.jpg" alt="" /></p>
+<p>This shows a bit more detail. For instance, each property is not just listed as the property but also the class it goes with (such as “TextElement.FontSize” rather than just “FontSize”). Each styled property now shows not just the value or whether it is bound to a style, but styles are now color coded in green (just like in Blend/VS) when the styles properties themselves are pointed to another resource. Also, when that is the case, the value that is currently brought in by that resource is now also shown. Furthermore, when you pick one of those style properties, more information is now shown in a meaningful way. For instance, when you pick the FontFamily property, you see this:</p>
+<p><img src="Using%20the%20View-Visualizer/Using%20the%20View-Visualizer_clip_image003_2.jpg" alt="" /></p>
+<p>Different elements show different detail. Some just show the actual value in a larger text area. Others, like the FontFamily element above, show custom settings. Another example is the display of brushes like this one:</p>
+<p><img src="Using%20the%20View-Visualizer/Using%20the%20View-Visualizer_clip_image004_2.jpg" alt="" /></p>
+<p>One of the features that is most useful to me is that properties that themselved represent UI Elements (WPF objects) of some sort, are serialized back to XAML and displayed as such. For instance, when you pick a template of some sort, you will see something like this:</p>
+<p><img src="Using%20the%20View-Visualizer/Using%20the%20View-Visualizer_clip_image005_2.jpg" alt="" /></p>
+<p>I think that feature in particular was one of the most useful ones in my recent work on some performance improvement projects.</p>
+<p>In addition to showing styles and resources that apply to a control in the visual tree, the visualizer now shows a complete list of all (dependency) properties that go with the control, including color coding for data binding (yellow) and resources/styles (green). And also, even for data bound properties, it shows the actual binding expression in detail, as well as the current value. Plus, you can select each property and see more detail (just like in the styles above):</p>
+<p><img src="Using%20the%20View-Visualizer/Using%20the%20View-Visualizer_clip_image006_2.jpg" alt="" /></p>
+<p>Finally, there now is a completely new tab for the view-model:</p>
+<p><img src="Using%20the%20View-Visualizer/Using%20the%20View-Visualizer_clip_image007_2.jpg" alt="" /></p>
+<p>So this shows the view model properties in a way that makes it a bit more easy to see what is going on that to just look at the debugger window. It shows all properties and collections. It highlights things like collection item count. It highlights View-Actions (blue) as well as all members that are based on standard view models (gold). (You can also mouse over to see a tooltip for items that are multiples of those).</p>
+<p>One of the nifty little details here is that if you select a member that is based on a standard view model, the detail visualizes the item using a standard view template, and you get to pick other templates if you wanted to see what it would look like if that element was visualized with one of the default templates supported by the current theme:</p>
+<p><img src="Using%20the%20View-Visualizer/Using%20the%20View-Visualizer_clip_image008_2.jpg" alt="" /></p>
+
+</div>
+
+
+
+
+
+
+                </article>
+
+                <hr />
+                <div class="pull-right">
+                    <a href="http://helpbuilder.west-wind.com" target="_blank"><img src="images/wwhelp.png" /></a>
+                </div>
+
+                <small>
+                    &copy; Markus Egger Inc., 2019 &bull;
+                    Updated: 1/1/0001 12:00:00 AM
+                    <br />
+                    <a href="mailto:support@yoursite.com?subject=Using the View Visualizer ()&body=Topic: CODE Framework Documentation - http://yoursite.com/docs/.htm">Comment or report problem with topic</a>
+                </small>
+                <br class="clearfix" />
+                <br />
+                <!-- End Rendered Content -->
+            </div>
+        </div>
+    </div>
+    <!-- End Documentation Monster Content -->
+</body>
+</html>
+

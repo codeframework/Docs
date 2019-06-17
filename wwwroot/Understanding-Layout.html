@@ -1,0 +1,833 @@
+﻿<!DOCTYPE html>
+<!-- saved from url=(0016)http://localhost -->
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Understanding Layout - CODE Framework Documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/scripts/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/scripts/fontawesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/kavadocs.css" />
+
+    <script src="_kavadocs/themes/scripts/jquery/jquery.min.js"></script>
+
+    <script src="_kavadocs/themes/scripts/highlightjs/highlight.pack.js"></script>
+    <link href="_kavadocs/themes/scripts/highlightjs/styles/twilight.css" rel="stylesheet" />
+
+    <script src="_kavadocs/themes/scripts/ww.jquery.min.js"></script>
+    <script src="_kavadocs/themes/scripts/kavadocs.js"></script>
+    
+    <topictype value="topic" />
+
+    <script>    
+        $(document).ready(function () {
+            helpBuilder.initializeLayout();
+            // expand all top level topics
+            setTimeout(helpBuilder.tocExpandTop, 5);
+        });
+    </script>
+</head>
+<body>    
+    <!-- Documentation Monster Content -->
+    <div class="flex-master">
+        <div class="banner">
+
+            <div class="pull-right sidebar-toggle">
+                <i class="fa fa-bars"
+                   title="Show or hide the topics list"></i>
+            </div>
+            <img src="images/logo.png" class="banner-logo" />
+
+            	<div class="projectname">CODE Framework Documentation</div>
+            
+            <div class="byline">
+                                
+            </div>
+        </div>
+
+        <div class="page-content">
+            <div id="toc" class="sidebar-left toc-content">
+                <nav class="visually-hidden">
+                    <a href="tableofcontents.htm">Table of Contents</a>
+                </nav>
+            </div>
+
+            <div class="splitter">
+            </div>
+
+            <div class="main-content">
+                <!-- Rendered Content -->
+                <article class="content-pane">
+                    <header class="content-title">
+    <img src="_kavadocs/icons/topic.png">
+    Understanding Layout
+</header>
+
+<div class="content-body" id="body">
+    <h1 id="understanding-layout">Understanding Layout</h1>
+<blockquote>
+<p>Note: This document is a work in progress</p>
+</blockquote>
+<p>CODE Framework’s (optional) layout features drastically improve developer productivity and increase maintainability and reuse in your application. These features build on top of WPF’s standard layout approach and enhance it considerably. Web developers familiar with CSS and tools such as Twitter’s Boostrap will recognize the paradigm as well.</p>
+<p>WPF introduced an approach to positioning elements on the screen that was previously unknown in the world of Windows development: Automatic layout. Using this approach, the developer doesn’t have to manually position and size elements on the screen (although that approach is still supported as well) but can instead put elements in side a container, which handles the task of arranging the controls inside of itself.</p>
+<p>Out of the box, WPF ships with a number of such layout containers. Commonly used examples include Grid, StackPanel, and WrapPanel. For instance, when using a StackPanel, the elements inside of the StackPanel are arranged in a top-to-bottom (or left-to-right) fashion, without the developer having to ever set a single pair of X/Y coordinates.</p>
+<p>Developers often point out that this approach is “nice”, but it has limited use in the real world. After all, how often can you create entire UIs that are just a top-to-bottom or left-to-right stack of controls? There are such scenarios (such as toolbars), but by and large, the uses are limited. This is where CODE Framework’s enhanced layout features come into play. CODE Framework offers custom layout containers that can be used at your leisure. The amazing part: These containers arrange elements in much more exciting and useful ways. There are quite a few different layout elements to choose from.</p>
+<p>But before we talk about the details of the different layout containers, let’s lay some ground-work first to make sure we all understand what we are talking about.</p>
+<h2 id="some-important-wpf-layout-concepts">Some Important WPF Layout Concepts</h2>
+<p>Using a standard WPF layout container is simple. Here is an example that shows the aforementioned StackPanekl, an example you are probably familiar with:</p>
+<pre><code class="language-xml">&lt;StackPanel&gt;
+    &lt;Label&gt;Hello World!&lt;/Label&gt;
+    &lt;TextBox /&gt;
+    &lt;Button&gt;Click me!&lt;/Button&gt;
+&lt;/StackPanel&gt;
+</code></pre>
+<p>The result works, but it is not very visually pleasing. Using a CODE Framework layout element to spruce this up a little is just about as simple:</p>
+<pre><code class="language-xml">&lt;l:BidirectionalStackPanel ChildItemMargin=&quot;5&quot;&gt;
+    &lt;Label&gt;Hello World!&lt;/Label&gt;
+    &lt;TextBox /&gt;
+    &lt;Button&gt;Click me!&lt;/Button&gt;
+&lt;/l:BidirectionalStackPanel&gt;
+</code></pre>
+<blockquote>
+<p>Note: CODE Framework layout containers are defined in the CODE.Framework.Wpf.dll assembly in a namespace called CODE.Framework.Wpf.Layout. I am using this .NET namespace in XAML using the “l” namespace (but you can name it anything you want). If you use tools such as Resharper, they will help you to add the namespace in XAML if it isn’t there already. Otherwise, you have to add this attribute to your root element:</p>
+</blockquote>
+<pre><code class="language-xml">xmlns:l=&quot;clr-namespace:CODE.Framework.Wpf.Layout;assembly=CODE.Framework.Wpf&quot;
+</code></pre>
+<p>The result probably won’t be the most exciting UI you have ever seen, but it is better than the prior version, because the BidirectionalStackPanel class has quite a few extra features. We will discuss them in more detail below, but for now, we can take note of the fact the spacing is more pleasing to the eye. (Don’t worry... we will get to more exciting layouts soon enough). The following figure shows the two examples in comparison:</p>
+<p><img src="Understanding%20Layout/Figure01.png" alt="" /></p>
+<p>Figure 1: The window on the left uses a standard WPF StackPanel, while the one on the right uses a CODE Framework BidirectionalStackPanel. A subtle but consequential difference.</p>
+<p>The window on the left uses a standard WPF StackPanel, while the one on the right uses a CODE Framework BidirectionalStackPanel. A subtle but consequential difference.</p>
+<p>What is the main benefit of using CODE Framework layout containers? Well, the main benefit is that they provide layout features that you simply would not have otherwise in WPF. The secondary benefit is that these layout containers are theme-aware. This means that they have default styles in different themes to make them look just right in those scenarios.</p>
+<p>Fundamentally, you now know what it takes! CODE Framework provides a number of custom layout containers for your use. They are not mandatory, but if you have a scenario where these containers are useful, we encourage you to use them. (Note: You can even use these containers in WPF projects that do not otherwise use CODE Framework. Simply add a reference to the CODE.Framework.Wpf.dll file, and you are good to go!</p>
+<h3 id="layout-styles-and-templates">Layout Styles and Templates</h3>
+<p>We can also take this concept a step further. In WPF, we can either use layout elements directly as we have done so far, or we can use them by means of a template. Consider the following code snippet:</p>
+<pre><code class="language-xml">&lt;ItemsControl&gt;
+    &lt;ItemsControl.ItemsPanel&gt;
+        &lt;ItemsPanelTemplate&gt;
+            &lt;StackPanel /&gt;
+        &lt;/ItemsPanelTemplate&gt;
+    &lt;/ItemsControl.ItemsPanel&gt;
+        
+    &lt;Label&gt;Hello World!&lt;/Label&gt;
+    &lt;TextBox /&gt;
+    &lt;Button&gt;Click me!&lt;/Button&gt;
+&lt;/ItemsControl&gt;
+</code></pre>
+<p>An ItemsControl is a generic container control for UI elements. It doesn’t itself know anything about layout, but it can refer to a layout element by means of an “items panel template”. In this case, I set this template to a StackPanel. The result is exactly the same as the original StackPanel example.</p>
+<p>But why would I ever want to do that? It seems it just made the example more convoluted and the result was the same. However, there is a considerable difference. This approach is much more flexible and maintainable, because we decoupled the container and its children from the chosen layout. While the prior example hard-coded the layout, this version defers layout to a template. We can take this one step further yet, and move the template definition into a style:</p>
+<pre><code class="language-xml">&lt;Style TargetType=&quot;ItemsControl&quot; xml:Key=&quot;MyLayout&quot;&gt;
+    &lt;Setter Property=&quot;ItemsPanel&quot;&gt;
+        &lt;Setter.Value&gt;
+            &lt;ItemsPanelTemplate&gt;
+                &lt;StackPanel /&gt;
+            &lt;/ItemsPanelTemplate&gt;
+        &lt;/Setter.Value&gt;
+    &lt;/Setter&gt;
+&lt;/Style&gt;
+</code></pre>
+<p>And then we can refer to this layout in the ItemsControl:</p>
+<pre><code class="language-xml">&lt;ItemsControl Style=&quot;{DynamicResource MyLayout}&quot;&gt;
+    &lt;Label&gt;Hello World!&lt;/Label&gt;
+    &lt;TextBox /&gt;
+    &lt;Button&gt;Click me!&lt;/Button&gt;
+&lt;/ItemsControl&gt;
+</code></pre>
+<p>That’s much nicer! The definition of the ItemsControl is now only marginally more complex than the hard-coded StackPanel. The style can be defined in a global place (such as the application theme) and we can then use it all over the place in our application. And if we decide later that we wanted to use the BidirectionalStackPanel instead, we can simply change it in one place. In fact, different themes can have different version of the style, perhaps specifying a horizontal orientation rather than a vertical one, or perhaps changing colors, fonts, or spacing, without our actual UI definition ever having to change.</p>
+<p>In this example, we defined our own layout style for the items control. However, CODE Framework ships with quite a number of out-of-the-box layout styles. Instead of our own style with its own name, we could have simply referred to an existing CODE Framework style:</p>
+<pre><code class="language-xml">&lt;ItemsControl Style=&quot;{DynamicResource CODE.Framework-Layout-SimpleFormLayout}&quot;&gt;
+    &lt;Label&gt;Hello World!&lt;/Label&gt;
+    &lt;TextBox /&gt;
+    &lt;Button&gt;Click me!&lt;/Button&gt;
+&lt;/ItemsControl&gt;
+</code></pre>
+<p>Done! This style is guaranteed to exist in every CODE Framework theme. You do not need to define any special XAML namespaces. You do not need to define a custom style. All you need to know is the name of the style resource.</p>
+<p>So how would you know what name resources exist? Well, you could look into the CODE Framework XAML resources. Or you can read this article (see below for a complete list). But we also have an easier way: Instead of using the default WPF ItemsControl, you can use CODE Framework’s View element. This element is a sub-class of the default ItemsControl with a bunch of convenience features added. Such as StandardLayout property that makes it easy to pick one of the default layout styles:</p>
+<pre><code class="language-xml">&lt;mvvm:View StandardLayout=&quot;SimpleForm&quot;&gt;
+    &lt;Label&gt;Hello World!&lt;/Label&gt;
+    &lt;TextBox /&gt;
+    &lt;Button&gt;Click me!&lt;/Button&gt;
+&lt;/mvvm:View&gt;
+</code></pre>
+<p>The StandardLayout property is really just a convenience property. When set, the property simply triggers setting of the Style of the element to the resource references in the previous example.</p>
+<blockquote>
+<p>Note: Many of the CODE Framework layout elements have a standard style equivalent. For instance, the SimpleForm standard layout (which always translates to the CODE.Framework-Layout-SimpleFormLayout resource) refers to the BidirectionalStackPanel element. Note however that this is not always an exact match (which is also why the names are slightly different). Most themes will decide that simple forms are to be implemented as bidirectional stack panels, but some themes may choose a different layout element. Also, themes will choose to set various properties on layout elements to non-standard settings, rather than always just going with the defaults, so that is another difference from just using the layout element directly.</p>
+</blockquote>
+<p>The use of the View object is entirely optional, but it sure is convenient. Most people like using this object and we thus make this the default root element of UI definitions. Therefore, if all you wanted in your UI was these three elements, you could go with the following:</p>
+<pre><code class="language-xml">&lt;mvvm:View xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot; 
+           xmlns:mvvm=&quot;clr-namespace:CODE.Framework.Wpf.Mvvm;assembly=CODE.Framework.Wpf.Mvvm&quot;
+           Title=&quot;Bidirectional Stack Panel Example&quot; 
+           StandardLayout=&quot;SimpleForm&quot;&gt;
+
+    &lt;Label&gt;Hello World!&lt;/Label&gt;
+    &lt;TextBox /&gt;
+    &lt;Button&gt;Click me!&lt;/Button&gt;
+
+&lt;/mvvm:View&gt;
+</code></pre>
+<p>Note that there are other properties of interest on the View element, such as Title.</p>
+<h3 id="global-styles-themes-and-local-resources">Global Styles, Themes, and Local Resources</h3>
+<p>We have now learned that we could create our own styles, or we can use existing CODE Framework ones. (Most CODE Framework apps have a combination of these). It’s worth talking a bit more about where to put these styles. There are several potential options. The first is App.xaml. Everything that is defined in there is globally available to the app. However, this is a horrible place to put it, because this file would grow completely out of control in even the smallest of WPF apps.</p>
+<p>A better place is to put it into the theme folder of your app. Let’s say you wanted to create a new global style and you are using the Workplace theme. In that case, simply put a new XAML resource dictionary into the Themes\Workplace folder. Then, reference your new file from Workplace.xaml. What’s nice about this approach (besides it being much more orderly than the mess App.xaml creates) is that this style is now theme-specific. If you were to support more than one theme (or perhaps create a new theme for version 2.0 of your app), you can simply put a similar file into that theme’s folder and define your style slightly different. CODE Framework will handle the rest. What if you do not want your style to look any different in the new theme? Well, just copy the existing file over into that folder. (Note: You could also reference the existing file across folders, but I find that this is more trouble than it’s worth in real-world scenarios).</p>
+<p>Using this approach, you now have a layout style that is available in your entire app. But what if you only wanted the style in a single UI? No problem. Each XAML file in the Views folder has its own associated resource files. Some are theme-specific, otherwise are always there. You can simply stick your style definition into one of these files (depending on whether you want them to change with the chosen theme or not).</p>
+<p>One of the features most people overlook is the ability to override styles. Let’s say you stuck your style into the themes folder and were happily using it in hundreds of places, and then one form just needs a slight variation on that style. You could create a new style of course, but maybe you would like to stick with the same name for whatever reason (perhaps to keep the setup consistent in naming, or perhaps you only want that minor change in one theme, while all other themes should use the default for that particular UI). No problem either. Simply put a style of the same name into your local resource file for that UI and it will override the global one.</p>
+<p>This also works with the default CODE Framework styles. Let’s say you started creating your application using all the out-of-the-box styles. You are now using such as style in hundreds of places, and then your boss decided that it’s desirable to have slightly different spacing or a different font size. In that case, simply grab the existing style from the CODE Framework source (the resource dictionaries are actually available in a broken out separate download for ease of access) copy it into your local theme folder, and modify it to your heart’s content. Keep the name the same. This way, it overrules the default style application-wide.</p>
+<p>This is a very powerful feature and a very deliberate and well thought out design choice in CODE Framework. In many case, we start a new app and come out guns blazing, churning out one UI after another, because using the default themes makes it so easy. Of course, this means that things may not look exactly right as far as the project stakeholders are concerned. But you can then tweak the styles either globally or just in specific forms until everyone is happy. And best of all: It’s just a stylistic change. There is no danger of any functionality breaking, which greatly reduces the test effort.</p>
+<h3 id="container-resources">Container Resources</h3>
+<p>Another feature that most WPF developers overlook is the ability to define styles that are only available within other styles. This is similar to the ability in CSS to create selectors, although the approach is slightly different. Take a look at this example:</p>
+<pre><code class="language-xml">&lt;Style TargetType=&quot;ItemsControl&quot; x:Key=&quot;CODE.Framework-Layout-SimpleFormLayout&quot; 
+       BasedOn=&quot;{StaticResource CODE.Framework-Layout-SimpleFormLayout}&quot;&gt;
+    &lt;Style.Resources&gt;
+        &lt;Style TargetType=&quot;Button&quot; BasedOn=&quot;{StaticResource {x:Type Button}}&quot;&gt;
+            &lt;Setter Property=&quot;HorizontalAlignment&quot; Value=&quot;Right&quot; /&gt;
+        &lt;/Style&gt;
+    &lt;/Style.Resources&gt;
+&lt;/Style&gt;
+</code></pre>
+<p>This creates a new style of the same name as one of the default styles CODE Framework provides. However, it doesn’t completely start from scratch, but it instead derives everything the existing style of the same name already has. (And yes, it is absolutely legal syntax in XAML to create a new style based on a style of the same name). The style doesn’t actually change any of the style settings (although it certainly could if you had that need). Instead, it uses the little-known feature of defining resources within a style. The resource that is being defined is another style, which is an implicit style that applies to all Button elements. However, since the style is defines within another style, it only applies to buttons within controls that use the simple-form layout style.</p>
+<p>How cool is that? Using this simple trick, we now define that our buttons are to be right-aligned, but only if they appear within a container that uses the simple form layout style. Other than that, both the button and the layout style use all their default settings they always had, because our two new styles are based on previously existing styles (one references by name, the other referencing the implicit style defined for all buttons).</p>
+<p>The end result of all this is that the following code results in the display shown in Figure 2:</p>
+<pre><code class="language-xml">&lt;mvvm:View xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot; 
+           xmlns:mvvm=&quot;clr-namespace:CODE.Framework.Wpf.Mvvm;assembly=CODE.Framework.Wpf.Mvvm&quot;
+           Title=&quot;Bidirectional Stack Panel Example&quot; 
+           StandardLayout=&quot;SimpleForm&quot;&gt;
+
+    &lt;Label&gt;Hello World!&lt;/Label&gt;
+    &lt;TextBox /&gt;
+    &lt;Button&gt;Click me!&lt;/Button&gt;
+
+&lt;/mvvm:View&gt;
+</code></pre>
+<blockquote>
+<p>Note: Remember that setting the StandardLaytout property is really just a simplified way to reference the style we changed.</p>
+</blockquote>
+<p><img src="Understanding%20Layout/Figure02.png" alt="" /></p>
+<p>Figure 2: The default CODE Framework Simple-Form style has been overridden to cause Button elements to be right-aligned.</p>
+<p>This technique is extremely powerful. It allows for very targeted definition of styles that only apply in specific scenarios. You can use it in nested hierarchies, and you can use it for all properties in these elements. Want more spacing before the button? Well, just set the Margin property in your style.
+Composing UIs</p>
+<p>The final concept that I am always surprised to see overlooked a lot, is the ability to compose user interfaces out of multiple containers. No matter how fancy a bidirectional stack panel CODE Framework provides, it is still just a single control with limited layout capabilities. This might be the simples of the CODE Framework layout elements, but even the most powerful ones are somewhat unlikely to define entire user interfaces on their own. Instead, UIs are composed out of hierarchies of these objects.</p>
+<p>Consider the example shown in Figure 3 for instance. This entire interface contains no hard-coded layout, but it contains a composition of multiple layout containers. <span style="color:red">The root uses a… </style></p>
+<p><span style="color:red">Figure 3</style></p>
+<h2 id="creating-custom-layout-elements">Creating Custom Layout Elements</h2>
+<p>In addition to using the custom layout elements provided by CODE Framework, you can also create your own. You may be surprised to find that it isn’t as hard as you might think. If you ever wrote any code that handles manual screen resizing, you already know what’s involved. A detailed discussion of this subject is beyond the scope of this article, but we have another article that covers this very subject: <a target="top" href="http://www.codemag.com/Article/1011071">http://www.codemag.com/Article/1011071</a></p>
+<h2 id="hard-coding-uis">Hard-Coding UIs</h2>
+<p>Does all of this mean that you will never use a Grid element again in your WPF apps and manually drop elements into it and define their positions by hand? No, it doesn’t. The Grid element has a bright future in WPF in general and in CODE Framework specifically as well. Not all user interfaces can benefit from templated layout. Sometimes you will just have to sit down and do it by hand and that’s fine. Sometimes you can use templated layouts for most of a form, but one small section may have to be laid out by hand. That’s fine too.</p>
+<p>The rule of thumb is that CODE Framework’s layout elements are supposed to make your life easier. We encourage you to learn about them and use them wherever they provide a benefit. The benefit may be short-term, when it is simply faster and easier to create templated layouts. The benefit may be functional, when you want to support different themes (as often happens either in a single version of an app, or over multiple versions of an app as the look evolves). The benefit can also be related to maintainability and consistency of the provided interface. But weigh those benefits carefully. When an interface is so highly specialized that composing it out of templated layouts becomes so difficult that the difficulty outweighs the benefits, then I would not hesitate to create the layout manually the old-fashioned way. (Just make sure you don’t just use the hard-coded approach because “that’s what we have always done”, or because “that’s what we know”).</p>
+<h2 id="provided-layout-features">Provided Layout Features</h2>
+<p>Now that we understand the concepts and ideas behind CODE Framework’s layout features, we can start diving into an individual review of each of the elements and how to use them.</p>
+<p>Each layout element can either be used directly (such as using a BidirectionalStackPanel). Most layout elements also have a pre-defined layout style that can be applied to any ItemsControl (such as the CODE.Framework-Layout-SimpleFormLayout style). But using the style names can be a frustrating experience of memorization (the names are deliberately long to avoid potential conflicts with other styles… “SimpleForm” would be much easier to remember, but changes are much greater than someone already has a style of that name in their app). For this reason, all such styles can be used through the StandardLayout property on the View. (The View also defines numerous other interesting features. See below for more details).</p>
+<p>Another nifty trick to remember is that the New-View Wizard provided by the CODE Framework Tools Visual Studio Extension provides a list of all standard layouts with a visual representation and a quick description of what the style does (Figure 4). When in doubt, you can always use this wizard to create a temporary XAML file and see what it produces. It’s a good learning tool.</p>
+<p><img src="Understanding%20Layout/Figure04.png" alt="" /></p>
+<p>Figure 4: The New View Wizard provides a handy list of all standard layouts with a visual representation and a quick description.</p>
+<h3 id="bidirectional-stack-panel-and-simple-form-layouts">Bidirectional Stack Panel and Simple Form Layouts</h3>
+<p>The BidirectionalStackPanel layout element is one of the simpler layout elements provided by CODE Framework (which is why I have used it in introductory examples above). It’s quite similar in concept to the standard StackPanel class, but it adds a number of useful features.</p>
+<p>This layout approach can be referenced in the following ways:</p>
+<ul>
+<li>Element name: <strong>BidirectionalStackPanel</strong></li>
+<li>XAML namespace declaration: clr-namespace:CODE.Framework.Wpf.Layout;assembly=CODE.Framework.Wpf</li>
+<li>Style key: <strong>CODE.Framework-Layout-SimpleFormLayout</strong> and <strong>CODE.Framework-Layout-SimpleFormToFillLayout</strong></li>
+<li>Standard layout: <strong>SimpleForm</strong> and <strong>SimpleFormToFill</strong></li>
+</ul>
+<blockquote>
+<p>Note: As for all layout elements, the style resource (and the standard layout reference} typically uses this layout element, but there may be differences in some themes.</p>
+</blockquote>
+<p>The basic use of this layout element is the following:</p>
+<pre><code class="language-xml">&lt;l:BidirectionalStackPanel&gt;
+    &lt;Label&gt;Hello World!&lt;/Label&gt;
+    &lt;TextBox /&gt;
+    &lt;Button&gt;Click me!&lt;/Button&gt;
+&lt;/l:BidirectionalStackPanel&gt;
+</code></pre>
+<p>This creates the result shown in Figure 1.</p>
+<p>The default approach lays elements out top-to-bottom (or left-to-right if the Orientation property is set accordingly) with no margin around elements. However, it is possible to set the margin for child items to create a visual appearance that is more useful for laying out controls in a user interface. Margin for child items will be applied to all elements within the panel. However, it is often desirable to not have a margin at the bottom of text elements. For instance, when laying out a UI that has text elements (like text blocks) followed by textboxes, followed by text element, followed by textbox, then it is reasonable to assume that the text is a label that goes with the control that follows, and therefore, it often makes sense to not add any special margin between these controls. This can be achieved by setting the IgnoreChildItemBottomMarginForTextElements property to true (which is actually the default). The following example takes advantage of these features:</p>
+<pre><code class="language-xml">&lt;l:BidirectionalStackPanel ChildItemMargin=&quot;10,8&quot; IgnoreChildItemBottomMarginForTextElements=&quot;true&quot;&gt;
+    &lt;Label&gt;Hello World!&lt;/Label&gt;
+    &lt;TextBox /&gt;
+    &lt;Button&gt;Click me!&lt;/Button&gt;
+&lt;/l:BidirectionalStackPanel&gt;
+</code></pre>
+<p>This results in the UI shown in Figure 5, which looks much more pleasing and professional than the version shown in Figure 1.</p>
+<p><img src="Understanding%20Layout/Figure05.png" alt="" /></p>
+<p>Figure 5: Setting a child item margin creates a pleasing margin around each of the contained elements, achieving a more useful UI layout when compared to standard StackPanel layouts.</p>
+<p>The reason the control is called a bidirectional stack panel is that it can flow elements in from two direction (contrary to the default StackPanel control, which flows elements from one direction only). Therefore, all elements with a VerticalAlignment of Bottom, will be flown in from the bottom, while everything else flows from the top. (This also works in a horizontally aligned bidirectional panel, but in that case the HorizontalAlignment property is used to determine flow direction). The following example always arranges the button at the bottom:</p>
+<pre><code class="language-xml">&lt;l:BidirectionalStackPanel ChildItemMargin=&quot;10,8&quot; IgnoreChildItemBottomMarginForTextElements=&quot;true&quot;&gt;
+    &lt;Label&gt;Hello World!&lt;/Label&gt;
+    &lt;TextBox /&gt;
+    &lt;Button VerticalAlignment=&quot;Bottom&quot;&gt;Click me!&lt;/Button&gt;
+&lt;/l:BidirectionalStackPanel&gt;
+</code></pre>
+<p>Figure 6 shows the result.</p>
+<p><img src="Understanding%20Layout/Figure06.png" alt="" /></p>
+<p>Figure 6: The button is positioned at the bottom of the available space, due to its vertical alignment being set to “Bottom”.</p>
+<p>In some scenarios, it is desirable to have the last top element fill the available space. For instance, in our current example, the textbox could always fill the space “in the middle”, no matter how much space there is. This can be done by setting the LastTopItemFillsSpace property to true:</p>
+<pre><code class="language-xml">&lt;l:BidirectionalStackPanel ChildItemMargin=&quot;10,8&quot; IgnoreChildItemBottomMarginForTextElements=&quot;true&quot; LastTopItemFillsSpace=&quot;true&quot;&gt;
+    &lt;Label&gt;Hello World!&lt;/Label&gt;
+    &lt;TextBox /&gt;
+    &lt;Button VerticalAlignment=&quot;Bottom&quot;&gt;Click me!&lt;/Button&gt;
+&lt;/l:BidirectionalStackPanel&gt;
+</code></pre>
+<p>There also is a special margin property (LastTopItemFillMargin) if you want to fine-tune the margin just for that last control. Figure 7 shows this UI.</p>
+<p><img src="Understanding%20Layout/Figure07.png" alt="" /></p>
+<p>Figure 7: With the BidirectionalStackPanel set to fill the space with the last top item, the textbox takes up all the available space (while the button is at the bottom due to its vertical alignment setting).</p>
+<p>Sometimes, not all the elements fit into the available space on screen. The default StackPanel class simply causes elements to flow out the bottom (or right) of the panel. The BidirectionalStackPanel on the other hand will show a scroll bar in those cases. (This behavior can be turned off using the ScrollBarMode property). We can easily force this behavior by setting a minimum height for the last top item:</p>
+<pre><code class="language-xml">&lt;l:BidirectionalStackPanel ChildItemMargin=&quot;10,8&quot; IgnoreChildItemBottomMarginForTextElements=&quot;true&quot; LastTopItemFillsSpace=&quot;true&quot;&gt;
+    &lt;Label&gt;Hello World!&lt;/Label&gt;
+    &lt;TextBox MinHeight=&quot;300&quot;/&gt;
+    &lt;Button VerticalAlignment=&quot;Bottom&quot;&gt;Click me!&lt;/Button&gt;
+&lt;/l:BidirectionalStackPanel&gt;
+</code></pre>
+<p>Now, whenever the total height of the panel isn’t tall enough to fit all the controls, a scrollbar appears, as shown in Figure 8.</p>
+<p><img src="Understanding%20Layout/Figure08.png" alt="" /></p>
+<p>Figure 8: Whenever there isn’t enough space to fit all elements into the available space, a scroll bar is displayed (unless that feature is specifically disabled).</p>
+<p>As always, it is often desirable to not use the control directly, but to use a View container instead. The version that fills the space (identical to Figure 8, although different themes will apply different spaces) can be coded like this:</p>
+<pre><code class="language-xml">&lt;mvvm:View StandardLayout=&quot;SimpleFormToFill&quot;&gt;
+    &lt;Label&gt;Hello World!&lt;/Label&gt;
+    &lt;TextBox MinHeight=&quot;300&quot;/&gt;
+    &lt;Button VerticalAlignment=&quot;Bottom&quot;&gt;Click me!&lt;/Button&gt;
+&lt;/mvvm:View&gt;
+</code></pre>
+<p>Note that the chosen standard layout is the “…ToFill” variation, which simply invokes a style that sets the LastTopItemFillsSpace property to true. The standard version on the other hand, produces the same result as Figure 6:</p>
+<pre><code class="language-xml">&lt;mvvm:View StandardLayout=&quot;SimpleForm&quot;&gt;
+    &lt;Label&gt;Hello World!&lt;/Label&gt;
+    &lt;TextBox/&gt;
+    &lt;Button VerticalAlignment=&quot;Bottom&quot;&gt;Click me!&lt;/Button&gt;
+&lt;/mvvm:View &gt;
+</code></pre>
+<h3 id="standard-form-layout">Standard Form Layout</h3>
+<p>“Standard Forms” aren’t even really a special layout approach, but they shall be mentioned here for completeness. Standard forms simply are an abstraction of a Grid element (with all the child elements laid out manually as in any WPF Grid) so the styled approach can be used even for manual layouts.</p>
+<ul>
+<li>Element name: n/a</li>
+<li>XAML namespace declaration: n/a</li>
+<li>Style key: <strong>CODE.Framework-Layout-StandardFormLayout</strong></li>
+<li>Standard layout: <strong>StandardForm</strong></li>
+</ul>
+<p>An example of the use of this style looks like this:</p>
+<pre><code class="language-xml">&lt;mvvm:View StandardLayout=&quot;StandardForm&quot;&gt;
+    &lt;Label Margin=&quot;20,40,0,0&quot; VerticalAlignment=&quot;Top&quot;&gt;Hello World!&lt;/Label&gt;
+    &lt;TextBox Margin=&quot;20,80,20,0&quot; VerticalAlignment=&quot;Top&quot;/&gt;
+    &lt;Button Margin=&quot;20,0,20,20&quot; VerticalAlignment=&quot;Bottom&quot; HorizontalAlignment=&quot;Left&quot;&gt;Click me!&lt;/Button&gt;
+&lt;/mvvm:View&gt;
+</code></pre>
+<p>This is really the same as this:</p>
+<pre><code class="language-xml">&lt;Grid&gt;
+    &lt;Label Margin=&quot;20,40,0,0&quot; VerticalAlignment=&quot;Top&quot;&gt;Hello World!&lt;/Label&gt;
+    &lt;TextBox Margin=&quot;20,80,20,0&quot; VerticalAlignment=&quot;Top&quot;/&gt;
+    &lt;Button Margin=&quot;20,0,20,20&quot; VerticalAlignment=&quot;Bottom&quot; HorizontalAlignment=&quot;Left&quot;&gt;Click me!&lt;/Button&gt;
+&lt;/Grid&gt;
+</code></pre>
+<p>Note that the advantage of the prior approach is that it is based on a style that can be tweaked and generically maintained and changed, while the second version is always hardcoded to use a Grid.</p>
+<h3 id="multi-panel-layouts">Multi Panel Layouts</h3>
+<ul>
+<li>Element name:  <strong>MultiPanel</strong></li>
+<li>XAML namespace declaration: clr-namespace:CODE.Framework.Wpf.Layout;assembly=CODE.Framework.Wpf</li>
+<li>Style key: <strong>CODE.Framework-Layout-MultiPanelLayout</strong>, <strong>CODE.Framework-Layout-MultiPanelWithHeaderLayout</strong>, <strong>CODE.Framework-Layout-MultiPanelVerticalLayout</strong>, <strong>CODE.Framework-Layout-MultiPanelVerticalWithHeaderLayout</strong></li>
+<li>Standard layout: <strong>MultiPanel</strong>, <strong>MultiPanelWithHeaders</strong>, <strong>MultiPanelVertical</strong>, <strong>MultiPanelVerticalWithHeaders</strong></li>
+</ul>
+<p>Multi panel layouts arrange child elements as proportional panels inside of the main layout element. This is useful in scenarios where you want the available space within an element (often the entire view) to be split (horizontal or vertical) between however many child elements are visible. Optionally, each individual sub-element can be shown with a customizable (and stylable) header. This is definitely easier to show than explain, so take a look at Figure 9 for an example.</p>
+<p><img src="Understanding%20Layout/Figure09.png" alt="" /></p>
+<p>Figure 9: A multi-panel form with 3 panels (the colored rectangles serve as simple placeholders for more advanced contained UIs) and panel headers.</p>
+<blockquote>
+<p>Note: Multi panel UIs can often be used interchangeably with tabbed UIs (see below). A multi panel UI can be thought of as a tab control with multiple “tabs” visible at the same time. Another possible alternative are “blades” (see below), which are somewhat similar to the multi panel approach, except the size-strategy for the contained elements uses the exact opposite approach (rather than splitting the space and assigning sizes to the individual elements, the size of blades is driven by the child elements).</p>
+</blockquote>
+<p>The simplest version of a MultiPanel layout, simply takes all contained (and visible) child elements, and splits the available space between them. Consider this example:</p>
+<pre><code class="language-xml">&lt;l:MultiPanel&gt;
+    &lt;Rectangle Fill=&quot;Red&quot;/&gt;
+    &lt;Rectangle Fill=&quot;Green&quot;/&gt;
+    &lt;Rectangle Fill=&quot;Yellow&quot;/&gt;
+&lt;/l:MultiPanel&gt;
+</code></pre>
+<p>This results in the UI shown in Figure 10.</p>
+<p><img src="Understanding%20Layout/Figure10.png" alt="" /></p>
+<p>Figure 10: A very simple MultiPanel, with the contained UI elements splitting the available space horizontally.</p>
+<p>By default, all elements are sized the same. However, the relative size of elements can be changed in a fashion very similar to changing Grid dimensions. Of course, the Rectangle object used in this example has no concept of having a certain size in a MultiPanel layout. Therefore, the size is set by means of an attached property provided by the View object:</p>
+<pre><code class="language-xml">&lt;Rectangle Fill=&quot;Red&quot; mvvm:View.RelativeHeight=&quot;2*&quot;/&gt;
+</code></pre>
+<p>By default, all elements have a relative height of 1*, but by setting the relative height to 2* on the red rectangle, it is assigned twice as much space as the other rectangles (see Figure 11).</p>
+<p><img src="Understanding%20Layout/Figure11.png" alt="" /></p>
+<p>Figure 11: The relative height of the red rectangle is twice that of the other two rectangles.</p>
+<p>Note that it is possible to orient the panel “the other way”. By default, the arrangement is top-to-bottom (vertical), but by setting the Orientation property to Horizontal, the elements are arranges as shown in Figure 12. Relative widths of horizontally arranged elements in a MultiPanel are set through the RelativeWidth attached property on the View element.</p>
+<p><img src="Understanding%20Layout/Figure12.png" alt="" /></p>
+<p>Figure 12: A horizontal MultiPanel arrangement.</p>
+<p>Another setting that is often useful is the ability to change the spacing between elements by setting the Spacing property.</p>
+<p>It is often desirable (although completely optional) to show headers for each panel. Headers are completely customizable (either by setting properties on header renderer objects, or by implementing custom renderers) and can be turned on by configuring a header renderer object on the MultiPanel:</p>
+<pre><code class="language-xml">&lt;l:MultiPanel&gt;
+  &lt;l:MultiPanel.HeaderRenderer&gt;
+    &lt;l:MultiPanelHeaderRenderer Background=&quot;Black&quot; Foreground=&quot;White&quot; FontSize=&quot;16&quot; Orientation=&quot;Vertical&quot;/&gt;
+  &lt;/l:MultiPanel.HeaderRenderer&gt;
+    
+  &lt;Rectangle Fill=&quot;Red&quot; mvvm:View.Title=&quot;First Panel&quot; mvvm:View.RelativeHeight=&quot;2*&quot;/&gt;
+  &lt;Rectangle Fill=&quot;Green&quot; mvvm:View.Title=&quot;Second Panel&quot;/&gt;
+  &lt;Rectangle Fill=&quot;Yellow&quot; mvvm:View.Title=&quot;Third Panel&quot;/&gt;
+&lt;/l:MultiPanel&gt;
+</code></pre>
+<p>In this example, the HeaderRenderer property of the MultiPanel object is set to a default MultiPanelHeaderRenderer element provided by CODE Framework. (It is possible to implement your own). This header renderer allows setting a number of properties, such as fonts and colors of the rendered header.</p>
+<p>Note that most header renderers need a title to display in the header. Again, Rectangle elements do not have titles, but once again, the attached Title property on the View object comes to the rescue. The result is shown in Figure 13. Note that the default header renderer allows showing headers either vertical or horizontal. For an example of horizontal headers, see Figure 14.</p>
+<p><img src="Understanding%20Layout/Figure13.png" alt="" /></p>
+<p>Figure 13: A MultiPanel with vertical headers.</p>
+<p><img src="Understanding%20Layout/Figure14.png" alt="" /></p>
+<p>Figure 14: The same UI as in Figure 13, but with horizontal headers configured.</p>
+<p>Elements within the multi-panel layout are only displayed when they are visible. Collapsed icons are not displayed at all and completely ignored for layout. (Elements with collapsed visibility are considered “closed”). It is often useful to bind the Visibility property of contained elements to a view-model property to be able to toggle their visibility on and off. Another option is to display a clickable icon in the header that “closes” the element (by collapsing it). To enable this, two things have to be done: 1) the header renderer has to define an icon, and 2) each contained element has to indicate whether it can be collapsed. Defining an icon can be done by referring to one of the standard CODE Framework icons, or by defining your own icon resource:</p>
+<pre><code class="language-xml">&lt;l:MultiPanelHeaderRenderer CloseIcon=&quot;{DynamicResource CODE.Framework-Icon-ClosePane}&quot;/&gt;
+</code></pre>
+<p>Then, each element can individually decide whether it wants to be closable. To make the red rectangle closable, we can do this:</p>
+<pre><code class="language-xml">&lt;Rectangle Fill=&quot;Red&quot; mvvm:View.Title=&quot;First Panel&quot; mvvm:View.Closable=&quot;True&quot;/&gt;
+</code></pre>
+<p>Now, when the user clicks on the close icon in the header, the red rectangle disappears as its visibility is set to collapsed state. Note that sometimes it is desirable to have more control over what happens when the icon is clicked. For this purpose, a ViewAction can be assigned to the icon, like so:</p>
+<pre><code class="language-xml">&lt;Rectangle Fill=&quot;Red&quot; mvvm:View.Title=&quot;First Panel&quot; mvvm:View.Closable=&quot;True&quot; 
+           mvvm:View.CloseAction=&quot;{Binding CloseAction}&quot; Visibility=&quot;{Binding Panel1Visible}&quot;/&gt;
+</code></pre>
+<p>This triggers the specified action, which can do anything desired. Usually, this includes setting the panel invisible by setting a bound property accordingly (Panel1Visible, in this example). It is important to know that whenever a custom action is assigned to the close icon, no actual hiding of the element is performed, unless the action’s execute code somehow triggers a visibility change.</p>
+<p>MultiPanels have a few more tricks up their sleeve. One is the ability to set a panel to “flow with the previous” element. This means that it doesn’t get pushed into a new row or column, but it instead flows in along the previous. Figure 15 shows an example of such a UI. Here is the code that produces it:</p>
+<pre><code class="language-xml">&lt;l:MultiPanel&gt;
+  &lt;Rectangle mvvm:View.Title=&quot;One&quot; mvvm:View.Closable=&quot;True&quot; mvvm:View.RelativeHeight=&quot;2*&quot; Fill=&quot;Red&quot; Stroke=&quot;Green&quot; StrokeThickness=&quot;2&quot;/&gt;
+  &lt;Rectangle mvvm:View.Title=&quot;One B&quot; mvvm:View.Closable=&quot;True&quot; Fill=&quot;Maroon&quot; Stroke=&quot;Green&quot; StrokeThickness=&quot;2&quot; mvvm:View.FlowsWithPrevious=&quot;True&quot; Width=&quot;150&quot;/&gt;
+  &lt;Rectangle mvvm:View.Title=&quot;Two&quot; mvvm:View.TitleColor=&quot;Maroon&quot; mvvm:View.SupportsDocking=&quot;True&quot; Fill=&quot;Blue&quot; Stroke=&quot;Green&quot; StrokeThickness=&quot;2&quot;/&gt;
+  &lt;Rectangle mvvm:View.Title=&quot;And Three&quot; mvvm:View.Closable=&quot;True&quot; Fill=&quot;Yellow&quot; Stroke=&quot;Green&quot; StrokeThickness=&quot;2&quot;/&gt;
+&lt;/l:MultiPanel&gt;
+</code></pre>
+<p>Note the View.FlowsWithPrevious property setting on the second rectangle. This causes that element to flow into the same row as the previous rectangle. It is given a width of 150 pixels, since that is the hardcoded width for that element. This example has a few other interesting details. The header of the blue rectangle in Figure 15 has a different title color from the others. This is due to the title color being set using the View.TitleColor attached properties. Depending on the utilized header renderer, this setting may or may not be respected (the header renderer has properties – UseTitleColorForBackground and UseTitleColorForForeground - to indicate whether it is desirable to respect the title color). Some themes (such as the Universe theme shown in Figure 15) respect title colors out of the box, while others do not (but it is of course always possible to force the issue by hardcoding the setting or – better – by changing the style as needed).</p>
+<p><img src="Understanding%20Layout/Figure15.png" alt="" /></p>
+<p>Figure 15: The maroon colored rectangle flows into the same “row” as the red one, since it is set to “flow with previous”. Also, note the colored header for the blue rectangle.</p>
+<p>Another interesting detail in this example is the ability to undock panels and float them around the desktop as separate windows. In this example, the blue rectangle can be undocked, because it has the View.SupportsDocking property set to true. With this, the user can grab the header and undock the panel. Figure 16 shows an example. (Note: The style of the window used for undocked elements can be customized).</p>
+<p><img src="Understanding%20Layout/Figure16.png" alt="" /></p>
+<p>Figure 16: An undocked panel floating on the desktop as an independent window.</p>
+<p>In most CODE Framework uses, it is not necessary to hard-code the use of a MultiPanel. Instead, it is more desirable to create a View that uses this layout approach. The following code snippet shows such an example:</p>
+<pre><code class="language-xml">&lt;mvvm:View xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot; 
+           xmlns:mvvm=&quot;clr-namespace:CODE.Framework.Wpf.Mvvm;assembly=CODE.Framework.Wpf.Mvvm&quot;
+           Title=&quot;MultiPanel Eample&quot; StandardLayout=&quot;MultiPanelWithHeaders&quot;&gt;
+    &lt;Rectangle Fill=&quot;Red&quot; mvvm:View.Title=&quot;First Panel&quot; /&gt;
+    &lt;Rectangle Fill=&quot;Green&quot; mvvm:View.Title=&quot;Second Panel&quot;/&gt;
+    &lt;Rectangle Fill=&quot;Yellow&quot; mvvm:View.Title=&quot;Third Panel&quot;/&gt;
+&lt;/mvvm:View&gt;
+</code></pre>
+<p>This creates the result shown in Figure 9. Note that there are two standard layouts available for multi-panels: MultiPanel and MultiPanelWithHeaders. You guessed it: One has headers, the other doesn’t. When using the one with headers, no further configuration is needed. Each theme defines an appropriate style to display headers in the right colors, fonts, and orientation. Headers support close icons when contained elements are flagged as closable.</p>
+<p>In most scenarios, MultiPanel layouts do not lay out random elements, but they often use contained view elements, which themselves have advanced child layouts. It is also quite common that the contained child elements are a combination of individual elements and View elements:</p>
+<pre><code class="language-xml">&lt;mvvm:View xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot; 
+           xmlns:mvvm=&quot;clr-namespace:CODE.Framework.Wpf.Mvvm;assembly=CODE.Framework.Wpf.Mvvm&quot;
+           Title=&quot;Advanced MultiPanel Layout&quot; StandardLayout=&quot;MultiPanelWithHeaders&quot;&gt;
+
+    &lt;ListBox mvvm:View.Title=&quot;List Example&quot; /&gt;
+
+    &lt;mvvm:View Title=&quot;Edit Form Example&quot; StandardLayout=&quot;EditForm&quot; RelativeHeight=&quot;2*&quot;&gt;
+        &lt;!-- More elements go here... --&gt; 
+    &lt;/mvvm:View&gt;
+    
+&lt;/mvvm:View&gt;
+</code></pre>
+<p>Figure 17 shows a more fleshed out version of this approach, with richly formatted child elements.</p>
+<p><img src="Understanding%20Layout/Figure17.png" alt="" /></p>
+<p>Figure 17: An advanced MultiPanel layout utilizes a ListBox and a View as child elements, achieving a sophisticated layout with ease.</p>
+<h3 id="blade-panel-uis">Blade Panel UIs</h3>
+<ul>
+<li>Element name: BladePanel</li>
+<li>XAML namespace declaration: clr-namespace:CODE.Framework.Wpf.Layout;assembly=CODE.Framework.Wpf</li>
+<li>Style key: CODE.Framework-Layout-BladePanelLayout, CODE.Framework-Layout-BladePanelWithHeaderLayout, CODE.Framework-Layout-BladePanelToFillLayout, CODE.Framework-Layout-BladePanelWithHeaderToFillLayout</li>
+<li>Standard layout: Blades, BladesToFill, BladesWithHeaders, BladesWithHeadersToFill</li>
+</ul>
+<p>Blade UIs are conceptually quite similar to multi-panels, and in fact, people tend to confuse the two. The main difference is that multi-panels split the available space between the child elements (this assigning each a portion of the size available), while blades are sized based on the need of the contained elements, giving each the desired space, and creating a scrolling setup if needed. Blades are also always flowing left-to-right.</p>
+<p>To use an example similar to the one used for multi-panels, here is a simple blade setup with three differently sized and colored rectangles:</p>
+<pre><code class="language-xml">&lt;l:BladePanel&gt;
+  &lt;Rectangle Width=&quot;300&quot; Fill=&quot;Red&quot;/&gt;
+  &lt;Rectangle Width=&quot;400&quot; Fill=&quot;Green&quot;/&gt;
+  &lt;Rectangle Width=&quot;200&quot; Fill=&quot;Yellow&quot;/&gt;
+&lt;/l:BladePanel&gt;
+</code></pre>
+<p>This creates the result shown in Figure 18. Note that the width of each panels is driven by the defined width for each child element. Each child is given the width it asks for, regardless of whether that is due to a hardcoded width (as in this example), or whether the contained element itself is auto-sizing in some way. Also note that whenever there is not enough horizontal space available to fit all elements, a horizontal scrollbar appears.</p>
+<p><img src="Understanding%20Layout/Figure18.png" alt="" /></p>
+<p>Figure 18: Three colored rectangles are shown as blades arranged left-to-right. Since there is not enough room to fit them all, a scrollbar is shown.</p>
+<p>It is also possible to force the last element to use up all the available space. This is done by setting the LastTopItemFillsPace property to true. (Note: The naming of this property is done for consistency with other CODE Framework elements, even though it is actually the right-most item that fills the space, rather than the top one).</p>
+<pre><code class="language-xml">&lt;l:BladePanel LastTopItemFillsSpace=&quot;True&quot;&gt;
+  &lt;Rectangle Width=&quot;300&quot; Fill=&quot;Red&quot;/&gt;
+  &lt;Rectangle Width=&quot;400&quot; Fill=&quot;Green&quot;/&gt;
+  &lt;Rectangle Fill=&quot;Yellow&quot;/&gt;
+&lt;/l:BladePanel&gt;
+</code></pre>
+<p>In this case, the yellow rectangle fills up however much space there is left for it. (Note: If there isn’t enough space to show all three rectangles, a scrollbar appears). The last element generally is sized to fill the available remaining space. However, it is possible to set a minimum size using the element’s MinWidth property. If this results in too wide a layout, scrollbars will be shown.</p>
+<p>It is also possible to have some blades stick to the right edge (similar to a bidirectional stack panel) by setting the horizontal alignment:</p>
+<pre><code class="language-xml">&lt;l:BladePanel LastTopItemFillsSpace=&quot;True&quot;&gt;
+  &lt;Rectangle Width=&quot;300&quot; Fill=&quot;Red&quot;/&gt;
+  &lt;Rectangle Fill=&quot;Green&quot;/&gt;
+  &lt;Rectangle Width=&quot;200&quot; HorizontalAlignment=&quot;Right&quot; Fill=&quot;Yellow&quot;/&gt;
+&lt;/l:BladePanel&gt;
+</code></pre>
+<p>Not only does that keep the yellow rectangle docked to the left, but a potential scrollbar only applies to the left-aligned elements.</p>
+<p>The BladePanel class has properties to set spacing between the elements. Also, as with the multi-panel setup, it is possible (and often desired) to show headers for each blade:</p>
+<pre><code class="language-xml">&lt;l:BladePanel LastTopItemFillsSpace=&quot;True&quot;&gt;
+  &lt;l:BladePanel.HeaderRenderer&gt;
+    &lt;l:BladePanelHeaderRenderer Background=&quot;Black&quot; Foreground=&quot;White&quot; Orientation=&quot;Vertical&quot; FontSize=&quot;18&quot;/&gt;
+  &lt;/l:BladePanel.HeaderRenderer&gt;
+  &lt;Rectangle Width=&quot;300&quot; Fill=&quot;Red&quot; mvvm:View.Title=&quot;First Panel&quot;/&gt;
+  &lt;Rectangle Width=&quot;300&quot; Fill=&quot;Green&quot; mvvm:View.Title=&quot;Second Panel&quot;/&gt;
+  &lt;Rectangle Width=&quot;400&quot; Fill=&quot;Yellow&quot; mvvm:View.Title=&quot;Third Panel&quot; HorizontalAlignment=&quot;Right&quot;/&gt;
+&lt;/l:BladePanel&gt;
+</code></pre>
+<p>The result is shown in Figure 19. As you can see, the header renderer picks up the blade’s title in a fashion identical to the multi-panel. (Note: This makes it possible to simply switch the layout style from blades to multi-panels and have the same headers appear). It is of course also possible to show headers horizontal across the blades by setting the Orientation property on the renderer (see Figure 20). Header renderers for blades are very similar to header renderers for multi-panels, including the ability to implement your own header renderers.</p>
+<p><img src="Understanding%20Layout/Figure19.png" alt="" /></p>
+<p>Figure 19: Blades with vertical headers. The third blade is right-aligned. Since there isn’t enough space to show both left-aligned blades, a scroll bar is shown.</p>
+<p><img src="Understanding%20Layout/Figure20.png" alt="" /></p>
+<p>Figure 20: Blades with horizontal headers.</p>
+<p>As is the case with most CODE Framework layouts, it is desirable to use blade layouts simply by invoking a style or standard-layout, rather than hard-coding the layout. Here is an example that produces the same result as in Figure 19/18, but simply by applying a View with a style. (Note that exact colors and orientation change with each theme):</p>
+<pre><code class="language-xml">&lt;mvvm:View xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot; 
+           xmlns:mvvm=&quot;clr-namespace:CODE.Framework.Wpf.Mvvm;assembly=CODE.Framework.Wpf.Mvvm&quot;
+           Title=&quot;BladePanel Example&quot; StandardLayout=&quot;BladesWithHeadersToFill&quot;&gt;
+
+    &lt;Rectangle Width=&quot;300&quot; Fill=&quot;Red&quot; mvvm:View.Title=&quot;First Panel&quot;/&gt;
+    &lt;Rectangle Fill=&quot;Green&quot; mvvm:View.Title=&quot;Second Panel&quot;/&gt;
+    &lt;Rectangle Width=&quot;250&quot; Fill=&quot;Yellow&quot; mvvm:View.Title=&quot;Third Panel&quot; HorizontalAlignment=&quot;Right&quot;/&gt;
+    
+&lt;/mvvm:View&gt;
+</code></pre>
+<p>And just like in the MultiPanel example, BladePanel layouts are generally used to have more complex items as their child elements, such as lists or other views. The following is essentially the same example as shown in Figure 17, but using the BladePanel approach. (Note that switching layouts between different approaches without changing the embedded elements is one of the major advantages of this approach):</p>
+<pre><code class="language-xml">&lt;mvvm:View xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot; 
+           xmlns:mvvm=&quot;clr-namespace:CODE.Framework.Wpf.Mvvm;assembly=CODE.Framework.Wpf.Mvvm&quot;
+           Title=&quot;Advanced BladePanel Layout&quot; StandardLayout=&quot;BladesWithHeaders&quot;&gt;
+
+    &lt;ListBox Width=&quot;500&quot; mvvm:View.Title=&quot;List Example&quot; ItemsSource=&quot;{Binding ExampleList}&quot; controls:ListEx.Columns=&quot;{Binding ExampleListColumns}&quot;/&gt;
+
+    &lt;mvvm:View Title=&quot;Edit Form Example&quot; StandardLayout=&quot;EditForm&quot;&gt;
+        &lt;!-- More elements go here... --&gt; 
+    &lt;/mvvm:View&gt;
+&lt;/mvvm:View&gt;
+</code></pre>
+<p>The result is shown in Figure 21. Make sure you compare both the code and the result to what is shown in Figure 17.</p>
+<p><img src="Understanding%20Layout/Figure21.png" alt="" /></p>
+<p>Figure 21: An advanced layout with two blades.</p>
+<h3 id="tabbed-uis">Tabbed UIs</h3>
+<ul>
+<li>Element name: TabItemPanel</li>
+<li>XAML namespace declaration: clr-namespace:CODE.Framework.Wpf.Layout;assembly=CODE.Framework.Wpf</li>
+<li>Style key: CODE.Framework-Layout-Tabs</li>
+<li>Standard layout: Tabs</li>
+</ul>
+<p>Tabbed UIs are exactly what the name indicates: They use a tab-control type of layout approach. Figure 22 shows such an example.</p>
+<p><img src="Understanding%20Layout/Figure22.png" alt="" /></p>
+<p>Figure 22: The tab-panel layout displays its children within separate “tabs”, similar to a TabControl.</p>
+<p>Note that the TabPanel layout is not meant to replace the standard WPF TabControl, and it doesn’t have all of the same features. Instead, this layout element is there to provide a generic and stylable layout approach for tabs. The beauty of having this layout element is that the display in Figure 22 was simply created by switching the style of the example shown in Figure 21. This is super-useful, but it isn’t meant for all scenarios. If you require features the TabControl has that are not available in the style, use the TabControl instead, but weight the advantages and disadvantages of having the styled layout.</p>
+<p>Here is the code that produces the UI shown in Figure 22:</p>
+<pre><code class="language-xml">&lt;mvvm:View xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot; 
+           xmlns:mvvm=&quot;clr-namespace:CODE.Framework.Wpf.Mvvm;assembly=CODE.Framework.Wpf.Mvvm&quot;
+           Title=&quot;Advanced TabPanel Layout&quot; StandardLayout=&quot;Tabs&quot;&gt;
+
+    &lt;ListBox mvvm:View.Title=&quot;List Example&quot; ItemsSource=&quot;{Binding ExampleList}&quot; controls:ListEx.Columns=&quot;{Binding ExampleListColumns}&quot;/&gt;
+
+    &lt;mvvm:View Title=&quot;Edit Form Example&quot; StandardLayout=&quot;EditForm&quot; RelativeHeight=&quot;2*&quot;&gt;
+        &lt;!-- More elements go here... --&gt; 
+    &lt;/mvvm:View&gt;
+
+&lt;/mvvm:View&gt;
+</code></pre>
+<p>As always, the layout can be driven by the style as shown above, as well as by using the layout panel directly. (The panel class is called TabItemsPanel).</p>
+<h3 id="primarysecondary-uis">Primary/Secondary UIs</h3>
+<ul>
+<li>Element name: GridPrimarySecondary</li>
+<li>XAML namespace declaration: clr-namespace:CODE.Framework.Wpf.Layout;assembly=CODE.Framework.Wpf</li>
+<li>Style key: CODE.Framework-Layout-PrimarySecondaryFormLayout, CODE.Framework-Layout-ListPrimarySecondaryFormLayout, CODE.Framework-Layout-PrimarySecondaryFormLayout-NoColor, CODE.Framework-Layout-ListPrimarySecondaryFormLayout-NoColor</li>
+<li>Standard layout: PrimarySecondaryForm, PrimarySecondaryListForm, PrimarySecondaryFormNoColor, PrimarySecondaryListFormNoColor</li>
+</ul>
+<p>Primary/Secondary UIs are the granddaddy of CODE Framework templated UIs. Their basic idea is simple: Many UIs has a “primary” or “main” part of the UI, while being augmented by “secondary” parts. Consider Windows Explorer for instance. Its “primary” part is the list of files in a folder. However, there is a secondary part, which is the tree-view that shows you which folder you are in. Many business applications have similar examples. One of the most commonly used ones are search screens, which show a list of search results as the main content, but they are augmented by a UI that allows entering search criteria. The ultimate goal is to create a user interface that looks like the UIs shown in Figure 23 and Figure 24 (which are the same UI but with different themes/skins applied).</p>
+<p><img src="Understanding%20Layout/Figure23.png" alt="" /></p>
+<p>Figure 23: A Primary/Secondary search UI using the Vapor theme.</p>
+<p><img src="Understanding%20Layout/Figure24.png" alt="" /></p>
+<p>Figure 24: The same search UI as shown in Figure 23, but this time using the Metro theme. Note the different background colors used by the primary and secondary parts of the UI.</p>
+<p>Primary/Secondary forms almost always use a View element to be invoked. (It is possible to use the primary/secondary layout element directly, but this is almost never done, which is why I am not covering it in this article). Here is the code for the examples shown in Figures 23 and 24:</p>
+<pre><code class="language-xml">&lt;mvvm:View xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot; 
+           xmlns:mvvm=&quot;clr-namespace:CODE.Framework.Wpf.Mvvm;assembly=CODE.Framework.Wpf.Mvvm&quot;
+           xmlns:controls=&quot;clr-namespace:CODE.Framework.Wpf.Controls;assembly=CODE.Framework.Wpf&quot;
+           Title=&quot;Primary-Secondary Example&quot; StandardLayout=&quot;PrimarySecondaryListForm&quot;&gt;
+
+    &lt;mvvm:View UIElementType=&quot;Secondary&quot; StandardLayout=&quot;SimpleForm&quot;&gt;
+        &lt;Label&gt;Customer Name:&lt;/Label&gt;
+        &lt;TextBox Text=&quot;{Binding Name}&quot; /&gt;
+        &lt;Label&gt;Company Name:&lt;/Label&gt;
+        &lt;TextBox Text=&quot;{Binding Company}&quot; /&gt;
+        &lt;Button Command=&quot;{Binding Actions[Search]}&quot; Content=&quot;{Binding Actions[Search].Caption}&quot;/&gt;
+    &lt;/mvvm:View&gt;
+
+    &lt;ListBox mvvm:View.UIElementType=&quot;Primary&quot; ItemsSource=&quot;{Binding SearchResults}&quot;
+             ItemTemplate=&quot;{DynamicResource CODE.Framework-StandardTemplate-DataSmall03}&quot;&gt;
+        &lt;controls:ListEx.Columns&gt;
+            &lt;controls:ListColumnsCollection&gt;
+                &lt;controls:ListColumn BindingPath=&quot;Image1&quot; Width=&quot;40&quot; Header=&quot;&quot;/&gt;
+                &lt;controls:ListColumn BindingPath=&quot;Text1&quot; Width=&quot;300&quot; Header=&quot;Name&quot;/&gt;
+                &lt;controls:ListColumn BindingPath=&quot;Text2&quot; Width=&quot;300&quot; Header=&quot;Company&quot;/&gt;
+            &lt;/controls:ListColumnsCollection&gt;
+        &lt;/controls:ListEx.Columns&gt;
+    &lt;/ListBox&gt;
+    
+&lt;/mvvm:View&gt;
+</code></pre>
+<p>The important part here is the use of the PrimarySecondaryListForm standard layout. There are four different variations of the primary/secondary layout: The default one and one for lists, which may or may not be different in some themes (Figure 24 shows how the Metro theme applies different colors to different parts, which the default variation would not do). Then there are equivalents of both with a “NoColor” suffix. Those, as the name implies, do not apply any background color. There is no behavioral difference between these. In most scenarios, primary/secondary forms deal with lists, so that is the most used version. The choice is simple: If your primary element is (or contains) a list, use the list one, otherwise, use the default one.</p>
+<p>There are a few aspects about these forms to point out: Secondary elements may be arranged on any side of the main area, but it is usually to the left. Sometimes it is at the top. It can be right or at the bottom, but in Western cultures, that is not common. Be aware that the size of the secondary area is fixed. If this doesn’t suit your needs, consider using a blade-panel layout instead (with two panels and the second one filling the available space).</p>
+<p>The primary/secondary panel layout has an interesting peculiarity: It is capable of swapping the position of the secondary element dynamically. For instance, if the element turns out to be very wide but now very tall, it may be positioned above the main element, but once the secondary element grows over a certain height, it snaps to the left. This behavior is driven by the SecondaryUIElementAlignmentChangeSize property. Take a look at an example definition of the style:</p>
+<pre><code class="language-xml">&lt;Style TargetType=&quot;ItemsControl&quot; x:Key=&quot;CODE.Framework-Layout-PrimarySecondaryFormLayout&quot;&gt;
+  &lt;Setter Property=&quot;ItemsPanel&quot;&gt;
+    &lt;Setter.Value&gt;
+      &lt;ItemsPanelTemplate&gt;
+        &lt;layout:GridPrimarySecondary Margin=&quot;20&quot; UIElementSpacing=&quot;15&quot; SecondaryUIElementAlignmentChangeSize=&quot;0&quot; /&gt;
+      &lt;/ItemsPanelTemplate&gt;
+    &lt;/Setter.Value&gt;
+  &lt;/Setter&gt;
+&lt;/Style&gt;
+</code></pre>
+<p>Note that the change-size is set to 0. This always forces the secondary element to the left. However, if this size was set to something else (like 200 perhaps), then the secondary element would go to the top as long as it was less than 200 pixels tall. This behavior is sometimes confusing to people, but most themes force the change-height to 0, so it always is pushed to the side. It is easy to override that behavior by re-defining this style locally and change that behavior.</p>
+<h3 id="property-sheet-uis">Property Sheet UIs</h3>
+<ul>
+<li>Element name: PropertySheet</li>
+<li>XAML namespace declaration: clr-namespace:CODE.Framework.Wpf.Layout;assembly=CODE.Framework.Wpf</li>
+<li>Style key: n/a</li>
+<li>Standard layout: n/a</li>
+</ul>
+<p>The UIs we have seen so far have all been concerned with the arrangement of large areas within a container. The property sheet layout element is the first one that concerns itself with laying out individual controls. The basic idea is to create something similar to a property sheet in Visual Studio. There are labels on the left and textboxes (or similar controls) on the right, creating a UI like the one shown in Figure 25.</p>
+<p><img src="Understanding%20Layout/Figure25.png" alt="" /></p>
+<p>Figure 25: A Property Sheet layout using the Geek theme.</p>
+<p>Here is the code that goes with the definition of the UI in Figure 25:</p>
+<pre><code class="language-xml">&lt;mvvm:View xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot; 
+           xmlns:mvvm=&quot;clr-namespace:CODE.Framework.Wpf.Mvvm;assembly=CODE.Framework.Wpf.Mvvm&quot;
+           xmlns:l=&quot;clr-namespace:CODE.Framework.Wpf.Layout;assembly=CODE.Framework.Wpf&quot;
+           Title=&quot;Property Sheet Example&quot; StandardLayout=&quot;StandardForm&quot;&gt;
+
+    &lt;l:PropertySheet Padding=&quot;10&quot;&gt;
+        &lt;TextBlock mvvm:View.GroupBreak=&quot;True&quot; mvvm:View.GroupTitle=&quot;First Group&quot;&gt;Test 1&lt;/TextBlock&gt;
+        &lt;TextBox Text=&quot;Test 1 Text&quot;/&gt;
+        &lt;TextBlock&gt;Test 2 is longer&lt;/TextBlock&gt;
+        &lt;TextBox Text=&quot;Test 2 Text&quot;/&gt;
+        &lt;TextBlock&gt;Test 3&lt;/TextBlock&gt;
+        &lt;TextBox Text=&quot;Test 3 Text&quot;/&gt;
+
+        &lt;TextBlock mvvm:View.GroupBreak=&quot;True&quot; mvvm:View.GroupTitle=&quot;Second Group&quot;&gt;Second Group&lt;/TextBlock&gt;
+        &lt;TextBox Text=&quot;Test 1 Text&quot;/&gt;
+        &lt;TextBlock&gt;Test 2 is longer&lt;/TextBlock&gt;
+        &lt;TextBox Text=&quot;Test 2 Text&quot;/&gt;
+
+        &lt;TextBlock mvvm:View.IsStandAloneLabel=&quot;True&quot;&gt;Label only...&lt;/TextBlock&gt;
+
+        &lt;TextBlock&gt;Test 3&lt;/TextBlock&gt;
+        &lt;TextBox Text=&quot;Test 3 Text&quot;/&gt;
+        &lt;TextBox mvvm:View.IsStandAloneEditControl=&quot;true&quot; Text=&quot;Test 4 Text&quot;/&gt;
+
+        &lt;TextBlock&gt;Example File:&lt;/TextBlock&gt;
+        &lt;TextBox/&gt;
+        &lt;Button Padding=&quot;5,0&quot; Content=&quot;...&quot; mvvm:View.FlowsWithPrevious=&quot;True&quot;/&gt;
+        &lt;Button Padding=&quot;5,0&quot; Content=&quot;??&quot; mvvm:View.FlowsWithPrevious=&quot;True&quot;/&gt;
+
+        &lt;Button mvvm:View.SpanFullWidth=&quot;True&quot; Content=&quot;I span the entire width&quot; /&gt;
+
+        &lt;TextBlock&gt;One more&lt;/TextBlock&gt;
+        &lt;TextBox Text=&quot;Okay&quot;/&gt;
+    &lt;/l:PropertySheet&gt;
+
+&lt;/mvvm:View&gt;
+</code></pre>
+<p>There are several points of interest in the UI shown in Figure 25. Most importantly, it demonstrates the basic idea behind a property sheet layout, which is to arrange elements with labels on the left and other controls on the right. The width of the widest label is used to calculate the width or all labels. The controls on the right always take up all the remaining space. (This is different to the EditForm behavior described below, where the controls define their own width).</p>
+<p>The basic idea of the property sheet layout is simple, but the example in Figure 25 shows many more complex features. For instance, consider that the properties are shown in groups. This is done via the View.GroupBreak and View.GroupTitle attached properties. (Note: For property sheet layouts, it is required to indicate a group break even for the first element for group header rendering to kick in. This is so property sheets without grouping can be rendered if desired.)</p>
+<p>The second group has some interesting arrangements of elements within itself. There is a label without a control on the right. This is done by setting the View.IsStandAloneLabel to true on the label control. Two rows further down, we have the opposite: A control without a label, thanks to the View.IsStandAlineEditControl property being set to true. The very next line shows several controls in the right-hand section. This is by creating controls that “flow with the previous” element, which is indicated by the View.FlowsWithPrevious property. Finally, we have a button that spans the entire available width, which is done using the View.SpanFullWidth property.</p>
+<p>As you can see, the combination of all these controls gives us the ability to lay out a very advanced property sheet. And by the way: Remember all the attached View properties we encountered here (such as FlowsWIthPrevious), because those (and others) are used in even more complex scenarios, and we will meet them again in examples further below in this article.</p>
+<blockquote>
+<p>Note: The property sheet is not considered a “standard CODE Framework layout”, and thus doesn’t have a predefined style and not StandardForm setting in the View object. This is not the only such element in CODE Framework, but it is relatively important (and may be elevated to standard layout status once all themes feature a default style for it), so I am mentioning it here anyway.</p>
+</blockquote>
+<h3 id="edit-form-uis">Edit Form UIs</h3>
+<ul>
+<li>Element name: EditForm</li>
+<li>XAML namespace declaration: clr-namespace:CODE.Framework.Wpf.Layout;assembly=CODE.Framework.Wpf</li>
+<li>Style key: CODE.Framework-Layout-EditFormLayout</li>
+<li>Standard layout: EditForm</li>
+</ul>
+<p>The EditForm UI is the Big Bertha of layout components. It is the most advanced, complex, and feature-rich generic layout component we have ever built (and quite likely anyone else, for that matter). The EditForm layout container is based on a relatively simple idea: Many data entry forms (“edit forms”) in business applications tend to use the same pattern: They lay out groups of labels and controls. There often is a label, followed by a control such as a textbox. Then there is the next label, and it is followed by another control, perhaps a drop-down list. The layout of these element is usually such that the labels and the controls are aligned to create a UI that is pleasing and easy to take in by the human eye. Figure 26 shows the most basic of such an example. The following code snippet creates that UI:</p>
+<pre><code class="language-xml">&lt;l:EditForm&gt;
+  &lt;TextBlock&gt;Name:&lt;/TextBlock&gt;
+  &lt;TextBox Width=&quot;300&quot;/&gt;
+  &lt;TextBlock&gt;Company Name:&lt;/TextBlock&gt;
+  &lt;TextBox Width=&quot;300&quot;/&gt;
+  &lt;TextBlock&gt;Country of Origin:&lt;/TextBlock&gt;
+  &lt;ComboBox Width=&quot;200&quot;/&gt;
+&lt;/l:EditForm&gt;
+</code></pre>
+<p><img src="Understanding%20Layout/Figure26.png" alt="" /></p>
+<p>Figure 26: The most basic layout pattern of an EditForm: Text labels followed by a control. All the labels and all the controls are properly aligned.</p>
+<p>This trivial example shows a few important concepts: For one, the EditForm container is smart enough to figure out which child elements are labels, and which are the “controls”. (The element on the left is always considered the “label” and the one on the right is considered the “edit control”, regardless of what actual type of element they are). Typically, this is done by making pairs of elements, but there are ways to change that (see below). Then, all the label elements are measured to see how wide they are. This then allows laying out all the controls in a fashion where all the labels and all the edit controls line up.</p>
+<blockquote>
+<p>Note: the controls on the left-hand side of Figure 26 all have a specified hardcoded pixel width. It is better to set a more abstract width that grows and shrinks with font sizes and other factors. This can be done by setting the View.WidthEx attached property instead of the intrinsic Width property.</p>
+</blockquote>
+<p>Of course, most edit form layouts are far more complex than this first example. Consider Figure 27 for a more advanced layout. In this example, the controls are arranged in groups (with displayed group headers). There also are two columns of control groups. Furthermore, the layout of the individual control “pairs” is now taken to the next level (and in fact demonstrates the ability to go beyond a simple pairings). For instance, there is a button to the right of the textbox after the “Company Name” label. Similarly, there are three textboxes for country, state, and ZIP code, all arranged to the right of a single label. On the opposite end of the spectrum, there is the “stand-alone” textbox for a second street below the first Street/textbox pairs.</p>
+<p><img src="Understanding%20Layout/Figure27.png" alt="" /></p>
+<p>Figure 27: An advanced edit form layout.</p>
+<p>How is this done? Here is the code snippet that creates that layout:</p>
+<pre><code class="language-xml">&lt;l:EditForm&gt;
+    &lt;Label mvvm:View.GroupTitle=&quot;Name Information:&quot;&gt;First Name:&lt;/Label&gt;
+    &lt;TextBox mvvm:View.WidthEx=&quot;30&quot;/&gt;
+    &lt;Label&gt;Middle Name:&lt;/Label&gt;
+    &lt;TextBox mvvm:View.WidthEx=&quot;30&quot;/&gt;
+    &lt;Label&gt;Last Name:&lt;/Label&gt;
+    &lt;TextBox mvvm:View.WidthEx=&quot;30&quot;/&gt;
+    &lt;Label&gt;Company Name:&lt;/Label&gt;
+    &lt;TextBox mvvm:View.WidthEx=&quot;26&quot;/&gt;
+    &lt;Button mvvm:View.FlowsWithPrevious=&quot;True&quot;&gt;...&lt;/Button&gt;
+
+    &lt;Label mvvm:View.GroupBreak=&quot;True&quot; mvvm:View.GroupTitle=&quot;Address Information:&quot;&gt;Street:&lt;/Label&gt;
+    &lt;TextBox mvvm:View.WidthEx=&quot;30&quot;/&gt;
+    &lt;TextBox mvvm:View.WidthEx=&quot;30&quot; mvvm:View.IsStandAloneEditControl=&quot;True&quot;/&gt;
+    &lt;Label&gt;City/State/ZIP:&lt;/Label&gt;
+    &lt;TextBox mvvm:View.WidthEx=&quot;19&quot;/&gt;
+    &lt;TextBox mvvm:View.WidthEx=&quot;3&quot; mvvm:View.FlowsWithPrevious=&quot;True&quot;/&gt;
+    &lt;TextBox mvvm:View.WidthEx=&quot;6&quot; mvvm:View.FlowsWithPrevious=&quot;True&quot;/&gt;
+
+    &lt;Label mvvm:View.ColumnBreak=&quot;True&quot; mvvm:View.GroupTitle=&quot;Phone Information:&quot;&gt;Phone:&lt;/Label&gt;
+    &lt;TextBox mvvm:View.WidthEx=&quot;30&quot;/&gt;
+    &lt;Label&gt;Fax:&lt;/Label&gt;
+    &lt;TextBox mvvm:View.WidthEx=&quot;30&quot;/&gt;
+    &lt;Label&gt;Mobile:&lt;/Label&gt;
+    &lt;TextBox mvvm:View.WidthEx=&quot;30&quot;/&gt;
+    &lt;Label&gt;Home Phone:&lt;/Label&gt;
+    &lt;TextBox mvvm:View.WidthEx=&quot;30&quot;/&gt;
+
+    &lt;Label mvvm:View.GroupBreak=&quot;True&quot; mvvm:View.GroupTitle=&quot;Online Information:&quot;&gt;Web:&lt;/Label&gt;
+    &lt;TextBox mvvm:View.WidthEx=&quot;30&quot;/&gt;
+    &lt;Label&gt;Email:&lt;/Label&gt;
+    &lt;TextBox mvvm:View.WidthEx=&quot;30&quot;/&gt;
+    &lt;Label&gt;LinkedIn:&lt;/Label&gt;
+    &lt;TextBox mvvm:View.WidthEx=&quot;30&quot;/&gt;
+    &lt;Label&gt;Facebook:&lt;/Label&gt;
+    &lt;TextBox mvvm:View.WidthEx=&quot;30&quot;/&gt;
+&lt;/l:EditForm&gt;
+</code></pre>
+<p>There is quite a bit of detail in this code snippet, so let’s take a look at them one by one. The first detail I want to draw your attention to is the setting of GroupTitle and GroupBreak attached properties. The EditForm panel can render group headings without there being any actual controls representing those. In other words: The first element within this UI is the label that says “First Name:”. The group title is simply picked up from the View.GroupTitle property. If it is set (and we are either at a group break or at the very first control), then the EditForm will make space for a heading and render it. Group titles are optional, even if you want group breaks. If there is no title, the break will simply add a bit of space before the control. (Note: there are a number of properties on the EditForm to set break spacing and also features like fonts and colors for the headers. In the different themes, there are appropriate default for those settings, so they almost never have to be set manually.)</p>
+<p>The third group of controls starts with a special feature: It creates a column break. Column breaks are special group breaks (they are considered a group break in terms of rendering a group header) that force the next element to flow to the column and start over at the very top. There is a property that defines the column spacing.</p>
+<p>For special control alignment, take a look at the “…” button. The reason it is positioned to the right of the textbox (and thus ends up putting two control to the right of the label) is that it “flows with the previous” control. Thus, its View.FlowsWithPrevious attached property is set to true. (Note: We have already seen this feature with the PropertySheet control). The same feature is used with the city/state/zip control alignment. In this case, two textboxes are set to flow with the previous control.</p>
+<p>Finally, we have the textbox to enter a second street address. It has no label. It stands on its own. It is therefore considered a “stand-alone edit control”, which is indicated by the View.IsStandAloneEditControl property. (Note: There also is an equivalent for a stand-alone label).</p>
+<p>Using this set of features, one can create many different edit forms. Most of the time, all other features are set to appropriate defaults by themes and styles. Therefore, the same UI is usually just defined by means of a View with a StandardLayout applied:</p>
+<pre><code class="language-xml">&lt;mvvm:View xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot; 
+           xmlns:mvvm=&quot;clr-namespace:CODE.Framework.Wpf.Mvvm;assembly=CODE.Framework.Wpf.Mvvm&quot;
+           Title=&quot;EditForm Example&quot; StandardLayout=&quot;EditForm&quot;&gt;
+    &lt;Label mvvm:View.GroupTitle=&quot;Name Information:&quot;&gt;First Name:&lt;/Label&gt;
+    &lt;TextBox mvvm:View.WidthEx=&quot;30&quot;/&gt;
+    &lt;Label&gt;Middle Name:&lt;/Label&gt;
+    &lt;TextBox mvvm:View.WidthEx=&quot;30&quot;/&gt;
+    &lt;Label&gt;Last Name:&lt;/Label&gt;
+    &lt;TextBox mvvm:View.WidthEx=&quot;30&quot;/&gt;
+    &lt;Label&gt;Company Name:&lt;/Label&gt;
+    &lt;TextBox mvvm:View.WidthEx=&quot;26&quot;/&gt;
+    &lt;Button mvvm:View.FlowsWithPrevious=&quot;True&quot;&gt;...&lt;/Button&gt;
+
+    &lt;Label mvvm:View.GroupBreak=&quot;True&quot; mvvm:View.GroupTitle=&quot;Address Information:&quot;&gt;Street:&lt;/Label&gt;
+    &lt;TextBox mvvm:View.WidthEx=&quot;30&quot;/&gt;
+    &lt;TextBox mvvm:View.WidthEx=&quot;30&quot; mvvm:View.IsStandAloneEditControl=&quot;True&quot;/&gt;
+    &lt;Label&gt;City/State/ZIP:&lt;/Label&gt;
+    &lt;TextBox mvvm:View.WidthEx=&quot;19&quot;/&gt;
+    &lt;TextBox mvvm:View.WidthEx=&quot;3&quot; mvvm:View.FlowsWithPrevious=&quot;True&quot;/&gt;
+    &lt;TextBox mvvm:View.WidthEx=&quot;6&quot; mvvm:View.FlowsWithPrevious=&quot;True&quot;/&gt;
+
+    &lt;Label mvvm:View.ColumnBreak=&quot;True&quot; mvvm:View.GroupTitle=&quot;Phone Information:&quot;&gt;Phone:&lt;/Label&gt;
+    &lt;TextBox mvvm:View.WidthEx=&quot;30&quot;/&gt;
+    &lt;Label&gt;Fax:&lt;/Label&gt;
+    &lt;TextBox mvvm:View.WidthEx=&quot;30&quot;/&gt;
+    &lt;Label&gt;Mobile:&lt;/Label&gt;
+    &lt;TextBox mvvm:View.WidthEx=&quot;30&quot;/&gt;
+    &lt;Label&gt;Home Phone:&lt;/Label&gt;
+    &lt;TextBox mvvm:View.WidthEx=&quot;30&quot;/&gt;
+
+    &lt;Label mvvm:View.GroupBreak=&quot;True&quot;  mvvm:View.GroupTitle=&quot;Online Information:&quot;&gt;Web:&lt;/Label&gt;
+    &lt;TextBox mvvm:View.WidthEx=&quot;30&quot;/&gt;
+    &lt;Label&gt;Email:&lt;/Label&gt;
+    &lt;TextBox mvvm:View.WidthEx=&quot;30&quot;/&gt;
+    &lt;Label&gt;LinkedIn:&lt;/Label&gt;
+    &lt;TextBox mvvm:View.WidthEx=&quot;30&quot;/&gt;
+    &lt;Label&gt;Facebook:&lt;/Label&gt;
+    &lt;TextBox mvvm:View.WidthEx=&quot;30&quot;/&gt;
+&lt;/mvvm:View&gt;
+</code></pre>
+<p>However, there are quite a few additional settings developers can fiddle with. This is usually done by changing the app-global definition of the layout style, or by overriding the style in the resource dictionary of a specific view. (See the first part of this article for more information on how to accomplish these tasks). I will discuss each setting individually below, but for now, I will draw your attention to a few additional key features. The first one is the ability to change where the label goes. Some themes call for a label on the left (as shown in Figure 27), while others (such as the Metro and Universe themes) position the label above the edit controls. This is set through the LabelPositions property.</p>
+<p>A very sophisticated feature of the EditForm layout element is called “layout elasticity”. This refers to the ability to smartly adjust the layout to take advantage of available screen real-estate. Figure 27 shows a UI that offers plenty of room for all the controls that need to be positioned on the screen. However, if the user resizes the window smaller, not all controls will fit anymore. At that point, the EditForm has the capability to shrink spacing between controls down to a configurable minimum level. Figure 28 shows the same UI rendered at slightly different sizes to illustrate the point. Pay close attention to the spacing between controls and columns. Layout elasticity can take things a step further yet and apply scale transformations to scale the entire UI. This however is a specialty scenario that is only used by some themes. No matter which approach is used to shrink the UI, eventually the space available is going to get too small to fit everything. At that point, the EditForm shows scrollbars. Specifics of layout elasticity are set through the LayoutElasticity property on the EditForm element.</p>
+<p><img src="Understanding%20Layout/Figure28.png" alt="" /></p>
+<p>Figure 28: The same UI shown at slightly different sizes and resulting in subtle but important differences. Due to layout elasticity, the spacing between controls and columns is shrunk in the bottom example.</p>
+<p>Another feature that is worth mentioning is the ability to render additional visual indicators into the background. One such option is to draw boxes or backgrounds around groups. Figure 29 shows this in action. This is done by setting the RenderGroupBackground property of the EditForm to true. Furthermore, there are settings for background and border brushes, as well as border thickness. A similar option allows rendering horizontal lines after each control. This feature can be enabled through the RenderHorizontalControlSeparatorLines property (and associated properties for desired colors). Figure 30 shows what this feature is capable of. In that example, both the left and the right side happen to be TextBlock elements (the one on the right happens to be in bold). All the horizontal lines are rendered by the container element.</p>
+<p><img src="Understanding%20Layout/Figure29.png" alt="" /></p>
+<p>Figure 29: Backgrounds and borders rendered for each group in an edit form layout.</p>
+<p><img src="Understanding%20Layout/Figure30.png" alt="" /></p>
+<p>Figure 30: An edit form layout composed out of textblocks. It is using horizontal separator lines and group headers.</p>
+<p>As you can see in these examples, there are two sets of properties that impact edit form layouts: 1) properties in the EditForm element itself, and 2) attached properties on the View object. Let’s take a full inventory of all those properties, starting with the EditForm element’s properties:</p>
+<ul>
+<li><strong>ColumnSpacing</strong>: Defines the horizontal space between columns.</li>
+<li><strong>EditControlLeftSpacing</strong>: Defines the space added to the left of edit controls, after the widest label. Only applies when the label is positioned to the left of the edit control.</li>
+<li><strong>EditControlTopSpacing</strong>: Spacing between the label and edit control, when the label is positioned above the edit control.</li>
+<li><strong>FlowWithPreviousSpacing</strong>: Defines the horizontal spacing between edit controls when a second control flows in behind the previous control.</li>
+<li><strong>GroupBackgroundBrush</strong>: Background brush used to render group backgrounds. Only applies when RenderGroupBackground is true.</li>
+<li><strong>GroupBorderBrush</strong>: Border brush used to render group backgrounds. Only applies when RenderGroupBackground is true and the border width is greater than zero.</li>
+<li><strong>GroupBorderMargin</strong>: Margin added around groups when group backgrounds are rendered. This defines the margin/padding between the edge of the rendered background and the actual controls within it. Only applies when RenderGroupBackground is true.</li>
+<li><strong>GroupBorderWidth</strong>: Defines the width of the border rendered for group backgrounds. Only applies when RenderGroupBackground is true.</li>
+<li><strong>GroupHeaderBottomSpacing</strong>: Spacing added blow the text, when rendering group headers.</li>
+<li><strong>GroupHeaderFontFamily</strong>: Font family used for group headers.</li>
+<li><strong>GroupHeaderFontSize</strong>: Font size used for group headers.</li>
+<li><strong>GroupHeaderFontStyle</strong>: Font style used for group headers.</li>
+<li><strong>GroupHeaderFontWeight</strong>: Font weight used for group headers.</li>
+<li><strong>GroupHeaderForegroundBrush</strong>: Foreground brush used for group headers.</li>
+<li><strong>GroupHeaderRenderer</strong>: Allows defining a customer renderer object to render group headers. This can be used to create custom renderings of any kind for group headers. This can be used to render text-based headers, or any kind of other rendering output imaginable.</li>
+<li><strong>GroupHeaderTopSpacing</strong>: Spacing added above the text, when rendering group headers.</li>
+<li><strong>GroupSpacing</strong>: Defines the (typically vertical) spacing between groups.</li>
+<li><strong>HorizontalLineSeparatorBrush</strong>: Brush used to render horizontal separator lines between controls.</li>
+<li><strong>LabelPositions</strong>: Defines whether labels are positioned to the left or above the controls.</li>
+<li><strong>LayoutElasticity</strong>: Defines the layout elasticity behavior (none, spacing, spacing&amp;scale). See above for more detail.</li>
+<li><strong>MinColumnSpacing</strong>: Defines the minimum column spacing layout elasticity can shrink down to (assuming layout elasticity is enabled).</li>
+<li><strong>MinEditControlLeftSpacing</strong>: Defines the minimum control spacing layout elasticity can shrink down to (assuming layout elasticity is enabled).</li>
+<li><strong>MinElasticScaleFactor</strong>: Defines the minimum scale layout elasticity can shrink down to (assuming layout elasticity is enabled).</li>
+<li><strong>MinGroupHeaderBottomSpacing</strong>: Defines the minimum header bottom spacing layout elasticity can shrink down to (assuming layout elasticity is enabled).</li>
+<li><strong>MinGroupHeaderTopSpacing</strong>: Defines the minimum header top spacing layout elasticity can shrink down to (assuming layout elasticity is enabled).</li>
+<li><strong>MinGroupSpacing</strong>: Defines the minimum group spacing layout elasticity can shrink down to (assuming layout elasticity is enabled).</li>
+<li><strong>MinVerticalSpacing</strong>: Defines the minimum vertical control spacing layout elasticity can shrink down to (assuming layout elasticity is enabled).</li>
+<li><strong>RenderGroupBackground</strong>: Defines whether group backgrounds should be rendered. If this is set to false, all settings for group background properties are ignored.</li>
+<li><strong>RenderHorizontalControlSeparatorLine</strong>: Defines whether horizontal separator lines are to be rendered. If this is set to false, all settings for horizontal separator line rendering are ignored.</li>
+<li><strong>ScrollBarMode</strong>: Defines whether and what scrollbars shall be shown if needed (none, horizontal, vertical, both).</li>
+<li><strong>VerticalControlSeparatorOffset</strong>: Defines how far below the control a potential separator line is to be shown.</li>
+<li><strong>VerticalLabelControlOffset</strong>: The label elements (the elements on the left) often do not line up very nicely with the top-edge of the edit controls. Using this property, a vertical offset for the label element can be fine-tuned.</li>
+<li><strong>VerticalSpacing</strong>: Vertical spacing between layout elements.</li>
+</ul>
+<p>In addition to these EditForm properties, the control also respects the following attached properties from the View object:</p>
+<ul>
+<li><strong>View.ColumnBreak</strong>: Indicates a column break. (Column breaks are also considered “group breaks” implicitly).</li>
+<li><strong>View.FlowsWIthPrevious</strong>: Indicates that an element is to flow to the right of the previous element. This is only supported on the “edit control” side of the arrangement.</li>
+<li><strong>View.GroupBreak</strong>: Indicates a group break.</li>
+<li><strong>View.HeightEx</strong>: Can be used to set the height of an element in a way that is relative to the current font size. (1 = fits about the height of a single line of text)</li>
+<li><strong>View.IsStandAloneEditControl</strong>: Indicates that the element is to be considered an edit control (right side) even though there is no label. The space of the label remains empty.</li>
+<li><strong>View.IsStandAloneLabel</strong>: Indicates that the element is a label and there is no following edit control. The space for the edit control remains empty.</li>
+<li><strong>View.Label</strong>: This can be used to generically define a label on the edit control. The label will automatically be rendered without the need of an actual label object.</li>
+<li><strong>View.LabelFontFamily</strong>: Font family for the label. Only applies if the View.Label property is set.</li>
+<li><strong>View.LabelFontSize</strong>: Font size for the label. Only applies if the View.Label property is set.</li>
+<li><strong>View.LabelFontStyle</strong>: Font style for the label. Only applies if the View.Label property is set.</li>
+<li><strong>View.LabelFontWeight</strong>: Font weight of the label. Only applies if the View.Label property is set.</li>
+<li><strong>View.LabelForegroundBrush</strong>: Foreground brush for the label. Only applies if the View.Label property is set.</li>
+<li><strong>View.WidthEx</strong>: Can be used to set the width of an element in a way that is relative to the current font size. (1 = fits about the width of an average character	)</li>
+</ul>
+<h3 id="flow-form-uis">Flow Form UIs</h3>
+<blockquote>
+<p>To be completed...</p>
+</blockquote>
+
+</div>
+
+
+
+
+
+
+                </article>
+
+                <hr />
+                <div class="pull-right">
+                    <a href="http://helpbuilder.west-wind.com" target="_blank"><img src="images/wwhelp.png" /></a>
+                </div>
+
+                <small>
+                    &copy; Markus Egger Inc., 2019 &bull;
+                    Updated: 1/1/0001 12:00:00 AM
+                    <br />
+                    <a href="mailto:support@yoursite.com?subject=Understanding Layout ()&body=Topic: CODE Framework Documentation - http://yoursite.com/docs/.htm">Comment or report problem with topic</a>
+                </small>
+                <br class="clearfix" />
+                <br />
+                <!-- End Rendered Content -->
+            </div>
+        </div>
+    </div>
+    <!-- End Documentation Monster Content -->
+</body>
+</html>
+

@@ -1,4 +1,4 @@
-# Creating Special Data Loading Scenarios
+﻿# Creating Special Data Loading Scenarios
 
 This document deals with special data loading mechanisms within business entities. These mechanisms are meant to be used by advanced users. If you are not sure what all of this means and why you would use it: Don't worry about it! You probably do not need these things...
 

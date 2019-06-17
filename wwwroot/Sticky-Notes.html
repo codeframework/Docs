@@ -1,0 +1,116 @@
+﻿<!DOCTYPE html>
+<!-- saved from url=(0016)http://localhost -->
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Sticky Notes - CODE Framework Documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/scripts/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/scripts/fontawesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/kavadocs.css" />
+
+    <script src="_kavadocs/themes/scripts/jquery/jquery.min.js"></script>
+
+    <script src="_kavadocs/themes/scripts/highlightjs/highlight.pack.js"></script>
+    <link href="_kavadocs/themes/scripts/highlightjs/styles/twilight.css" rel="stylesheet" />
+
+    <script src="_kavadocs/themes/scripts/ww.jquery.min.js"></script>
+    <script src="_kavadocs/themes/scripts/kavadocs.js"></script>
+    
+    <topictype value="topic" />
+
+    <script>    
+        $(document).ready(function () {
+            helpBuilder.initializeLayout();
+            // expand all top level topics
+            setTimeout(helpBuilder.tocExpandTop, 5);
+        });
+    </script>
+</head>
+<body>    
+    <!-- Documentation Monster Content -->
+    <div class="flex-master">
+        <div class="banner">
+
+            <div class="pull-right sidebar-toggle">
+                <i class="fa fa-bars"
+                   title="Show or hide the topics list"></i>
+            </div>
+            <img src="images/logo.png" class="banner-logo" />
+
+            	<div class="projectname">CODE Framework Documentation</div>
+            
+            <div class="byline">
+                                
+            </div>
+        </div>
+
+        <div class="page-content">
+            <div id="toc" class="sidebar-left toc-content">
+                <nav class="visually-hidden">
+                    <a href="tableofcontents.htm">Table of Contents</a>
+                </nav>
+            </div>
+
+            <div class="splitter">
+            </div>
+
+            <div class="main-content">
+                <!-- Rendered Content -->
+                <article class="content-pane">
+                    <header class="content-title">
+    <img src="_kavadocs/icons/topic.png">
+    Sticky Notes
+</header>
+
+<div class="content-body" id="body">
+    <h1 id="sticky-notes">Sticky Notes</h1>
+<p><em>Excerpt from an internal email at EPS:</em></p>
+<p>CODE Framework’s Wildcat theme supports notifications. What’s interesting is that the notifications are implemented as sticky notes (a popular feature of the Staff Lynx app the Wildcat theme is modeled after). It looks like this:</p>
+<p><img src="Sticky%20Notes%20Features/Sticky%20Notes%20Feature_clip_image001_2.jpg" alt="" /></p>
+<p>The sticky notes actually support some pretty wild features. They grow top-to bottom down the right side, and if there isn’t enough space vertically, they grow over to the left. We are putting some artificial limitations on this feature, but it could go to something like this if we wanted:</p>
+<p><img src="Sticky%20Notes%20Features/Sticky%20Notes%20Feature_clip_image002_2.jpg" alt="" /></p>
+<p>It is also interesting to know that there now is a StickyNotePanel class that can be used to lay out ListBoxes. Here’s a screen shot of such an example:</p>
+<p><img src="Sticky%20Notes%20Features/Sticky%20Notes%20Feature_clip_image003_2.jpg" alt="" /></p>
+<p>Note: It gets a bit odd, since the columns are aligned right-to-left (possibly a behavior that could be enhanced in the future and changed by means of a property). So right now this is probably used best for lists that are small enough to not scroll.</p>
+<p>Doing this is relatively simple. Just use the new panel as the ItemsPanel as in this example:</p>
+<pre><code class="language-xml">&lt;ListBox Margin=&quot;10&quot; x:Name=&quot;list&quot; ScrollViewer.VerticalScrollBarVisibility=&quot;Disabled&quot;&gt;
+   &lt;ListBox.ItemsPanel&gt;
+     &lt;ItemsPanelTemplate&gt;
+       &lt;classes:StickyNotePanel /&gt;
+     &lt;/ItemsPanelTemplate&gt;
+   &lt;/ListBox.ItemsPanel&gt; 
+</code></pre>
+<p>Note that the panel doesn’t actually make the yellow background (that is simply a color I assigned to each template in this example), but the panel arranges each item and gives it a slightly crooked alignment as one would expect for sticky notes.</p>
+
+</div>
+
+
+
+
+
+
+                </article>
+
+                <hr />
+                <div class="pull-right">
+                    <a href="http://helpbuilder.west-wind.com" target="_blank"><img src="images/wwhelp.png" /></a>
+                </div>
+
+                <small>
+                    &copy; Markus Egger Inc., 2019 &bull;
+                    Updated: 1/1/0001 12:00:00 AM
+                    <br />
+                    <a href="mailto:support@yoursite.com?subject=Sticky Notes ()&body=Topic: CODE Framework Documentation - http://yoursite.com/docs/.htm">Comment or report problem with topic</a>
+                </small>
+                <br class="clearfix" />
+                <br />
+                <!-- End Rendered Content -->
+            </div>
+        </div>
+    </div>
+    <!-- End Documentation Monster Content -->
+</body>
+</html>
+

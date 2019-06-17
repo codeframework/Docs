@@ -1,0 +1,123 @@
+﻿<!DOCTYPE html>
+<!-- saved from url=(0016)http://localhost -->
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Layout - Setting Generic/Abstract Dimensions on Controls - CODE Framework Documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/scripts/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/scripts/fontawesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/kavadocs.css" />
+
+    <script src="_kavadocs/themes/scripts/jquery/jquery.min.js"></script>
+
+    <script src="_kavadocs/themes/scripts/highlightjs/highlight.pack.js"></script>
+    <link href="_kavadocs/themes/scripts/highlightjs/styles/twilight.css" rel="stylesheet" />
+
+    <script src="_kavadocs/themes/scripts/ww.jquery.min.js"></script>
+    <script src="_kavadocs/themes/scripts/kavadocs.js"></script>
+    
+    <topictype value="topic" />
+
+    <script>    
+        $(document).ready(function () {
+            helpBuilder.initializeLayout();
+            // expand all top level topics
+            setTimeout(helpBuilder.tocExpandTop, 5);
+        });
+    </script>
+</head>
+<body>    
+    <!-- Documentation Monster Content -->
+    <div class="flex-master">
+        <div class="banner">
+
+            <div class="pull-right sidebar-toggle">
+                <i class="fa fa-bars"
+                   title="Show or hide the topics list"></i>
+            </div>
+            <img src="images/logo.png" class="banner-logo" />
+
+            	<div class="projectname">CODE Framework Documentation</div>
+            
+            <div class="byline">
+                                
+            </div>
+        </div>
+
+        <div class="page-content">
+            <div id="toc" class="sidebar-left toc-content">
+                <nav class="visually-hidden">
+                    <a href="tableofcontents.htm">Table of Contents</a>
+                </nav>
+            </div>
+
+            <div class="splitter">
+            </div>
+
+            <div class="main-content">
+                <!-- Rendered Content -->
+                <article class="content-pane">
+                    <header class="content-title">
+    <img src="_kavadocs/icons/topic.png">
+    Layout - Setting Generic/Abstract Dimensions on Controls
+</header>
+
+<div class="content-body" id="body">
+    <h1 id="setting-generic-and-abstract-control-dimensions-in-wpf">Setting Generic and Abstract Control Dimensions in WPF</h1>
+<p><em>Excerpt from an internal email at CODE/EPS:</em></p>
+<p>FYI: I have added a feature we were sort of sorely lacking in the CODE Framework (WPF components): The ability to define sizes of elements in a way that adjusts easily to different styles.</p>
+<p>In the past, if you wanted to add a textbox that was 200 pixels wide and 40 pixels tall, you had to do it like this:</p>
+<pre><code class="language-xml">&lt;Window x:Class=&quot;CODE.Framework.Wpf.TestBench.SizeCalcEx&quot;
+        xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot; 
+        xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;&gt;
+  &lt;Grid&gt;
+    &lt;TextBox Width=&quot;200&quot; Height=&quot;40&quot; /&gt;
+  &lt;/Grid&gt;
+&lt;/Window&gt;
+</code></pre>
+<p>This results in a textbox of exactly these dimensions. In many cases, that is inconvenient. For instance, if a style gets applied that uses a larger font size, then this size is going to be completely wrong!</p>
+<p>So this was the one problem we still had with our styling approach. Instead, we can now set WidthEx and HeightEx properties like so:</p>
+<pre><code class="language-xml">&lt;Window x:Class=&quot;CODE.Framework.Wpf.TestBench.SizeCalcEx&quot; 
+        xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot; 
+        xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot; 
+        xmlns:m=&quot;clr-namespace:CODE.Framework.Wpf.Mvvm;assembly=CODE.Framework.Wpf.Mvvm&quot;&gt;
+  &lt;Grid&gt;
+    &lt;TextBox m:View.WidthEx=&quot;20&quot; m:View.HeightEx=&quot;3&quot; /&gt;
+  &lt;/Grid&gt;
+&lt;/Window&gt;
+</code></pre>
+<p>This defines a textbox of a size that can roughly accommodate 20 characters of text horizontal, and 3 lines vertical. Of course this is not an exact science, because different characters have different widths (I am calculating based on the upper-case letter “N”, so this should be able to accommodate roughly 20 Ns). Also, depending on the style, various controls use different margins and padding and such. (In most cases, controls accommodate slightly less than you’d think… maybe 19 Ns or so, in this case… but that is fine, since nobody actually types 20 Ns, but different characters).</p>
+<p>So this is now our preferred way to set height and width in cases where we need it. Of course if you can get away without setting any dimensions, that is best. But Width is a somewhat common size to set in many data UIs.</p>
+
+</div>
+
+
+
+
+
+
+                </article>
+
+                <hr />
+                <div class="pull-right">
+                    <a href="http://helpbuilder.west-wind.com" target="_blank"><img src="images/wwhelp.png" /></a>
+                </div>
+
+                <small>
+                    &copy; Markus Egger Inc., 2019 &bull;
+                    Updated: 1/1/0001 12:00:00 AM
+                    <br />
+                    <a href="mailto:support@yoursite.com?subject=Layout - Setting Generic/Abstract Dimensions on Controls ()&body=Topic: CODE Framework Documentation - http://yoursite.com/docs/.htm">Comment or report problem with topic</a>
+                </small>
+                <br class="clearfix" />
+                <br />
+                <!-- End Rendered Content -->
+            </div>
+        </div>
+    </div>
+    <!-- End Documentation Monster Content -->
+</body>
+</html>
+

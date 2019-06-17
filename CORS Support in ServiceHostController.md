@@ -1,4 +1,4 @@
-# CORS Support in ServiceHostController (WebApi)
+﻿# CORS Support in ServiceHostController (WebApi)
 
 ServiceHostController support CORS for WebApi hosted services, enabling cross domain calls to services. 
 

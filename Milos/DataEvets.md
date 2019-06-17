@@ -1,4 +1,4 @@
-# Using Data Events
+﻿# Using Data Events
 
 Whenever data base commands are executed against a database back end, events are fired for a number of reasons. Most of these events are triggered by the data service. However, most developers never come in direct contact with data service objects, since data services are instantiated and used behind the scenes. For this reason data events are exposed as static events on the data service factory object. The factory automatically hooks events on all data service objects it creates and passes them on. In addition, the data service factory also fires a few events on its own. In sum, the factory object is a single mediator object that makes all data events available in a single place, which makes it the prime object of interest for all data events.
 

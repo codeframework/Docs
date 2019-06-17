@@ -1,0 +1,125 @@
+﻿<!DOCTYPE html>
+<!-- saved from url=(0016)http://localhost -->
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>View-Actions - String Indexers - CODE Framework Documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/scripts/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/scripts/fontawesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/kavadocs.css" />
+
+    <script src="_kavadocs/themes/scripts/jquery/jquery.min.js"></script>
+
+    <script src="_kavadocs/themes/scripts/highlightjs/highlight.pack.js"></script>
+    <link href="_kavadocs/themes/scripts/highlightjs/styles/twilight.css" rel="stylesheet" />
+
+    <script src="_kavadocs/themes/scripts/ww.jquery.min.js"></script>
+    <script src="_kavadocs/themes/scripts/kavadocs.js"></script>
+    
+    <topictype value="topic" />
+
+    <script>    
+        $(document).ready(function () {
+            helpBuilder.initializeLayout();
+            // expand all top level topics
+            setTimeout(helpBuilder.tocExpandTop, 5);
+        });
+    </script>
+</head>
+<body>    
+    <!-- Documentation Monster Content -->
+    <div class="flex-master">
+        <div class="banner">
+
+            <div class="pull-right sidebar-toggle">
+                <i class="fa fa-bars"
+                   title="Show or hide the topics list"></i>
+            </div>
+            <img src="images/logo.png" class="banner-logo" />
+
+            	<div class="projectname">CODE Framework Documentation</div>
+            
+            <div class="byline">
+                                
+            </div>
+        </div>
+
+        <div class="page-content">
+            <div id="toc" class="sidebar-left toc-content">
+                <nav class="visually-hidden">
+                    <a href="tableofcontents.htm">Table of Contents</a>
+                </nav>
+            </div>
+
+            <div class="splitter">
+            </div>
+
+            <div class="main-content">
+                <!-- Rendered Content -->
+                <article class="content-pane">
+                    <header class="content-title">
+    <img src="_kavadocs/icons/topic.png">
+    View-Actions - String Indexers
+</header>
+
+<div class="content-body" id="body">
+    <h1 id="string-indexer-for-viewactionscollection">String Indexer for ViewActionsCollection</h1>
+<p>Any ViewActionsCollection in any object that implements IHaveActions (such as all view models) have a string-based indexer that makes it easy to access view actions.</p>
+<p>The following is an example of how to add actions and then accessing them by means of various indexers in C# code:</p>
+<pre><code class="language-cs">Actions.Add(new ViewAction(&quot;First Action&quot;));
+Actions.Add(new ViewAction(&quot;Second Action&quot;));
+Actions[0]; // First Action
+Actions[1]; // Second Action
+Actions[&quot;First Action&quot;]; // First Action
+Actions[&quot;Second Action&quot;]; // Second Action
+Actions[&quot;FirstAction&quot;]; // First Action
+Actions[&quot;SecondAction&quot;]; // Second Action
+Actions[&quot;0&quot;]; // First Action
+Actions[&quot;1&quot;]; // Second Action
+</code></pre>
+<p>As you can see, the string indexer is flexible and accepts action names with and without spaces. It also accepts numeric indices passed in as strings.</p>
+<p>Note that internally, view actions have an Id property, which by default is set to the caption of the action. However, it is also possible to explicitly set the Id:</p>
+<pre><code class="language-cs">Actions.Add(new ViewAction(&quot;First Action&quot;) {Id = &quot;First&quot;});
+Actions.Add(new ViewAction(&quot;Second Action&quot;) {Id = &quot;Second&quot;});
+Actions[&quot;First&quot;]; // First Action
+Actions[&quot;Second&quot;]; // Second Action
+</code></pre>
+<p>The string indexer always refers to the Id, NOT the caption. This means that the caption can be localized, but the Id remains unchanged, making it more reliable for identification that the caption.</p>
+<p>Having the string-based indexer makes it more convenient to bind to actions in the generic collection of Actions. For instance, a button could be bound to one of the actions like this:</p>
+<pre><code class="language-xml">&lt;Button Command=&quot;{Binding Actions[First]}&quot; Content=&quot;{Binding Actions[First].Caption}&quot; /&gt;
+</code></pre>
+<p>Note that XAML binding expressions support string-based indexers (without setting quotes around the index expression).</p>
+<p>It is recommended that for all generic references to view-actions in the Actions collection, a string-indexer is used over a numeric one, since that approach is less fragile and does not break if a new action was added to the collection or the order of actions changed.</p>
+
+</div>
+
+
+
+
+
+
+                </article>
+
+                <hr />
+                <div class="pull-right">
+                    <a href="http://helpbuilder.west-wind.com" target="_blank"><img src="images/wwhelp.png" /></a>
+                </div>
+
+                <small>
+                    &copy; Markus Egger Inc., 2019 &bull;
+                    Updated: 1/1/0001 12:00:00 AM
+                    <br />
+                    <a href="mailto:support@yoursite.com?subject=View-Actions - String Indexers ()&body=Topic: CODE Framework Documentation - http://yoursite.com/docs/.htm">Comment or report problem with topic</a>
+                </small>
+                <br class="clearfix" />
+                <br />
+                <!-- End Rendered Content -->
+            </div>
+        </div>
+    </div>
+    <!-- End Documentation Monster Content -->
+</body>
+</html>
+

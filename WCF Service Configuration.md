@@ -1,4 +1,4 @@
-# WCF Service Configuration
+﻿# WCF Service Configuration
 
 CODE Framework does its best to apply smart default settings to services (both server-side and client-side) for the typical type of application build with CODE Framework (business applications). Nevertheless, it is often desirable and necessary to change settings for services. This topic provides an overview of settings applicable to services.
 

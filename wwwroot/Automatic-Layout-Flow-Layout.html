@@ -1,0 +1,149 @@
+﻿<!DOCTYPE html>
+<!-- saved from url=(0016)http://localhost -->
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Automatic Layout - Flow Layout - CODE Framework Documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/scripts/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/scripts/fontawesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/kavadocs.css" />
+
+    <script src="_kavadocs/themes/scripts/jquery/jquery.min.js"></script>
+
+    <script src="_kavadocs/themes/scripts/highlightjs/highlight.pack.js"></script>
+    <link href="_kavadocs/themes/scripts/highlightjs/styles/twilight.css" rel="stylesheet" />
+
+    <script src="_kavadocs/themes/scripts/ww.jquery.min.js"></script>
+    <script src="_kavadocs/themes/scripts/kavadocs.js"></script>
+    
+    <topictype value="topic" />
+
+    <script>    
+        $(document).ready(function () {
+            helpBuilder.initializeLayout();
+            // expand all top level topics
+            setTimeout(helpBuilder.tocExpandTop, 5);
+        });
+    </script>
+</head>
+<body>    
+    <!-- Documentation Monster Content -->
+    <div class="flex-master">
+        <div class="banner">
+
+            <div class="pull-right sidebar-toggle">
+                <i class="fa fa-bars"
+                   title="Show or hide the topics list"></i>
+            </div>
+            <img src="images/logo.png" class="banner-logo" />
+
+            	<div class="projectname">CODE Framework Documentation</div>
+            
+            <div class="byline">
+                                
+            </div>
+        </div>
+
+        <div class="page-content">
+            <div id="toc" class="sidebar-left toc-content">
+                <nav class="visually-hidden">
+                    <a href="tableofcontents.htm">Table of Contents</a>
+                </nav>
+            </div>
+
+            <div class="splitter">
+            </div>
+
+            <div class="main-content">
+                <!-- Rendered Content -->
+                <article class="content-pane">
+                    <header class="content-title">
+    <img src="_kavadocs/icons/topic.png">
+    Automatic Layout - Flow Layout
+</header>
+
+<div class="content-body" id="body">
+    <h1 id="automatic-layout-flow-layout">Automatic Layout - Flow Layout</h1>
+<p>Among the unique values CODE Framework brings to WPF development is the ability to apply automatic layouts to UIs, or part of UIs. One such example is the EditForm layout (see also: <a target="top" href="Automatic%20Layout%20and%20Elasticity">Automatic Layout and Elasticity</a>). Another, more recent addition, is FlowForm layout. Here’s an example of what a flow form looks like:</p>
+<p><img src="Automatic%20Layout%20-%20Flow%20Layout/Automatic%20Layout%20-%20Flow%20Layout_clip_image001.jpg" alt="" /></p>
+<p>The basic idea behind the flow form is that controls are flowed in left-to-right until a line is full or a manual line break is encountered. The flow form still does some smart things, such as making sure all the first labels in a row have an equal width.</p>
+<p>When the form is resized, controls may flow to the next row (note how the Number field is pushed over to the next row, and all the textboxes left edges still line up properly):</p>
+<p><img src="Automatic%20Layout%20-%20Flow%20Layout/Automatic%20Layout%20-%20Flow%20Layout_clip_image002.jpg" alt="" /></p>
+<p>Note that the flow form is smart about handling checkboxes and radio buttons, which tend to re-flow a bit different. Note also how in the following example, both Facility Type checkboxes have been pushed to the next line, even though one of them would have still fit:</p>
+<p><img src="Automatic%20Layout%20-%20Flow%20Layout/Automatic%20Layout%20-%20Flow%20Layout_clip_image003.jpg" alt="" /></p>
+<p>So this creates a much nicer layout with both checkboxes moved to the next line with the matching “Facility Type” label. If only the “Existing” checkbox would have been moved to the next line, things would have been rather awkward, to say the least.</p>
+<p>Eventually of course, when the form gets too narrow, the individual checkboxes start to flow like this:</p>
+<p><img src="Automatic%20Layout%20-%20Flow%20Layout/Automatic%20Layout%20-%20Flow%20Layout_clip_image004.jpg" alt="" /></p>
+<p>This behavior can be turned on and off with a property, btw.</p>
+<p>The flow form also supports some nice new things that will be added to other parts of the framework too. They support the mvvm:View.Label=”xxx” property. When set, it is not necessary to add a <code>&lt;Label&gt;</code> or <code>&lt;TextBlock&gt;</code> element for the label anymore, but you can just set the label property and a label will be rendered automatically. So this is pretty nifty as it further cuts down on the number of things that have to be added to the view and improves maintainability. (I will also add support for this stuff to the EditForm class when I get a chance).</p>
+<p>Anyway: Some of this is still work in progress (FlowForm doesn’t yet have category support like the EditForm does, but I will add that in) as I am working in this for our Outlier customer. But I should have a complete version of this in our next public build. It already works pretty good though.</p>
+<p>Here’s the code that generated the above example:</p>
+<pre><code class="language-xml">&lt;mvvm:View xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot; 
+           xmlns:mvvm=&quot;clr-namespace:CODE.Framework.Wpf.Mvvm;assembly=CODE.Framework.Wpf.Mvvm&quot;
+           xmlns:layout=&quot;clr-namespace:CODE.Framework.Wpf.Layout;assembly=CODE.Framework.Wpf&quot;
+           Title=&quot;Hard Coded FlowForm&quot;&gt;
+
+    &lt;layout:FlowForm EditControlLeftSpacing=&quot;10&quot; Margin=&quot;10&quot; &gt;
+        &lt;TextBox mvvm:View.Label=&quot;Name:&quot; mvvm:View.WidthEx=&quot;25&quot; mvvm:View.GroupTitle=&quot;Facility Information&quot; mvvm:View.GroupBreak=&quot;True&quot; /&gt;
+        &lt;TextBox mvvm:View.Label=&quot;Number:&quot; mvvm:View.WidthEx=&quot;25&quot; /&gt;
+
+        &lt;TextBox mvvm:View.Label=&quot;Street:&quot; mvvm:View.WidthEx=&quot;40&quot; mvvm:View.LineBreak=&quot;True&quot; mvvm:View.GroupTitle=&quot;Facility Address&quot; mvvm:View.GroupBreak=&quot;True&quot; /&gt;
+        &lt;TextBox mvvm:View.Label=&quot;Street 2:&quot; mvvm:View.WidthEx=&quot;40&quot; mvvm:View.LineBreak=&quot;True&quot; /&gt;
+        &lt;TextBox mvvm:View.Label=&quot;City:&quot; mvvm:View.WidthEx=&quot;25&quot; mvvm:View.LineBreak=&quot;True&quot; /&gt;
+        &lt;TextBox mvvm:View.Label=&quot;State:&quot; mvvm:View.WidthEx=&quot;3&quot; /&gt;
+        &lt;TextBox mvvm:View.Label=&quot;Zip:&quot; mvvm:View.WidthEx=&quot;5&quot; /&gt;
+
+        &lt;ComboBox mvvm:View.Label=&quot;Time In:&quot; mvvm:View.WidthEx=&quot;20&quot; mvvm:View.LineBreak=&quot;True&quot; mvvm:View.GroupTitle=&quot;Inspection Date and Time&quot; mvvm:View.GroupBreak=&quot;True&quot; /&gt;
+        &lt;ComboBox mvvm:View.Label=&quot;Time Out:&quot; mvvm:View.WidthEx=&quot;20&quot; /&gt;
+        &lt;Calendar mvvm:View.Label=&quot;Inspection Date:&quot; mvvm:View.LineBreak=&quot;True&quot; /&gt;
+        
+        &lt;CheckBox mvvm:View.Label=&quot;Inspection Type:&quot; mvvm:View.LineBreak=&quot;True&quot; Content=&quot;New Complaint&quot; /&gt;
+        &lt;CheckBox Content=&quot;Renewal&quot; /&gt;
+        &lt;CheckBox Content=&quot;Annual&quot; /&gt;
+        &lt;CheckBox Content=&quot;Fire&quot; /&gt;
+        &lt;CheckBox mvvm:View.Label=&quot;Facility Type:&quot; Content=&quot;New&quot; /&gt;
+        &lt;CheckBox Content=&quot;Existing&quot; /&gt;
+        
+        &lt;Image Source=&quot;https://fbcdn-sphotos-f-a.akamaihd.net/hphotos-ak-ash3/s480x480/164940_379711192146374_1851995878_n.jpg&quot; Stretch=&quot;UniformToFill&quot; 
+               mvvm:View.WidthEx=&quot;30&quot; mvvm:View.HeightEx=&quot;10&quot; mvvm:View.Label=&quot;Picture:&quot; mvvm:View.LineBreak=&quot;True&quot; /&gt;
+        
+        &lt;Border mvvm:View.SpanFullWidth=&quot;True&quot; mvvm:View.LineBreak=&quot;True&quot;  Height=&quot;75&quot; BorderBrush=&quot;CornflowerBlue&quot; Background=&quot;#7E6495ED&quot; BorderThickness=&quot;2&quot; Margin=&quot;5&quot;&gt;
+            &lt;Label&gt;Example control that spans the whole width...&lt;/Label&gt;
+        &lt;/Border&gt;
+    &lt;/layout:FlowForm&gt;
+    
+&lt;/mvvm:View&gt;
+</code></pre>
+
+</div>
+
+
+
+
+
+
+                </article>
+
+                <hr />
+                <div class="pull-right">
+                    <a href="http://helpbuilder.west-wind.com" target="_blank"><img src="images/wwhelp.png" /></a>
+                </div>
+
+                <small>
+                    &copy; Markus Egger Inc., 2019 &bull;
+                    Updated: 1/1/0001 12:00:00 AM
+                    <br />
+                    <a href="mailto:support@yoursite.com?subject=Automatic Layout - Flow Layout ()&body=Topic: CODE Framework Documentation - http://yoursite.com/docs/.htm">Comment or report problem with topic</a>
+                </small>
+                <br class="clearfix" />
+                <br />
+                <!-- End Rendered Content -->
+            </div>
+        </div>
+    </div>
+    <!-- End Documentation Monster Content -->
+</body>
+</html>
+

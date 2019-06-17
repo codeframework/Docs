@@ -1,4 +1,4 @@
-# AsyncWorker 
+﻿# AsyncWorker 
 The CODE Framework is an extensive set of utilities that can make your life easier. The tool I want to talk about today is the AsyncWorker. This little gem can be found in the CODE.Framework.Wpf.Mvvm name space and provides a convenient way to execute code on a background thread without having to recall the syntax required to go through the application dispatcher to invoke and control a background thread.
 The typical syntax for using the AsyncWorker is:
 

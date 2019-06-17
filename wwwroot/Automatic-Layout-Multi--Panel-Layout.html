@@ -1,0 +1,151 @@
+﻿<!DOCTYPE html>
+<!-- saved from url=(0016)http://localhost -->
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Automatic Layout - Multi-Panel Layout - CODE Framework Documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/scripts/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/scripts/fontawesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/kavadocs.css" />
+
+    <script src="_kavadocs/themes/scripts/jquery/jquery.min.js"></script>
+
+    <script src="_kavadocs/themes/scripts/highlightjs/highlight.pack.js"></script>
+    <link href="_kavadocs/themes/scripts/highlightjs/styles/twilight.css" rel="stylesheet" />
+
+    <script src="_kavadocs/themes/scripts/ww.jquery.min.js"></script>
+    <script src="_kavadocs/themes/scripts/kavadocs.js"></script>
+    
+    <topictype value="topic" />
+
+    <script>    
+        $(document).ready(function () {
+            helpBuilder.initializeLayout();
+            // expand all top level topics
+            setTimeout(helpBuilder.tocExpandTop, 5);
+        });
+    </script>
+</head>
+<body>    
+    <!-- Documentation Monster Content -->
+    <div class="flex-master">
+        <div class="banner">
+
+            <div class="pull-right sidebar-toggle">
+                <i class="fa fa-bars"
+                   title="Show or hide the topics list"></i>
+            </div>
+            <img src="images/logo.png" class="banner-logo" />
+
+            	<div class="projectname">CODE Framework Documentation</div>
+            
+            <div class="byline">
+                                
+            </div>
+        </div>
+
+        <div class="page-content">
+            <div id="toc" class="sidebar-left toc-content">
+                <nav class="visually-hidden">
+                    <a href="tableofcontents.htm">Table of Contents</a>
+                </nav>
+            </div>
+
+            <div class="splitter">
+            </div>
+
+            <div class="main-content">
+                <!-- Rendered Content -->
+                <article class="content-pane">
+                    <header class="content-title">
+    <img src="_kavadocs/icons/topic.png">
+    Automatic Layout - Multi-Panel Layout
+</header>
+
+<div class="content-body" id="body">
+    <h1 id="automatic-layout-multi-panel">Automatic Layout - Multi Panel</h1>
+<p><em>Excerpt from an internal email at EPS/CODE:</em></p>
+<p>CODE Framework features a layout panel called MultiPanel. The MultiPanel is an element you can use as a container in WPF apps to get some automatic layout behavior. So it is similar in that sense to a Grid object or a StackPanel. Except, it does much more sophisticated and useful layout.</p>
+<p>Here’s an example: Imagine you have a UI that has multiple main areas. Perhaps a bunch of grids or something like that. And those areas are potentially turned on and off. For instance, imagine a list of customers and when you click one, you see a list of orders, and when you click on one of those, a list of order details appears, resulting in a screen with 3 different lists (or whatever other element you would like to use) appearing at the same time.</p>
+<p>The following test bench screen shot shows such a scenario in a very simple test bench, where a bunch of colored rectangles represent the “UI Elements”:</p>
+<p><img src="Automatic%20Layout%20-%20MultiPanel/Automatic%20Layout%20-%20MultiPanel_clip_image001.jpg" alt="" /></p>
+<p><em>Note: Of course this is just a silly example. Imagine the rectangles being fancy UIs, such as lists of data, or charts, or entire edit forms, or whatever.</em></p>
+<p>In this case, it is 4 different elements (and one even doing a little extra trickery by being positioned over on the right edge in the first “row”. Here’s the XAML that creates this:</p>
+<pre><code class="language-xml">&lt;l:MultiPanel Orientation=&quot;Vertical&quot;&gt;
+  &lt;Rectangle mvvm:View.Title=&quot;One&quot; mvvm:View.Closable=&quot;True&quot; mvvm:View.RelativeHeight=&quot;2*&quot; 
+     Fill=&quot;Red&quot; Stroke=&quot;Green&quot; StrokeThickness=&quot;2&quot;/&gt;
+  &lt;Rectangle mvvm:View.Title=&quot;One B&quot; mvvm:View.Closable=&quot;True&quot; Fill=&quot;Maroon&quot; Stroke=&quot;Green&quot;
+     StrokeThickness=&quot;2&quot; mvvm:View.FlowsWithPrevious=&quot;True&quot; Width=&quot;150&quot;/&gt;
+  &lt;Rectangle mvvm:View.Title=&quot;Two&quot; mvvm:View.TitleColor=&quot;Maroon&quot; mvvm:View.SupportsDocking=&quot;True&quot;
+     Fill=&quot;Blue&quot; Stroke=&quot;Green&quot; StrokeThickness=&quot;2&quot;/&gt;
+  &lt;Rectangle mvvm:View.Title=&quot;And Three&quot; mvvm:View.Closable=&quot;True&quot; Fill=&quot;Yellow&quot; Stroke=&quot;Green&quot;
+     StrokeThickness=&quot;2&quot;/&gt;
+&lt;/l:MultiPanel&gt;
+</code></pre>
+<p>If you look at this closely, there isn’t much going on here. It’s just a MultiPanel control that contains a few rectangles with fill colors and outlines. But there are a whole bunch of other properties set that aren’t standard, so that is where things get interesting 😃.</p>
+<p>Fundamentally though, we use a MultiPanel of Vertical Orientation (which is the default, so we would not need to set that explicitly). If the orientation was Horizontal, it would look like this:</p>
+<p><img src="Automatic%20Layout%20-%20MultiPanel/Automatic%20Layout%20-%20MultiPanel_clip_image002.jpg" alt="" /></p>
+<p>So as you can see, this changes the general orientation for the elements to be one after the other from left-to-right.</p>
+<p>By default, the control just takes all the children, calculates the available space, and sizes the elements so they take up all the available space, with each control getting an equal share. But this can be influenced. As you can see in the code snippet above, there are attached properties that set the width of each element. This basically works like in a Grid, so you can set the Width/Height to <em>-values (like * or 2</em> or 3.5*) or to Auto (sizes to the content) or to a fixed pixel width. This is why the red boxed as twice as tall (or wide, in the second example) than the other elements.</p>
+<p>Also, the maroon box is interesting, because it breaks out of the standard layout. This is because it has the FlowsWithPrevious property set to true, which instructs the layout engine to flow that element into the current row (vertical layouts) or column (horizontal layouts). That’s quite useful in a lot of cases.</p>
+<p>Another property of interesting is Closable=”True”, which indicates that the element can be closed out. You can see that some of the headers have icons that if you click, cause the panel to close (or, if there is a CloseAction set, then it calls that command when the icon is clicked). The icon is the theme’s default close icon, btw (at least by default) and will thus change with the theme and thus look right wherever you use this.</p>
+<p>Talking about the headers: Where did they come from?!? After all, our rectangles and our code snippet had nothing that would create those headers and title.</p>
+<p>For one, there is a property called Title, which when set, can be used to display a header for each contained element. Then, the MultiPanel class allows for a stylable header renderer object to be set, which, if present, can render headers. The above XAML snippet was actually abbreviated, and the full definition of the MultiPanel goes like this:</p>
+<pre><code class="language-xml">&lt;l:MultiPanel Orientation=&quot;Horizontal&quot;&gt;
+  &lt;l:MultiPanel.HeaderRenderer&gt;
+    &lt;l:MultiPanelHeaderRenderer Background=&quot;CornflowerBlue&quot; Foreground=&quot;White&quot; 
+      FontSize=&quot;24&quot; Orientation=&quot;Vertical&quot; FontWeight=&quot;Light&quot;&gt;
+      &lt;l:MultiPanelHeaderRenderer.CloseIcon&gt;
+        &lt;DrawingBrush Stretch=&quot;Uniform&quot;&gt;
+          &lt;DrawingBrush.Drawing&gt;
+            &lt;DrawingGroup&gt;
+              &lt;DrawingGroup.Children&gt;
+                &lt;GeometryDrawing Brush=&quot;White&quot; Geometry=&quot;F1 M 14.2875,0L 17.15,0L 17.15,14.2969L 14.2875,14.2969L 14.2875,0 Z  Z &quot;/&gt;
+                &lt;GeometryDrawing Brush=&quot;White&quot; Geometry=&quot;F1 M 12.3844,14.2969L 0,14.2969L 0,0L 12.3844,0L 12.3844,0.956238L 0.946873,0.956238L 0.946873,13.35L 12.3844,13.35L 12.3844,14.2969 Z &quot;/&gt;
+                &lt;GeometryDrawing Brush=&quot;White&quot; Geometry=&quot;F1 M 7.61875,8.57501L 2.85312,8.57501L 2.85312,5.72186L 7.61875,5.72186L 7.61875,2.86249L 12.3844,7.15936L 7.61875,11.4469L 7.61875,8.57501 Z &quot;/&gt;
+              &lt;/DrawingGroup.Children&gt;
+            &lt;/DrawingGroup&gt;
+          &lt;/DrawingBrush.Drawing&gt;
+        &lt;/DrawingBrush&gt;
+      &lt;/l:MultiPanelHeaderRenderer.CloseIcon&gt;
+    &lt;/l:MultiPanelHeaderRenderer&gt;
+  &lt;/l:MultiPanel.HeaderRenderer&gt;
+</code></pre>
+<p>This is long-winded, but it is the super-duper version of a customized header. Fundamentally, it just says that the header renderer for the MultiPanel is set to a MultiPanelHeaderRenderer object (which ships with the framework… but you could also hand-code your own). It has the default background color set (note that not all headers have the same color, because the colors can also be set on each element). It also sets font and such. And then this defines a custom close icon (which is the majority of the code and doesn’t have to be done by default, but I wanted to show the example).</p>
+<p>So there you have it! This creates the headers that go with each element. You can use them if you want, but they are optional. They are however also useful for one more feature: Docking and undocking of elements. You may notice that some of the objects have SupportsDocking set to true, which means that you can grab the header and undock the element, which could then result in something like this:</p>
+<p><img src="Automatic%20Layout%20-%20MultiPanel/Automatic%20Layout%20-%20MultiPanel_clip_image003.jpg" alt="" /></p>
+<p>In this case, the blue rectangle has been grabbed with the mouse and undocked and floated around the screen (and resized a bit). Note that the header is now gone and instead the title is the Window title. The whole window itself can be styled as well through the header renderer’s DockWindowStyle property. So this can look like anything you want (and should generally look right for the theme you are using without having to customize anything).</p>
+<p>So that is all quite useful. You can use this layout panel directly, as in the code sample above, or you can use it as the ItemsPanelTemplate for a CODE Framework View class (or any other items control for that matter). In fact, the next CODE Framework build has quite a few enhancements to specifically support things like docking in styled layout, rather than just when using the element directly.</p>
+
+</div>
+
+
+
+
+
+
+                </article>
+
+                <hr />
+                <div class="pull-right">
+                    <a href="http://helpbuilder.west-wind.com" target="_blank"><img src="images/wwhelp.png" /></a>
+                </div>
+
+                <small>
+                    &copy; Markus Egger Inc., 2019 &bull;
+                    Updated: 1/1/0001 12:00:00 AM
+                    <br />
+                    <a href="mailto:support@yoursite.com?subject=Automatic Layout - Multi-Panel Layout ()&body=Topic: CODE Framework Documentation - http://yoursite.com/docs/.htm">Comment or report problem with topic</a>
+                </small>
+                <br class="clearfix" />
+                <br />
+                <!-- End Rendered Content -->
+            </div>
+        </div>
+    </div>
+    <!-- End Documentation Monster Content -->
+</body>
+</html>
+

@@ -1,4 +1,4 @@
-# Setting a Default Page on the Ribbon
+﻿# Setting a Default Page on the Ribbon
 
 Using CODE Framework, some styles use a Ribbon that is automatically populated from view actions. This creates a default Ribbon, with the first page within the Ribbon selected when a view is opened. However, this is often not desired. To indicate that a default page should be selected by default, one can yse the IsDefaultSelection property on view actions. (Note: If that property is set to true, it can be used by themes in various ways. In our the case of the Ribbon (such as in the Workplace theme), if this property is true on a view action, the page of the ribbon that view action is in will be shown by default.
 

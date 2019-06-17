@@ -1,0 +1,208 @@
+﻿<!DOCTYPE html>
+<!-- saved from url=(0016)http://localhost -->
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Auto-Complete UIs - CODE Framework Documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/scripts/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/scripts/fontawesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/kavadocs.css" />
+
+    <script src="_kavadocs/themes/scripts/jquery/jquery.min.js"></script>
+
+    <script src="_kavadocs/themes/scripts/highlightjs/highlight.pack.js"></script>
+    <link href="_kavadocs/themes/scripts/highlightjs/styles/twilight.css" rel="stylesheet" />
+
+    <script src="_kavadocs/themes/scripts/ww.jquery.min.js"></script>
+    <script src="_kavadocs/themes/scripts/kavadocs.js"></script>
+    
+    <topictype value="topic" />
+
+    <script>    
+        $(document).ready(function () {
+            helpBuilder.initializeLayout();
+            // expand all top level topics
+            setTimeout(helpBuilder.tocExpandTop, 5);
+        });
+    </script>
+</head>
+<body>    
+    <!-- Documentation Monster Content -->
+    <div class="flex-master">
+        <div class="banner">
+
+            <div class="pull-right sidebar-toggle">
+                <i class="fa fa-bars"
+                   title="Show or hide the topics list"></i>
+            </div>
+            <img src="images/logo.png" class="banner-logo" />
+
+            	<div class="projectname">CODE Framework Documentation</div>
+            
+            <div class="byline">
+                                
+            </div>
+        </div>
+
+        <div class="page-content">
+            <div id="toc" class="sidebar-left toc-content">
+                <nav class="visually-hidden">
+                    <a href="tableofcontents.htm">Table of Contents</a>
+                </nav>
+            </div>
+
+            <div class="splitter">
+            </div>
+
+            <div class="main-content">
+                <!-- Rendered Content -->
+                <article class="content-pane">
+                    <header class="content-title">
+    <img src="_kavadocs/icons/topic.png">
+    Auto-Complete UIs
+</header>
+
+<div class="content-body" id="body">
+    <h1 id="auto-complete-in-wpf-uis">Auto-Complete in WPF UIs</h1>
+<p><em>Excerpt from an internal email at CODE:</em></p>
+<p>FYI: Recently, Thom asked me to help him create an auto-complete UI for a client. He was looking for a control he could use for the purpose. After looking for some solutions, none of which was really appealing, we decided to add an auto-complete feature to CODE Framework’s WPF controls.</p>
+<p>We came up with a pretty cool solution. We created attached properties, which allows us to turn any control into a control that supports auto-complete. For instance, if you have a textbox that has a customer name and you want to show a list of matches to create a UI like this:</p>
+<p><img src="Auto-Complete%20in%20WPF%20UIs/Auto-Complete%20in%20WPF%20UIs_AutoComplete1.jpg" alt="" /></p>
+<p>The idea here is that you have this bound textbox and can then say “I want this to support auto-complete” and to populate the auto-complete drop down list, you specify the items source for that (binding). When the user selects an item from the list, that item gets put into another property in the view model. The definition of the above textbox looks like this:</p>
+<pre><code class="language-xml">&lt;TextBox Text=&quot;{Binding CustomerName, UpdateSourceTrigger=PropertyChanged}&quot; 
+         my:AutoComplete.AutoCompleteItemsSource=&quot;{Binding CustomersAutoComplete}&quot; 
+         my:AutoComplete.AutoCompleteDisplayMemberPath=&quot;FullName&quot; 
+         my:AutoComplete.AutoCompleteSelectedItem=&quot;{Binding SelectedAutoCompleteCustomer, Mode=TwoWay}&quot; /&gt; 
+</code></pre>
+<p>The associated properties in the view model look like this:</p>
+<pre><code class="language-cs">private string _customerName;
+public string CustomerName
+{
+    get { return _customerName; }
+    set
+    {
+        _customerName = value;
+        NotifyChanged(&quot;CustomerName&quot;);
+        CustomersAutoComplete.Clear();
+        if (!string.IsNullOrEmpty(value))
+            for (int i = 0; i &lt; 10; i++)
+                CustomersAutoComplete.Add(
+                    new CustomerQuickInformation 
+                        {
+                            FirstName = &quot;Thom&quot;, 
+                            LastName = value + &quot; #&quot; + i
+                        });
+    }
+}
+ 
+private CustomerQuickInformation _selectedAutoCompleteCustomer;
+public CustomerQuickInformation SelectedAutoCompleteCustomer
+{
+    get { return _selectedAutoCompleteCustomer; }
+    set
+    {
+        _selectedAutoCompleteCustomer = value;
+        CustomerName = value.FullName;
+        NotifyChanged();
+    }
+}
+ 
+public ObservableCollection&lt;CustomerQuickInformation&gt; CustomersAutoComplete { get; set; }
+</code></pre>
+<p>Of course the idea here would be that you would go to some sort of data source to populate the items in the CustomersAutoComplete collection, rather than hard-coding it like I did in my example. But you get the idea.</p>
+<p>There are a few things that are really cool about this setup. For one, as mentioned above, this is not specific to a control, but you can attach this behavior to any control, simply by setting the auto-complete attached properties. Cool, hm? The other thing that is really cool is that the drop-down part of the auto-complete is basically a listbox that is completely stylable. For instance, I created another auto-complete UI that allows the user to enter folder and file names and the drop-down part shows the associated contents in a nice way:</p>
+<p><img src="Auto-Complete%20in%20WPF%20UIs/Auto-Complete%20in%20WPF%20UIs_AutoComplete2.jpg" alt="" /></p>
+<p>In this case, the view model simply searches for the files entered and puts them into a collection the auto-complete drop-down is bound to. I also do a bit of extra work to show a folder icon or a file icon. Plus, I am showing the file date. This goes to show that you can have very rich content in the drop-down. You can basically do whatever you want.</p>
+<p>Here’s the code for the textbox:</p>
+<pre><code class="language-xml">&lt;TextBox Text=&quot;{Binding File, UpdateSourceTrigger=PropertyChanged}&quot; 
+         my:AutoComplete.AutoCompleteItemsSource=&quot;{Binding FilesAutoComplete}&quot;
+         my:AutoComplete.AutoCompleteSelectedItem=&quot;{Binding SelectedAutoCompleteFile, Mode=TwoWay}&quot;&gt;
+    &lt;my:AutoComplete.AutoCompleteItemTemplate&gt;
+        &lt;DataTemplate&gt;
+            &lt;Grid my:GridEx.ColumnWidths=&quot;Auto,Auto,Auto&quot;&gt;
+                &lt;Rectangle Height=&quot;24&quot; Width=&quot;24&quot; Margin=&quot;1&quot; Fill=&quot;{DynamicResource FolderIcon}&quot; Visibility=&quot;{Binding FolderVisible, Mode=OneWay}&quot; /&gt;
+                &lt;Rectangle Height=&quot;24&quot; Width=&quot;24&quot; Margin=&quot;1&quot; Fill=&quot;{DynamicResource FileIcon}&quot; Visibility=&quot;{Binding FileVisible, Mode=OneWay}&quot; /&gt;
+                &lt;TextBlock Text=&quot;{Binding FileName}&quot; FontSize=&quot;14&quot; FontFamily=&quot;Adobe Gothic Std B&quot; Grid.Column=&quot;1&quot; Margin=&quot;3,0,0,0&quot; VerticalAlignment=&quot;Bottom&quot; /&gt;
+                &lt;TextBlock Text=&quot;{Binding Date}&quot; FontSize=&quot;11&quot; Margin=&quot;10,0,10,5&quot; VerticalAlignment=&quot;Bottom&quot; Grid.Column=&quot;2&quot; Foreground=&quot;Gray&quot; /&gt;
+            &lt;/Grid&gt;
+        &lt;/DataTemplate&gt;
+    &lt;/my:AutoComplete.AutoCompleteItemTemplate&gt;
+&lt;/TextBox&gt;
+</code></pre>
+<p>This is the kind of thing that looks like it should be really hard to do, but it really isn’t. As long as you are familiar with styling items in a listbox, you are good to go. (And if not, make sure you read my listbox styling article!!!). In fact, if you are familiar with styling of listboxes, you can totally go to town on this. Consider this next example, where I also changed the layout of the listbox items and I also show a preview image if the file in the drop down is an image:</p>
+<p><img src="Auto-Complete%20in%20WPF%20UIs/Auto-Complete%20in%20WPF%20UIs_AutoComplete3.jpg" alt="" /></p>
+<p>Pretty cool, huh?</p>
+<p>The code here is a little more involved (and you can find all of this in the source of the CODE Framework under the test bench app and the AutoCompleteTest.xaml file):</p>
+<pre><code class="language-xml">&lt;TextBox Margin=&quot;25,0,25,370&quot;
+         Text=&quot;{Binding File, UpdateSourceTrigger=PropertyChanged}&quot;
+         my:AutoComplete.AutoCompleteItemsSource=&quot;{Binding FilesAutoComplete}&quot; 
+         my:AutoComplete.AutoCompleteSelectedItem=&quot;{Binding SelectedAutoCompleteFile, Mode=TwoWay}&quot; 
+         Height=&quot;22&quot; VerticalAlignment=&quot;Bottom&quot;&gt;
+    &lt;my:AutoComplete.AutoCompleteItemTemplate&gt;
+        &lt;DataTemplate&gt;
+            &lt;Grid my:GridEx.RowHeights=&quot;Auto,Auto,Auto&quot;&gt;
+                &lt;Rectangle Height=&quot;64&quot; Width=&quot;64&quot; Margin=&quot;1&quot; Fill=&quot;{DynamicResource FolderIcon}&quot; Visibility=&quot;{Binding FolderVisible, Mode=OneWay}&quot; /&gt;
+                &lt;Rectangle Height=&quot;64&quot; Width=&quot;64&quot; Margin=&quot;1&quot; Fill=&quot;{DynamicResource FileIcon}&quot; Visibility=&quot;{Binding FileVisible, Mode=OneWay}&quot; /&gt;
+                &lt;Rectangle Height=&quot;64&quot; HorizontalAlignment=&quot;Stretch&quot; Margin=&quot;1&quot; Fill=&quot;{Binding PreviewImage}&quot; Visibility=&quot;{Binding PreviewVisible, Mode=OneWay}&quot; /&gt;
+                &lt;TextBlock Text=&quot;{Binding FileName}&quot; FontSize=&quot;11&quot; FontFamily=&quot;Adobe Gothic Std B&quot; Grid.Row=&quot;1&quot; Margin=&quot;2&quot; HorizontalAlignment=&quot;Center&quot; /&gt;
+                &lt;TextBlock Text=&quot;{Binding Date}&quot; FontSize=&quot;11&quot; Margin=&quot;2,2,2,8&quot; Grid.Row=&quot;2&quot; Foreground=&quot;Gray&quot; HorizontalAlignment=&quot;Center&quot; /&gt;
+            &lt;/Grid&gt;
+        &lt;/DataTemplate&gt;
+    &lt;/my:AutoComplete.AutoCompleteItemTemplate&gt;
+    &lt;my:AutoComplete.AutoCompleteStyle&gt;
+        &lt;Style TargetType=&quot;my:AutoComplete&quot;&gt;
+            &lt;Style.Resources&gt;
+                &lt;SolidColorBrush x:Key=&quot;{x:Static SystemColors.InactiveSelectionHighlightBrushKey}&quot; Color=&quot;Red&quot; Opacity=&quot;.33&quot; /&gt;
+            &lt;/Style.Resources&gt;
+            &lt;Setter Property=&quot;Effect&quot;&gt;
+                &lt;Setter.Value&gt;
+                    &lt;DropShadowEffect Opacity=&quot;.5&quot; BlurRadius=&quot;10&quot; /&gt;
+                &lt;/Setter.Value&gt;
+            &lt;/Setter&gt;
+            &lt;Setter Property=&quot;MaxHeight&quot; Value=&quot;350&quot; /&gt;
+            &lt;Setter Property=&quot;ScrollViewer.HorizontalScrollBarVisibility&quot; Value=&quot;Disabled&quot; /&gt;
+            &lt;Setter Property=&quot;ItemsPanel&quot;&gt;
+                &lt;Setter.Value&gt;
+                    &lt;ItemsPanelTemplate&gt;
+                        &lt;WrapPanel ScrollViewer.HorizontalScrollBarVisibility=&quot;Disabled&quot; /&gt;
+                    &lt;/ItemsPanelTemplate&gt;
+                &lt;/Setter.Value&gt;
+            &lt;/Setter&gt;
+        &lt;/Style&gt;
+    &lt;/my:AutoComplete.AutoCompleteStyle&gt;
+&lt;/TextBox&gt;
+</code></pre>
+<p>This is a little longer, but really not very complex. You can simply set the style of the auto complete drop down, and once you get that, you can do whatever you want. In my case, the main thing is that I set the ItemsPanelTemplate to a WrapPanel, which creates the flowing layout of items.</p>
+
+</div>
+
+
+
+
+
+
+                </article>
+
+                <hr />
+                <div class="pull-right">
+                    <a href="http://helpbuilder.west-wind.com" target="_blank"><img src="images/wwhelp.png" /></a>
+                </div>
+
+                <small>
+                    &copy; Markus Egger Inc., 2019 &bull;
+                    Updated: 1/1/0001 12:00:00 AM
+                    <br />
+                    <a href="mailto:support@yoursite.com?subject=Auto-Complete UIs ()&body=Topic: CODE Framework Documentation - http://yoursite.com/docs/.htm">Comment or report problem with topic</a>
+                </small>
+                <br class="clearfix" />
+                <br />
+                <!-- End Rendered Content -->
+            </div>
+        </div>
+    </div>
+    <!-- End Documentation Monster Content -->
+</body>
+</html>
+

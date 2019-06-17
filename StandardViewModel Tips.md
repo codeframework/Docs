@@ -1,4 +1,4 @@
-# Standard View Model Tips
+﻿# Standard View Model Tips
 
 CODE Framework features a concept called "Standard View-Models". For a detailed discussion on the concept, see this article: http://www.codemag.com/Article/1301041
 

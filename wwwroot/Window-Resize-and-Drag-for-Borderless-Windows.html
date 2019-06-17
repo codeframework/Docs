@@ -1,0 +1,133 @@
+﻿<!DOCTYPE html>
+<!-- saved from url=(0016)http://localhost -->
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Window Resize and Drag for Borderless Windows - CODE Framework Documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/scripts/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/scripts/fontawesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/kavadocs.css" />
+
+    <script src="_kavadocs/themes/scripts/jquery/jquery.min.js"></script>
+
+    <script src="_kavadocs/themes/scripts/highlightjs/highlight.pack.js"></script>
+    <link href="_kavadocs/themes/scripts/highlightjs/styles/twilight.css" rel="stylesheet" />
+
+    <script src="_kavadocs/themes/scripts/ww.jquery.min.js"></script>
+    <script src="_kavadocs/themes/scripts/kavadocs.js"></script>
+    
+    <topictype value="topic" />
+
+    <script>    
+        $(document).ready(function () {
+            helpBuilder.initializeLayout();
+            // expand all top level topics
+            setTimeout(helpBuilder.tocExpandTop, 5);
+        });
+    </script>
+</head>
+<body>    
+    <!-- Documentation Monster Content -->
+    <div class="flex-master">
+        <div class="banner">
+
+            <div class="pull-right sidebar-toggle">
+                <i class="fa fa-bars"
+                   title="Show or hide the topics list"></i>
+            </div>
+            <img src="images/logo.png" class="banner-logo" />
+
+            	<div class="projectname">CODE Framework Documentation</div>
+            
+            <div class="byline">
+                                
+            </div>
+        </div>
+
+        <div class="page-content">
+            <div id="toc" class="sidebar-left toc-content">
+                <nav class="visually-hidden">
+                    <a href="tableofcontents.htm">Table of Contents</a>
+                </nav>
+            </div>
+
+            <div class="splitter">
+            </div>
+
+            <div class="main-content">
+                <!-- Rendered Content -->
+                <article class="content-pane">
+                    <header class="content-title">
+    <img src="_kavadocs/icons/topic.png">
+    Window Resize and Drag for Borderless Windows
+</header>
+
+<div class="content-body" id="body">
+    <h1 id="window-resize-and-drag-for-borderless-windows">Window Resize and Drag for Borderless Windows</h1>
+<p>CODE Framework now has a feature that makes it easy to make borderless windows that can still be resized and moved around on the screen. For instance, let’s say you make a window like the Word 2013 start screen:</p>
+<p><img src="Window%20Resize%20and%20Drag%20for%20Borderless%20Windows/Window%20Resize%20and%20Drag%20for%20Borderless%20Windows_clip_image002_2.jpg" alt="" /></p>
+<p>This window has no standard border, but you can actually click anywhere in the window and drag it around with your mouse (although you cannot change the size).</p>
+<p>Another example is the main Word app, which also doesn’t use a standard window border or title. But you can still move the window around by grabbing it in the title area, and you can resize it like you would expect:</p>
+<p><img src="Window%20Resize%20and%20Drag%20for%20Borderless%20Windows/Window%20Resize%20and%20Drag%20for%20Borderless%20Windows_clip_image004_2.jpg" alt="" /></p>
+<p>You can create the same sort of window in our WPF framework very easily. To do so, create a XAML window declaration like this:</p>
+<pre><code class="language-xml">&lt;Window x:Class=&quot;CODE.Framework.Wpf.TestBench.CustomBehaviorWindow&quot; 
+        xmlns:Controls=&quot;clr-namespace:CODE.Framework.Wpf.Controls;assembly=CODE.Framework.Wpf&quot; 
+        xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot; 
+        xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot; 
+        Title=&quot;CustomBehaviorWindow&quot;
+        Height=&quot;300&quot; Width=&quot;300&quot;
+        MinHeight=&quot;50&quot; MinWidth=&quot;100&quot;
+        WindowStyle=&quot;None&quot; ResizeMode=&quot;NoResize&quot; 
+        Controls:WindowEx.HeaderHeight=&quot;26&quot; 
+        Controls:WindowEx.AutomaticWindowDragEnabled=&quot;True&quot; 
+        Controls:WindowEx.AutoWindowMaximizeEnabled=&quot;True&quot; 
+        Controls:WindowEx.AutoWindowResizingEnabled=&quot;True&quot;&gt; 
+</code></pre>
+<blockquote>
+<p>Note that the <code>WindowStyle</code> is set to <code>None</code>, and <code>ResizeMode</code> (somewhat confusingly) is set to <code>NoResize</code>. This is standard WPF stuff to create a window without a border, which gives you the right look but not the right behavior.</p>
+</blockquote>
+<p>Now we add the new behavior. See the attached properties? Those can be used to turn on various custom behaviors:</p>
+<ul>
+<li><p><code>AutomaticWindowDragEnabled</code> enables – wait for it – the drag behavior. So with this set to True, you can drag the window around. Whether this works in the whole window area or just in what you consider the part of the window that is the header is dependent on whether you declare what your supposed header is. If the HeaderHeight property is set to anything but 0, the drag operation only works in the header area (in the example above, everything within 26 pixels of the top edge of the window is considered the header area). If you leave this value at 0 (or don’t touch it at all), the entire window is drag-enabled and thus movable by clicking anywhere in the window.</p>
+</li>
+<li><p><code>AutoWindowMaximizeEnabled</code> allows to double-click in the header (or whole window depending on whether you declare a header area... this behaves just like the prior property) to maximize the window (or return it to normal state if it is already maximized).</p>
+</li>
+<li><p><code>AutoWindowResizingEnabled</code> defines on whether the window supports standard resize behavior by dragging on the sides or the corners of the window.</p>
+</li>
+</ul>
+<blockquote>
+<p>Note that CODE Framework has custom behavior to keep borderless windows from overlapping the Windows taskbar. Since borderless windows are used for many themes that employ a custom window look (chrome), maximized windows should usually not overlap the taskbar, hence this custom behavior makes sense. However, by default, WPF windows that are set to borderless <em>do</em> overlap the taskbar. If that is the desired behavior, set the <code>WindowEx.HandleCustomMinMax</code> to <code>false</code>.</p>
+</blockquote>
+
+</div>
+
+
+
+
+
+
+                </article>
+
+                <hr />
+                <div class="pull-right">
+                    <a href="http://helpbuilder.west-wind.com" target="_blank"><img src="images/wwhelp.png" /></a>
+                </div>
+
+                <small>
+                    &copy; Markus Egger Inc., 2019 &bull;
+                    Updated: 1/1/0001 12:00:00 AM
+                    <br />
+                    <a href="mailto:support@yoursite.com?subject=Window Resize and Drag for Borderless Windows ()&body=Topic: CODE Framework Documentation - http://yoursite.com/docs/.htm">Comment or report problem with topic</a>
+                </small>
+                <br class="clearfix" />
+                <br />
+                <!-- End Rendered Content -->
+            </div>
+        </div>
+    </div>
+    <!-- End Documentation Monster Content -->
+</body>
+</html>
+

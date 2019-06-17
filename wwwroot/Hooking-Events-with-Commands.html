@@ -1,0 +1,148 @@
+﻿<!DOCTYPE html>
+<!-- saved from url=(0016)http://localhost -->
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Hooking Events with Commands - CODE Framework Documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/scripts/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/scripts/fontawesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/kavadocs.css" />
+
+    <script src="_kavadocs/themes/scripts/jquery/jquery.min.js"></script>
+
+    <script src="_kavadocs/themes/scripts/highlightjs/highlight.pack.js"></script>
+    <link href="_kavadocs/themes/scripts/highlightjs/styles/twilight.css" rel="stylesheet" />
+
+    <script src="_kavadocs/themes/scripts/ww.jquery.min.js"></script>
+    <script src="_kavadocs/themes/scripts/kavadocs.js"></script>
+    
+    <topictype value="topic" />
+
+    <script>    
+        $(document).ready(function () {
+            helpBuilder.initializeLayout();
+            // expand all top level topics
+            setTimeout(helpBuilder.tocExpandTop, 5);
+        });
+    </script>
+</head>
+<body>    
+    <!-- Documentation Monster Content -->
+    <div class="flex-master">
+        <div class="banner">
+
+            <div class="pull-right sidebar-toggle">
+                <i class="fa fa-bars"
+                   title="Show or hide the topics list"></i>
+            </div>
+            <img src="images/logo.png" class="banner-logo" />
+
+            	<div class="projectname">CODE Framework Documentation</div>
+            
+            <div class="byline">
+                                
+            </div>
+        </div>
+
+        <div class="page-content">
+            <div id="toc" class="sidebar-left toc-content">
+                <nav class="visually-hidden">
+                    <a href="tableofcontents.htm">Table of Contents</a>
+                </nav>
+            </div>
+
+            <div class="splitter">
+            </div>
+
+            <div class="main-content">
+                <!-- Rendered Content -->
+                <article class="content-pane">
+                    <header class="content-title">
+    <img src="_kavadocs/icons/topic.png">
+    Hooking Events with Commands
+</header>
+
+<div class="content-body" id="body">
+    <h1 id="binding-events-to-commands-in-wpf">Binding Events to Commands in WPF</h1>
+<p><em>Excerpt from an internal email at EPS/CODE:</em></p>
+<p>CODE Framework (probably released tomorrow or the day after) has the ability to hook any event on any object using a command. In other words: Rather than writing an event handler, you can now bind an event to a command like so:</p>
+<pre><code class="language-xml">&lt;Window x:Class=&quot;CODE.Framework.Wpf.TestBench.EventCommandTest&quot;
+        xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot;
+        xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;
+        xmlns:c=&quot;clr-namespace:CODE.Framework.Wpf.Controls;assembly=CODE.Framework.Wpf&quot; 
+        Title=&quot;EventCommandTest&quot; Height=&quot;300&quot; Width=&quot;300&quot;&gt;
+    &lt;Grid&gt;
+        &lt;Button Content=&quot;Hello&quot;&gt;
+            &lt;c:Ex.EventCommand&gt;
+                &lt;c:EventCommand Command=&quot;{Binding DoubleClickCommand}&quot; Event=&quot;MouseDoubleClick&quot; /&gt;
+            &lt;/c:Ex.EventCommand&gt;
+        &lt;/Button&gt;
+    &lt;/Grid&gt;
+&lt;/Window&gt;
+</code></pre>
+<p>So you simply set the EventCommand property defined on the generic “Ex” object (which we will use for similar things in the future… “Ex” stands for “generic Extensions”). You then specify a command, the event you want to use as a string, and (optionally) a command parameter.</p>
+<p>Typically, you will use this to bind one of our ViewActions to any event you want. (However, this works not just with ViewActions, but with all WPF commands).</p>
+<blockquote>
+<p>Note that the called command receives a parameter of type <code>EventCommandParameters</code>. This is a wrapper parameter object that contains properties for Source and EventArgs of the hooked event, as well as a CommandParameter property that provides access to a potential additional (&quot;normal&quot;) parameter object.</p>
+</blockquote>
+<p>Note that the above version only allows hooking a single event that way. If you want to hook more than one vent, you need to use the following, slightly more verbose syntax:</p>
+<pre><code class="language-xml">&lt;Window x:Class=&quot;CODE.Framework.Wpf.TestBench.EventCommandTest&quot;
+        xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot;
+        xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;
+        xmlns:c=&quot;clr-namespace:CODE.Framework.Wpf.Controls;assembly=CODE.Framework.Wpf&quot; 
+        Title=&quot;EventCommandTest&quot; Height=&quot;300&quot; Width=&quot;300&quot;&gt;
+    &lt;Grid&gt;
+        &lt;Button Content=&quot;{Binding TestCaption}&quot;&gt;
+            &lt;c:Ex.EventCommands&gt;
+                &lt;c:EventCommandsCollection&gt;
+                    &lt;c:EventCommand Command=&quot;{Binding TestCommand2}&quot; Event=&quot;MouseEnter&quot; /&gt;
+                    &lt;c:EventCommand Command=&quot;{Binding TestCommand3}&quot; Event=&quot;MouseDoubleClick&quot; /&gt;
+                &lt;/c:EventCommandsCollection&gt;
+            &lt;/c:Ex.EventCommands&gt;
+        &lt;/Button&gt;
+    &lt;/Grid&gt;
+&lt;/Window&gt;
+</code></pre>
+<p>In this example, you set the EventCommands property (with an S at the end!) and unlike in the first version, you set this to a collection first, and then populate the collection of commands. You can bind to any number of events, and you could even bind more than one command to an event like this:</p>
+<pre><code class="language-xml">&lt;c:Ex.EventCommands&gt;
+  &lt;c:EventCommandsCollection&gt;
+    &lt;c:EventCommand Command=&quot;{Binding TestCommand2}&quot; Event=&quot;MouseEnter&quot; /&gt;
+    &lt;c:EventCommand Command=&quot;{Binding TestCommand3}&quot; Event=&quot;MouseDoubleClick&quot; /&gt;
+    &lt;c:EventCommand Command=&quot;{Binding TestCommand3b}&quot; Event=&quot;MouseDoubleClick&quot; /&gt;
+  &lt;/c:EventCommandsCollection&gt;
+&lt;/c:Ex.EventCommands&gt;
+</code></pre>
+<p>So this should be quite useful, as it eliminates the vast majority of scenarios that require code-behind files, or behaviors. It is of course still better to use explicit commands if the exist. There is no reason to use this for the click event of a button for instance, since a button has a native Command property that fires when the click event happens. Similarly, we have special commands when a selection on a listbox happens. And we will add more such commands in the future. In those cases, do NOT use the construct described here, but use the native way to raise commands.</p>
+
+</div>
+
+
+
+
+
+
+                </article>
+
+                <hr />
+                <div class="pull-right">
+                    <a href="http://helpbuilder.west-wind.com" target="_blank"><img src="images/wwhelp.png" /></a>
+                </div>
+
+                <small>
+                    &copy; Markus Egger Inc., 2019 &bull;
+                    Updated: 1/1/0001 12:00:00 AM
+                    <br />
+                    <a href="mailto:support@yoursite.com?subject=Hooking Events with Commands ()&body=Topic: CODE Framework Documentation - http://yoursite.com/docs/.htm">Comment or report problem with topic</a>
+                </small>
+                <br class="clearfix" />
+                <br />
+                <!-- End Rendered Content -->
+            </div>
+        </div>
+    </div>
+    <!-- End Documentation Monster Content -->
+</body>
+</html>
+

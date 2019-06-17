@@ -1,4 +1,4 @@
-# CODE Framework Tools Change Log
+﻿# CODE Framework Tools Change Log
 
 _Note: CODE Framework Tools can be installed through the Visual Studio Extension Manager or directly from the [Visual Studio Gallery](http://visualstudiogallery.msdn.microsoft.com/91b58827-9720-487a-930c-c19a76c0b853)_
 

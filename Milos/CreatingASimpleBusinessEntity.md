@@ -1,4 +1,4 @@
-# Creating a Simple Business Entity
+﻿# Creating a Simple Business Entity
 
 1) Add a new class to your project called ```ProductBusinessEntity```
    1) Change the class so it inherits from ```Milos.BusinessObjects.BusinessEntity```. Note that this class must overwrite the ```GetBusinessObject``` method if this code isn't added automatically, add it yourself.

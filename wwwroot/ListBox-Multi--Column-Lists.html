@@ -1,0 +1,232 @@
+﻿<!DOCTYPE html>
+<!-- saved from url=(0016)http://localhost -->
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>ListBox - Multi-Column Lists - CODE Framework Documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/scripts/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/scripts/fontawesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/kavadocs.css" />
+
+    <script src="_kavadocs/themes/scripts/jquery/jquery.min.js"></script>
+
+    <script src="_kavadocs/themes/scripts/highlightjs/highlight.pack.js"></script>
+    <link href="_kavadocs/themes/scripts/highlightjs/styles/twilight.css" rel="stylesheet" />
+
+    <script src="_kavadocs/themes/scripts/ww.jquery.min.js"></script>
+    <script src="_kavadocs/themes/scripts/kavadocs.js"></script>
+    
+    <topictype value="topic" />
+
+    <script>    
+        $(document).ready(function () {
+            helpBuilder.initializeLayout();
+            // expand all top level topics
+            setTimeout(helpBuilder.tocExpandTop, 5);
+        });
+    </script>
+</head>
+<body>    
+    <!-- Documentation Monster Content -->
+    <div class="flex-master">
+        <div class="banner">
+
+            <div class="pull-right sidebar-toggle">
+                <i class="fa fa-bars"
+                   title="Show or hide the topics list"></i>
+            </div>
+            <img src="images/logo.png" class="banner-logo" />
+
+            	<div class="projectname">CODE Framework Documentation</div>
+            
+            <div class="byline">
+                                
+            </div>
+        </div>
+
+        <div class="page-content">
+            <div id="toc" class="sidebar-left toc-content">
+                <nav class="visually-hidden">
+                    <a href="tableofcontents.htm">Table of Contents</a>
+                </nav>
+            </div>
+
+            <div class="splitter">
+            </div>
+
+            <div class="main-content">
+                <!-- Rendered Content -->
+                <article class="content-pane">
+                    <header class="content-title">
+    <img src="_kavadocs/icons/topic.png">
+    ListBox - Multi-Column Lists
+</header>
+
+<div class="content-body" id="body">
+    <h1 id="multi-column-lists">Multi-Column Lists</h1>
+<p>All CODE Framework WPF components expose the ability to generically define columns on any type of list object. This is especially useful on listboxes, which can thus be used in a fashion very similar to data grids, without giving up the flexibility provided by listboxes.</p>
+<p>The fundamental idea is to define listboxes (or other lists) and declaratively state which columns one desires. Here is an example:</p>
+<pre><code class="language-xml">&lt;ListBox&gt;
+  &lt;c:ListEx.Columns&gt;
+    &lt;c:ListColumnsCollection&gt;
+      &lt;c:ListColumn BindingPath=&quot;Text1&quot; Header=&quot;Text 1&quot; IsResizable=&quot;True&quot; Width=&quot;200&quot; /&gt;
+      &lt;c:ListColumn BindingPath=&quot;Text2&quot; Header=&quot;Text 2&quot; IsResizable=&quot;True&quot; Width=&quot;100&quot; /&gt;
+      &lt;c:ListColumn BindingPath=&quot;Text3&quot; Header=&quot;Text 3&quot; IsResizable=&quot;True&quot; Width=&quot;250&quot; /&gt;
+      &lt;c:ListColumn BindingPath=&quot;Text4&quot; Header=&quot;Text 4&quot; IsResizable=&quot;True&quot; Width=&quot;150&quot; /&gt;
+      &lt;c:ListColumn BindingPath=&quot;Text5&quot; Header=&quot;Text 5&quot; IsResizable=&quot;True&quot; Width=&quot;200&quot; /&gt;
+    &lt;/c:ListColumnsCollection&gt;
+  &lt;/c:ListEx.Columns&gt;
+&lt;/ListBox&gt;
+</code></pre>
+<p>Note: Column definitions also support item template definitions, allowing the developer to define completely arbitrary column contents, including interactive controls, such as textboxes within columns.</p>
+<p>Note: The Width property of each column can be defined as absolute pixel widths, or as star-notation based proportions. Pixel and star notations can be mixed and matched. This works identical to how a Grid object in WPF defined column widths, except that the listbox column notation doesn't support &quot;auto&quot;.</p>
+<p>The definition of these columns by itself only expresses the intent to have these columns. Whether these columns actually show up in any way (and how specifically) depends on the applied style. Default WPF controls would completely ignore this information. However, CODE Framework provides multiple styles, some of which are automatically implied while others are explicitly chosen, which respect these definitions and thus show listboxes with appropriate columns.</p>
+<p>Example: If you build a CODE Framework WPF application that uses the Battleship (Windows 95) style, the implicit (automatic) listbox style respects columns. Thus, the above listbox using the Battleship style looks like this:</p>
+<p><img src="Multi-Column%20Lists/Multi-Column%20Lists_image_8.png" alt="" /></p>
+<p>Note that these styles are quite functional. For instance, one of the cool features supported in this particular example is resizable columns (see definition above).</p>
+<p>Other styles may choose to show their lists differently. Some may completely ignore columns. By default, Metro-style applications use “tiles” rather than columns for their lists, and thus ignore this information. It is however possible to use an explicit style even in Metro and force a multi-column list. All that’s needed for that is a small change in the listbox definition like so:</p>
+<pre><code class="language-xml">&lt;ListBox  Style=&quot;{DynamicResource Metro-Control-ListBox-Columns}&quot;&gt; …
+</code></pre>
+<p>In many real-life scenario it is suggested that this is done in a resource file, so this style is only set for Metro style apps but not for others.</p>
+<p>The resulting UI looks like this (colors depend on the chosen theme colors of course):</p>
+<p><img src="Multi-Column%20Lists/image_4.png" alt="" /></p>
+<p>Note that some default features in the framework (especially standard view templates in non-Metro themes) automatically take advantage of this feature.</p>
+<p>Multi-column listboxes also support templates, both for individual items (cells) as well as headers. Consider the following column definitions:</p>
+<pre><code class="language-xml">&lt;c:ListColumn BindingPath=&quot;Text4&quot; Header=&quot;Text 4&quot; IsResizable=&quot;True&quot; Width=&quot;150&quot;&gt;
+&lt;c:ListColumn.HeaderTemplate&gt;
+    &lt;ControlTemplate&gt;
+      &lt;Grid c:GridEx.RowHeights=&quot;Auto,*&quot; HorizontalAlignment=&quot;Stretch&quot;&gt;
+        &lt;TextBox&gt;This is some text&lt;/TextBox&gt;
+        &lt;Button Grid.Row=&quot;1&quot;&gt;Button&lt;/Button&gt;
+      &lt;/Grid&gt;
+    &lt;/ControlTemplate&gt;
+  &lt;/c:ListColumn.HeaderTemplate&gt;
+&lt;/c:ListColumn&gt;
+</code></pre>
+<p>And:</p>
+<pre><code class="language-xml">&lt;c:ListColumn Header=&quot;Text 5&quot; IsResizable=&quot;True&quot; Width=&quot;200&quot;&gt;
+  &lt;c:ListColumn.ItemTemplate&gt;
+    &lt;DataTemplate&gt;
+      &lt;StackPanel Orientation=&quot;Horizontal&quot; HorizontalAlignment=&quot;Stretch&quot;&gt;
+        &lt;Rectangle Fill=&quot;Red&quot; Height=&quot;10&quot; Width=&quot;10&quot; Margin=&quot;2&quot;/&gt;
+        &lt;TextBox Text=&quot;{Binding Text5}&quot;/&gt;
+        &lt;Rectangle Fill=&quot;Green&quot; Height=&quot;10&quot; Width=&quot;10&quot; Margin=&quot;2&quot;/&gt;
+      &lt;/StackPanel&gt;
+    &lt;/DataTemplate&gt;
+  &lt;/c:ListColumn.ItemTemplate&gt;
+&lt;/c:ListColumn&gt;
+</code></pre>
+<p>The result of these templated columns (the first one defines the header template and the second one defines an item template) is this:</p>
+<p><img src="Multi-Column%20Lists/image_2.png" alt="" /></p>
+<p>Similarly, each and every cell can have an item template. The above screen shot shows such a template in column 5. The following code was used to create that column:</p>
+<pre><code class="language-xml">&lt;c:ListColumn Header=&quot;Text 5&quot; IsResizable=&quot;True&quot; Width=&quot;200&quot;&gt;
+  &lt;c:ListColumn.ItemTemplate&gt;
+    &lt;DataTemplate&gt;
+      &lt;StackPanel Orientation=&quot;Horizontal&quot; HorizontalAlignment=&quot;Stretch&quot;&gt;
+        &lt;Rectangle Fill=&quot;Red&quot; Height=&quot;10&quot; Width=&quot;10&quot; Margin=&quot;2&quot;/&gt;
+        &lt;TextBox Text=&quot;{Binding Text5}&quot;/&gt;
+        &lt;Rectangle Fill=&quot;Green&quot; Height=&quot;10&quot; Width=&quot;10&quot; Margin=&quot;2&quot;/&gt;
+      &lt;/StackPanel&gt;
+    &lt;/DataTemplate&gt;
+  &lt;/c:ListColumn.ItemTemplate&gt;
+&lt;/c:ListColumn&gt;
+</code></pre>
+<p>Using this technique, the developer has full freedom over the content of these UI elements. All standard UI techniques (including all interactivity WPF supports as well as techniques such as databinding) are fair game.</p>
+<p>Another interesting technique for column headers is the ability to associate a click command for header clicks. This way, a command can be fired whenever the user clicks a header (in many cases, this is used to perform sorting operations). The click command is wired up to a column like so:</p>
+<pre><code class="language-xml">&lt;c:ListColumn BindingPath=&quot;Text1&quot; Header=&quot;Text 1&quot; HeaderClickCommandBindingPath=&quot;HeaderClick&quot; /&gt;
+</code></pre>
+<p>This binds a command property called &quot;HeaderClick&quot; (which has to be of type ICommand and is usually a ViewAction) to the click of the header. Note that the command receives a HeaderClickCommandParameters object as its command parameter, which provides information about the clicked column. It is thus often possible to wire a single click command up to all column headers and determine in the Execute of the command, which column was clicked and what to do in response. (Note: Header click commands only fire on non-templated headers. For headers with a template, commands have to be wired up to the template itself using standard techniques, such as the ones described in  Generic ability to hook all events as commands).</p>
+<p>Note: Binding the command has to be done using a path expression rather than &quot;{Binding HeaderClick}&quot; syntax, because the column definitions are just used to populate the columns that are ultimately used in the visual tree. However, the column definitions themselves do not partake in the UI's data context and can thus not be bound using binding extension syntax. This is an effect commonly seen in complex UI controls. Also note that header clicks can only be handled via bound commands from a view model. Headers do not fire equivalent events. This is due to the column definitions being done very abstract. The actual objects used to display headers can vary greatly in different themes or styles. Thus the developer does not have access to the actual objects that would be needed to wire up events.</p>
+<p>It is also possible to create tool-tips for the contents of a column. This can be done by either hard-coding a tool-tip, or by setting a binding path, like this:</p>
+<pre><code class="language-xml">&lt;Controls:ListColumnsCollection&gt;
+  &lt;Controls:ListColumn Width=&quot;30&quot; IsResizable=&quot;False&quot; BindingPath=&quot;Image1&quot; /&gt;
+  &lt;Controls:ListColumn Width=&quot;250&quot; IsResizable=&quot;True&quot; BindingPath=&quot;Text1&quot; Header=&quot;Subscriber Name&quot; ToolTip=&quot;Test Tool-Tip&quot; /&gt;
+  &lt;Controls:ListColumn Width=&quot;250&quot; IsResizable=&quot;True&quot; BindingPath=&quot;Text2&quot; Header=&quot;Company&quot; ToolTipBindingPath=&quot;Text2&quot; /&gt;
+&lt;/Controls:ListColumnsCollection&gt;
+</code></pre>
+<p>The result looks like this:</p>
+<p><img src="Multi-Column%20Lists/clip_image002_2.jpg" alt="" /></p>
+<p>You can use the same feature in your own listboxes as well if you do not want to use the CODE Framework styles. To do so, create a style and copy a few of the CODE Framework helper objects into your style to take care of the most difficult parts automatically. We recommend you take a look at the default styles that ship with the framework to get started (take a look at the listbox XAML resource dictionaries in both Battleship and Metro styles).</p>
+<h2 id="sorting-and-filtering">Sorting and Filtering</h2>
+<p>Another cool feature for multi-column lists is the ability to sort and filter by column fully automatically.</p>
+<p>For sorting to work, one can simply use the AutoSort property of the column definitions:</p>
+<pre><code class="language-xml">&lt;ListBox Style=&quot;{DynamicResource SearchListStyle}&quot;&gt;
+  &lt;controls:ListEx.Columns&gt;
+    &lt;controls:ListColumnsCollection&gt;
+      &lt;controls:ListColumn BindingPath=&quot;Text1&quot; AutoSort=&quot;True&quot; SortOrder=&quot;Ascending&quot; Header=&quot;Item #&quot; /&gt;
+      &lt;controls:ListColumn BindingPath=&quot;Text2&quot; AutoSort=&quot;True&quot; Header=&quot;Pack Size&quot; /&gt;
+      &lt;controls:ListColumn BindingPath=&quot;Text3&quot; AutoSort=&quot;True&quot; Header=&quot;Description&quot; /&gt;
+    &lt;/controls:ListColumnsCollection&gt;
+  &lt;/controls:ListEx.Columns&gt;
+</code></pre>
+<p>All the columns that have “AutoSort” set to true now support sorting (thus this can be enabled on a column-by-column basis). Setting a SortOrder on a column makes that the default sort (this should only be done on one column). Here’s the result:</p>
+<p><img src="Multi-Column%20Lists/Multi-Column%20Lists_image_2.png" alt="" /></p>
+<p>In this example, the user has clicked on the “Description” header twice to sort by that column in descending order.</p>
+<p>Note: This simply performs a default sort. This does not interfere with the ability to implement manual sorting by showing a sort-indicator in the header and wiring up an associated command/view-action that simply indicates to the view-model to re-order the data. That approach is more complex, but allows for complex and customized sorting scenarios.</p>
+<p>Filtering works in a very similar fashion. This screen-shot shows the same list with filter fields visible in the headers:</p>
+<p><img src="Multi-Column%20Lists/Multi-Column%20Lists_image_4.png" alt="" /></p>
+<p>The important part here is in the header above “Description”. I simply typed a filter term into that textbox and the list got filtered down to that sub-set.</p>
+<p>There are a few interesting details here: For one, note that all the columns have a filter textbox (with a nice watermark text with instructions). This is optional. Each column can turn the filter on and off individually. Also note that there are visual indicators that tell the user that the column is filtered, such as the blue background in the header. There also is a “clear filter” icon that allows users to clear the filter without having to manually clear the textbox. (All of that is stylable of course, and you can make this look any way you want).</p>
+<p>Here is an example of the same list with all three columns filtered:</p>
+<p><img src="Multi-Column%20Lists/Multi-Column%20Lists_image_6.png" alt="" /></p>
+<p>Again, there are a few interesting details. For one, how does it fundamentally work when there are multiple filter term? Are they combined with an AND operation? Or are they ORed together? Or should it be column-by-column with only one filter at a time? In this case, they actually perform an AND operation, but this behavior can be switched through the three scenarios by setting a property.</p>
+<p>Another nifty detail is in the first column. Since that column is numeric, note that one can use terms such as “greater than” (supported are &gt;, &gt;=, =, &lt;, and ⇐). Generally speaking, there are different options for filter behavior on a column-by-column basis. Numerics are different from strings, and strings can be exact matches, or “starts with” or “contains”. The last one is the default, but one can chance that.</p>
+<p>Here is the source that defines this list (with non-filter related properties removed):</p>
+<pre><code class="language-xml">&lt;ListBox&gt;
+  &lt;controls:ListEx.Columns&gt;
+    &lt;controls:ListColumnsCollection&gt;
+      &lt;controls:ListColumn ... AutoFilter=&quot;True&quot; FilterMode=&quot;Number&quot; /&gt;
+      &lt;controls:ListColumn ... AutoFilter=&quot;True&quot; /&gt;
+      &lt;controls:ListColumn ... AutoFilter=&quot;True&quot; /&gt;
+    &lt;/controls:ListColumnsCollection&gt;
+  &lt;/controls:ListEx.Columns&gt;
+</code></pre>
+<p>The list itself can define the filter modus operandi. For instance, one can do this:</p>
+<pre><code class="language-xml">&lt;ListBox c:ListEx.AutoFilterMode=&quot;AllColumnsOr&quot;&gt;
+</code></pre>
+<p>This would change the mode from ANDing all column filters together and instead using an OR operation.</p>
+<p>Whether or not the filter-controls show up in the first place depends on the ShowHeaderEditControls setting. If true, then the filter textboxes show up, if it is false, they are hidden, even if AutoFilter is set to true. Which is nice, because it means that these controls can be shown and hidden easily:</p>
+<pre><code class="language-xml">&lt;ListBox c:ListEx.ShowHeaderEditControls=&quot;True&quot;&gt;
+</code></pre>
+<p>Side-note: A nifty trick is setting these properties app-wide using a style like this, which means that they don’t have to be set on each control:</p>
+<pre><code class="language-xml">&lt;Style TargetType=&quot;ListBox&quot; BasedOn=&quot;{StaticResource {x:Type ListBox}}&quot;&gt;
+  &lt;Setter Property=&quot;controls:ListEx.AutoFilterMode&quot; Value=&quot;AllColumnsAnd&quot; /&gt;
+  &lt;Setter Property=&quot;controls:ListEx.ShowHeaderEditControls&quot; Value=&quot;{Binding Actions[ShowFilterHeaders].IsChecked}&quot; /&gt;
+&lt;/Style&gt;
+</code></pre>
+<p>In this example, the default for all lists in the app is to use the AND-mode. Also, whether the filter-controls are shown or hidden depends on a toggle in the current view-model, allowing the user to easily toggle visibility of the filter controls.</p>
+<p>To also add a few technical remarks: This type of filtering works on any enumerable data source. So there is no need for special filterable collections or anything like that. (The same goes for the sorting feature). When you query the ItemsSouce of the listbox, you will find that it is a list that only contains the items that match the filter and are sorted the way the sort-IU indicates. This makes everything very generic and means that anything else that goes along with the list still works unchanged.</p>
+<p>We did quite a bit of work to make sure that performance of this is good, both in terms of raw performance and also in terms of user-perception. We are quite satisfied with the result. Note however that there are limits. While it won’t come to a crawl, users will probably start noticing a delay if there are thousands and thousands of items. The system is simply too generic, and imposes too few restrictions, to work well with huge amounts of data brought to the client. But then that’s not what we want to do anyway, right? 😉. It should work fine though with a few hundred or even a few thousand items.</p>
+
+</div>
+
+
+
+
+
+
+                </article>
+
+                <hr />
+                <div class="pull-right">
+                    <a href="http://helpbuilder.west-wind.com" target="_blank"><img src="images/wwhelp.png" /></a>
+                </div>
+
+                <small>
+                    &copy; Markus Egger Inc., 2019 &bull;
+                    Updated: 1/1/0001 12:00:00 AM
+                    <br />
+                    <a href="mailto:support@yoursite.com?subject=ListBox - Multi-Column Lists ()&body=Topic: CODE Framework Documentation - http://yoursite.com/docs/.htm">Comment or report problem with topic</a>
+                </small>
+                <br class="clearfix" />
+                <br />
+                <!-- End Rendered Content -->
+            </div>
+        </div>
+    </div>
+    <!-- End Documentation Monster Content -->
+</body>
+</html>
+

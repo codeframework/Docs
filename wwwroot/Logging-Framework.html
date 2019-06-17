@@ -1,0 +1,377 @@
+﻿<!DOCTYPE html>
+<!-- saved from url=(0016)http://localhost -->
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Logging Framework - CODE Framework Documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/scripts/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/scripts/fontawesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/kavadocs.css" />
+
+    <script src="_kavadocs/themes/scripts/jquery/jquery.min.js"></script>
+
+    <script src="_kavadocs/themes/scripts/highlightjs/highlight.pack.js"></script>
+    <link href="_kavadocs/themes/scripts/highlightjs/styles/twilight.css" rel="stylesheet" />
+
+    <script src="_kavadocs/themes/scripts/ww.jquery.min.js"></script>
+    <script src="_kavadocs/themes/scripts/kavadocs.js"></script>
+    
+    <topictype value="topic" />
+
+    <script>    
+        $(document).ready(function () {
+            helpBuilder.initializeLayout();
+            // expand all top level topics
+            setTimeout(helpBuilder.tocExpandTop, 5);
+        });
+    </script>
+</head>
+<body>    
+    <!-- Documentation Monster Content -->
+    <div class="flex-master">
+        <div class="banner">
+
+            <div class="pull-right sidebar-toggle">
+                <i class="fa fa-bars"
+                   title="Show or hide the topics list"></i>
+            </div>
+            <img src="images/logo.png" class="banner-logo" />
+
+            	<div class="projectname">CODE Framework Documentation</div>
+            
+            <div class="byline">
+                                
+            </div>
+        </div>
+
+        <div class="page-content">
+            <div id="toc" class="sidebar-left toc-content">
+                <nav class="visually-hidden">
+                    <a href="tableofcontents.htm">Table of Contents</a>
+                </nav>
+            </div>
+
+            <div class="splitter">
+            </div>
+
+            <div class="main-content">
+                <!-- Rendered Content -->
+                <article class="content-pane">
+                    <header class="content-title">
+    <img src="_kavadocs/icons/topic.png">
+    Logging Framework
+</header>
+
+<div class="content-body" id="body">
+    <h1 id="logging-framework">Logging Framework</h1>
+<p>Logging is the process of notifying an entity of a certain event, typically (but not always) with the event being stored away to preserve a record of it. CODE Framework provides an extensive logging framework that provides a central logging mediator, which in turn passes logged events on to all kinds of registered individual logger objects, which can handle the provided events as they see fit. CODE Framework provides a number of loggers out of the box (such as logging to file, Windows event log, email, the console,...). It is also possible to create custom loggers easily.</p>
+<h2 id="publishing-an-event-to-be-logged">Publishing an Event to be Logged</h2>
+<p>The simplest way of logging an event is to call the logging mediator's log method with a simple string parameter.</p>
+<pre><code class="language-cs">CODE.Framework.Core.Utilities.LoggingMediator.Log(&quot;Application started.&quot;); 
+</code></pre>
+<p>This passes the string on to all registered loggers (see below).</p>
+<p>Note: It is recommended to use a using statement in your code so you do not always have to type out the complete namespace name.</p>
+<p>It is also possible to provide more detailed information, in particular the type of event:</p>
+<pre><code class="language-cs">LoggingMediator.Log(&quot;Application started.&quot;,LogEventType.Information); 
+</code></pre>
+<p>There are various types of events identified by the LogEventType enumeration. This enumeration is a bit-flag enumeration, so all the different types can be combined as in this example:</p>
+<pre><code class="language-cs">LoggingMediator.Log(&quot;Something happened.&quot;, LogEventType.Exception | LogEventType.Critical); 
+</code></pre>
+<p>In addition to logging strings, it is possible to log entire objects:</p>
+<pre><code class="language-cs">LoggingMediator.Log(customer, LogEventType.Information);
+</code></pre>
+<p>In this case, it is up to the registered loggers to make use of the object as they see fit. Many of the default loggers however simply perform an [object].ToString().</p>
+<p>Another overload of the logging mediator makes it possible to log exception information easily:</p>
+<pre><code class="language-cs">try
+{
+}
+catch (Exception ex)
+{
+    LoggingMediator.Log(ex, LogEventType.Exception);
+} 
+</code></pre>
+<p>In this case, the logging mediator uses the ExceptionHelper class to retrieve a detailed text description of the exception, which is then logged as text.</p>
+<p>A related overload allows logging manual text in combination with exception information:</p>
+<pre><code class="language-cs">LoggingMediator.Log(&quot;An error has occurred!&quot;, ex, LogEventType.Exception);
+</code></pre>
+<p>The additional string parameter is combined with the exception text for logging.</p>
+<h2 id="logger-objects">Logger Objects</h2>
+<p>By default, the logging mediator doesn't perform any action other than passing events on to registered loggers, of which there aren't any unless they are registered with the logger. Here is a simple example of registering a logger with the logging mediator:</p>
+<pre><code class="language-cs">LoggingMediator.ClearLoggers();
+LoggingMediator.AddLogger(new ConsoleLogger());
+LoggingMediator.Log(&quot;Test&quot;); 
+</code></pre>
+<p>Once a logger is registered, it will generally receive all logged events.</p>
+<p>Note that it is possible to register any number of loggers:</p>
+<pre><code class="language-cs">LoggingMediator.ClearLoggers();
+LoggingMediator.AddLogger(new ConsoleLogger());
+LoggingMediator.AddLogger(new MessageBoxLogger());
+LoggingMediator.Log(&quot;Test&quot;); 
+</code></pre>
+<p>Loggers always receive events in the order the loggers were registered. In this example, the console logger is triggered before the message box logger.</p>
+<h2 id="event-filtering">Event Filtering</h2>
+<p>If the logger is to be used for certain events only, then one can set a type filter:</p>
+<pre><code class="language-cs">LoggingMediator.ClearLoggers();
+ConsoleLogger logger = new ConsoleLogger();
+logger.TypeFilter = LogEventType.Exception;
+LoggingMediator.AddLogger(logger);
+LoggingMediator.Log(&quot;Test&quot;); // Not logged (considered type 'Information')
+LoggingMediator.Log(&quot;Test 2&quot;, LogEventType.Exception); // Logged 
+</code></pre>
+<p>Filters are also bit-flags and can thus be combined:</p>
+<pre><code class="language-cs">LoggingMediator.ClearLoggers();
+ConsoleLogger logger = new ConsoleLogger();
+logger.TypeFilter = LogEventType.Exception | LogEventType.Error;
+LoggingMediator.AddLogger(logger);
+LoggingMediator.Log(&quot;Test&quot;); // Not logged (considered type 'Information')
+LoggingMediator.Log(&quot;Test 2&quot;, LogEventType.Exception); // Logged
+LoggingMediator.Log(&quot;Test 3&quot;, LogEventType.Error); // Logged
+LoggingMediator.Log(&quot;Test 4&quot;, LogEventType.Exception | LogEventType.Error); // Logged
+LoggingMediator.Log(&quot;Test 5&quot;, LogEventType.Critical | LogEventType.Error); // Logged
+LoggingMediator.Log(&quot;Test 6&quot;, LogEventType.Critical | LogEventType.Information); // Not logged 
+</code></pre>
+<p>Note that the type filter can be set for each individual logger, so it is possible to have different loggers configured that react to different events.</p>
+<h2 id="clearing-loggers">Clearing Loggers</h2>
+<p>It is possible to re-configure loggers during runtime. For this purpose it is often convenient to clear the list of all previously registered loggers, which can be done like so:</p>
+<pre><code class="language-cs">LoggingMediator.ClearLoggers(); 
+</code></pre>
+<h2 id="provided-standard-loggers">Provided Standard Loggers</h2>
+<p>CODE Framework ships with a number of standard logger objects that cover a wide range of logging needs.</p>
+<h3 id="the-console-logger">The Console Logger</h3>
+<p>The console logger object logs events to the console. It is very similar in concept to issuing a Console.WriteLine() call. Console loggers are set up like so:</p>
+<pre><code class="language-cs">LoggingMediator.AddLogger(new ConsoleLogger());
+LoggingMediator.Log(&quot;Test&quot;); 
+</code></pre>
+<h3 id="multi-file-logger">Multi File Logger</h3>
+<p>Multi file loggers log events to multiple files (each event gets its own log file). This logger must be configured with a path the log files are to be written to. This can be done by specifying the path as a string, or by providing a special folder:</p>
+<pre><code class="language-cs">LoggingMediator.AddLogger(new MultiFileLogger(@&quot;c:\logs\&quot;));
+LoggingMediator.Log(&quot;Test&quot;);
+LoggingMediator.AddLogger(new MultiFileLogger(SpecialFolder.ApplicationData));
+LoggingMediator.Log(&quot;Test&quot;); 
+</code></pre>
+<p>It is possible to omit the folder information. In that case, SpecialFolder.ApplicationData is the default.</p>
+<p>By default, all log files have a &quot;.log&quot; extension. This can be changed:</p>
+<pre><code class="language-cs">var logger = new MultiFileLogger(@&quot;c:\logs\&quot;);
+logger.Extension = &quot;txt&quot;;
+LoggingMediator.AddLogger(logger);
+LoggingMediator.Log(&quot;Test&quot;); 
+</code></pre>
+<p>The name for each file is a Guid converted to a string. To change the way file names are created, you must subclass the logger and override the GetNextFileName() method:</p>
+<pre><code class="language-cs">public class MyMultiFileLogger : MultiFileLogger
+{
+    public MyMultiFileLogger(string path) : base(path) { }
+    public override string GetNextFileName()
+    {
+        return System.Environment.TickCount.ToString() + &quot;.&quot; + this.Extension;
+    }
+}
+
+var logger = new MyMultiFileLogger(@&quot;c:\logs\&quot;);
+logger.Extension = &quot;txt&quot;;
+LoggingMediator.AddLogger(logger);
+LoggingMediator.Log(&quot;Test&quot;);
+</code></pre>
+<p>Note that this method must return the complete file name including the extension. Note also that it is important to create unique file names to avoid overwriting existing log files.</p>
+<h3 id="multi-xml-file-logger">Multi XML File Logger</h3>
+<p>The multi-file XML logger object is similar in concept to the regular multi-file logger. However, it stores logged information in XML files, with an XML structure. Consider this example:</p>
+<pre><code class="language-cs">LoggingMediator.AddLogger(new MultiXmlFileLogger(@&quot;c:\logs\&quot;));
+LoggingMediator.Log(&quot;Test&quot;); 
+</code></pre>
+<p>The resulting XML file has the following structure:</p>
+<pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
+&lt;log&gt;
+  &lt;event type=&quot;Information&quot; timeStamp=&quot;2/4/2008 3:02pm&quot;&gt;Test&lt;/event&gt;
+&lt;/log&gt; 
+</code></pre>
+<p>Note that the element and attribute names can be modified:</p>
+<pre><code class="language-cs">var logger = new MultiXmlFileLogger(@&quot;c:\logs\&quot;)
+logger.XmlRootNode = &quot;root&quot;;
+logger.XmlEventNode = &quot;record&quot;;
+logger.XmlEventTypeAttribute = &quot;significance&quot;;
+logger.XmlEventTimeStampAttribute = &quot;time&quot;;
+LoggingMediator.AddLogger(logger);
+LoggingMediator.Log(&quot;Test&quot;); 
+</code></pre>
+<p>This produces the following result</p>
+<pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
+&lt;root&gt;
+  &lt;record significance=&quot;Information&quot; time=&quot;2/4/2008 3:02pm&quot;&gt;Test&lt;/record&gt;
+&lt;/root&gt; 
+</code></pre>
+<p>Note that it is also possible to pass actual XML to the logger as the text string. Whenever well-formed XML is passed to the logger, the XML structure will not be changed and instead, the provided XML will be serialized to disk as is:</p>
+<pre><code class="language-cs">LoggingMediator.Log(&quot;Hello World!&quot;); 
+</code></pre>
+<p>Result:</p>
+<pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
+&lt;log&gt;Hello World!&lt;/log&gt; 
+</code></pre>
+<p>The XML multi-file logger object is a subclass of the regular multi-file logger class. Therefore, overriding file extension or creating a new file name algorithm are identical (see above).</p>
+<p>Note: The actual value logged is properly encoded to make sure the XML file can accommodate all data passed to the logger.</p>
+<h3 id="single-file-logger">Single File Logger</h3>
+<p>The single file logger object logs all events into a single text file. It requires a file name and a path when instantiated:</p>
+<pre><code class="language-cs">LoggingMediator.AddLogger(new SingleFileLogger(@&quot;c:\logs\&quot;, &quot;MyLogFile.log&quot;));
+LoggingMediator.Log(&quot;Test&quot;); 
+</code></pre>
+<p>There also is a constructor overload without a file name. In that case, the default file name is &quot;Log.log&quot;. It is even possible to not provide a folder name. In that case, SpecialFolder.ApplicationData is used (whatever that translates to on each machine).</p>
+<p>All events are logged by adding them to the bottom of the file. The file grows unrestricted and can thus get very large.</p>
+<h3 id="single-xml-file-logger">Single XML File Logger</h3>
+<p>The single XML file logger is very similar to the regular single file logger, except that all information is logged into a single, structured XML file. Just like the regular single file logger, the XML single file logger can be configured with a folder and file name. Both are optional. The default file name is Log.xml. The default folder is SpecialFolder.ApplicationData :</p>
+<pre><code class="language-cs">LoggingMediator.AddLogger(new SingleXmlFileLogger(@&quot;c:\logs\&quot;, &quot;MyLog.xml&quot;));
+LoggingMediator.Log(&quot;Test&quot;);
+LoggingMediator.Log(&quot;Some Exception&quot;, LogEventType.Exception | LogEventType.Critical); 
+</code></pre>
+<p>This creates the following result:</p>
+<pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
+&lt;log&gt;
+  &lt;event type=&quot;Information&quot; timeStamp=&quot;2/4/2008 3:02pm&quot;&gt;Test&lt;/event&gt;
+  &lt;event type=&quot;Exception, Critical&quot; timeStamp=&quot;2/4/2008 3:03pm&quot;&gt;Some Exception&lt;/event&gt;
+&lt;/log&gt; 
+</code></pre>
+<p>New events are always added at the bottom of the list. By default, the file grows unrestricted. However, it is possible to limit the list to a maximum number of entries. In that case, the oldest entries will be removed from the list:</p>
+<pre><code class="language-cs">var logger= new SingleXmlFileLogger(@&quot;c:\logs\&quot;, &quot;MyLog.xml&quot;)
+logger.MaximumEntries = 100;
+LoggingMediator.AddLogger(logger); 
+</code></pre>
+<p>If MaximumEntries is set to -1, the list can grow unrestricted.</p>
+<p>Just like with the XML multi-file logger, it is possible to change the names of the elements and attributes used by the logger:</p>
+<pre><code class="language-cs">var logger = new MultiXmlFileLogger(@&quot;c:\logs\&quot;)
+logger.XmlRootNode = &quot;root&quot;;
+logger.XmlEventNode = &quot;record&quot;;
+logger.XmlEventTypeAttribute = &quot;significance&quot;;
+logger.XmlEventTimeStampAttribute = &quot;time&quot;;
+LoggingMediator.AddLogger(logger);
+LoggingMediator.Log(&quot;Test&quot;);
+LoggingMediator.Log(&quot;Some Exception&quot;, LogEventType.Exception | LogEventType.Critical); 
+</code></pre>
+<p>The result is as follows:</p>
+<pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
+&lt;root&gt;
+  &lt;record significance=&quot;Information&quot; time=&quot;2/4/2008 3:02pm&quot;&gt;Test&lt;/record&gt;
+  &lt;record significance=&quot;Exception, Critical&quot; time=&quot;2/4/2008 3:03pm&quot;&gt;Some Exception&lt;/record&gt;
+&lt;/root&gt; 
+</code></pre>
+<p>Note that if the file already exists, the root node name needs to match the name configured in the logger, otherwise the XML file will be overwritten, since CODE Framework considers the file structurally incompatible. However, it is possible to have child nodes of different names. The following is a valid XML log file (for the default logger configuration):</p>
+<pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
+&lt;log&gt;
+  &lt;event type=&quot;Information&quot; timeStamp=&quot;2/4/2008 3:02pm&quot;&gt;Test&lt;/event&gt;
+  &lt;test&gt;Some other node&lt;/test&gt;
+  &lt;event type=&quot;Exception, Critical&quot; timeStamp=&quot;2/4/2008 3:03pm&quot;&gt;Some Exception&lt;/event&gt;
+&lt;/log&gt; 
+</code></pre>
+<p>In this example, the test node is simply ignored.</p>
+<p>Note: The actual value logged is properly encoded to make sure the XML file can accommodate all data passed to the logger.</p>
+<h3 id="event-log-logger">Event Log Logger</h3>
+<p>This logger logs event information to the Windows Event Log. The log can reside on the local machine or on a remote machine.</p>
+<p>This logger is set up like this:</p>
+<pre><code class="language-cs">var logger = new EventLogger(&quot;Log Name&quot;)
+logger.Source = &quot;Application Name&quot;;
+LoggingMediator.AddLogger(logger);
+LoggingMediator.Log(&quot;Test&quot;); 
+</code></pre>
+<p>This creates a logger that logs to the windows event log. The name of the log in this example is &quot;Log Name&quot;. If such a log does not exist on the local machine, it will be created.</p>
+<p>It is also possible to log to a remote machine:</p>
+<pre><code class="language-cs">var logger = new EventLogger(&quot;Log Name&quot;, &quot;ComputerName&quot;)
+logger.Source = &quot;Application Name&quot;;
+LoggingMediator.AddLogger(logger);
+LoggingMediator.Log(&quot;Test&quot;); 
+</code></pre>
+<p>By default however, the log is created on the local machine. If you want to explicitly create a log on the local machine without having to know the current machine name, set the name to &quot;.&quot;.</p>
+<p>The event log logger logs the provided event as is, meaning that the provided text is simply written to the log without applying any changes. The Windows event log also assigns event types to each entry. These types are different from the CODE Framework event types, but they are similar. They are also automatically mapped:</p>
+<pre><code>CODE Framework Event Type Windows Event Type 
+LogEventType.Critical EventLogEntryType.Error 
+LogEventType.Error EventLogEntryType.FailureAudit 
+LogEventType.Exception EventLogEntryType.FailureAudit 
+LogEventType.Warning EventLogEntryType.Warning 
+LogEventType.Success EventLogEntryType.SuccessAudit 
+All other: EventLogEntryType.Information 
+</code></pre>
+<h3 id="email-logger">Email Logger</h3>
+<p>The email logger sends all events as emails via an SMTP server. It requires a file name and a path when instantiated:</p>
+<pre><code class="language-cs">var recipients = EmailLogger.GetRecipientsFromConfigFile();
+if (recipients.Count &gt; 0)
+{
+    var emailLogger = new EmailLogger(&quot;My App&quot;, &quot;support@mycompany.com&quot;, recipients, &quot;My Comapany's App&quot;);
+    LoggingMediator.AddLogger(emailLogger);
+}
+</code></pre>
+<p>Sample .config settings:</p>
+<pre><code class="language-xml">&lt;add key=&quot;DefaultMailServer&quot; value=&quot;smtp.mycompany.com&quot;/&gt;
+&lt;add key=&quot;EmailLoggerRecipients&quot; value=&quot;support@mycompany.com|Support Desk;fred@mycompany.com|Fred Flintstone&quot;/&gt;
+</code></pre>
+<p>Emails are sent on a background thread using the ThreadPool.</p>
+<h2 id="creating-custom-loggers">Creating Custom Loggers</h2>
+<p>For many scenarios it is beneficial to add custom loggers. This can be done by deriving from the abstract Logger class. For more control, it is also possible to implement the  ILogger interface.</p>
+<h3 id="deriving-from-logger">Deriving from Logger</h3>
+<p>The abstract Logger class provides a good starting point for most needs. This class allows developers to quickly create custom loggers without having to implement the entire ILogger interface. The following example shows a simple logger that logs to a message box:</p>
+<pre><code class="language-cs">public class MyLogger : CODE.Framework.Core.Utilities.Logger
+{
+    public override void Log(string event, LogEventType type)
+    {
+        MessageBox.Show(&quot;Event occured: &quot; + event);
+    }
+} 
+</code></pre>
+<p>This class can then be registered like all other event loggers:</p>
+<pre><code class="language-cs">LoggingMediator.AddLogger(new MyLogger()); 
+</code></pre>
+<p>What's nice about using the abstract Logger class is that it provides basical functionality such as the TypeFilter property.</p>
+<h3 id="special-handling-of-exception-logging">Special Handling of Exception Logging</h3>
+<p>The abstract Logger class implements the ILogger interface (see below) as well as the extended IExceptionLogger interface, which provides two special methods for logging exception information. This is an optional interface in the logging system, which provides greater control over how exception information is logged. (If a logger doesn’t implement this interface, then exception information will just be turned into text and logged as regular text).</p>
+<p>The abstract Logger class implements both methods supported by the IExceptionLogger interface. Both are implemented as virtual, so they can be overridden. Furthermore, the default implementation uses a GetSerialziedExceptionText() method, which turns a logged exception into its text representation, which is what is logged by default. This method is also virtual, and can thus be overridden in subclasses.</p>
+<p>Common scenarios for changing exception logging behavior is to override the Log() methods and thus replacing the default behavior, which provides developers with full control over how exceptions are logged. If all that is needed on the other hand is a change in how the exception information is serialized as text (perhaps because the developer wishes to log different information), then one can simply override the GetSerializedExceptionText() method.</p>
+<h3 id="implementing-the-ilogger-interface">Implementing the ILogger Interface</h3>
+<p>For those developers who want more control, it is also possible to implement the ILogger interface:</p>
+<pre><code class="language-cs">public class MyLogger : ILogger
+{
+    public MyLogger()
+    {
+        TypeFilter = LogEventType.Undefined;
+    }
+
+    public void Log(string event, LogEventType type)
+    {
+        MessageBox.Show(&quot;Event occured: &quot; + event);
+    }
+
+    public void Log(object event, LogEventType type)
+    {
+        this.Log(event.ToString(), type);
+    }
+
+    public LogEventType TypeFilter { get; set; }
+} 
+</code></pre>
+<p>Note: This is very similar to the implementation of the Logger abstract class, except that the Logger class defined all members as virtual so they can be overridden in subclasses.</p>
+
+</div>
+
+
+
+
+
+
+                </article>
+
+                <hr />
+                <div class="pull-right">
+                    <a href="http://helpbuilder.west-wind.com" target="_blank"><img src="images/wwhelp.png" /></a>
+                </div>
+
+                <small>
+                    &copy; Markus Egger Inc., 2019 &bull;
+                    Updated: 1/1/0001 12:00:00 AM
+                    <br />
+                    <a href="mailto:support@yoursite.com?subject=Logging Framework ()&body=Topic: CODE Framework Documentation - http://yoursite.com/docs/.htm">Comment or report problem with topic</a>
+                </small>
+                <br class="clearfix" />
+                <br />
+                <!-- End Rendered Content -->
+            </div>
+        </div>
+    </div>
+    <!-- End Documentation Monster Content -->
+</body>
+</html>
+

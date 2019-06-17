@@ -1,4 +1,4 @@
-# WPF Resource Dictionary Loading
+﻿# WPF Resource Dictionary Loading
 
 _Excerpt from an internal email at EPS/CODE_:
 

@@ -1,4 +1,4 @@
-# WebApi Service Hosting
+﻿# WebApi Service Hosting
 
 CODE Framework Services can be hosted in a variety of ways, including WebApi. Using WebApi, one typically creates an "ASP.NET App" that contains API Controllers that have methods that are invoked according to certain naming conventions. These methods take JSON and URL parameters as input and create JSON as output. Using CODE Framework extensions, any service can be hosted using the same mechanism.
 

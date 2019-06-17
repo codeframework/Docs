@@ -1,4 +1,4 @@
-# Binding to Enums
+﻿# Binding to Enums
 
 _Excerpt from an internal email at EPS/CODE:_
 

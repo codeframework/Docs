@@ -1,0 +1,124 @@
+﻿<!DOCTYPE html>
+<!-- saved from url=(0016)http://localhost -->
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>View-Actions - Checked and Toggle - CODE Framework Documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/scripts/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/scripts/fontawesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/kavadocs.css" />
+
+    <script src="_kavadocs/themes/scripts/jquery/jquery.min.js"></script>
+
+    <script src="_kavadocs/themes/scripts/highlightjs/highlight.pack.js"></script>
+    <link href="_kavadocs/themes/scripts/highlightjs/styles/twilight.css" rel="stylesheet" />
+
+    <script src="_kavadocs/themes/scripts/ww.jquery.min.js"></script>
+    <script src="_kavadocs/themes/scripts/kavadocs.js"></script>
+    
+    <topictype value="topic" />
+
+    <script>    
+        $(document).ready(function () {
+            helpBuilder.initializeLayout();
+            // expand all top level topics
+            setTimeout(helpBuilder.tocExpandTop, 5);
+        });
+    </script>
+</head>
+<body>    
+    <!-- Documentation Monster Content -->
+    <div class="flex-master">
+        <div class="banner">
+
+            <div class="pull-right sidebar-toggle">
+                <i class="fa fa-bars"
+                   title="Show or hide the topics list"></i>
+            </div>
+            <img src="images/logo.png" class="banner-logo" />
+
+            	<div class="projectname">CODE Framework Documentation</div>
+            
+            <div class="byline">
+                                
+            </div>
+        </div>
+
+        <div class="page-content">
+            <div id="toc" class="sidebar-left toc-content">
+                <nav class="visually-hidden">
+                    <a href="tableofcontents.htm">Table of Contents</a>
+                </nav>
+            </div>
+
+            <div class="splitter">
+            </div>
+
+            <div class="main-content">
+                <!-- Rendered Content -->
+                <article class="content-pane">
+                    <header class="content-title">
+    <img src="_kavadocs/icons/topic.png">
+    View-Actions - Checked and Toggle
+</header>
+
+<div class="content-body" id="body">
+    <h1 id="checked-and-toggle-view-actions">Checked and Toggle View-Actions</h1>
+<p>View-Actions in CODE Framework have an IsChecked property that can be used to indicated a &quot;checked&quot;, &quot;selected&quot;, or &quot;activated&quot; state. For instance, this could be used to show a check-mark next to a menu item that represents a view-action.</p>
+<p>To create a checked view action, simple set the IsChecked property on the view-action:</p>
+<pre><code class="language-cs">new ViewAction() {IsChecked = true};
+</code></pre>
+<p>This fundamentally creates such an action, and one can then use the property as desired. However, most themes only do anything with the IsChecked flag when the view action type is set to “Toggle”:</p>
+<pre><code class="language-cs">new ViewAction() {IsChecked = true, ViewActionType = ViewActionTypes.Toggle};
+</code></pre>
+<p>This is required for the framework to differentiate between an action that is supposed to be capable of having a checked indicator (even if IsChecked = false), and an action that just happens to not be currently checked, but has no built-in logic to ever check it (in menu scenarios, this could lead to showing an icon where otherwise, a check-mark may be displayed).</p>
+<p>It is up to each theme (or custom component) to make use of the IsChecked flag. For instance, Ribbon controls may show a checked action like this (image from a Workplace-themed app). In this example, the first two elements are toggle view actions with IsChecked = true:</p>
+<p><img src="Checked%20and%20Toggle%20View-Actions/Checked%20and%20Toggle%20View-Actions1.png" alt="" /></p>
+<p>Or, the same could show up in a menu (image from a Geek-themed app). In this example, items 1 and 3 are checked:</p>
+<p><img src="Checked%20and%20Toggle%20View-Actions/Checked%20and%20Toggle%20View-Actions2.png" alt="" /></p>
+<p>One of the nice convenience features is that the default ViewAction implementation also features a IsChecked_Visible property, which returns Visible (for IsChecked = true) and Collapsed (for IsChecked = false). This makes it very convenient to bind anything that needs to be hidden and displayed based on whether an action has a checked flag. Furthermore, there is a special default ViewAction called ToggleViewAction, which will automatically toggle the IsChecked property every time the action is executed. (Note: Whatever execute-delegate is passed to a ToggleViewAction is executed in addition to flipping the IsChecked flag). Using these convenience features, one can create a simple setup like this:</p>
+<pre><code class="language-cs">public class MyViewModel : ViewModel
+{
+    public MyViewModel()
+    {
+        Actions.Add(new ToggleViewAction(“Output”));
+    }
+}
+</code></pre>
+<p>This view-action can now be used to toggle a hypothetical UI element on and off. In XAML, we could simply add the following element:</p>
+<pre><code>&lt;ListBox Visibility=”{Binding Actions[Output].IsChecked_Visible}” /&gt;
+</code></pre>
+<p>Note: This uses the string-indexer of the Actions collection in the binding path, which is a very convenient way to reference generic actions. (See also:  String Indexer for ViewActionsCollection)</p>
+
+</div>
+
+
+
+
+
+
+                </article>
+
+                <hr />
+                <div class="pull-right">
+                    <a href="http://helpbuilder.west-wind.com" target="_blank"><img src="images/wwhelp.png" /></a>
+                </div>
+
+                <small>
+                    &copy; Markus Egger Inc., 2019 &bull;
+                    Updated: 1/1/0001 12:00:00 AM
+                    <br />
+                    <a href="mailto:support@yoursite.com?subject=View-Actions - Checked and Toggle ()&body=Topic: CODE Framework Documentation - http://yoursite.com/docs/.htm">Comment or report problem with topic</a>
+                </small>
+                <br class="clearfix" />
+                <br />
+                <!-- End Rendered Content -->
+            </div>
+        </div>
+    </div>
+    <!-- End Documentation Monster Content -->
+</body>
+</html>
+

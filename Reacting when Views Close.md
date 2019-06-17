@@ -1,4 +1,4 @@
-# Reacting when Views Close
+﻿# Reacting when Views Close
 
 It is a common need to have to react to views closing. For instance, one may have a customer list, then double-click on of the customers in the list to open an edit form. When the user then edits the customer and closes it, and returns to the list, the list likely shows outdated data. Therefore, the customer list view/view-model needs to react to the edit view closing.
 

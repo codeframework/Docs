@@ -1,0 +1,144 @@
+﻿<!DOCTYPE html>
+<!-- saved from url=(0016)http://localhost -->
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Business Object Layer - CODE Framework Documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1" />
+    <link rel="stylesheet" type="text/css" href="../_kavadocs/themes/scripts/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_kavadocs/themes/scripts/fontawesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_kavadocs/themes/kavadocs.css" />
+
+    <script src="../_kavadocs/themes/scripts/jquery/jquery.min.js"></script>
+
+    <script src="../_kavadocs/themes/scripts/highlightjs/highlight.pack.js"></script>
+    <link href="../_kavadocs/themes/scripts/highlightjs/styles/twilight.css" rel="stylesheet" />
+
+    <script src="../_kavadocs/themes/scripts/ww.jquery.min.js"></script>
+    <script src="../_kavadocs/themes/scripts/kavadocs.js"></script>
+    
+    <topictype value="topic" />
+
+    <script>    
+        $(document).ready(function () {
+            helpBuilder.initializeLayout();
+            // expand all top level topics
+            setTimeout(helpBuilder.tocExpandTop, 5);
+        });
+    </script>
+</head>
+<body>    
+    <!-- Documentation Monster Content -->
+    <div class="flex-master">
+        <div class="banner">
+
+            <div class="pull-right sidebar-toggle">
+                <i class="fa fa-bars"
+                   title="Show or hide the topics list"></i>
+            </div>
+            <img src="../images/logo.png" class="banner-logo" />
+
+            	<div class="projectname">CODE Framework Documentation</div>
+            
+            <div class="byline">
+                                
+            </div>
+        </div>
+
+        <div class="page-content">
+            <div id="toc" class="sidebar-left toc-content">
+                <nav class="visually-hidden">
+                    <a href="../tableofcontents.htm">Table of Contents</a>
+                </nav>
+            </div>
+
+            <div class="splitter">
+            </div>
+
+            <div class="main-content">
+                <!-- Rendered Content -->
+                <article class="content-pane">
+                    <header class="content-title">
+    <img src="../_kavadocs/icons/topic.png">
+    Business Object Layer
+</header>
+
+<div class="content-body" id="body">
+    <h1 id="business-object-introduction">Business Object Introduction</h1>
+<p>In the Milos Solution Platform Framework, there are two different entities that are combined to provide the functionality that is normally referred to as &quot;Business Object&quot;. Most of the time, developers will use a type of object known as a &quot;Business Entity&quot;. Entities are stateful object that deal with - well - entities. For instance, an entity could be an invoice (a single invoice that is). This would mean that the business entity contains information about a single record for the invoice, but also additional records for things such as line items, recipients, addresses, and so forth.</p>
+<h2 id="using-business-entities">Using Business Entities</h2>
+<p>Using business entities that already exist is very straightforward. For instance if there was an <code>InvoiceBusinessEntity</code>, the developer could create a new invoice like so (C#):</p>
+<pre><code>var invoice = new InvoiceBusinessEntity();
+</code></pre>
+<p>Or, one could load an existing invoice like so:</p>
+<pre><code>var invoice = new InvoiceBusinessEntity(&quot;123456&quot;);
+</code></pre>
+<p>Note: In Milos, it is also common to follow a pattern where a static method is used to instantiate an entity. This is functionally similar to the examples above, but it allows for additional functionality to be added to entity loading/creating, if needed. In that case, entity instantiation works like this:</p>
+<pre><code>var newInvoie = InvoiceBusinessEntity.NewEntity();
+var existingInvoice = InvoiceBusinessEntity.LoadEntity(key);
+</code></pre>
+<p>Once an invoice is loaded, one can access and assign information about the invoice like so:</p>
+<pre><code>console.WriteLine(invoice.FooterText);
+console.WriteLine(invoice.Terms);
+invoice.InvoiceDate = DateTime.Now; 
+</code></pre>
+<p>Also, additional invoice information stored in separate records of a related table can be accessed through the invoice entity object:</p>
+<pre><code>invoice.LineItems.Add(100, &quot;Great Products&quot;);
+invoice.LineItems[0].Description = &quot;This is some cool descriptive text&quot;;
+invoice.LineItems[0].ProductImage = Bitmap.FromFile(&quot;c:\\prodimg.jpg&quot;);
+invoice.Addresses.Add(AddressTypes.Shipping, &quot;6605 Cypresswood Dr.&quot;, &quot;Houston&quot;);
+</code></pre>
+<p>Saving an invoice is also trivial:</p>
+<pre><code>invoice.Save();
+</code></pre>
+<p>Note that this saves the complete business entity, including data that may be stored in related tables. In this example, invoice information that could be stored in an invoice table would be updated as well as line item information stored in the line item table, and address information stored in an addresses table. The developer does not have to call a save method on those child items, nor is it necessary to verify information separately.</p>
+<h3 id="advanced-business-entity-features">Advanced Business Entity Features</h3>
+<p>Business entities have a number of advanced features. For instance, data used by the entity can be loaded async or on demand. This means that even a very complex business entity that contains a large number of different items can be used without having to worry about performance, because some of the data will only be loaded if needed. Example: The CODE Magazine web site uses a ArticleEntity to load article information (this entity object is subsequently hosted in a CODE Framework Micro-Service). This includes all types of things, such as attached images and other binary attachments, such as download files and the original article in Word format. Needless to say that this could be a lot of data. But since most of this data is only loaded when needed (entire collections, such as the BinaryAttachments collection are loaded when they are accessed the first time), the site can simply instantiate one of these entities and not worry about the overhead of loading megabytes of data for every hit.</p>
+<p>Entities also have undo buffers. This means that everything in an entity can be undone.</p>
+<p>Entities can be serialized.</p>
+<p>Business entities allow access to potentially very complex data in very simple ways. A good example is accessing, adding, and manipulating child item collections. Another example is accessing encrypted data. Yet another example would be accessing complex data types, such as images. All those things can be exposed in a very friendly fashion to the developer using the entity.</p>
+<blockquote>
+<p>Note: Not all features of the original Milos Solution Platform business objects and entities are being maintained in the CODE Framework version of Milos. We focus on those features that are important in modern scenarios, especially service-based scenarios. However, if there are features you are missing and need for backwards compatibility, please don't hesitate to contact us and we will see what we can do to add support.</p>
+</blockquote>
+<h2 id="business-objects">Business Objects</h2>
+<p>Asides from entities, there are also business objects. While business entities provide simple yet powerful access to business information, they are also very dumb. All the heavy lifting is done behind the scenes by business objects. Business objects have the ability to run queries against the database and retrieve and update information. Business objects also verify input. All business entities use business objects to do the heavy lifting. Every time someone calls the &quot;Save&quot; method on a business entity, the business entity really uses its assigned business object to first verify the information, and secondly, save the modified or new information.</p>
+<p>No business entity can function without a business object. One could however use business objects on their own. While business objects could be used to update information, they are mostly used to retrieve lists of items stored in data sets.</p>
+<p>Note that business objects are generally stateless. They may have methods such as GetTop100Customers() which returns a dataset filled with customer information, but they will not store any of that information in their own memory space. Once the dataset is retrieved, it is entirely disconnected from the business object. Want a stateful object? Use the associated entity.</p>
+<p>An easy way to think of this is that business objects really are part of business entities by composition. Each business entity automatically has a business object contained inside itself. Think of the combination of business entity and business object as a &quot;business unit&quot;. Mostly, developers will work with that &quot;unit&quot;.</p>
+<p>Note however, that there are reasons to work with the business object directly. Retrieving lists for instance. While we could create a collection of business entities to display their information in a grid, this would not be very performant. Instead, one can simply retrieve a dataset with a number of records directly from the business object and bind it to a datagrid. Once the user wants to take a closer look at a single record, and perhaps edit the information, its time to use the business entity instead.</p>
+<p>Another use for a business object would be in web services that are accessed by non-VS.NET clients. It is very easy to expose methods from a business object. Exposing the complex functionality provided by business entities to non-VS.NET clients however could be challenging (especially for the consumer of the data 😉 )</p>
+<h2 id="comparing-milos-business-object-features-with-entity-framework">Comparing Milos Business Object Features with Entity Framework</h2>
+<p>.NET's Entity Framework is an Object/Relational Mapping Framework. As such, the Milos setup can be seen as a spiritual predecessor (this framework has been available since .NET 1.0 in 2000, after all). However, there are some differences. Entity Framework is more powerful in mapping a web of relations through a large relational database, while Milos usually looks at just a single entity and it's immediate relations. For instance, Milos may map an invoice and line items to an entity. It will also map the customer that is linked to the invoice. However, it will stop at that. Entity Framework on the other hand, allows looking at the relations beyond that, such as a customer's other orders, and so on. Everything can be explored further that way. Milos on the other hand would create a separate entity for a customer's orders.</p>
+<p>Milos also has separate business objects, which (in addition to supporting the entities and doing all the heavy lifting for them) provide a simple way to query data and return DataSet objects, or individual values. This is often seen as a simpler way of accessing data, especially in non-update scenarios. (And it also provides a very generic way that can be moved between different database technologies without code changes). The business object layer is also suitable to express sophisticated business logic, while Entity Framework concerns itself more with the data aspects.</p>
+
+</div>
+
+
+
+
+
+
+                </article>
+
+                <hr />
+                <div class="pull-right">
+                    <a href="http://helpbuilder.west-wind.com" target="_blank"><img src="../images/wwhelp.png" /></a>
+                </div>
+
+                <small>
+                    &copy; Markus Egger Inc., 2019 &bull;
+                    Updated: 1/1/0001 12:00:00 AM
+                    <br />
+                    <a href="mailto:support@yoursite.com?subject=Business Object Layer ()&body=Topic: CODE Framework Documentation - http://yoursite.com/docs/.htm">Comment or report problem with topic</a>
+                </small>
+                <br class="clearfix" />
+                <br />
+                <!-- End Rendered Content -->
+            </div>
+        </div>
+    </div>
+    <!-- End Documentation Monster Content -->
+</body>
+</html>
+

@@ -1,0 +1,137 @@
+﻿<!DOCTYPE html>
+<!-- saved from url=(0016)http://localhost -->
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Fast Loading of Standard View-Models with Image Resources - CODE Framework Documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/scripts/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/scripts/fontawesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/kavadocs.css" />
+
+    <script src="_kavadocs/themes/scripts/jquery/jquery.min.js"></script>
+
+    <script src="_kavadocs/themes/scripts/highlightjs/highlight.pack.js"></script>
+    <link href="_kavadocs/themes/scripts/highlightjs/styles/twilight.css" rel="stylesheet" />
+
+    <script src="_kavadocs/themes/scripts/ww.jquery.min.js"></script>
+    <script src="_kavadocs/themes/scripts/kavadocs.js"></script>
+    
+    <topictype value="topic" />
+
+    <script>    
+        $(document).ready(function () {
+            helpBuilder.initializeLayout();
+            // expand all top level topics
+            setTimeout(helpBuilder.tocExpandTop, 5);
+        });
+    </script>
+</head>
+<body>    
+    <!-- Documentation Monster Content -->
+    <div class="flex-master">
+        <div class="banner">
+
+            <div class="pull-right sidebar-toggle">
+                <i class="fa fa-bars"
+                   title="Show or hide the topics list"></i>
+            </div>
+            <img src="images/logo.png" class="banner-logo" />
+
+            	<div class="projectname">CODE Framework Documentation</div>
+            
+            <div class="byline">
+                                
+            </div>
+        </div>
+
+        <div class="page-content">
+            <div id="toc" class="sidebar-left toc-content">
+                <nav class="visually-hidden">
+                    <a href="tableofcontents.htm">Table of Contents</a>
+                </nav>
+            </div>
+
+            <div class="splitter">
+            </div>
+
+            <div class="main-content">
+                <!-- Rendered Content -->
+                <article class="content-pane">
+                    <header class="content-title">
+    <img src="_kavadocs/icons/topic.png">
+    Fast Loading of Standard View-Models with Image Resources
+</header>
+
+<div class="content-body" id="body">
+    <h1 id="fast-loading-of-standard-view-models-with-image-resources">Fast Loading of Standard View-Models with Image Resources</h1>
+<p><em>Excerpt from an internal email at EPS/CODE:</em></p>
+<p>We have done quite a bit of work on improving the performance when loading standard views and view models with associated icons. This was quite slow at times, because the task is quite complex. When we load lists with hundreds of items, each of which has an icon, the system actually has to handle that icon and do a few things such as make sure the icon uses the right colors. This is particularly true in Metro, where the typical black Metro standard icon is turned into whatever other color the theme calls for.</p>
+<p>Anyway: We have improved the performance on that in general, so it should just be faster now. We have also added a bunch of new methods for loading icons faster in specific scenarios, mainly having tons of standard view models in a list with the same (or mostly the same) icons.</p>
+<p>Here’s how we always loaded icons before:</p>
+<pre><code class="language-cs">public class CustomerQuickInformation : StandardViewModel 
+{ 
+    public CustomerQuickInformation() 
+    { 
+        Image1 = GetBrushFromResource(&quot;CODE.Framework-Icon-Home&quot;); 
+    } 
+}
+</code></pre>
+<p>This ran for every instance of this view model and loaded a new icon for each of them. So this could potentially run hundreds of times. While this still works, we now also have this approach:</p>
+<pre><code class="language-cs">public class CustomerQuickInformation : StandardViewModel 
+{ 
+    public CustomerQuickInformation() 
+    { 
+        LoadSharedImage1FromBrushResource(&quot;CODE.Framework-Icon-Home&quot;); 
+    } 
+} 
+</code></pre>
+<p>This does essentially the same, but it shares the icon resource across all instances of this view model, which is drastically faster.</p>
+<p>You can still load different icons into each model. But all the ones that will use the same icon will share it. So if you had 2 icons, one to indicate let’s say an active state and another to indicate an inactive state of the data element you are showing, you could load two different icons in those view models, but all the ones that are active and all the ones that are inactive would share their icon.</p>
+<p>The performance improvement of this is considerable and this is what we should use as a standard from now on.</p>
+<p>Note that there are several versions of this method, one for each of the 5 image properties, and one for each of the 2 logo properties.</p>
+<p>The only downside of this method (and loss of flexibility) is that the icons in the views have to appear exactly idendical. So if you loaded a tile with a blue background and white foreground, the icon would now appear white. If you then had another tile that had a white background and blue foreground that shared the same icon, the icon would now still be white. Now this is a somewhat unlikely scenario, but still, it is something to be aware of.</p>
+<p>Note: The method actually has a second parameter that allows for context separation which would solve exactly this problem. You probably will not need that, but here’s how you’d use that:</p>
+<pre><code class="language-cs">public class CustomerQuickInformation : StandardViewModel 
+{ 
+    public CustomerQuickInformation() 
+    { 
+        LoadSharedImage1FromBrushResource(&quot;CODE.Framework-Icon-Home&quot;, MyBruses); 
+    } 
+
+    private static readonly Dictionary&lt;string, Brush&gt; MyBrushes = new Dictionary&lt;string, Brush&gt;(); 
+} 
+</code></pre>
+<p>In this case, the sharing would now be local to the customer quick information view model and not all standard view models.</p>
+
+</div>
+
+
+
+
+
+
+                </article>
+
+                <hr />
+                <div class="pull-right">
+                    <a href="http://helpbuilder.west-wind.com" target="_blank"><img src="images/wwhelp.png" /></a>
+                </div>
+
+                <small>
+                    &copy; Markus Egger Inc., 2019 &bull;
+                    Updated: 1/1/0001 12:00:00 AM
+                    <br />
+                    <a href="mailto:support@yoursite.com?subject=Fast Loading of Standard View-Models with Image Resources ()&body=Topic: CODE Framework Documentation - http://yoursite.com/docs/.htm">Comment or report problem with topic</a>
+                </small>
+                <br class="clearfix" />
+                <br />
+                <!-- End Rendered Content -->
+            </div>
+        </div>
+    </div>
+    <!-- End Documentation Monster Content -->
+</body>
+</html>
+

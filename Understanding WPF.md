@@ -1,4 +1,4 @@
-# Understanding WPF Application Development with CODE Framework's WPF MVVM/MVC Components
+﻿# Understanding WPF Application Development with CODE Framework's WPF MVVM/MVC Components
 
 The CODE Framework is an open-source application framework by the makers of CODE Magazine. It is entirely free of charge. It covers a wide range of features that can be applied altogether or individually in an *À la carte* fashion. All of these features revolve around a single concept: Building advanced business applications in a productive and maintainable fashion while maintaining great application architecture. In this article, we are focusing on a subset of the CODE Framework, specifically the components used to build WPF applications using the MVVM and MVC patterns.
 

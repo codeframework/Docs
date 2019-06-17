@@ -1,0 +1,129 @@
+﻿<!DOCTYPE html>
+<!-- saved from url=(0016)http://localhost -->
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Milos Overview - CODE Framework Documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1" />
+    <link rel="stylesheet" type="text/css" href="../_kavadocs/themes/scripts/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_kavadocs/themes/scripts/fontawesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_kavadocs/themes/kavadocs.css" />
+
+    <script src="../_kavadocs/themes/scripts/jquery/jquery.min.js"></script>
+
+    <script src="../_kavadocs/themes/scripts/highlightjs/highlight.pack.js"></script>
+    <link href="../_kavadocs/themes/scripts/highlightjs/styles/twilight.css" rel="stylesheet" />
+
+    <script src="../_kavadocs/themes/scripts/ww.jquery.min.js"></script>
+    <script src="../_kavadocs/themes/scripts/kavadocs.js"></script>
+    
+    <topictype value="topic" />
+
+    <script>    
+        $(document).ready(function () {
+            helpBuilder.initializeLayout();
+            // expand all top level topics
+            setTimeout(helpBuilder.tocExpandTop, 5);
+        });
+    </script>
+</head>
+<body>    
+    <!-- Documentation Monster Content -->
+    <div class="flex-master">
+        <div class="banner">
+
+            <div class="pull-right sidebar-toggle">
+                <i class="fa fa-bars"
+                   title="Show or hide the topics list"></i>
+            </div>
+            <img src="../images/logo.png" class="banner-logo" />
+
+            	<div class="projectname">CODE Framework Documentation</div>
+            
+            <div class="byline">
+                                
+            </div>
+        </div>
+
+        <div class="page-content">
+            <div id="toc" class="sidebar-left toc-content">
+                <nav class="visually-hidden">
+                    <a href="../tableofcontents.htm">Table of Contents</a>
+                </nav>
+            </div>
+
+            <div class="splitter">
+            </div>
+
+            <div class="main-content">
+                <!-- Rendered Content -->
+                <article class="content-pane">
+                    <header class="content-title">
+    <img src="../_kavadocs/icons/topic.png">
+    Milos Overview
+</header>
+
+<div class="content-body" id="body">
+    <h1 id="milos-solution-platform">Milos Solution Platform</h1>
+<p>The Milos Solution Platform is the spiritual predecessor of CODE Framework. It is a business application development framework that was originally created for .NET 1.0 and has been maintained ever since. It originally contained components for data access, WinForms development, service development, and more. Some of those components have eventually been used as the basis for CODE Framework's services components. Other elements, such as the WinForms components, are still available in their original form. Data access and business-objects components are also still available in their original form. However, they have also been converted into .NET Standard components (so they can be used in all flavors of .NET) and are maintained as a legacy support feature as part of CODE Framework.</p>
+<h2 id="data-access-and-business-objects">Data Access and Business Objects</h2>
+<p>The most commonly used components of the Milos Solution Platform within modern CODE Framework applications are the business object and data access components.</p>
+<h3 id="business-objects">Business Objects</h3>
+<p>Business objects allow for data access in an abstract and straightforward fashion. For instance, using a hypothetical customer business object, one could access customer data like this:</p>
+<pre><code class="language-cs">using (var biz = new CustomerBusinessObject())
+using (var dataSet = biz.GetCustomersByName(&quot;Smith&quot;))
+{
+    Console.WriteLine(dataSet.Tables[0].Rows[0][&quot;Key&quot;]);
+    Console.WriteLine(dataSet.Tables[0].Rows[0][&quot;Name&quot;]);
+}
+</code></pre>
+<blockquote>
+<p>Note that Milos data components are largely based on the <code>DataSet</code> infrastructure by .NET Standard.</p>
+</blockquote>
+<h3 id="business-entities">Business Entities</h3>
+<p>Business entities abstract data access one step further by providing entity objects that can be seen as individual &quot;records&quot; of data with added functionality, such as business logic, data manipulation, and so on. Consider this hypothetical example:</p>
+<pre><code class="language-cs">using (var customer = CustomerBusinessEntity.LoadEntity(key))
+{
+    window.ImageControl.Source = customer.Photo;
+    customer.Note = &quot;This is a new note&quot;;
+    customer.Save();
+}
+</code></pre>
+<p>As you can see, this not just provides access to customer information, but it can express advanced features, such as loading binary photo data and returning it as a usable <code>Image</code> object.</p>
+<h2 id="nuget-support">NuGet Support</h2>
+<p>Milos Components that are maintained as part of CODE Framework can be added to your project from NuGet. The following link provides a quick way to search for Milos NuGet components (although this search may also return other packages): <a target="top" href="https://www.nuget.org/packages?q=Milos">https://www.nuget.org/packages?q=Milos</a>.</p>
+<blockquote>
+<p>Typical uses of Milos require adding the Milos.BusinessObjects and Milos.Data.SqlServer packages. (This also brings along other dependencies and thus provide what is usually needed in most business applications).</p>
+</blockquote>
+
+</div>
+
+
+
+
+
+
+                </article>
+
+                <hr />
+                <div class="pull-right">
+                    <a href="http://helpbuilder.west-wind.com" target="_blank"><img src="../images/wwhelp.png" /></a>
+                </div>
+
+                <small>
+                    &copy; Markus Egger Inc., 2019 &bull;
+                    Updated: 1/1/0001 12:00:00 AM
+                    <br />
+                    <a href="mailto:support@yoursite.com?subject=Milos Overview ()&body=Topic: CODE Framework Documentation - http://yoursite.com/docs/.htm">Comment or report problem with topic</a>
+                </small>
+                <br class="clearfix" />
+                <br />
+                <!-- End Rendered Content -->
+            </div>
+        </div>
+    </div>
+    <!-- End Documentation Monster Content -->
+</body>
+</html>
+

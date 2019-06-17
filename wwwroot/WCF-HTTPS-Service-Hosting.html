@@ -1,0 +1,112 @@
+﻿<!DOCTYPE html>
+<!-- saved from url=(0016)http://localhost -->
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>WCF HTTPS Service Hosting - CODE Framework Documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/scripts/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/scripts/fontawesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/kavadocs.css" />
+
+    <script src="_kavadocs/themes/scripts/jquery/jquery.min.js"></script>
+
+    <script src="_kavadocs/themes/scripts/highlightjs/highlight.pack.js"></script>
+    <link href="_kavadocs/themes/scripts/highlightjs/styles/twilight.css" rel="stylesheet" />
+
+    <script src="_kavadocs/themes/scripts/ww.jquery.min.js"></script>
+    <script src="_kavadocs/themes/scripts/kavadocs.js"></script>
+    
+    <topictype value="topic" />
+
+    <script>    
+        $(document).ready(function () {
+            helpBuilder.initializeLayout();
+            // expand all top level topics
+            setTimeout(helpBuilder.tocExpandTop, 5);
+        });
+    </script>
+</head>
+<body>    
+    <!-- Documentation Monster Content -->
+    <div class="flex-master">
+        <div class="banner">
+
+            <div class="pull-right sidebar-toggle">
+                <i class="fa fa-bars"
+                   title="Show or hide the topics list"></i>
+            </div>
+            <img src="images/logo.png" class="banner-logo" />
+
+            	<div class="projectname">CODE Framework Documentation</div>
+            
+            <div class="byline">
+                                
+            </div>
+        </div>
+
+        <div class="page-content">
+            <div id="toc" class="sidebar-left toc-content">
+                <nav class="visually-hidden">
+                    <a href="tableofcontents.htm">Table of Contents</a>
+                </nav>
+            </div>
+
+            <div class="splitter">
+            </div>
+
+            <div class="main-content">
+                <!-- Rendered Content -->
+                <article class="content-pane">
+                    <header class="content-title">
+    <img src="_kavadocs/icons/topic.png">
+    WCF HTTPS Service Hosting
+</header>
+
+<div class="content-body" id="body">
+    <h1 id="wcf-https-service-hosting">WCF HTTPS Service Hosting</h1>
+<p>Using CODE Framework, you can easily host and call services using the HTTPS protocol. All methods on the service host objects (server-side) as well as the ServiceClient class (client-side) related to services that use the HTTP protocol now feature an optional &quot;useHttps&quot; parameter.</p>
+<p>The following is an example of how that parameter is used to host services:</p>
+<pre><code class="language-cs">host.AddServiceHostBasicHttp(typeof(TestService)); // HTTP 
+host.AddServiceHostBasicHttp(typeof(TestService), useHttps: true); // HTTPS 
+host.AddServiceHostWsHttp(typeof(TestService)); // HTTP 
+host.AddServiceHostWsHttp(typeof(TestService), useHttps: true); // HTTPS 
+host.AddServiceHostRestJson(typeof(TestService)); // HTTP 
+host.AddServiceHostRestJson(typeof(TestService), useHttps: true); // HTTPS 
+host.AddServiceHostRestXml(typeof(TestService)); // HTTP 
+host.AddServiceHostRestXml(typeof(TestService), useHttps: true); // HTTPS 
+</code></pre>
+<p>The equivalent works for calling services using the ServiceClient class.</p>
+<p>Note that you still need to make sure you have HTTPS certs configured properly on your server, which is an admin task and has as such nothing to do with CODE Framework. But if the cert is not configured properly, you will get an error message stating the certificate error.</p>
+
+</div>
+
+
+
+
+
+
+                </article>
+
+                <hr />
+                <div class="pull-right">
+                    <a href="http://helpbuilder.west-wind.com" target="_blank"><img src="images/wwhelp.png" /></a>
+                </div>
+
+                <small>
+                    &copy; Markus Egger Inc., 2019 &bull;
+                    Updated: 1/1/0001 12:00:00 AM
+                    <br />
+                    <a href="mailto:support@yoursite.com?subject=WCF HTTPS Service Hosting ()&body=Topic: CODE Framework Documentation - http://yoursite.com/docs/.htm">Comment or report problem with topic</a>
+                </small>
+                <br class="clearfix" />
+                <br />
+                <!-- End Rendered Content -->
+            </div>
+        </div>
+    </div>
+    <!-- End Documentation Monster Content -->
+</body>
+</html>
+

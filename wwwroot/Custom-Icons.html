@@ -1,0 +1,156 @@
+﻿<!DOCTYPE html>
+<!-- saved from url=(0016)http://localhost -->
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Custom Icons - CODE Framework Documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/scripts/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/scripts/fontawesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/kavadocs.css" />
+
+    <script src="_kavadocs/themes/scripts/jquery/jquery.min.js"></script>
+
+    <script src="_kavadocs/themes/scripts/highlightjs/highlight.pack.js"></script>
+    <link href="_kavadocs/themes/scripts/highlightjs/styles/twilight.css" rel="stylesheet" />
+
+    <script src="_kavadocs/themes/scripts/ww.jquery.min.js"></script>
+    <script src="_kavadocs/themes/scripts/kavadocs.js"></script>
+    
+    <topictype value="topic" />
+
+    <script>    
+        $(document).ready(function () {
+            helpBuilder.initializeLayout();
+            // expand all top level topics
+            setTimeout(helpBuilder.tocExpandTop, 5);
+        });
+    </script>
+</head>
+<body>    
+    <!-- Documentation Monster Content -->
+    <div class="flex-master">
+        <div class="banner">
+
+            <div class="pull-right sidebar-toggle">
+                <i class="fa fa-bars"
+                   title="Show or hide the topics list"></i>
+            </div>
+            <img src="images/logo.png" class="banner-logo" />
+
+            	<div class="projectname">CODE Framework Documentation</div>
+            
+            <div class="byline">
+                                
+            </div>
+        </div>
+
+        <div class="page-content">
+            <div id="toc" class="sidebar-left toc-content">
+                <nav class="visually-hidden">
+                    <a href="tableofcontents.htm">Table of Contents</a>
+                </nav>
+            </div>
+
+            <div class="splitter">
+            </div>
+
+            <div class="main-content">
+                <!-- Rendered Content -->
+                <article class="content-pane">
+                    <header class="content-title">
+    <img src="_kavadocs/icons/topic.png">
+    Custom Icons
+</header>
+
+<div class="content-body" id="body">
+    <h1 id="creating-custom-icons-and-overriding-standard-icons">Creating Custom Icons and Overriding Standard Icons</h1>
+<p>In addition to the set of standard icons, it is possible to create custom icons, or override the standard ones, and use them in place of CODE Framework standard icons.</p>
+<p>Icons in CODE Framework are defined as brush resources. Ideally, drawing brushes, since they are vector images that scale and perform well. However, it is theoretically possible to define other brush resources, such as image brushes, or even video brushes, and us them as &quot;icons&quot;.</p>
+<p>Consider the following brush that defines a save icon:</p>
+<pre><code class="language-xml">&lt;DrawingBrush x:Key=&quot;MyGreatSaveIcon&quot; Stretch=&quot;Uniform&quot;&gt;
+    &lt;DrawingBrush.Drawing&gt;
+        &lt;DrawingGroup&gt;
+            &lt;DrawingGroup.Children&gt;
+                &lt;GeometryDrawing Brush=&quot;Black&quot; 
+                                 Geometry=&quot;F1 M 16.2,3.05176e-005C 16.3375,3.05176e-005 16.4646,0.0245056 16.5812,0.0734558C 16.6979,0.122406 16.8021,0.190643 16.8937,0.278168C 16.9854,0.365662 17.0573,0.468262 17.1094,0.585968C 17.1615,0.703705 17.1875,0.830231 17.1875,0.965668L 17.1875,16.2594C 17.1875,16.3969 17.1615,16.5255 17.1094,16.6454C 17.0573,16.7651 16.9854,16.8693 16.8937,16.9579C 16.8021,17.0464 16.6979,17.1146 16.5812,17.1625C 16.4646,17.2104 16.3375,17.2344 16.2,17.2344L 13.3688,17.2344L 13.3688,12C 13.3688,11.8584 13.3182,11.7386 13.2172,11.6407C 13.1161,11.5428 13.001,11.4938 12.8719,11.4938L 4.28749,11.4938C 4.14375,11.4938 4.02292,11.5428 3.925,11.6407C 3.82709,11.7386 3.77812,11.8584 3.77812,12L 3.77812,17.2344L 0.965622,17.2344C 0.830208,17.2344 0.703644,17.2104 0.585938,17.1625C 0.468231,17.1146 0.365616,17.0464 0.278122,16.9579C 0.19062,16.8693 0.122391,16.7651 0.0734329,16.6454C 0.0244751,16.5255 0,16.3969 0,16.2594L 0,0.965668C 0,0.692719 0.0927124,0.463593 0.278122,0.278168C 0.463539,0.0927429 0.692703,3.05176e-005 0.965622,3.05176e-005L 16.2,3.05176e-005 Z M 14.325,2.41254C 14.325,2.27505 14.276,2.15891 14.1781,2.06412C 14.0802,1.96933 13.9604,1.92191 13.8187,1.92191L 3.32813,1.92191C 3.18645,1.92191 3.06822,1.96933 2.97343,2.06412C 2.87864,2.15891 2.83125,2.27505 2.83125,2.41254L 2.83125,6.20941C 2.83125,6.34689 2.87864,6.46304 2.97343,6.55783C 3.06822,6.65262 3.18645,6.70004 3.32813,6.70004L 13.8187,6.70004C 13.9604,6.70004 14.0802,6.65262 14.1781,6.55783C 14.276,6.46304 14.325,6.34689 14.325,6.20941L 14.325,2.41254 Z M 8.575,17.2344L 5.70313,17.2344L 5.70313,14.3657L 8.575,14.3657L 8.575,17.2344 Z &quot;/&gt;
+            &lt;/DrawingGroup.Children&gt;
+        &lt;/DrawingGroup&gt;
+    &lt;/DrawingBrush.Drawing&gt;
+&lt;/DrawingBrush&gt;
+</code></pre>
+<p>There are several aspects of interest here. Note that the whole icon is defined as a <code>DrawingBrush</code> resource with a set key.</p>
+<blockquote>
+<p>The easiest way to create XAML based icons is to create them with Microsoft's Expression Design graphics program. Yes, it is a bit dated, but it is a great tool for this job. You can create vector graphics and export them as XAML brushes. You can even import from other formats (most importantly perhaps Adobe Illustrator).</p>
+</blockquote>
+<blockquote>
+<p>Another option is to download existing art in XAML Brush format. One site that offers such art for free is our own <a target="top" href="http://www.xamalot.com">http://www.xamalot.com</a>.</p>
+</blockquote>
+<p>Such an icon can be defined in any resource dictionary or resources element in XAML. However, we recommend putting it into the Themes folder and the sub-folder named after the theme you are using. For instance, if you are using the Workplace theme, put it into the Themes\Workplace folder. Typically, this is done in a resource dictionary specific to icons (such as Icons.xaml). Note that that dictionary needs to be loaded by linking it into another resource dictionary. Most commonly, this is done in the &quot;theme root&quot; XAML file of the same name as the theme. Therefore, in the Workplace theme there is a <code>Workplace.xaml</code> file where you can add the link to the existing ones like so:</p>
+<pre><code class="language-xml">&lt;ResourceDictionary xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot; xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;&gt;
+    
+    &lt;ResourceDictionary.MergedDictionaries&gt;
+        &lt;ResourceDictionary Source=&quot;Icons.xaml&quot;/&gt;
+        &lt;ResourceDictionary Source=&quot;Workplace-Colors.xaml&quot;/&gt;
+        &lt;ResourceDictionary Source=&quot;Workplace-Fonts.xaml&quot;/&gt;
+        &lt;ResourceDictionary Source=&quot;Workplace-Shell.xaml&quot;/&gt;
+    &lt;/ResourceDictionary.MergedDictionaries&gt;
+
+&lt;/ResourceDictionary&gt;
+</code></pre>
+<p>Now that this icon is defined, it can be used in various places. For instance, if you like using the <a target="top" href="Icons-Theme-Icons">ThemeIcon</a> control, you can use your new icon like this:</p>
+<pre><code class="language-xml">&lt;mvvm:ThemeIcon IconResourceKey=&quot;MyGreatSaveIcon&quot; /&gt;
+</code></pre>
+<p>Similarly, the new icon can be used in View-Actions:</p>
+<pre><code class="language-cs">new ViewAction(&quot;Save&quot;,
+               execute: (a, o) =&gt; Save(), 
+               brushResourceKey: &quot;MyGreatSaveIcon&quot;);
+</code></pre>
+<p>Note that a Save icon is perhaps not the best example for us to use here, since CODE Framework comes with its own Save icon that is appropriate for each theme (see also: <a target="top" href="Theme-Standard-Icon-Resources">Standard Icons</a>). Therefore, if you want to use a Save icon, it is perhaps better to use this syntax:</p>
+<pre><code class="language-xml">&lt;mvvm:ThemeIcon IconResourceKey=&quot;CODE.Framework-Icon-Save&quot; /&gt;
+</code></pre>
+<p>Or, the more intuitive short-hand using the <code>StandardIcons</code> enumeration:</p>
+<pre><code class="language-xml">&lt;mvvm:ThemeIcon StandardIcon=&quot;Save&quot; /&gt;
+</code></pre>
+<p>This second version is really identical to the first version, because setting the <code>StandardIcon</code> property really just causes the <code>IconResourceKey</code> property to be set internally.</p>
+<p>But what if you want a different Save icon rather than the one defined by CODE Framework? Easy: You simply define a local icon of the same name, which then overrules the standard one. Therefore, instead of creating a new icon with a different name/key, simply create the same icon but give it the standard key:</p>
+<pre><code class="language-xml">&lt;DrawingBrush x:Key=&quot;CODE.Framework-Icon-Save&quot; Stretch=&quot;Uniform&quot;&gt;
+  &lt;!-- more definition here --&gt;
+&lt;/DrawingBrush&gt;
+</code></pre>
+<p>Now, wherever <code>CODE.Framework-Icon-Save</code> is referenced, your newly redefined icon will be used. And, since setting a StandardIcon property really only sets the internal resource key, it will just work in those cases as well. Like magic! 😉</p>
+<p>The advantage of overriding existing icons is that if you were to switch to a different theme that you don't have a custom icon for, then that theme would still work since it would default to the usual icon again. Also, this applies your icon resource more consistently across your application. Even CODE Framework features that pop up icons intrinsically would now use your overridden icon.</p>
+<p>For this reason, you should only create icons of new names when they really serve a different purpose.</p>
+
+</div>
+
+
+
+
+    <h3 class="outdent" id="seealso">See also</h3>
+Theme Icon Control|Icons - Theme Icons|Standard CODE Framework Icons|Themes - Standard Icon Resources
+
+                </article>
+
+                <hr />
+                <div class="pull-right">
+                    <a href="http://helpbuilder.west-wind.com" target="_blank"><img src="images/wwhelp.png" /></a>
+                </div>
+
+                <small>
+                    &copy; Markus Egger Inc., 2019 &bull;
+                    Updated: 1/1/0001 12:00:00 AM
+                    <br />
+                    <a href="mailto:support@yoursite.com?subject=Custom Icons ()&body=Topic: CODE Framework Documentation - http://yoursite.com/docs/.htm">Comment or report problem with topic</a>
+                </small>
+                <br class="clearfix" />
+                <br />
+                <!-- End Rendered Content -->
+            </div>
+        </div>
+    </div>
+    <!-- End Documentation Monster Content -->
+</body>
+</html>
+

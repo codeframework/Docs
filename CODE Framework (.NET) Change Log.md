@@ -1,4 +1,4 @@
-# CODE Framework (.NET) Change Log
+﻿# CODE Framework (.NET) Change Log
 
 ## Work in Progress / Internal Build
 

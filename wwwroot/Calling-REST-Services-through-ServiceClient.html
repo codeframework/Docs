@@ -1,0 +1,137 @@
+﻿<!DOCTYPE html>
+<!-- saved from url=(0016)http://localhost -->
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Calling REST Services through ServiceClient - CODE Framework Documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/scripts/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/scripts/fontawesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/kavadocs.css" />
+
+    <script src="_kavadocs/themes/scripts/jquery/jquery.min.js"></script>
+
+    <script src="_kavadocs/themes/scripts/highlightjs/highlight.pack.js"></script>
+    <link href="_kavadocs/themes/scripts/highlightjs/styles/twilight.css" rel="stylesheet" />
+
+    <script src="_kavadocs/themes/scripts/ww.jquery.min.js"></script>
+    <script src="_kavadocs/themes/scripts/kavadocs.js"></script>
+    
+    <topictype value="topic" />
+
+    <script>    
+        $(document).ready(function () {
+            helpBuilder.initializeLayout();
+            // expand all top level topics
+            setTimeout(helpBuilder.tocExpandTop, 5);
+        });
+    </script>
+</head>
+<body>    
+    <!-- Documentation Monster Content -->
+    <div class="flex-master">
+        <div class="banner">
+
+            <div class="pull-right sidebar-toggle">
+                <i class="fa fa-bars"
+                   title="Show or hide the topics list"></i>
+            </div>
+            <img src="images/logo.png" class="banner-logo" />
+
+            	<div class="projectname">CODE Framework Documentation</div>
+            
+            <div class="byline">
+                                
+            </div>
+        </div>
+
+        <div class="page-content">
+            <div id="toc" class="sidebar-left toc-content">
+                <nav class="visually-hidden">
+                    <a href="tableofcontents.htm">Table of Contents</a>
+                </nav>
+            </div>
+
+            <div class="splitter">
+            </div>
+
+            <div class="main-content">
+                <!-- Rendered Content -->
+                <article class="content-pane">
+                    <header class="content-title">
+    <img src="_kavadocs/icons/topic.png">
+    Calling REST Services through ServiceClient
+</header>
+
+<div class="content-body" id="body">
+    <h1 id="calling-rest-services-through-serviceclient">Calling REST Services through ServiceClient</h1>
+<p>The ServiceClient class is used to call all kinds of services from the client. This includes REST based services (using both JSON and XML data formats). As such, it can call REST-based services hosted by CODE Framework, or completely arbitrary REST services.</p>
+<h2 id="calling-code-framework-rest-services">Calling CODE Framework REST Services</h2>
+<p>CODE Framework supports the creation of REST Services in various ways (for more information, see [Creating REST Services]). When calling a CODE Framework REST/JSON services through ServiceClient, there is a highly efficient and transparent mechanism to do so. (Note however that this mechanism requires the server to be built using CODE Framework. For arbitrary REST services, see below).</p>
+<p>Using this mechanism, a call to a REST service is 100% identical to a call to any other service in CODE Framework. Here is an example:</p>
+<pre><code class="language-c#">ServiceClient.Call&lt;ICustomerService&gt;(s =&gt;
+{
+    var response = s.GetCustomerList(new GetCustomerListRequest());
+    if (response.Success)
+        customerList.ItemsSource = response.Customers;
+});
+</code></pre>
+<p>Not only does this syntax look exactly identical to any other CODE Framework service call, but it is in fact the same exact code. It simply relies on configuration to know that the service is REST-based, and it uses the contract (interface) to figure out all the details about the REST service (such as knowing the appropriate HTTP verb, or understanding URL patterns, and so on… see [Creating REST Services] for details on how things work on the server-side and thus what this needs to map to). The developer is completely shielded from such details. Furthermore, the code works entirely interchangeably with other services. For instance, the code above can be configured to use TCP/IP or in-process calls or any other supported mechanism, without requiring any code change.</p>
+<p>To make the above call, the system simply needs the following configuration settings:</p>
+<pre><code class="language-c#">&lt;appSettings&gt;
+  &lt;add key=&quot;ServiceProtocol&quot; value=&quot;Rest&quot;/&gt;
+  &lt;add key=&quot;RestServiceUrl:ICustomerService&quot; value=&quot;http://localhost/dev/ICustomerService/rest/json&quot;/&gt;
+&lt;/appSettings&gt;
+</code></pre>
+<p>The ServiceProtocol has to be set to “Rest” (it can also be “RestJson” or “RestHttpJson”, which are just aliases for the same setting). Secondly, the REST Url has to be specified. In this case, it is going to a CODE Framework development host URL. But this could also be a WebApi hosted URL or something like that. If it was WebApi, a typical URL would be something like <a target="top" href="http://www.myserver.com/api/Customer">http://www.myserver.com/api/Customer</a> or <a target="top" href="http://www.myserver.com/Customer">http://www.myserver.com/Customer</a></p>
+<p>Note that this implementation is assuming that the REST service has strong structure. In other words: While REST is inherently capable of dynamic service formats, many REST services still return the same format on each call. In other words: Every time you retrieve a customer from the service, it will return the same structure, even though REST doesn’t require that. When you create a service using CODE Framework, this is automatically the case (the same is true for many business-app REST services in general). Due to this characteristic, the result from the service call is a strongly typed object. This has the great advantage that the developer does not have to work with dynamic objects in C# or perform any extra tasks to get a strongly typed, standard C# object. The result of a service call made in this manner is always a standard C# object structure that can be used easily and naturally. (See below for services that may be different in nature).</p>
+<p><em>For those interested in some technical details: We often get asked how this can even work in the first place. ServiceClient.Call() has a parameter (“s” in the example above) that is a concrete object that implements the desired interface (ICustomerService in this example), yet there is no such object/class anywhere. That is true. CODE Framework creates a proxy on the fly. In other words: CODE Framework quickly creates a class that implements the interface and contains all the appropriate infrastructure that enables strongly typed REST calls. This is often referred to as a “transparent proxy”. (In fact, WCF channels also make use of the same approach). CODE Framework has it’s own transparent proxy generator/factory to enable it to do so. In fact, this transparent proxy factory is not specific to REST. The TransparentProxyGenerator class lives in the CODE.Framework.Code.Utilities namespace and might come in handy for any other kind of transparent proxy needs.</em></p>
+<h2 id="calling-arbitrary-rest-services">Calling Arbitrary REST Services</h2>
+<p>Here's a basic example to call a REST service through the ServiceClient:</p>
+<pre><code class="language-c#">var response = ServiceClient.CallREST(&quot;http://url.com/...&quot;, &quot;{x:1}&quot;);
+</code></pre>
+<p>This calls an arbitrary REST service at the specified URL and posts the second parameter as JSON data to that service. This is the simplest way of calling a REST service through the ServiceClient class. Additional parameters can be used to change the verb (POST, GET, DELETE,...) and also the data format (XML or JSON). The response in this example is a string containing the data returned from the service.</p>
+<p>Fundamentally, this is all you need to call REST services. However, there are other convenience overloads as well as more strongly typed versions of this method. (Note: Strong typing for REST services may or may not be desirable. However, if the format sent back from the service is always the same, and thus acts as if it was strongly typed, being able to use strong typing on the client is very convenient and increases code quality). Consider this example:</p>
+<pre><code class="language-c#">var request = new MyRequest();
+var response = ServiceClient.CallREST&lt;MyRequest, MyResponse&gt;(&quot;http://url.com/...&quot;, request);
+</code></pre>
+<p>In this example, the second parameter is a strongly typed input parameter, and the return value will be a strongly typed response (of type MyResponse) or null, if the call failed (in that case, the ServiceClient class fires the usual exception events).</p>
+<p>This begs the question: &quot;How does one get strongly typed client-side objects for REST service?&quot;. If the REST service is built with .NET (on the server), then it may be possible to obtain the data contracts and simply use them directly. Another option is to hand-craft these contracts on the client. As long as their structure matches the response from the server, the ServiceClient class will be able to serialize and deserialize to and from these hand-crafted objects.</p>
+<p>Sometimes, the server-side services may also be created using CODE Framework. In that case, and even more convenient approach can be used. For one, this means that the data contracts are automatically available and do not have to be hand-crafted. In addition, the operation contract is available as well. Thus, the above example could potentially be written like this:</p>
+<pre><code class="language-c#">var request = new MyRequest(); 
+var response = ServiceClient.CallREST&lt;IMyService, MyRequest, MyResponse&gt;(&quot;MyMethod&quot;, request);
+</code></pre>
+<p>In this case, the service is identified by its contract passed as a generic parameter, which is less error prone and more self-explanatory than specifying a service URL or a service name as a string parameter.</p>
+<p>Also, in this example, rather than specifying the complete URL, the URL is determined by the ServiceClient class based on the standard service configuration (see also: <a target="top" href="WCF%20Service%20Configuration">WCF Service Configuration</a>). This provides more flexibility than hardcoding the URL (note that this approach is also available for arbitrary REST service calls using different overloads of the same method).</p>
+
+</div>
+
+
+
+
+
+
+                </article>
+
+                <hr />
+                <div class="pull-right">
+                    <a href="http://helpbuilder.west-wind.com" target="_blank"><img src="images/wwhelp.png" /></a>
+                </div>
+
+                <small>
+                    &copy; Markus Egger Inc., 2019 &bull;
+                    Updated: 1/1/0001 12:00:00 AM
+                    <br />
+                    <a href="mailto:support@yoursite.com?subject=Calling REST Services through ServiceClient ()&body=Topic: CODE Framework Documentation - http://yoursite.com/docs/.htm">Comment or report problem with topic</a>
+                </small>
+                <br class="clearfix" />
+                <br />
+                <!-- End Rendered Content -->
+            </div>
+        </div>
+    </div>
+    <!-- End Documentation Monster Content -->
+</body>
+</html>
+

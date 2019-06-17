@@ -1,0 +1,196 @@
+﻿<!DOCTYPE html>
+<!-- saved from url=(0016)http://localhost -->
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Automatic Layout - Edit Form - CODE Framework Documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/scripts/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/scripts/fontawesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/kavadocs.css" />
+
+    <script src="_kavadocs/themes/scripts/jquery/jquery.min.js"></script>
+
+    <script src="_kavadocs/themes/scripts/highlightjs/highlight.pack.js"></script>
+    <link href="_kavadocs/themes/scripts/highlightjs/styles/twilight.css" rel="stylesheet" />
+
+    <script src="_kavadocs/themes/scripts/ww.jquery.min.js"></script>
+    <script src="_kavadocs/themes/scripts/kavadocs.js"></script>
+    
+    <topictype value="topic" />
+
+    <script>    
+        $(document).ready(function () {
+            helpBuilder.initializeLayout();
+            // expand all top level topics
+            setTimeout(helpBuilder.tocExpandTop, 5);
+        });
+    </script>
+</head>
+<body>    
+    <!-- Documentation Monster Content -->
+    <div class="flex-master">
+        <div class="banner">
+
+            <div class="pull-right sidebar-toggle">
+                <i class="fa fa-bars"
+                   title="Show or hide the topics list"></i>
+            </div>
+            <img src="images/logo.png" class="banner-logo" />
+
+            	<div class="projectname">CODE Framework Documentation</div>
+            
+            <div class="byline">
+                                
+            </div>
+        </div>
+
+        <div class="page-content">
+            <div id="toc" class="sidebar-left toc-content">
+                <nav class="visually-hidden">
+                    <a href="tableofcontents.htm">Table of Contents</a>
+                </nav>
+            </div>
+
+            <div class="splitter">
+            </div>
+
+            <div class="main-content">
+                <!-- Rendered Content -->
+                <article class="content-pane">
+                    <header class="content-title">
+    <img src="_kavadocs/icons/topic.png">
+    Automatic Layout - Edit Form
+</header>
+
+<div class="content-body" id="body">
+    <h1 id="automatic-layout-edit-form-and-elasticity">Automatic Layout - Edit Form and Elasticity</h1>
+<p><em>Excerpt from an internal email at EPS/CODE:</em></p>
+<p>The latest version of the EditForm layout panel in the WPF portion of CODE Framework has some interesting new features. This is the automatic layout panel that can be either used directly, or it is automatically used when you use a view that is styled to use the edit form layout.</p>
+<p>Here is an example of what this can look like:</p>
+<p><img src="Automatic%20Layout%20-%20EditForm%20and%20Elasticity/Automatic%20Layout%20and%20Elasticity_clip_image001.jpg" alt="" /></p>
+<p>There are a few enhancements visible right there. For one, that panel now respects group titles, (which can be set on any control that is a group break or column break: mvvm:View.GroupTitle=”Hello World”).</p>
+<p>Another enhancement is that this control now exposes a plethora of properties (which are all stylable of course). So all the spacing and margins between controls, columns, headers, groups, and so forth, can now be set. Also, fonts and colors and all that for group headers can be set. In fact, if you wanted to, you could specify a custom group header render object that does the rendering of the titles.</p>
+<p>Another thing that is cool is that this control now supports two fundamental layout modes. One with the labels to the left of the edit controls (as is typical in standard Windows UIs) and one with the controls to the top (which is the Metro standard in Windows 8). Here is what happens when I change the label position to Top on the same UI:</p>
+<p><img src="Automatic%20Layout%20-%20EditForm%20and%20Elasticity/Automatic%20Layout%20and%20Elasticity_clip_image002.jpg" alt="" /></p>
+<p>So this now looks very much like Windows 8 Metro/WinRT. It is now also the default for our Metro style data edit forms (but this could all be changed easily by setting that style in your specific app).</p>
+<p>Now here is a really cool feature: What if the form gets too small to accommodate all this UI? Especially for things like the Metro style with considerable margins, this could seemingly happen easily. So I introduced a new feature called “Layout Elasticity”. This is something you can turn on and off by means of the LayoutElasticity property. The basic idea is this: If the UI gets too small, it will start to smartly shrink by reducing all the spaces and margins down to a certain minimum (there are minimum equivalent properties for all properties, so you have fine-grained control over all of this).</p>
+<p>For instance, if I just start making the version with the labels to the left smaller, I eventually get this:</p>
+<p><img src="Automatic%20Layout%20-%20EditForm%20and%20Elasticity/Automatic%20Layout%20and%20Elasticity_clip_image003.jpg" alt="" /></p>
+<p>Note how much of the horizontal spacing is now gone (compare to the first screen shot) and the vertical spacing in the tallest column (on the right) is gone, the middle column has his vertical spacing reduced, and the left column still enjoys regular spacing.</p>
+<p>This works no matter whether the label is to the left or to the top. If you try this live, you will see that it very gradually removes spacing as you keep resizing. It looks quite fluid and cool, actually.</p>
+<p>However, there is only so much you can do with spacing. Eventually, this will fail too. At that point, elasticity can go as far as scaling the UI (there are 3 settings for elasticity: None, Layout, and LayoutAndScale… the last one being the default). Here is an example of what a scaled down elastic UI looks like:</p>
+<p><img src="Automatic%20Layout%20-%20EditForm%20and%20Elasticity/Automatic%20Layout%20and%20Elasticity_clip_image004.jpg" alt="" /></p>
+<p>In this case, a true scale transformation was applied (it’s a bit hard to see, but this is not just a smaller version of the prior screen shot, but in this case, the content of the window only has been scaled… not that the window chrome is a the same scale as in the prior screen shot). Of course scaling also can only take you so far. There is a certain minimum scale below of which it just doesn’t make sense anymore, because people can’t read anything. You can set that minimum scale factor through a property. The default minimum is 75% (0.75d).</p>
+<p>So what happens if all elasticity is exhausted? At that point, the only alternative is scrolling, which is also supported (and there are properties to specify whether you want that or not of course). Here’s the same UI with scrollbars:</p>
+<p><img src="Automatic%20Layout%20-%20EditForm%20and%20Elasticity/Automatic%20Layout%20and%20Elasticity_clip_image005.jpg" alt="" /></p>
+<p>The scrollbars are standard WPF scrollbars and thus pick up all styling of course.</p>
+<p>BTW: The EditForm panel also supports background rendering (fill and border) for groups if you so desire:</p>
+<p><img src="Automatic%20Layout%20-%20EditForm%20and%20Elasticity/Automatic%20Layout%20and%20Elasticity_image_1.png" alt="" /></p>
+<p>To get this effect, set the RenderGroupBackground property to True and set properties such as GroupBackgroundBrush and GroupBorderBrush. This can be done directly in a form where you use the EditForm panel, and it can of course also be done in any stule that uses that panel.</p>
+<p>Feature Update: A new feature has been added to the EditForm panel that allows displaying optional horizontal lines between controls. A resulting UI can look like this example:</p>
+<p><img src="Automatic%20Layout%20-%20EditForm%20and%20Elasticity/Automatic%20Layout%20and%20Elasticity_image_2.png" alt="" /></p>
+<p>This feature can be turned on through the following properties:</p>
+<pre><code class="language-xml">&lt;EditForm HorizontalLineSeparatorBrush=&quot;#81FFFFFF&quot; RenderHorizontalControlSeparatorLines=&quot;True&quot; … /&gt;
+</code></pre>
+<p>So there you have it! BTW: here is the definition of this test UI I have been using:</p>
+<pre><code class="language-xml">&lt;Window x:Class=&quot;CODE.Framework.Wpf.TestBench.EditFormTest&quot; 
+        xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot; 
+        xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot; 
+        xmlns:Layout=&quot;clr-namespace:CODE.Framework.Wpf.Layout;assembly=CODE.Framework.Wpf&quot; 
+        xmlns:Mvvm=&quot;clr-namespace:CODE.Framework.Wpf.Mvvm;assembly=CODE.Framework.Wpf.Mvvm&quot; 
+        Title=&quot;EditFormTest&quot; Height=&quot;640&quot; Width=&quot;905&quot; MouseDoubleClick=&quot;Window_MouseDoubleClick&quot;&gt; 
+  &lt;Window.Resources&gt; 
+    &lt;ResourceDictionary&gt; 
+      &lt;ResourceDictionary.MergedDictionaries&gt; 
+        &lt;ResourceDictionary Source=&quot;/CODE.Framework.Wpf.Theme.Metro;component/Metro-Control-TextBox.xaml&quot;/&gt; 
+        &lt;ResourceDictionary Source=&quot;/CODE.Framework.Wpf.Theme.Metro;component/Metro-Control-ScrollBar.xaml&quot;/&gt; 
+       &lt;ResourceDictionary Source=&quot;/CODE.Framework.Wpf.Theme.Metro;component/Colors.xaml&quot;/&gt; 
+       &lt;ResourceDictionary Source=&quot;/CODE.Framework.Wpf.Theme.Metro;component/Fonts.xaml&quot;/&gt; 
+      &lt;/ResourceDictionary.MergedDictionaries&gt; 
+      &lt;Color x:Key=&quot;CODE.Framework-Application-ThemeColor1&quot;&gt;DarkGray&lt;/Color&gt; 
+    &lt;/ResourceDictionary&gt; 
+  &lt;/Window.Resources&gt; 
+  &lt;Layout:EditForm Margin=&quot;20&quot; x:Name=&quot;edit1&quot; 
+                   GroupHeaderFontSize=&quot;20&quot; 
+                   GroupHeaderFontWeight=&quot;Light&quot; 
+                   GroupHeaderForegroundBrush=&quot;DarkRed&quot; 
+                   GroupHeaderTopSpacing=&quot;25&quot; 
+                   GroupHeaderBottomSpacing=&quot;15&quot; 
+                   MinColumnSpacing=&quot;25&quot; 
+                   MinEditControlLeftSpacing=&quot;10&quot; 
+                   LabelPosition=&quot;Left&quot; 
+                   VerticalSpacing=&quot;10&quot; 
+                   ColumnSpacing=&quot;100&quot; 
+                   LayoutElasticity=&quot;LayoutAndScale&quot; &gt; 
+    &lt;TextBlock&gt;First Name:&lt;/TextBlock&gt; 
+    &lt;TextBox Mvvm:View.WidthEx=&quot;25&quot; /&gt; 
+    &lt;TextBlock&gt;Middle Name:&lt;/TextBlock&gt; 
+    &lt;TextBox Mvvm:View.WidthEx=&quot;25&quot; /&gt; 
+    &lt;TextBlock&gt;Last Name:&lt;/TextBlock&gt; 
+    &lt;TextBox Mvvm:View.WidthEx=&quot;25&quot; /&gt; 
+    &lt;TextBlock Mvvm:View.GroupBreak=&quot;True&quot; Mvvm:View.GroupTitle=&quot;Phone Numbers&quot;&gt;Phone 1:&lt;/TextBlock&gt; 
+    &lt;TextBox Mvvm:View.WidthEx=&quot;25&quot; /&gt; 
+    &lt;TextBlock&gt;Phone 2:&lt;/TextBlock&gt; 
+    &lt;TextBox Mvvm:View.WidthEx=&quot;25&quot; /&gt; 
+    &lt;TextBlock Mvvm:View.ColumnBreak=&quot;True&quot; Mvvm:View.GroupTitle=&quot;Alternate Contact&quot;&gt;First Name:&lt;/TextBlock&gt; 
+    &lt;TextBox Mvvm:View.WidthEx=&quot;20&quot; /&gt; 
+    &lt;TextBlock&gt;Last Name:&lt;/TextBlock&gt; 
+    &lt;TextBox Mvvm:View.WidthEx=&quot;20&quot; /&gt; 
+    &lt;TextBlock Mvvm:View.GroupBreak=&quot;True&quot; Mvvm:View.GroupTitle=&quot;More Numbers&quot;&gt;Phone 1:&lt;/TextBlock&gt; 
+    &lt;TextBox Mvvm:View.WidthEx=&quot;15&quot; /&gt; 
+    &lt;TextBlock&gt;Phone 2:&lt;/TextBlock&gt; 
+    &lt;TextBox Mvvm:View.WidthEx=&quot;15&quot; /&gt; 
+    &lt;TextBlock Mvvm:View.GroupBreak=&quot;True&quot; Mvvm:View.GroupTitle=&quot;Phone Numbers&quot;&gt;Phone 1:&lt;/TextBlock&gt; 
+    &lt;TextBox Mvvm:View.WidthEx=&quot;15&quot; /&gt; 
+    &lt;TextBlock Mvvm:View.ColumnBreak=&quot;True&quot; Mvvm:View.GroupTitle=&quot;Alternate Contact&quot;&gt;First Name:&lt;/TextBlock&gt; 
+    &lt;TextBox Mvvm:View.WidthEx=&quot;20&quot; /&gt; 
+    &lt;TextBlock&gt;Middle Name:&lt;/TextBlock&gt; 
+    &lt;TextBox Mvvm:View.WidthEx=&quot;20&quot; /&gt; 
+    &lt;TextBlock&gt;Last Name:&lt;/TextBlock&gt; 
+    &lt;TextBox Mvvm:View.WidthEx=&quot;20&quot; /&gt; 
+    &lt;TextBlock Mvvm:View.GroupBreak=&quot;True&quot; Mvvm:View.GroupTitle=&quot;More Phone Numbers&quot;&gt;Phone 1:&lt;/TextBlock&gt; 
+    &lt;TextBox Mvvm:View.WidthEx=&quot;15&quot; /&gt; 
+    &lt;TextBlock&gt;Phone 2:&lt;/TextBlock&gt; 
+    &lt;TextBox Mvvm:View.WidthEx=&quot;15&quot; /&gt; 
+    &lt;TextBlock Mvvm:View.GroupBreak=&quot;True&quot;&gt;Phone 1:&lt;/TextBlock&gt; 
+    &lt;TextBox Mvvm:View.WidthEx=&quot;15&quot; /&gt; 
+    &lt;TextBlock&gt;Phone 1:&lt;/TextBlock&gt; 
+    &lt;TextBox Mvvm:View.WidthEx=&quot;15&quot; /&gt; 
+    &lt;TextBlock&gt;Phone 1:&lt;/TextBlock&gt; 
+    &lt;TextBox Mvvm:View.WidthEx=&quot;15&quot; /&gt; 
+  &lt;/Layout:EditForm&gt; 
+&lt;/Window&gt; 
+</code></pre>
+
+</div>
+
+
+
+
+
+
+                </article>
+
+                <hr />
+                <div class="pull-right">
+                    <a href="http://helpbuilder.west-wind.com" target="_blank"><img src="images/wwhelp.png" /></a>
+                </div>
+
+                <small>
+                    &copy; Markus Egger Inc., 2019 &bull;
+                    Updated: 1/1/0001 12:00:00 AM
+                    <br />
+                    <a href="mailto:support@yoursite.com?subject=Automatic Layout - Edit Form ()&body=Topic: CODE Framework Documentation - http://yoursite.com/docs/.htm">Comment or report problem with topic</a>
+                </small>
+                <br class="clearfix" />
+                <br />
+                <!-- End Rendered Content -->
+            </div>
+        </div>
+    </div>
+    <!-- End Documentation Monster Content -->
+</body>
+</html>
+

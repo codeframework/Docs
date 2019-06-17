@@ -1,0 +1,147 @@
+﻿<!DOCTYPE html>
+<!-- saved from url=(0016)http://localhost -->
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>JSON Features - CODE Framework Documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/scripts/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/scripts/fontawesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/kavadocs.css" />
+
+    <script src="_kavadocs/themes/scripts/jquery/jquery.min.js"></script>
+
+    <script src="_kavadocs/themes/scripts/highlightjs/highlight.pack.js"></script>
+    <link href="_kavadocs/themes/scripts/highlightjs/styles/twilight.css" rel="stylesheet" />
+
+    <script src="_kavadocs/themes/scripts/ww.jquery.min.js"></script>
+    <script src="_kavadocs/themes/scripts/kavadocs.js"></script>
+    
+    <topictype value="topic" />
+
+    <script>    
+        $(document).ready(function () {
+            helpBuilder.initializeLayout();
+            // expand all top level topics
+            setTimeout(helpBuilder.tocExpandTop, 5);
+        });
+    </script>
+</head>
+<body>    
+    <!-- Documentation Monster Content -->
+    <div class="flex-master">
+        <div class="banner">
+
+            <div class="pull-right sidebar-toggle">
+                <i class="fa fa-bars"
+                   title="Show or hide the topics list"></i>
+            </div>
+            <img src="images/logo.png" class="banner-logo" />
+
+            	<div class="projectname">CODE Framework Documentation</div>
+            
+            <div class="byline">
+                                
+            </div>
+        </div>
+
+        <div class="page-content">
+            <div id="toc" class="sidebar-left toc-content">
+                <nav class="visually-hidden">
+                    <a href="tableofcontents.htm">Table of Contents</a>
+                </nav>
+            </div>
+
+            <div class="splitter">
+            </div>
+
+            <div class="main-content">
+                <!-- Rendered Content -->
+                <article class="content-pane">
+                    <header class="content-title">
+    <img src="_kavadocs/icons/topic.png">
+    JSON Features
+</header>
+
+<div class="content-body" id="body">
+    <h1 id="code-framework-json-features">CODE Framework JSON Features</h1>
+<p>CODE Framework features a variety of features related to JSON. One of the most significant aspects is that CODE Framework includes a branched version of JSON.NET, which is available through the CODE.Framework.Core.Newtonsoft namespace. You will find all the usual JSON.NET classes in this namespace and can use them according to the JSON.NET documentation.</p>
+<p>In addition, CODE Framework offers a JsonHelper class, which provides quick access to the most common JSON operations. For instance, one can serialize an object to JSON using the following code:</p>
+<pre><code class="language-c#">var json = JsonHelper.SerializeToRestJson(customer);
+</code></pre>
+<p>Similarly, it is possible to re-hydrate an object from JSON:</p>
+<pre><code class="language-c#">var customer = JsonHelper.DeserializeFromRestJson&lt;Customer&gt;(json):
+</code></pre>
+<p>JsonHelper also provides a quick way to format JSON in ways that are easy for humans to read:</p>
+<pre><code class="language-c#">var formattedJson = JsonHelper.Format(json);
+</code></pre>
+<p>There also are some nifty features to create JSON on a lower level. For instance JsonHelper.GetJsonNameValuePair() allows you to get a JSON compatible name/value pair. For instance, consider this call:</p>
+<pre><code class="language-c#">var json = JsonHelper.GetJsonNameValuePair(“MyNumber”, number);
+</code></pre>
+<p>This would return something like this:</p>
+<pre><code class="language-c#">&quot;MyNumber&quot;:123.45
+</code></pre>
+<p>This in itself is not real JSON of course, but it is a JSON fragment, if you want to think of it that way. What is important is that this encodes everything correctly, since this uses JSON.NET under the hood. Therefore, something like this works just fine:</p>
+<pre><code class="language-c#">JsonHelper.GetJsonNameValuePair(&quot;Timestamp&quot;, DateTime.Now);
+</code></pre>
+<p>This is very useful if you “just need to create a bit of JSON data” that isn’t based on an actual object you have in memory. In fact, we can do one better, because there now is a new JsonBuilder object. It works very similar to a StringBuilder, but it builds JSON. For instance, you can do this:</p>
+<pre><code class="language-c#">var jb = new JsonBuilder();
+jb.Append(&quot;Last User&quot;, System.Security.Principal.WindowsIdentity.GetCurrent().Name);
+jb.Append(&quot;Timestamp&quot;, DateTime.Now);
+var json = jb.ToString();
+</code></pre>
+<p>Which returns that:</p>
+<pre><code class="language-json">{
+  &quot;Last User&quot;:&quot;WIN-HO44B8HH4N3\\SomeUser&quot;,
+  &quot;Timestamp&quot;:&quot;2016-09-23T23:06:18.3865621-10:00&quot;
+}
+</code></pre>
+<p>As you can see, this is not the kind of information you can simply serialize an entire object for, since there isn’t a single object with these two properties (unless you specifically create an object with these two properties just for the purpose of later turning it into JSON). So being able to just do this is certainly useful.</p>
+<p><em>Note: As you can probably imagine, JsonBuilder uses JsonHelper.GetJsonNameValuePair() behind the scenes.</em></p>
+<p>The question then is how one would actually use JSON like this later, since there is no easy way to deserialize it back into an object (since there is no object representing that structure). Well, I am glad you asked! We now have a simple parse method that does exactly this. You can hand it some JSON, and then have it call you back for every value it finds:</p>
+<pre><code class="language-c#">JsonHelper.QuickParse(json, (n, v) =&gt;
+{
+    switch (n)
+    {
+        case &quot;Last User&quot;:
+            Console.WriteLine(&quot;Last user was &quot; + v);
+            break;
+        case &quot;Timestamp&quot;:
+            Console.WriteLine(&quot;Last logged in at &quot; + v);
+            break;
+    }
+});
+</code></pre>
+<p>So that’s pretty neat, because this way, you can make sure that your parser works, no matter what kind of odd values are in the JSON (because, again, behind the scenes we use JSON.NET) or in what order they appear.</p>
+
+</div>
+
+
+
+
+
+
+                </article>
+
+                <hr />
+                <div class="pull-right">
+                    <a href="http://helpbuilder.west-wind.com" target="_blank"><img src="images/wwhelp.png" /></a>
+                </div>
+
+                <small>
+                    &copy; Markus Egger Inc., 2019 &bull;
+                    Updated: 1/1/0001 12:00:00 AM
+                    <br />
+                    <a href="mailto:support@yoursite.com?subject=JSON Features ()&body=Topic: CODE Framework Documentation - http://yoursite.com/docs/.htm">Comment or report problem with topic</a>
+                </small>
+                <br class="clearfix" />
+                <br />
+                <!-- End Rendered Content -->
+            </div>
+        </div>
+    </div>
+    <!-- End Documentation Monster Content -->
+</body>
+</html>
+

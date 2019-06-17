@@ -1,0 +1,126 @@
+﻿<!DOCTYPE html>
+<!-- saved from url=(0016)http://localhost -->
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Reacting when Views Close - CODE Framework Documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/scripts/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/scripts/fontawesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/kavadocs.css" />
+
+    <script src="_kavadocs/themes/scripts/jquery/jquery.min.js"></script>
+
+    <script src="_kavadocs/themes/scripts/highlightjs/highlight.pack.js"></script>
+    <link href="_kavadocs/themes/scripts/highlightjs/styles/twilight.css" rel="stylesheet" />
+
+    <script src="_kavadocs/themes/scripts/ww.jquery.min.js"></script>
+    <script src="_kavadocs/themes/scripts/kavadocs.js"></script>
+    
+    <topictype value="topic" />
+
+    <script>    
+        $(document).ready(function () {
+            helpBuilder.initializeLayout();
+            // expand all top level topics
+            setTimeout(helpBuilder.tocExpandTop, 5);
+        });
+    </script>
+</head>
+<body>    
+    <!-- Documentation Monster Content -->
+    <div class="flex-master">
+        <div class="banner">
+
+            <div class="pull-right sidebar-toggle">
+                <i class="fa fa-bars"
+                   title="Show or hide the topics list"></i>
+            </div>
+            <img src="images/logo.png" class="banner-logo" />
+
+            	<div class="projectname">CODE Framework Documentation</div>
+            
+            <div class="byline">
+                                
+            </div>
+        </div>
+
+        <div class="page-content">
+            <div id="toc" class="sidebar-left toc-content">
+                <nav class="visually-hidden">
+                    <a href="tableofcontents.htm">Table of Contents</a>
+                </nav>
+            </div>
+
+            <div class="splitter">
+            </div>
+
+            <div class="main-content">
+                <!-- Rendered Content -->
+                <article class="content-pane">
+                    <header class="content-title">
+    <img src="_kavadocs/icons/topic.png">
+    Reacting when Views Close
+</header>
+
+<div class="content-body" id="body">
+    <h1 id="reacting-when-views-close">Reacting when Views Close</h1>
+<p>It is a common need to have to react to views closing. For instance, one may have a customer list, then double-click on of the customers in the list to open an edit form. When the user then edits the customer and closes it, and returns to the list, the list likely shows outdated data. Therefore, the customer list view/view-model needs to react to the edit view closing.</p>
+<p>Here's an example of how this can be done:</p>
+<pre><code class="language-cs">var context = Controller.Action(&quot;Customer&quot;, &quot;Edit&quot;, new {id = x}).Result as ViewResult;
+if (context != null)
+    context.ViewClosed += (s, e) =&gt; RefreshList();
+</code></pre>
+<p>This example presumably runs in the view-model associated with the customer list (probably in a view action hat triggers when the customer is double-clicked in the list). It then calls the Controller.Action() method to launch another view. Usually, the return value of that method is ignored, but in this case, the result is retrieved and used as a <code>ViewResult</code>. (Note: The Action method always returns <code>ActionResult</code> objects, but depending on the exact response, subclasses of <code>ActionResult</code> may be returned... in most cases - such as then the method does a <code>return View(...)</code> - it is actually a <code>ViewResult</code>).</p>
+<p><code>ViewResult</code> objects have a number of interesting members. For instance, that object has properties that grant access to the view itself, the view-model, details such as the view title, and more. Of particular interest for us is the <code>ViewClosed</code> event. That event fires - you guessed it - when the view has been closed. We can thus simply react to this event and do things like refresh the list of customers. We could also grab the view-model and pick out individual data elements (perhaps it would be enough to grab the customer ID and the display name and go through the existing list of customers in memory and replace those 2 data elements... which would probably be faster).</p>
+<p>Another option is to explicitly pass an &quot;event sink&quot; object to a controller when a view gets created. This object can then respond to events. Here is an example:</p>
+<pre><code class="language-cs">var sink = new ViewResultEventSinks();
+sink.ViewClosed += (s, args) =&gt;
+{
+    // This is where one likely wants to read values from the model
+    var myModel = args.ViewResult.Model as WhateverViewModel;
+    var selectedCustomer = myModel.SelectedCustomer;
+};
+Controller.Action(&quot;Something&quot;, &quot;Whatever&quot;, null, sink);
+</code></pre>
+<h2 id="related-topic-reacting-to-other-happenings">Related Topic: Reacting to Other Happenings</h2>
+<p>Note that closing of views isn't the only operation one may want to react to. Other common examples include saving or deleting of data, among others. While there aren't standard save or delete events, it is easy to add those to your view-models, perhaps even in a special base class of all your view models. It is then subsequently possible to take advantage of those events in the caller like this:</p>
+<pre><code class="language-cs">var context = Controller.Action(&quot;Customer&quot;, &quot;Edit&quot;, new {id = x}).Result as ViewResult;
+if (context != null)
+{
+    var myModel = contenxt.ViewModel as MyViewModel;
+    myModel.Saved += (s, e) =&gt; RefreshList();
+}
+</code></pre>
+
+</div>
+
+
+
+
+
+
+                </article>
+
+                <hr />
+                <div class="pull-right">
+                    <a href="http://helpbuilder.west-wind.com" target="_blank"><img src="images/wwhelp.png" /></a>
+                </div>
+
+                <small>
+                    &copy; Markus Egger Inc., 2019 &bull;
+                    Updated: 1/1/0001 12:00:00 AM
+                    <br />
+                    <a href="mailto:support@yoursite.com?subject=Reacting when Views Close ()&body=Topic: CODE Framework Documentation - http://yoursite.com/docs/.htm">Comment or report problem with topic</a>
+                </small>
+                <br class="clearfix" />
+                <br />
+                <!-- End Rendered Content -->
+            </div>
+        </div>
+    </div>
+    <!-- End Documentation Monster Content -->
+</body>
+</html>
+

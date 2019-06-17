@@ -1,0 +1,132 @@
+﻿<!DOCTYPE html>
+<!-- saved from url=(0016)http://localhost -->
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Metro - Start Screen - CODE Framework Documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/scripts/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/scripts/fontawesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/kavadocs.css" />
+
+    <script src="_kavadocs/themes/scripts/jquery/jquery.min.js"></script>
+
+    <script src="_kavadocs/themes/scripts/highlightjs/highlight.pack.js"></script>
+    <link href="_kavadocs/themes/scripts/highlightjs/styles/twilight.css" rel="stylesheet" />
+
+    <script src="_kavadocs/themes/scripts/ww.jquery.min.js"></script>
+    <script src="_kavadocs/themes/scripts/kavadocs.js"></script>
+    
+    <topictype value="topic" />
+
+    <script>    
+        $(document).ready(function () {
+            helpBuilder.initializeLayout();
+            // expand all top level topics
+            setTimeout(helpBuilder.tocExpandTop, 5);
+        });
+    </script>
+</head>
+<body>    
+    <!-- Documentation Monster Content -->
+    <div class="flex-master">
+        <div class="banner">
+
+            <div class="pull-right sidebar-toggle">
+                <i class="fa fa-bars"
+                   title="Show or hide the topics list"></i>
+            </div>
+            <img src="images/logo.png" class="banner-logo" />
+
+            	<div class="projectname">CODE Framework Documentation</div>
+            
+            <div class="byline">
+                                
+            </div>
+        </div>
+
+        <div class="page-content">
+            <div id="toc" class="sidebar-left toc-content">
+                <nav class="visually-hidden">
+                    <a href="tableofcontents.htm">Table of Contents</a>
+                </nav>
+            </div>
+
+            <div class="splitter">
+            </div>
+
+            <div class="main-content">
+                <!-- Rendered Content -->
+                <article class="content-pane">
+                    <header class="content-title">
+    <img src="_kavadocs/icons/topic.png">
+    Metro - Start Screen
+</header>
+
+<div class="content-body" id="body">
+    <h1 id="metro-start-screen">Metro Start Screen</h1>
+<p><em>Excerpt from an internal email at EPS/CODE:</em></p>
+<p>The latest version of CODE Framework has a re-written Metro start screen. Here’s an example:</p>
+<p><img src="Metro%20Start%20Screen/Metro%20Start%20Screen_clip_image001_2.jpg" alt="" /></p>
+<p>What’s new here? Well, almost everything 😃</p>
+<p>The main element in the screen that hosts the tiles (which are populated from view-actions of course) has been re-written from scratch. The new version is now MUCH faster (the old tile screen often took quite long to load, especially with large numbers of tiles that changed a lot). That was really one of the main reasons to re-write this feature (the old tile screen was probably one of the first CODE Framework WPF features ever written 😃 ). So that in itself should be worth the upgrade.</p>
+<p>The way this was done is through a new styeable ViewActionItemsControl that can be used to host a list of all kinds of view-actions. It is simply bound to anything that implements IHaveActions. However, it doesn’t do a straight binding, since view-actions often have to be changed from their raw approach. The order may change. There may be groupings. Some actions may not be available due to access rights. And so on. So it internally creates a new list of view-actions. And these view-actions are actually wrapped into a special new view-action wrapper class based on DependencyObject. This is technical detail that most people probably won’t care about, but it is good to know, because it means you can set attached properties on these wrappers, which can be quite useful in various scenarios. (For instance, in the tile scenarios, the size of the tiles is set that way).</p>
+<p>So in this particular scenario, the fast-populating ViewActionItemsControl is used and it is styled to use the MetroTiles layout as it’s ItemsPanel. Furthermore, it is styled to use special templates for each action. And this is where things get interesting, because there is a template selector that allows using many different templates. (And as everything in CODE Framework, this can be changed and extended, so you can load just about anything into the tiles).</p>
+<p>The default setup uses a logic that goes like this:</p>
+<ol>
+<li>The significance of the action is inspected, which drives the size of the tile:
+<ol>
+<li>Normal and BelowNormal significance creates a small square size (“normal”)</li>
+<li>AboveAverage significance creates a wide tile</li>
+<li>Highest significance creates a large square tile</li>
+<li>Lowest significance creates a tiny square tile</li>
+</ol>
+</li>
+<li>The exact content of the action is inspected to pick an appropriate template for the tile
+<ol>
+<li>If the view-action has a populated custom view, the entire tile is used up by the defined custom view (very useful for the larger tiles)</li>
+<li>Generally, if the view-action uses ImageBrush objects (i.e. “references bitmap images/photos”) and all five Image properties (Image1, Image2,…Image5) are populated, it picks a special template (usually animated)</li>
+<li>If Image1 is populated with an ImageBrush, there is a special template for that (usually the entire tile background is filled with that image).</li>
+<li>If none of these are true, then a standard template is picked that shows an icon</li>
+</ol>
+</li>
+</ol>
+<p>Note: All tile templates (except custom views) also show the caption as well as other information such as an item count (“Number1”).</p>
+<p>All these templates (and there are quite a few) are defined in Metro-Control-ViewActionItemsControl.xaml. You can override these templates at will. There is also a resource for the template selector in that file, so you can configure that object as well if you would like to use completely different templates. It is also possible to create your own template selector if you want to do something entirely different. To do so, simply create a new template selector and style it into the items control just as the default one is. This provides a degree of freedom that is quite extensive.</p>
+<p>Tiles can also be “checked”. If IsChecked=true, a check-mark is shown in the tile like this:</p>
+<p><img src="Metro%20Start%20Screen/Metro%20Start%20Screen_clip_image002_2.jpg" alt="" /></p>
+<p>Also, all the animations and visual effects have been overhauled. Animated tiles (in the start screen and elsewhere) now use nicer animations with subtle accelerations and decelerations. It probably doesn’t stand out as very noticeable, but it just looks a little nicer and more professional. The selection highlight is also better than it was. And there now is a nice, animated effect when the user presses a tile.</p>
+<p>Of course all the colors can be changed easily through the standard color resources for the theme. On a side note: The default colors have changed to look a little more appealing as well. Most projects change that anyway, but it is nice to have something that looks good (rather than the crazy colors we had before) right out of the box.</p>
+<p>This has been discussed before, but just for the record: We now support 4 different tile sizes, just like the Windows 8.1 start screen.</p>
+
+</div>
+
+
+
+
+
+
+                </article>
+
+                <hr />
+                <div class="pull-right">
+                    <a href="http://helpbuilder.west-wind.com" target="_blank"><img src="images/wwhelp.png" /></a>
+                </div>
+
+                <small>
+                    &copy; Markus Egger Inc., 2019 &bull;
+                    Updated: 1/1/0001 12:00:00 AM
+                    <br />
+                    <a href="mailto:support@yoursite.com?subject=Metro - Start Screen ()&body=Topic: CODE Framework Documentation - http://yoursite.com/docs/.htm">Comment or report problem with topic</a>
+                </small>
+                <br class="clearfix" />
+                <br />
+                <!-- End Rendered Content -->
+            </div>
+        </div>
+    </div>
+    <!-- End Documentation Monster Content -->
+</body>
+</html>
+

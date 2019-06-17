@@ -1,0 +1,110 @@
+﻿<!DOCTYPE html>
+<!-- saved from url=(0016)http://localhost -->
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Local Views - CODE Framework Documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/scripts/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/scripts/fontawesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/kavadocs.css" />
+
+    <script src="_kavadocs/themes/scripts/jquery/jquery.min.js"></script>
+
+    <script src="_kavadocs/themes/scripts/highlightjs/highlight.pack.js"></script>
+    <link href="_kavadocs/themes/scripts/highlightjs/styles/twilight.css" rel="stylesheet" />
+
+    <script src="_kavadocs/themes/scripts/ww.jquery.min.js"></script>
+    <script src="_kavadocs/themes/scripts/kavadocs.js"></script>
+    
+    <topictype value="topic" />
+
+    <script>    
+        $(document).ready(function () {
+            helpBuilder.initializeLayout();
+            // expand all top level topics
+            setTimeout(helpBuilder.tocExpandTop, 5);
+        });
+    </script>
+</head>
+<body>    
+    <!-- Documentation Monster Content -->
+    <div class="flex-master">
+        <div class="banner">
+
+            <div class="pull-right sidebar-toggle">
+                <i class="fa fa-bars"
+                   title="Show or hide the topics list"></i>
+            </div>
+            <img src="images/logo.png" class="banner-logo" />
+
+            	<div class="projectname">CODE Framework Documentation</div>
+            
+            <div class="byline">
+                                
+            </div>
+        </div>
+
+        <div class="page-content">
+            <div id="toc" class="sidebar-left toc-content">
+                <nav class="visually-hidden">
+                    <a href="tableofcontents.htm">Table of Contents</a>
+                </nav>
+            </div>
+
+            <div class="splitter">
+            </div>
+
+            <div class="main-content">
+                <!-- Rendered Content -->
+                <article class="content-pane">
+                    <header class="content-title">
+    <img src="_kavadocs/icons/topic.png">
+    Local Views
+</header>
+
+<div class="content-body" id="body">
+    <h1 id="local-views">Local Views</h1>
+<p>Some WPF themes in CODE Framework support the concept of “local” views or “child” views. Those are views that belong to another view in a hierarchical fashion. For instance, a customer search list may open a customer for editing. The edit form could be considered a view that is “local” to the list, or is a “child” of the list, or even to “belong” to the list. If the edit form is opened in a modal fashion, users could still move to other main windows (such as an invoice search form) with the “modal” customer edit list remaining open within the context of the customer list and has to be closed before the user can do anything in the customer list… although the user is free to do whatever they please with all other forms. In that sense, the edit form, although modal, is only considered modal within the local context of the customer list. This is a concept that was originally introduced with the Wildcat theme, where it was inspired by the popular StaffLynx demo application, which prominently features this concept.</p>
+<p>Here is an example of what this might look like:</p>
+<p><img src="Local%20Views/Local%20Views%20in%20WPF.png" alt="" /></p>
+<p>To make a modal view local to a parent form, it can simply be launched from a controller like any other modal view, but with the scope set to Local, as in this controller action method:</p>
+<pre><code class="language-cs">public ActionResult Edit()
+{
+    return ViewModal(new EditViewModel(), ViewLevel.TopLevel, ViewScope.Local);
+}
+</code></pre>
+<p>Note the last parameter.</p>
+<p>Note: Not all themes support Local scope. The above line of code executes without error in all themes, but many themes may ignore the local scope and open the view in an application-modal fashion. So results may vary for each theme.</p>
+
+</div>
+
+
+
+
+
+
+                </article>
+
+                <hr />
+                <div class="pull-right">
+                    <a href="http://helpbuilder.west-wind.com" target="_blank"><img src="images/wwhelp.png" /></a>
+                </div>
+
+                <small>
+                    &copy; Markus Egger Inc., 2019 &bull;
+                    Updated: 1/1/0001 12:00:00 AM
+                    <br />
+                    <a href="mailto:support@yoursite.com?subject=Local Views ()&body=Topic: CODE Framework Documentation - http://yoursite.com/docs/.htm">Comment or report problem with topic</a>
+                </small>
+                <br class="clearfix" />
+                <br />
+                <!-- End Rendered Content -->
+            </div>
+        </div>
+    </div>
+    <!-- End Documentation Monster Content -->
+</body>
+</html>
+

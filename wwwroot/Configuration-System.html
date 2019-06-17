@@ -1,0 +1,219 @@
+﻿<!DOCTYPE html>
+<!-- saved from url=(0016)http://localhost -->
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Configuration System - CODE Framework Documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/scripts/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/scripts/fontawesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="_kavadocs/themes/kavadocs.css" />
+
+    <script src="_kavadocs/themes/scripts/jquery/jquery.min.js"></script>
+
+    <script src="_kavadocs/themes/scripts/highlightjs/highlight.pack.js"></script>
+    <link href="_kavadocs/themes/scripts/highlightjs/styles/twilight.css" rel="stylesheet" />
+
+    <script src="_kavadocs/themes/scripts/ww.jquery.min.js"></script>
+    <script src="_kavadocs/themes/scripts/kavadocs.js"></script>
+    
+    <topictype value="topic" />
+
+    <script>    
+        $(document).ready(function () {
+            helpBuilder.initializeLayout();
+            // expand all top level topics
+            setTimeout(helpBuilder.tocExpandTop, 5);
+        });
+    </script>
+</head>
+<body>    
+    <!-- Documentation Monster Content -->
+    <div class="flex-master">
+        <div class="banner">
+
+            <div class="pull-right sidebar-toggle">
+                <i class="fa fa-bars"
+                   title="Show or hide the topics list"></i>
+            </div>
+            <img src="images/logo.png" class="banner-logo" />
+
+            	<div class="projectname">CODE Framework Documentation</div>
+            
+            <div class="byline">
+                                
+            </div>
+        </div>
+
+        <div class="page-content">
+            <div id="toc" class="sidebar-left toc-content">
+                <nav class="visually-hidden">
+                    <a href="tableofcontents.htm">Table of Contents</a>
+                </nav>
+            </div>
+
+            <div class="splitter">
+            </div>
+
+            <div class="main-content">
+                <!-- Rendered Content -->
+                <article class="content-pane">
+                    <header class="content-title">
+    <img src="_kavadocs/icons/topic.png">
+    Configuration System
+</header>
+
+<div class="content-body" id="body">
+    <h1 id="configuration-system">Configuration System</h1>
+<p>CODE Framework provides a native system that allows developers to query application settings. This is similar to using the ConfigurationSettings class provided by the .NET Framework, but the CODE Framework Configuration System is much more powerful as it fully supports everything in the .NET configuration system, but also a lot more. For this reason, developers should always use the CODE Framework system.</p>
+<p>In order to use the CODE Framework Configuration System, make sure to add a reference to the CODE.Framework.Core.dll assembly, which should be part of every CODE Framework application anyway.</p>
+<p>There are a number of ways to set configuration options for applications using this system. The system supports things such as XML configuration files, SQL Server configuration, and much more. For simplicity's sake, we will assume that you are using an app.config (windows applications) or web.config (web application) file. Just be aware that the system supports a lot of other options as well. Here is the example configuration file we are using here:</p>
+<pre><code class="language-xml">&lt;xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
+&lt;configuration&gt;
+  &lt;appSettings&gt;
+    &lt;add key=&quot;database:UserName&quot; value=&quot;devuser&quot;/&gt;
+    &lt;add key=&quot;database:Password&quot; value=&quot;devuser&quot;/&gt;
+    &lt;add key=&quot;database:Server&quot; value=&quot;(local)&quot;/&gt;
+    &lt;add key=&quot;database:Catalog&quot; value=&quot;Northwind&quot;/&gt;
+    &lt;add key=&quot;DataServices&quot; value=&quot;SqlDataService&quot;/&gt;
+  &lt;/appSettings&gt;
+&lt;/configuration&gt;
+</code></pre>
+<p>To query the one of these settings such as the &quot;DataServices&quot; setting in the following fashion:</p>
+<pre><code class="language-c#">string result = ConfigurationSettings.Settings[&quot;DataServices&quot;];
+</code></pre>
+<p>In case the setting doesn't exist, an exception of type SettingNotSupportedException will be thrown. For this reason, one should first check whether that setting is available/supported. The IsSettingSupported() method does the trick:</p>
+<pre><code class="language-c#">if (ConfigurationSettings.Settings.IsSettingSupported(&quot;DataServices&quot;))
+    var result = ConfigurationSettings.Settings[&quot;DataServices&quot;];
+</code></pre>
+<p>You can also update configuration settings:</p>
+<pre><code class="language-c#">ConfigurationSettings.Settings[&quot;DataServices&quot;] = &quot;OracleDataService&quot;;
+</code></pre>
+<p>This will determine where the setting was defined (app.config file in this example) and attempt to update the definition file (an individual configuration file - such as the app.config file - is referred to as a &quot;configuration source&quot;). Notice however that the source might be read-only (such as the native AppSettings section from the native config file). In such case, attempting to change a setting's value will throw an exception of type SettingReadOnlyException.</p>
+<h2 id="overriding-settings-temporarily">Overriding Settings Temporarily</h2>
+<p>It is possible to override the value of a setting temporarily, so that all the application will make use of the overridden value until shut-down (although the setting will not be preserved in the original source... this is just an &quot;in-memory&quot; override):</p>
+<pre><code class="language-c#">// Override the setting on the native file by adding the setting to the Memory source. ConfigurationSettings.Sources[&quot;Memory&quot;].Settings[&quot;DataServices&quot;] = &quot;OracleDataService&quot;;
+// Do whatever has to be done..... 
+
+// This returns &quot;OracleDataService&quot; 
+var dataService = ConfigurationSettings.Settings[&quot;DataServices&quot;]; 
+// Remove overriden setting from memory if you do not want to use it anymore. 
+ConfigurationSettings.Sources[&quot;Memory&quot;].Settings[&quot;DataServices&quot;] = null; 
+// This returns &quot;SqlDataService?&quot; 
+var dataService2 = ConfigurationSettings.Settings[&quot;DataServices&quot;];
+</code></pre>
+<p>In this example, we are writing the new option to a different source (memory). Settings made in memory always override settings from the app.config file (well, unless you manually change that order).</p>
+<h2 id="getting-direct-access-to-a-source">Getting Direct Access to a Source</h2>
+<p>The ConfigurationSettings object can hold any number of configuration sources. When a setting is getting retrieved as in</p>
+<pre><code class="language-c#">var result = ConfigurationSettings.Settings[&quot;DataServices&quot;];
+</code></pre>
+<p>The mechanism will look for the first setting it can find based on the order different sources have been added. However, sometimes the developer may want to retrieve a setting from a specific source. The following example shows how to retrieve a setting from the app.config file and the app.config file only (even if other sources - such as memory - have the same setting):</p>
+<pre><code class="language-c#">var result = ConfigurationSettings.Sources[&quot;DotNetConfigurationFile&quot;].Settings[&quot;DataServices&quot;];
+</code></pre>
+<p>Accessing a config source that doesn't exist on the collection used to throw an exception. That behavior has been changed, and now instead of throwing an exception, just a &quot;null&quot; gets returned, and it's up to the developer to decide on what to do when the source hasn't been found (like instantiating the source and adding it to the collection).</p>
+<h2 id="supporting-custom-config-filessources">Supporting Custom Config Files/Sources</h2>
+<p>It is possible to work with specialized custom config files (or even non-file based configuration sources, such as databases), using the same sort of interface for it. As an example, consider a UIConfig.xml file that looks like so:</p>
+<pre><code class="language-xml">&lt;xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;specialsettings&gt;
+  &lt;backgroundcolor&gt;Brown&lt;/backgroundcolor&gt;
+  &lt;foregroundcolor&gt;Yellow&lt;/foregroundcolor&gt;
+&lt;/specialsettings&gt;
+</code></pre>
+<p>The content of this file looks very different than the native config file. In order to handle it, a new configuration class must be created, and this class must implement the IConfigurationSource interface. There's a ConfigurationSource abstract class that implements that interface, and could be used as well, since it provides some default behavior. The new class could look like the one below:</p>
+<pre><code class="language-c#">using System;
+using System.IO;
+using System.Xml; 
+
+namespace MyConfig
+{
+   public class SpecialConfiguration : ConfigurationSource
+   {
+      FileInfo fiSettingsFile;
+      string file = @&quot;C:\Path\UIConfig.xml&quot;;
+
+      public SpecialConfiguration()
+      {
+         Read();
+      }
+
+      public override string FriendlyName
+      {
+         get { return &quot;SpecialConfiguration&quot;; }
+      }
+
+      public override void Read()
+      {     
+         XmlDocument dom = null;
+         XmlNode node = null;
+
+         fiSettingsFile = new FileInfo(file);
+         Settings.Clear();
+         dom = new XmlDocument();
+         dom.Load(this.file);
+         node = dom.DocumentElement.SelectSingleNode(&quot;backgroundcolor&quot;);
+       
+         if (node != null) 
+            Settings.Add(&quot;backgroundcolor&quot;, node.InnerXml);
+         node = dom.DocumentElement.SelectSingleNode(&quot;foregroundcolor&quot;);
+         if (node != null) 
+            Settings.Add(&quot;foregroundcolor&quot;, node.InnerXml);
+      }
+
+      public override void Write()
+      {
+         XmlDocument dom = null;
+         XmlNode node = null;
+
+         fiSettingsFile = new FileInfo(file);
+         dom = new XmlDocument();
+         dom.Load(this.fiSettingsFile.ToString());
+         node = dom.DocumentElement.SelectSingleNode(&quot;backgroundcolor&quot;);
+         if (node != null) 
+            node.InnerXml = this.Settings[&quot;backgroundcolor&quot;].ToString();
+         node = dom.DocumentElement.SelectSingleNode(&quot;foregroundcolor&quot;);
+         if (node != null) 
+            node.InnerXml = this.Settings[&quot;foregroundcolor&quot;].ToString();
+
+         dom.Save(fiSettingsFile.ToString());
+      }
+   }
+}
+</code></pre>
+<p>The most important piece of the class is the Read and the Write methods. It is in those methods that we manually retrieve and store settings into the custom XML file. The Read method basically adds settings from the XML file to a collection (as in this.Settings.Add(&quot;backgroundcolor&quot;, node.InnerXml)), whereas the Write method reads the values from the collection, updates the XML document, and save it to disk.</p>
+<p>Both the Write and Read methods are inherited from the abstract class, and those two methods are part of other methods that come from the abstract class and must be overridden by this derived class.</p>
+<p>The new class can be easily used. It just has to be added to the Sources list, and settings can be retrieved in the same fashion we've already seen:</p>
+<pre><code class="language-c#">ConfigurationSettings.Sources.Add(new SpecialConfiguration());
+string backcolor = ConfigurationSettings.Settings[&quot;backgroundcolor&quot;];
+</code></pre>
+
+</div>
+
+
+
+
+
+
+                </article>
+
+                <hr />
+                <div class="pull-right">
+                    <a href="http://helpbuilder.west-wind.com" target="_blank"><img src="images/wwhelp.png" /></a>
+                </div>
+
+                <small>
+                    &copy; Markus Egger Inc., 2019 &bull;
+                    Updated: 1/1/0001 12:00:00 AM
+                    <br />
+                    <a href="mailto:support@yoursite.com?subject=Configuration System ()&body=Topic: CODE Framework Documentation - http://yoursite.com/docs/.htm">Comment or report problem with topic</a>
+                </small>
+                <br class="clearfix" />
+                <br />
+                <!-- End Rendered Content -->
+            </div>
+        </div>
+    </div>
+    <!-- End Documentation Monster Content -->
+</body>
+</html>
+
