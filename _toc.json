@@ -734,7 +734,7 @@
       "slug": "Milos",
       "displayType": "header",
       "type": "markdown",
-      "isExpanded": true,
+      "isExpanded": false,
       "topics": [
         {
           "title": "Milos Overview",
