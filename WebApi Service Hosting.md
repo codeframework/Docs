@@ -2,7 +2,9 @@
 
 CODE Framework Services can be hosted in a variety of ways, including WebApi. Using WebApi, one typically creates an "ASP.NET App" that contains API Controllers that have methods that are invoked according to certain naming conventions. These methods take JSON and URL parameters as input and create JSON as output. Using CODE Framework extensions, any service can be hosted using the same mechanism.
 
-Assuming a service implementation called CustomerService (perhaps based on an ICustomerService contract/interface), one can host the service in a new controller like this:
+> Note: When creating new applications, we recommend using .NET Core instead of the older style WebApi on the classic/full .NET Framework. For more information on .NET Core Service Hosting, see [Understanding Services in .NET Core](Understanding-Services-Core).
+
+Assuming a service implementation called `CustomerService` (perhaps based on an `ICustomerService` contract/interface), one can host the service in a new controller like this:
 
 ```c#
 public class CustomerController : ServiceHostController<CustomerService>
@@ -10,7 +12,7 @@ public class CustomerController : ServiceHostController<CustomerService>
 }
 ```
 
-Note: The ServiceHostController class is defined in the CODE.Framework.Service.Server.WebApi namespace/dll, which needs to be included in your project/file.
+> Note: The ServiceHostController class is defined in the `CODE.Framework.Service.Server.WebApi` namespace/dll, which needs to be included in your project/file.
 
 Fundamentally, that's all that's needed. The service will now be hosted in the overall environment according to general system configuration. In particular important is the routing setup. By default, ASP.NET creates a routing setup for WebApi (typically found in the WebApiConfig.cs file in the App_Start folder) similar to this:
 
@@ -18,11 +20,8 @@ Fundamentally, that's all that's needed. The service will now be hosted in the o
 config.Routes.MapHttpRoute("DefaultApi", "api/{controller}/{id}", new {id = RouteParameter.Optional});
 ```
 
-Using this default setup, the CustomerService can now be called using a URL like this:
-
-```c#
+Using this default setup, the CustomerService can now be called using a URL like this: 
 http://mydomain.com/api/Customer/...
-```
 
 You can easily change the overall URL pattern in the route configuration. For instance, if you do not want the /api/ part of the URL, you can define the route like this:
 
@@ -30,11 +29,7 @@ You can easily change the overall URL pattern in the route configuration. For in
 config.Routes.MapHttpRoute("DefaultApi", "{controller}/{id}", new {id = RouteParameter.Optional});
 ```
 
-This results in the following URL:
-
-```c#
-http://mydomain.com/Customer/...
-```
+This results in the following URL: http://mydomain.com/Customer/...
 
 Note that the default route configuration doesn't allow for many unnamed URL parameters. In fact, it only allows for one ("id"). In many REST scenarios, you may design your services to have additional unnamed URL parameters. You can add as many as you need. Here is an example:
 

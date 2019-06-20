@@ -1,10 +1,12 @@
-﻿# WCF Service Configuration
+﻿# Service Configuration
 
 CODE Framework does its best to apply smart default settings to services (both server-side and client-side) for the typical type of application build with CODE Framework (business applications). Nevertheless, it is often desirable and necessary to change settings for services. This topic provides an overview of settings applicable to services.
 
-Note that nearly all service settings (which are applied through the standard [CODE Framework Configuration System](Configuration System)) can be made globally for all services, or individual on a per-service basis. For instance, it is possible to set the allowable message size for all services through the ServiceMessageSize setting, and it is possible to apply that setting for a single service (example: ICustomerService) by adding a ServiceMessageSize:ICustomerService setting.
+Note that nearly all service settings (which are applied through the standard [CODE Framework Configuration System](Configuration+System)) can be made globally for all services, or individual on a per-service basis. For instance, it is possible to set the allowable message size for all services through the ServiceMessageSize setting, and it is possible to apply that setting for a single service (example: ICustomerService) by adding a ServiceMessageSize:ICustomerService setting.
 
 It is also possible to add settings programmatically in various ways. The most common approach is to use static events fired by the ServiceGarden (server-side) and ServiceClient (client-side) classes. These events grant access to all the low level WCF objects, so any conceivable WCF setting or manipulation can be made. A very common use of this feature is to arbitrarily change the URL a service is hosted at.
+
+> Note: This topic was originally called "WCF Service Configuration" when all CODE Framework Services Features were based on WCF. This has not been true for a long time now, since CODE Framework has supported hosting environments such as WebApi and .NET Core. However, the link to this topic has retained the "WCF" moniker in its name for consistency and backwards compatibility.
 
 ## Server-Side Settings
 
@@ -47,3 +49,29 @@ Defines the security mode for TCP/IP (NetTcp) services. Allowed settings are Non
 | ServiceUrl                     | &nbsp;    | This setting is used to define explicit service URLs. This is very commonly used for REST service calls. For SOAP-based services (BasicHttp and WsHttp), it can also be used when services are to be called from an arbitrary URL (such as when<br> the service is hosted by IIS). Otherwise, it is more common to set individual service settings (like the base URL and extension and such). (Note: This setting is always set as ServiceUrl:IXxxService for each service&hellip;) |
 | ServiceSecurityMode            | None      | Defines the security mode for TCP/IP (NetTcp) services. Allowed settings are None, Message, Transport, and&nbsp;TransportWithMessageCredential. |
 
+## .NET Core Configuration
+
+In .NET Core, configuration is often done through `appsettings.json` files. The syntax in those is slightly different as all settings with a colon (:) in them are expressed as hierarchical settings like so:
+
+```json
+{
+  "ApplicationSettings": {
+    "RestServiceUrl": {
+      "ICustomerService": "http://localhost:5008/api/customers",
+      "IUserService": "http://localhost:5008/api/users"
+    }
+  }
+}
+```
+
+To use this sort of configuration (which is dependency-injected in ASP.NET Core), add the following code to the `Startup.cs` file's constructor:
+
+```cs
+public Startup(IConfiguration configuration)
+{
+    Configuration = configuration;
+
+    var appSettings = ApplicationSettingsJsonHelper.GetDictionaryFromSection(configuration);
+    ConfigurationSettings.Sources.Insert(1, new DictionarySettings(appSettings));
+}
+```

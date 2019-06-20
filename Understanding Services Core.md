@@ -66,7 +66,7 @@ Note that these contracts create a most basic service contract. If a service was
 
 Example: If this service is hosted on somedomain.com, it could be exposed as a https://somedomain.com/customers/getcustomer endpoint, and the request would have to be posted as the following JSON payload as part of the post operation:
 
-```js  
+```json
 {
   "CustomerId": "8BFA1EBC-C366-4A0E-B0FE-86B12F3A017D"
 }
@@ -163,7 +163,7 @@ GetCustomerResponse GetCustomer(GetCustomerRequest request);
 
 We could thus now post to this endpoint yet still pass the `CustomerId` paramater on the URL: https://somedomain.com/customers/8BFA1EBC-C366-4A0E-B0FE-86B12F3A017D. However, the IsActive flag would either default to `true`, or we would have to post the following payload:
 
-```js
+```json
 {
   "IsActive": false
 }
@@ -171,16 +171,18 @@ We could thus now post to this endpoint yet still pass the `CustomerId` paramate
 
 It is even valid to post a fully formed request object like this:
 
-```js
+```json
 {
   "CustomerId": "8BFA1EBC-C366-4A0E-B0FE-86B12F3A017D",
   "IsActive": false
 }
 ```
 
-However, in this case, if the CustomerId of the payload does not match the customer ID passed on the URL, the URL version will win out and override the one in the payload.
+However, in this case, if the `CustomerId` of the payload does not match the customer ID passed on the URL, the URL version will win out and override the one in the payload.
 
 > Note: See the discussion about creating an ASP.NET Core hosting environment below for further details about URL patterns.
+
+For a more complete discussion on the REST related attributes supported by CODE Framework, see [Creating REST Services](Creating-REST-Services).
 
 ## Creating a Service Implementation
 
@@ -407,3 +409,72 @@ You are now ready to launch your application. If you are using Visual Studio, yo
 Development host hosting is supported in exactly the same way it has always been in CODE Framework. The development service host if a full-framework WinForms/WPF application that hosts the services in a way that is convenient for development. For more information, see [Understanding CODE Framework Services](Understanding-Services).
 
 Note that since the development host is a classic .NET Framework application, it does not understand dependencies .NET Standard and .NET Core projects do. Make sure you add all the NuGet packages and project references to this project manually. For instance, if you add a reference to the service implementation project, make sure to also add NuGet packages such as `System.ServiceModel.Primitives` and `CODE.Framework.Services.Contracts` manually.
+
+# Calling Services from .NET Core
+
+Whenever both the client and the server are .NET (Core), CODE Framework provides a convenient way to call those services from the client in a strongly-typed fashion. This is also explained in [Understanding Services](Understanding-Services). For completeness, it shall be mentioned here that this is also supported in .NET Core.
+
+> Note: .NET Core currently does not support WCF features. Therefore, we can currently only support calling REST services from .NET Core applications.
+
+Calling services using `ServiceClient` works identical to all other flavors of .NET:
+
+```cs
+ServiceClient.Call<ICustomerService>(c =>
+{
+    var response = c.GetCustomers(new GetCustomersRequest());
+    if (response.Success)
+    {
+        Console.WriteLine("Customers Retrieved:\r");
+        foreach (var customer in response.CustomerList)
+            Console.WriteLine($"Customer: {customer.Name} - Company: {customer.Company}");
+    }
+    else
+    {
+        Console.WriteLine($"Service call returned Success = false. Failure Information: {response.FailureInformation}\r");
+    }
+});
+```
+
+> Side-note: Calling REST-based services in this fashion is dependent on CODE Framework's [Transparent Proxy Generator](TransparentProxyGenerator) feature, which is also available in .NET Core and can be used for many other interesting things.
+
+Note that this kind of service calling depends on the system being configured properly. This can be done in various ways as described in our [Service Configuration](WCF-Service-Configuration) topic. Note however that in .NET Core, different config options may be desirable or required. For instance, if the above example was used in a command line application, one could either add a configuration file, or simply use CODE Framework's in-memory configuration features like so:
+
+```cs
+ConfigurationSettings.Sources["Memory"].Settings["RestServiceUrl:ICustomerService"] = "http://localhost:5000/api/customers";
+ConfigurationSettings.Sources["Memory"].Settings["RestServiceUrl:IUserService"] = "http://localhost:5000/api/users";
+```
+
+> Note: In CODE Framework for .NET Core, `ServiceClient` assumes REST to be the default service call standard, so this does not have to be explicitly specified.
+
+It is also possible to put configuration into an `appsettings.json' file. This is commonly done in ASP.NET Core applications, either because a service is called from an MVC-style web application, or because a service host itself wants to call another service. (Micro-Services are composable, thus one service can call another).
+
+Here is an example of an `appsettings.json` config file:
+
+```json
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Warning"
+    }
+  },
+  "AllowedHosts": "*",
+  "ApplicationSettings": {
+    "RestServiceUrl": {
+      "ICustomerService": "http://localhost:5008/api/customers",
+      "IUserService": "http://localhost:5008/api/users"
+    }
+  }
+}
+```
+
+To use this sort of configuration (which is dependency-injected in ASP.NET Core), add the following code to the `Startup.cs` file's constructor:
+
+```cs
+public Startup(IConfiguration configuration)
+{
+    Configuration = configuration;
+
+    var appSettings = ApplicationSettingsJsonHelper.GetDictionaryFromSection(configuration);
+    ConfigurationSettings.Sources.Insert(1, new DictionarySettings(appSettings));
+}
+```

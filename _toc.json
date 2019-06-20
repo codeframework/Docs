@@ -61,6 +61,14 @@
           "seeAlso": "Tools Change Log"
         },
         {
+          "title": "Core Framework Change Log",
+          "slug": "Framework-Core-Change-Log",
+          "link": "CODE Framework (.NET Core) Change Log.md",
+          "displayType": "topic",
+          "type": "markdown",
+          "seeAlso": "Tools Change Log"
+        },
+        {
           "title": "Tools Change Log",
           "slug": "Tools-Change-Log",
           "link": "CODE Framework Tools Change Log.md",
@@ -694,7 +702,7 @@
         },
         {
           "title": "Logging Framework",
-          "slug": "Logging-Framework",
+          "slug": "Milos",
           "link": "Logging Framework.md",
           "displayType": "topic",
           "type": "markdown"
