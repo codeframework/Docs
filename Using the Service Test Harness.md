@@ -1,6 +1,6 @@
 ﻿# Using the Service Test Harness & Test Host
 
-The CODE Framework Service Test Harness is a tool that allows to quickly test services of various kinds. To use the Test Harness, services have to be hosted in the Development Test Host (for more information on using the Development Test Host and developing services with CODE Framework in general, see [](/Understanding-Services)).
+The CODE Framework Service Test Harness is a tool that allows to quickly test services of various kinds. To use the Test Harness, services have to be hosted in the Development Test Host (for more information on using the Development Test Host and developing services with CODE Framework in general, see [Understanding Services](/Understanding-Services)).
 
 In the Service Test Host, services use color-coded icons to make it easy and intuitive which protocol and standard is used to host a service. Blue is used for REST services (both, for the common JSON as well as XML formatted REST services). Orange is used for SOAP services (basic and WS). Green is used for binary TCP/IP services.
 
