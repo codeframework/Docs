@@ -3,7 +3,7 @@
 ## Work in Progress / Internal Build
 
 * The Development Test Host project type now supports services built for .NET Standard 2.0. 
-* The development test host class now has a new `EnableDetailedServiceFaultInformation()` method, which enables default fault information being passed from the server, which is very useful during development.
+* The development test host class now has a new `EnableDetailedServiceFaultInformation()` method, which enables default fault information being passed from the server, which is very useful during development. (See also: [Using the Service Test Harness](//Using-the-Service-Test-HostHarness)
 * Fixed an issue in the Workplace theme that caused notifications to not always display correctly.
 * ServiceClient.CallRest() now uses our own branch of JSON.NET to deserialize the result. Also, it is now possible to pass in a function that performs the deserialization instead of the default behavior.
 * Controller actions now support optional parameters as well as parameters based on generics.
