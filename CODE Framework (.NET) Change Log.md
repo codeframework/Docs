@@ -2,6 +2,8 @@
 
 ## Work in Progress / Internal Build
 
+* Supporting a new `ServiceClient:LogCommunicationErrors` configuration setting (and `LogCommunicationErrors` property on the `ServiceClient` class) to optionally log additional information on failed REST calls.
+* Updated some of the service infrastructure to feature identical signatures as the new .NET Core version.
 * The Development Test Host project type now supports services built for .NET Standard 2.0. 
 * The development test host class now has a new `EnableDetailedServiceFaultInformation()` method, which enables default fault information being passed from the server, which is very useful during development. (See also: [Using the Service Test Harness](//Using-the-Service-Test-HostHarness)
 * Fixed an issue in the Workplace theme that caused notifications to not always display correctly.
