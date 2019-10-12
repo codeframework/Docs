@@ -48,6 +48,7 @@ Defines the security mode for TCP/IP (NetTcp) services. Allowed settings are Non
 | ServiceRestJsonFormatExtension | json      | To differentiate between the same services hosted different ways, a suffix is usually added for REST JSON services URL unless this setting is an empty string in which case no suffix is added. |
 | ServiceUrl                     | &nbsp;    | This setting is used to define explicit service URLs. This is very commonly used for REST service calls. For SOAP-based services (BasicHttp and WsHttp), it can also be used when services are to be called from an arbitrary URL (such as when<br> the service is hosted by IIS). Otherwise, it is more common to set individual service settings (like the base URL and extension and such). (Note: This setting is always set as ServiceUrl:IXxxService for each service&hellip;) |
 | ServiceSecurityMode            | None      | Defines the security mode for TCP/IP (NetTcp) services. Allowed settings are None, Message, Transport, and&nbsp;TransportWithMessageCredential. |
+| ServiceClient::LogCommunicationErrors | false      | When set to true, causes the ServiceClient class to send information into the LoggingMediator infrastructure to log additional information for failed calls (currently only used by REST services) |
 
 ## .NET Core Configuration
 
