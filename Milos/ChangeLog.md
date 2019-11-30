@@ -1,5 +1,14 @@
 # Milos Solution Platform - Change Log
 
+## 5.0.2 - 11/29/2019
+
+* Updated collection and x-link-collection indexer and item retrieval logic.
+* Updated collection and x-link-collection item deletion/removal logic.
+
+## 5.0.1 - 8/30/2019
+
+* Various minor fixes and tweaks
+
 ## 5.0.0 - 6/24/2019
 
 * First officially released version
