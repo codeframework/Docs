@@ -1,6 +1,6 @@
 # Milos Solution Platform - Change Log
 
-## 5.0.3 - 11/29/2019
+## 5.0.3/5.0.4 - 11/29/2019
 
 * Fixed a problem with the previous deployment
 
