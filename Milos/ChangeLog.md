@@ -1,5 +1,9 @@
 # Milos Solution Platform - Change Log
 
+## 5.0.3 - 11/29/2019
+
+* Fixed a problem with the previous deployment
+
 ## 5.0.2 - 11/29/2019
 
 * Updated collection and x-link-collection indexer and item retrieval logic.
