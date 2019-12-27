@@ -1,5 +1,10 @@
 # CODE Framework .NET Core Change Log
 
+## 1.1.5
+
+* Switched all JSON Serialization/Deserialization from JSON.NET to System.Text.Json
+* JSON operations are now async.
+
 ## 1.1.4
 
 * Added AzureLogger to log message whenever an app or service runs in Azure.
