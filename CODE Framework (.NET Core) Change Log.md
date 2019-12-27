@@ -1,5 +1,14 @@
 # CODE Framework .NET Core Change Log
 
+## 1.1.4
+
+* Added AzureLogger to log message whenever an app or service runs in Azure.
+* Handling some scenarios related to .NET Core 3 sync/async operations.
+
+## 1.1.0
+
+* Supporting .NET Core 3.0
+
 ## 1.0.7. - 10/10/2019
 
 * Changes to service contract package to fix bugs.
