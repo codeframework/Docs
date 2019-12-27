@@ -1,6 +1,6 @@
 # CODE Framework .NET Core Change Log
 
-## 1.1.5
+## 1.2.0
 
 * Switched all JSON Serialization/Deserialization from JSON.NET to System.Text.Json
 * JSON operations are now async.
