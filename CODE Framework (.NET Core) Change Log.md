@@ -2,8 +2,8 @@
 
 ## 1.3.0 - 1/4/2020
 
-* Added `MarkupHelper` static class
-* Added `MarkdownHelper` static class
+* Added `MarkupHelper` static class to `CODE.Framework.Fundamentals.Utilities` namespace (`CODE.Framework.Fundamentals` package).
+* Added `MarkdownHelper` static class to `CODE.Framework.Fundamentals.Utilities` namespace (`CODE.Framework.Fundamentals` package).
 
 ## 1.2.0 - 12/27/2019
 
