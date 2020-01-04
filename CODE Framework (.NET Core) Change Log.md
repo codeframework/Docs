@@ -1,5 +1,10 @@
 # CODE Framework .NET Core Change Log
 
+## 1.3.0 - 1/4/2020
+
+* Added `MarkupHelper` static class
+* Added `MarkdownHelper` static class
+
 ## 1.2.0 - 12/27/2019
 
 * Switched all JSON Serialization/Deserialization from JSON.NET to System.Text.Json
