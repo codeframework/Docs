@@ -26,7 +26,7 @@ One of the key details here is the "handler" parameter. The transparent proxy ge
 ```c#
 public class MyProxyHandler : IProxyHandler
 {
-    public object OnMethod(MethodInfo method, object[]() args)
+    public object OnMethod(MethodInfo method, object[] args)
     {
         Console.WriteLine("Method called: " + method.Name);
         return Activator.CreateInstance(method.ReturnType);
