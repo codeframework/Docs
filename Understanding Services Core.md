@@ -220,6 +220,63 @@ public GetAllCustomersResponse GetAllCustomers(GetAllCustomersRequest request)
 
 There is nothing special about this code being .NET Standard or .NET Core. It is 100% identical to all other CODE Framework service implementations and is only shown here for completeness.
 
+### Standardized Exception Handling
+
+In the above example, a catch-block handles all exceptions within the service call, which is our recommended pattern. CODE Framework even has standardized features to make it easier to log the exception and return an appropriate response. The above example can also be written like this:
+
+```cs
+public GetAllCustomersResponse GetAllCustomers(GetAllCustomersRequest request)
+{
+    try
+    {
+        var response = new GetAllCustomersResponse();
+ 
+        using (var biz = new CustomerBusinessObject)
+        {
+            var customers = biz.GetAllCustomers();
+            Mapper.Map(customers.Tables[0], response.Customers);
+        }
+ 
+        response.Success = true;
+        return response;
+    }
+    catch (Exception ex)
+    {
+        return  ServiceHelper.GetPopulatedFailureResponse<GetAllCustomersResponse>();
+    }
+}
+```
+
+This does a number of things. For one, it creates an instance of `GetAllCustomersResponse`. If that class is either derived from `ServiceBaseResponse`, or if the type has `Success` and `FailureInformation` properties, then those properties will be populated appropriately. `Success` will be set to `false`. `FailureInformation` will be populated with a generic message indicating the type and method that triggered the error (but no further detail to not give away information to potential hackers) if the app is in `Release` mode. If the app is in `Debug` mode on the other hand, detailed exception information will be provided in `FailureInformation`.
+
+The second thing that happens is that a standardized log message with detailed exception information will be sent to `LoggingMediator.Log()` _if_ the `CODE.Framework.Fundamentals` package is included in the current service implementation. Depending on the configuration of the logging mediator, the logged message will show up in different places.
+
+### Exposing a Ping Service
+
+One other standard feature provided by CODE Framework that is often useful in services is to provide a `Ping` operation that allows pinging the service to see if it is running, and getting some details about the service. We could add such an operation to our `ICustomerService` like ths:
+
+```cs
+[ServiceContract]
+public interface ICustomerService
+{
+    [OperationContract, Rest(Method = RestMethods.Get)]
+    PingResponse Ping(PingRequest request);
+```
+
+The `PingResponse` and `PingRequest` types are provided by the standard `CODE.Framework.Services.Contracts` package, which also provides things like the `Rest` attribute, and thus is already included in the project.
+
+The implementation of the `Ping` operation can be done easily through a helper class:
+
+```cs
+public class CustomerService : ICustomerService
+{
+    public PingResponse Ping(PingRequest request) => this.GetPopulatedPingResponse();
+```
+
+`GetPopulatedPingResponse` is a helper extension-method made available through a `ServiceHelper` static class. It collects information such as server time, server OS version, server Framework version, and version of the current assembly. This is useful in a variety of scenarios. Often, it can be useful to just be able to ping a REST service through a browser operation.
+
+> Note: There also is a down-side to exposing this operation, as it provides additional information about the service and the environment the service runs in. This information could potentially be used by hackers to understand what your service is like. There is no inherent technical weakness in this, but one always has to decide how much information to give away to potential hackers.
+
 ## Hosting REST/JSON Services in ASP.NET Core
 
 The service that has been created so far can be hosted in many different ways. One of the most interesting approaches for .NET Core developers is to host it in an ASP.NET Core application.
