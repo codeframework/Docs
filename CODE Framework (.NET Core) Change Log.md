@@ -1,5 +1,9 @@
 # CODE Framework .NET Core Change Log
 
+## 1.4.0 - 1/5/2020
+
+* `ServiceHelper` now has a standard `GetPopulatedFailureResponse()` method. (See also: (See also: [Understanding Services in .NET Core - Standardized Exception Handling](Understanding-Services-Core#standardized-exception-handling)).
+
 ## 1.3.0 - 1/4/2020
 
 * Added `MarkupHelper` static class to `CODE.Framework.Fundamentals.Utilities` namespace (`CODE.Framework.Fundamentals` package).
