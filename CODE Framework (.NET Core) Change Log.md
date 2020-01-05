@@ -2,7 +2,7 @@
 
 ## 1.4.0 - 1/5/2020
 
-* `ServiceHelper` now has a standard `GetPopulatedFailureResponse()` method. (See also: (See also: [Understanding Services in .NET Core - Standardized Exception Handling](Understanding-Services-Core#standardized-exception-handling)).
+* `ServiceHelper` now has a standard `GetPopulatedFailureResponse()` method. (See also: [Understanding Services in .NET Core - Standardized Exception Handling](http://docs.codeframework.io/Understanding-Services-Core#standardized-exception-handling)).
 
 ## 1.3.0 - 1/4/2020
 
