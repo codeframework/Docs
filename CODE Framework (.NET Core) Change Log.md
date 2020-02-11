@@ -1,9 +1,10 @@
 # CODE Framework .NET Core Change Log
 
-## 1.5.1 - 2/11/2020
+## 1.5.3 - 2/11/2020
 
 * The `Mapper` class (mapping framework) has received an overhaul.
 * The `Mapper` class now supposed a new `MappingOptions.LogMappedMembers` property, which, when set to true (which happens automatically in debug builds, but can be overridden) populates `MappedSourceProperties`, `MappedDestinationProperties`, `IgnoredSourceProperties`, and `IgnoredDestinationProperties`, which are useful in seeing which properties/members are actually included in a mapping operation. (This is especially useful in development/debug scenarios, which is why this feature is enabled in debug builds automatically).
+* The `MappingOptions` class now has an `AddMap()` convenience method.
 
 ## 1.4.0 - 1/5/2020
 
