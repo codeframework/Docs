@@ -63,7 +63,7 @@ using (var ds = biz.GetList())
 }
 ```
 
-Retrieving all fields works well in simple scenarios, but it isn't usually the desired behavior. However, you can easily limit the list of fields you would like to retrieve by setting the ```DefaultFields``` property like to:
+Retrieving all fields works well in simple scenarios, but it isn't usually the desired behavior. However, you can easily limit the list of fields you would like to retrieve by setting the ```DefaultFields``` property similar to:
 
 ```cs
 DefaultFields = "Product_PK, ProductName";
@@ -82,7 +82,7 @@ public DataSet GetListByName(string productName)
 }
 ```
 
-As you can see, the ```ExecuteQuery()``` method makes it very easy to firedata commands against the server back end. Note also that this is done in a very generic fashion. The generated command object is very generic and can be used with most databases. Much of this functionality is based on the ```NewDbCommand()``` method which returns a generic command object. 
+As you can see, the ```ExecuteQuery()``` method makes it very easy to fire data commands against the server back end. Note also that this is done in a very generic fashion. The generated command object is very generic and can be used with most databases. Much of this functionality is based on the ```NewDbCommand()``` method which returns a generic command object. 
 
 > Note: During runtime, this will generate a command object specific to the used database. In SQL Server scenarios for instance, this would be an ```SqlCommand``` object.
 
