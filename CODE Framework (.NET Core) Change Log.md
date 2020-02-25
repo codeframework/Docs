@@ -1,5 +1,9 @@
 # CODE Framework .NET Core Change Log
 
+## 1.5.4 - 2/24/2020
+
+* Fixed CSV sub-system bugs that were introduced in the move from .NET Framework to .NET Core.
+
 ## 1.5.3 - 2/11/2020
 
 * The `Mapper` class (mapping framework) has received an overhaul.
