@@ -1,5 +1,10 @@
 # CODE Framework .NET Core Change Log
 
+## 1.5.6 - 5/14/2020
+
+* Fixed a problem in `StringHelper` related to retrieving just the file name within a string (path) on Linux.
+* Made `ServiceHelper` configurable so `ServiceHelper.GetPopulatedFailureResponse` will only return extended debug information when the static `ShowExtendedFailureInformation` is manually set to `true`. (Automatic detection of whether a service runs in a debug environment turned out to not be reliable enough and could sometimes return extended information in runtime environments).
+
 ## 1.5.4 - 2/24/2020
 
 * Fixed CSV sub-system bugs that were introduced in the move from .NET Framework to .NET Core.
