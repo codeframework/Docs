@@ -1,5 +1,9 @@
 # CODE Framework .NET Core Change Log
 
+## 1.5.7 - 5/15/2020
+
+* Sll the `To...Safe()` methods of the `DataHelper` class have been improved to handle null values more efficiently.
+
 ## 1.5.6 - 5/14/2020
 
 * Fixed a problem in `StringHelper` related to retrieving just the file name within a string (path) on Linux.
