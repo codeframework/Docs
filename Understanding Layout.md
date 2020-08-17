@@ -14,7 +14,7 @@ But before we talk about the details of the different layout containers, let’s
 
 ## Some Important WPF Layout Concepts
 
-Using a standard WPF layout container is simple. Here is an example that shows the aforementioned StackPanekl, an example you are probably familiar with:
+Using a standard WPF layout container is simple. Here is an example that shows the aforementioned StackPanel, an example you are probably familiar with:
 
 ```xml
 <StackPanel>
