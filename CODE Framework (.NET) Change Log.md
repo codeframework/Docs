@@ -2,6 +2,9 @@
 
 ## Work in Progress / Internal Build
 
+* There now is a new `SettingsManager.ResolveSettingId` delegate that can be used to fine-tune the ID (and by extension things like file names) used to serialize various settings.
+* `WindowEx.AutoSaveWindowPosition` as been improved to not compete with `WindowEx.WindowsStartupLocationStylable`.
+* `WindowEx.HasDropShadow` has been improved to cause less wash-out-glass effect on some graphics cards (although the problem to some extent still exists and is due to a Windows problem).
 * Messageboxes (and other top level dialogs) now associate with active top level windows, so in scenarios with multiple open top-level windows, the window that launched the message still stays on top.
 * Supporting a new `ServiceClient:LogCommunicationErrors` configuration setting (and `LogCommunicationErrors` property on the `ServiceClient` class) to optionally log additional information on failed REST calls.
 * Updated some of the service infrastructure to feature identical signatures as the new .NET Core version.
