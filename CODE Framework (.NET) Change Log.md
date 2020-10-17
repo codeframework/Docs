@@ -3,27 +3,30 @@
 ## Work in Progress / Internal Build
 
 * There now is a new `SettingsManager.ResolveSettingId` delegate that can be used to fine-tune the ID (and by extension things like file names) used to serialize various settings.
-* `WindowEx.AutoSaveWindowPosition` as been improved to not compete with `WindowEx.WindowsStartupLocationStylable`.
-* `WindowEx.HasDropShadow` has been improved to cause less wash-out-glass effect on some graphics cards (although the problem to some extent still exists and is due to a Windows problem).
+* `WindowEx` improvements
+  * `WindowEx.AutoSaveWindowPosition` as been improved to not compete with `WindowEx.WindowsStartupLocationStylable`.
+  * `WindowEx.HasDropShadow` has been improved to cause less wash-out-glass effect on some graphics cards (although the problem to some extent still exists and is due to a Windows problem).
+  * `WindowEx` now has a `HandleCustomMinMax` property. If set to false, it turns of custom sizing of borderless windows (false = maximized borderless windows overlap the taskbar)
 * Messageboxes (and other top level dialogs) now associate with active top level windows, so in scenarios with multiple open top-level windows, the window that launched the message still stays on top.
-* Supporting a new `ServiceClient:LogCommunicationErrors` configuration setting (and `LogCommunicationErrors` property on the `ServiceClient` class) to optionally log additional information on failed REST calls.
-* Updated some of the service infrastructure to feature identical signatures as the new .NET Core version.
-* The Development Test Host project type now supports services built for .NET Standard 2.0. 
-* The development test host class now has a new `EnableDetailedServiceFaultInformation()` method, which enables default fault information being passed from the server, which is very useful during development. (See also: [Using the Service Test Harness](//Using-the-Service-Test-HostHarness)
-* Fixed an issue in the Workplace theme that caused notifications to not always display correctly.
-* `ServiceClient.CallRest()` now uses our own branch of JSON.NET to deserialize the result. Also, it is now possible to pass in a function that performs the deserialization instead of the default behavior.
+* Service improvements:
+  * Supporting a new `ServiceClient:LogCommunicationErrors` configuration setting (and `LogCommunicationErrors` property on the `ServiceClient` class) to optionally log additional information on failed REST calls.
+  * Updated some of the service infrastructure to feature identical signatures as the new .NET Core version.
+  * The Development Test Host project type now supports services built for .NET Standard 2.0. 
+  * The development test host class now has a new `EnableDetailedServiceFaultInformation()` method, which enables default fault information being passed from the server, which is very useful during development. (See also: [Using the Service Test Harness](//Using-the-Service-Test-HostHarness)
+  * `ServiceClient.CallRest()` now uses our own branch of JSON.NET to deserialize the result. Also, it is now possible to pass in a function that performs the deserialization instead of the default behavior.
 * Controller actions now support optional parameters as well as parameters based on generics.
-* Listbox grid headers can now sort on filter fields with complex binding paths.
+* Listbox improvements:
+  * Listbox grid headers can now sort on filter fields with complex binding paths.
+  * Improved multi-column list templates to better support complex binding operations and improve performance.
 * There now are standard layouts and templates for both vertical and horizontal multi-panels (with and without headers)
     * All standard themes support these new default templates
 * Ribbons can now be used to display only the actions of a selected view, without requiring a main model with actions anymore.
 * Fixed a bug with the Ribbon in the Workplace Theme not always showing all actions when the view Title is empty when the view launches.
 * Fixed a problem with `LengthToGridLengthConverter` that sparked an exception when the length was less than 0. (This caused a lot of binding warnings to be triggered when using multi-column lists in certain scenarios)
 * Improved `ObjectHelper.GetPropertyValue<T>()` to better support dynamic objects
-* Improved multi-column list templates to better support complex binding operations and improve performance.
 * Added a ribbon panel that can be used like a toolbar (without multiple ribbon pages or a parent ribbon control, for that matter).
 * Hamburger menu items in the Universe theme now have a special disabled foreground color.
-* `WindowEx` now has a `HandleCustomMinMax` property. If set to false, it turns of custom sizing of borderless windows (false = maximized borderless windows overlap the taskbar)
+* Fixed an issue in the Workplace theme that caused notifications to not always display correctly.
 
 ## 4.1.930.0
 
