@@ -21,7 +21,7 @@ The concept is simple, any code you want to run on the background thread is pass
 
 ## The Status Object
 
-But this is just the beginning of the feature set of the AsyncWorker. There are three optional parameters that provide much more functionality. The most common one is a reference to the current ViewModel. So adding to the code above:
+But this is just the beginning of the feature set of the AsyncWorker. There are three optional parameters that provide much more functionality. The most common one is a reference to the current `ViewModel`. So adding to the code above:
 
 ```C#
 AsyncWorker.Execute(() =>
