@@ -27,7 +27,7 @@
 * Added a ribbon panel that can be used like a toolbar (without multiple ribbon pages or a parent ribbon control, for that matter).
 * Hamburger menu items in the Universe theme now have a special disabled foreground color.
 * Fixed an issue in the Workplace theme that caused notifications to not always display correctly.
-* `AsyncWorker.Execute()` now accepts an optional `viewAction` parameter. If a view-action is passed to the async worker, the action will become disabled (`CanExecute() == false`) while the operation is going on. (Note: This also works properly if the same action is passed to multiple different worker processes. It will be disabled until the last one finishes processing.
+* `AsyncWorker.Execute()` now accepts an optional `viewAction` parameter. If a view-action is passed to the async worker, the action will become disabled (`CanExecute() == false`) while the operation is going on. (Note: This also works properly if the same action is passed to multiple different worker processes. It will be disabled until the last one finishes processing. (See also: [AsyncWorker](Async-Worker))
 
 ## 4.1.930.0
 
