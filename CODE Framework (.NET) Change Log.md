@@ -11,24 +11,23 @@
 * The Development Test Host project type now supports services built for .NET Standard 2.0. 
 * The development test host class now has a new `EnableDetailedServiceFaultInformation()` method, which enables default fault information being passed from the server, which is very useful during development. (See also: [Using the Service Test Harness](//Using-the-Service-Test-HostHarness)
 * Fixed an issue in the Workplace theme that caused notifications to not always display correctly.
-* ServiceClient.CallRest() now uses our own branch of JSON.NET to deserialize the result. Also, it is now possible to pass in a function that performs the deserialization instead of the default behavior.
+* `ServiceClient.CallRest()` now uses our own branch of JSON.NET to deserialize the result. Also, it is now possible to pass in a function that performs the deserialization instead of the default behavior.
 * Controller actions now support optional parameters as well as parameters based on generics.
 * Listbox grid headers can now sort on filter fields with complex binding paths.
 * There now are standard layouts and templates for both vertical and horizontal multi-panels (with and without headers)
     * All standard themes support these new default templates
 * Ribbons can now be used to display only the actions of a selected view, without requiring a main model with actions anymore.
 * Fixed a bug with the Ribbon in the Workplace Theme not always showing all actions when the view Title is empty when the view launches.
-* Fixed a problem with LengthToGridLengthConverter that sparked an exception when the length was less than 0. (This caused a lot of binding warnings to be triggered when using multi-column lists in certain scenarios)
-* Improved ObjectHelper.GetPropertyValue<T>() to better support dynamic objects
+* Fixed a problem with `LengthToGridLengthConverter` that sparked an exception when the length was less than 0. (This caused a lot of binding warnings to be triggered when using multi-column lists in certain scenarios)
+* Improved `ObjectHelper.GetPropertyValue<T>()` to better support dynamic objects
 * Improved multi-column list templates to better support complex binding operations and improve performance.
 * Added a ribbon panel that can be used like a toolbar (without multiple ribbon pages or a parent ribbon control, for that matter).
 * Hamburger menu items in the Universe theme now have a special disabled foreground color.
-* WindowEx now has a HandleCustomMinMax property. If set to false, it turns of custom sizing of borderless windows (false = maximized borderless windows overlap the taskbar)
-	
+* `WindowEx` now has a `HandleCustomMinMax` property. If set to false, it turns of custom sizing of borderless windows (false = maximized borderless windows overlap the taskbar)
 
 ## 4.1.930.0
 
-* All the default view-actions (like CloseCurrentViewAction, or SwitchThemeViewAction, and so on...) now have more constructor parameters to make it easier and more consistent to set various options.
+* All the default view-actions (like `CloseCurrentViewAction`, or `SwitchThemeViewAction`, and so on...) now have more constructor parameters to make it easier and more consistent to set various options.
 * Input mask enhancements (See also: [TextBox Input Masks](TextBox%20Input%20Masks))
 	* Input masks for textboxes now support negative values (optionally) on decimal and currency formats. 
 	* A new % input mask is now supported for percentage values.
@@ -53,65 +52,65 @@
 	* List columns now have additional tooltip properties to provide further control over the appearance and behavior of tooltips, without having to create custom cell data templates.
 	* List columns now respect the visibility of a column in the "standard" templates, and react to changes of the visibility.
 * Multi-column listboxes have also been upgraded with several new function al features
-	* The columns collection now has a ShowHeader property, which can be used to toggle headers on and off.
+	* The columns collection now has a `ShowHeader` property, which can be used to toggle headers on and off.
 	* Multi-column lists now support footers with features equivalent to headers. (All themes have been updated to support new styles for this feature)
-* ListColumn objects now support CellControlCreated events, which fire whenever a control instance within a cell is created. It can be used to manipulate the newly created control.
+* `ListColumn` objects now support `CellControlCreated` events, which fire whenever a control instance within a cell is created. It can be used to manipulate the newly created control.
 * ComboBoxes now support multi-column setups 99% identical to ListBoxes.
 * Toolbar buttons in the Battleship theme now support a toggled (checked) state.
 * When moving custom windows and docking them to the top, it now cannot happen anymore that the window header gets pushed out the top and can't be clicked anymore.
 * The WPF Utilities namespace now features a GeometryHelper class.
-	* All layout elements in the Wpf.Layout namespace now use the GeometryHelper class to create sizes and rectangles.
+	* All layout elements in the `Wpf.Layout` namespace now use the `GeometryHelper` class to create sizes and rectangles.
 * All layout panels now do a better job handling hidden and collapsed child elements.
-* EditForm layout improvements
+* `EditForm` layout improvements
 	* This layout panel now does a better job at determining its own size.
 	* Collapsed child elements are now ignored for measurements.
-	* EditForms now support mouse wheel interaction.
-	* EditForms now support stand-alone labels.
+	* `EditForm` now supports mouse wheel interaction.
+	* `EditForm` now supports stand-alone labels.
 	* The size calculation logic for the layout has been re-written to be in sync with the arrangement logic in all cases.
-	* EditForms now support View.SpanFullWidth.
+	* `EditForm` now supports `View.SpanFullWidth`.
 	* The layout algorithm has been improved for some fringe cases.
-* AsyncWorker.Execute() can now trigger up to 15 background operations.
+* `AsyncWorker.Execute()` can now trigger up to 15 background operations.
 * View-models loaded into top-level windows now fire proper closing events in all themes.
-* A new TabItemsPanel has been added, which arranges all its children as a tab control with individual tab pages. View.Title (SimpleView.Title) is used as the header.
-	* A new CODE.Framework-Layout-Tabs layout style has been added to automatically use tabs for layout of View children. It is a new standard layout that is supported by all themes.
-	* A new StandardLayouts.Tab has been added for simplified access to the new layout style.
-* ViewActionToolbarButton now responds to changing ribbon captions.
-* ViewAction (and related objects) now fire better change notifications.
+* A new `TabItemsPanel` has been added, which arranges all its children as a tab control with individual tab pages. `View.Title` (`SimpleView.Title`) is used as the header.
+	* A new `CODE.Framework-Layout-Tabs` layout style has been added to automatically use tabs for layout of View children. It is a new standard layout that is supported by all themes.
+	* A new `StandardLayouts.Tab` has been added for simplified access to the new layout style.
+* `ViewActionToolbarButton` now responds to changing ribbon captions.
+* `ViewAction` (and related objects) now fire better change notifications.
 * Custom validation attributes can now (optionally) access a ContextObject for advanced avalidation rules. (See also: [Bind, Security, and Input Validation](Bind,%20Security,%20and%20Input%20Validation))
 * Made sure all themes support the minimum set of MultiPanel layout styles.
 * Made sure all themes support the minimum set of BladePanel layout styles and polished the visuals of some of these styles.
-* BidirectionalStackPanel changes:
+* `BidirectionalStackPanel` changes:
 	* Fixed some layout details.
-	* View.GroupBreak is now supported.
+	* `View.GroupBreak` is now supported.
 	* Mouse wheel scrolling is now supported.
-* Fixed some layout details in BladePanel (especially related to vertical header rendering and scrollbars).
+* Fixed some layout details in `BladePanel` (especially related to vertical header rendering and scrollbars).
 * Fixed a problem with the calendar in the Universe theme that crashed an animation in some special cases.
-* Changes to the Mapper class:
-	* On the Mapper class, changed some member visibility from private to protected. 
-	* Also exposing the Maps collection publicly now.
-	* There now are new Compare() methods on the Mapper class that can be used independent of any other mapper features.
-* Added an improvement to ServiceClient to better handle channel state issues in scenarios that require multiple proxies.
-* ListBoxEx commands triggered on "select" now trigger even if the user clicks the same item twice (so technically, selection doesn't change, but they likely still want to trigger the command).
-* Now supporting a BeforeClosing event on view models (and IClosable in general)
-* The Mapper now supports filtered mapping functions.
+* Changes to the `Mapper` class:
+	* On the `Mapper` class, changed some member visibility from private to protected. 
+	* Also exposing the `Maps` collection publicly now.
+	* There now are new `Compare()` methods on the `Mapper` class that can be used independent of any other mapper features.
+* Added an improvement to `ServiceClient` to better handle channel state issues in scenarios that require multiple proxies.
+* `ListBoxEx` commands triggered on "select" now trigger even if the user clicks the same item twice (so technically, selection doesn't change, but they likely still want to trigger the command).
+* Now supporting a `BeforeClosing` event on view models (and `IClosable` in general)
+* The `Mapper` now supports filtered mapping functions.
 * Performance of multi-column lists during re-populate operations has been improved considerably.
-* The default ViewAction implementation now features a CanExecuteVisible property that is Visible when the action can execute, and otherwise Collapsed.
-* Controllers received an upgrade
-	* There is a new GetOpenModel() method, which makes it easy to retrieve existing instances of view-models (See also: [Activating Existing Views](Activating%20Existing%20Views))
-	* There is a new ActivateView() method, which allows bringing an existing view to the foreground, rather than always opening a new one. (See also: [Activating Existing Views](Activating%20Existing%20Views))
-* ServiceHostController has been improved in various ways:
-	* There now is a new PostOrPut REST method/verb, which allows for the creation of a service method that can be called with either a POST or a PUT verb.
-	* The ServiceHostController class now has an HttpsMode property, which can be used to define that the controller must be called over HTTPS (options are to require HTTPS, to not care, or to require HTTPS except when running on localhost).
-	* ServiceHostControllers can now handle ambiguous mappings. For instance, a URL can be /Customer/1 (mapping to a method with empty name that returns customer of ID 1) and another one can be /Customer/All (calling a method called "all"). Note that it would not be possible to call the default (unnamed) method with parameter "all" as method names have priority.
-	* ServiceHostController has been updated to use WebApi packages v5.2.3 (formerly 5.2.2).
-	* ServiceHostController can now return camelCase JSON (see also: [WebApi Service Hosting](WebApi%20Service%20Hosting))
-* When calling a CODE Framework hosted REST service through ServiceClient, the service call proxy now properly enforces UTF-8 encoding.
+* The default `ViewAction` implementation now features a `CanExecuteVisible` property that is `Visible` when the action can execute, and otherwise Collapsed.
+* `Controllers` received an upgrade
+	* There is a new `GetOpenModel()` method, which makes it easy to retrieve existing instances of view-models (See also: [Activating Existing Views](Activating%20Existing%20Views))
+	* There is a new `ActivateView()` method, which allows bringing an existing view to the foreground, rather than always opening a new one. (See also: [Activating Existing Views](Activating%20Existing%20Views))
+* `ServiceHostController` has been improved in various ways:
+	* There now is a new `PostOrPut` REST method/verb, which allows for the creation of a service method that can be called with either a `POST` or a `PUT` verb.
+	* The `ServiceHostController` class now has an `HttpsMode` property, which can be used to define that the controller must be called over HTTPS (options are to require HTTPS, to not care, or to require HTTPS except when running on localhost).
+	* `ServiceHostControllers` can now handle ambiguous mappings. For instance, a URL can be /Customer/1 (mapping to a method with empty name that returns customer of ID 1) and another one can be `/Customer/All` (calling a method called "all"). Note that it would not be possible to call the default (unnamed) method with parameter "all" as method names have priority.
+	* `ServiceHostController` has been updated to use WebApi packages v5.2.3 (formerly 5.2.2).
+	* `ServiceHostController` can now return camelCase JSON (see also: [WebApi Service Hosting](WebApi%20Service%20Hosting))
+* When calling a CODE Framework hosted REST service through `ServiceClient`, the service call proxy now properly enforces UTF-8 encoding.
 	* Handling HTTP verbs that do not post a body better, so parameters work in all scenarios.
-* The ServiceClient.AfterServiceOperationCall event now has a ServiceCallDuration property on its event arguments, which provide information about how long it took to execute the service call.
-* There was a problem in ServiceClient where channels weren't properly closed when a secondary proxy was used (as is the case when events on the service client are utlized, such as AfterServiceOperationCall).
-* Optimized FocusHelper to perform better when the control that is to receive focus is not yet visible, and thus the code needs to wait for the control to become visible.
-* The Shell now opens top-level windows without setting a position. However, there now is a new WindowEx.WindowStartLocationStylable attached property, which can be used to style the default startup location of top-level windows. (All themes use this property).
-The Shell view-style for the Workplace theme has been changed to fix a bug that keps the first of multiple top-level views to display properly under certain circumstances. (Note: The feature to launch top-level views into the backstage view of the Ribbon is now not supported anymore, as it isn't needed anymore anyway, and it caused this particular problem).
+* The `ServiceClient.AfterServiceOperationCall` event now has a `ServiceCallDuration` property on its event arguments, which provide information about how long it took to execute the service call.
+* There was a problem in `ServiceClient` where channels weren't properly closed when a secondary proxy was used (as is the case when events on the service client are utlized, such as `AfterServiceOperationCall`).
+* Optimized `FocusHelper` to perform better when the control that is to receive focus is not yet visible, and thus the code needs to wait for the control to become visible.
+* The `Shell` now opens top-level windows without setting a position. However, there now is a new `WindowEx.WindowStartLocationStylable` attached property, which can be used to style the default startup location of top-level windows. (All themes use this property).
+* The `Shell` view-style for the Workplace theme has been changed to fix a bug that keps the first of multiple top-level views to display properly under certain circumstances. (Note: The feature to launch top-level views into the backstage view of the Ribbon is now not supported anymore, as it isn't needed anymore anyway, and it caused this particular problem).
 
 
 ## 4.0.61203.0
