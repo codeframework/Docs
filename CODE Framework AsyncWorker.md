@@ -160,6 +160,25 @@ actions.Add(new ViewAction("IsBusy Example Action",
 
 In this example, when someone triggers this action (perhaps because it is bound to a button, or a menu item, or something like that), the execute method immediately uses `AsyncWorker.Execute()` to run some example code. Note that the `viewAction` parameter is passed to `AsyncWorker`. In this case, the action passes itself, by passing along the `a` parameter, which was passed ot the `execute` delegate. This will result in the action being disabled for 10 seconds until the process finishes.
 
+Note that there also is a second optional parameter called `viewActions` (plural) which accepts an enumerable list of `ViewAction` objects:
+
+```c#
+actions.Add(new ViewAction("IsBusy Example Action",
+                           execute: (a, o) =>
+			   {
+			       AsyncWorker.Execute(() =>
+			       {
+			           System.Threading.Thread.Sleep(10000); // Simulating something slow
+				   return true;
+			       }, i =>
+			       {
+			           Controller.Message("Done!");
+			       }, viewActions: actions);
+			   }));
+```
+
+In this example, the entire list of view actions is passed to `AsyncWorker`, resulting in a disabling of all view-actions in that model while the background process is running. Note that a common scenario is to create a new list (perhaps using LINQ) of a sub-set of all available view-actions, thus disabling only some of them while keeping others enabled and functional.
+
 ## More Information
 
 Update: Also see [AsyncWorker Part 2](AsyncWorker%20Part%202) for more advanced uses of AsyncWorker.
