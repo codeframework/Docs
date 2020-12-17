@@ -18,6 +18,8 @@
 * Listbox improvements:
   * Listbox grid headers can now sort on filter fields with complex binding paths.
   * Improved multi-column list templates to better support complex binding operations and improve performance.
+  * ListBoxes now support moving the cursor into a specific column of the selected row by using `ListBoxEx.SetMoveFocusToColumnIndex(listBox, 3)` or by binding the `ex:ListBoxEx.MoveFocusToColumnIndex="{Binding ModelFocusMoveProperty}"` on any listbox (and then setting the secified property whenever a focus-move is desired). Note: This works only on listboxes that use the `ListBoxSmartDataTemplate`, which is used by default in all CODE Framework listoxes that support multi-columns.
+  * ListBoxes now do not trigger item commands anymore when the user clicks in the header or footer area. (Note: This requires the header and footer templates to flag themselves with `x:Name="PART_Header"` and `x:Name="PART_Footer"`, which they now all do. Also, headers and footers need to be at the top and bottom of each control template (which all CODE Framework default templates do, and is probably logical that most of the templates will). For more exotic setups, creators of those templates will have to handle these scenarios on their own.
 * There now are standard layouts and templates for both vertical and horizontal multi-panels (with and without headers)
     * All standard themes support these new default templates
 * Ribbons can now be used to display only the actions of a selected view, without requiring a main model with actions anymore.
@@ -28,6 +30,8 @@
 * Hamburger menu items in the Universe theme now have a special disabled foreground color.
 * Fixed an issue in the Workplace theme that caused notifications to not always display correctly.
 * `AsyncWorker.Execute()` now accepts an optional `viewAction` parameter. If a view-action is passed to the async worker, the action will become disabled (`CanExecute() == false`) while the operation is going on. (Note: This also works properly if the same action is passed to multiple different worker processes. It will be disabled until the last one finishes processing. (See also: [AsyncWorker](Async-Worker))
+* Changed the default .NET Framework target to 4.7.2 on all projects.
+* Fixed a long-standing problem with `BidirectionalStackPanel` measuring its contents incorrectly in some circumstances and thus cutting a few pixels off the last element when `LastElementFillsSPace` was set to `true`.
 
 ## 4.1.930.0
 
