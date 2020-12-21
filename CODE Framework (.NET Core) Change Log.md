@@ -1,6 +1,6 @@
 # CODE Framework .NET Core Change Log
 
-## 1.5.11 - 12/20/2020
+## 1.5.13 - 12/20/2020
 
 * Improved the `Mapper.Collections()` method to be able to handle collection items that require a back-link constructor parameter (back-link to the parent collection).
 * The options object for `Mapper.Collections()` now supports an `AddTargetCollectionItem` delegate, which can be used to define custom code that adds elements to the target collection, which is useful when that collection doesn't just support a simple `target.Add(item)` or needs other custom handling.
