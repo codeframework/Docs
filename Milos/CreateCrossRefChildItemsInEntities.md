@@ -53,10 +53,7 @@ public class NameCategoryXLinkCollection : Milos.BusinessObjects.EntityXlinkSubI
 
    public override IEntitySubItemCollectionItem GetItemObject() => new NameCategoryBusinessItem(this);
 
-   public new NameCategoryBusinessItem this[int index]
-   {
-      get => (NameCategoryBusinessItem)base[index];
-   }
+   public new NameCategoryBusinessItem this[int index] => (NameCategoryBusinessItem)base[index];
 }
 ```
 
