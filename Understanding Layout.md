@@ -979,7 +979,7 @@ As you can see in these examples, there are two sets of properties that impact e
 In addition to these `EditForm` properties, the control also respects the following attached properties from the `View` object:
 
 * **View.ColumnBreak**: Indicates a column break. (Column breaks are also considered "group breaks" implicitly).
-* **View.FlowsWIthPrevious**: Indicates that an element is to flow to the right of the previous element. This is only supported on the "edit control" side of the arrangement.
+* **View.FlowsWithPrevious**: Indicates that an element is to flow to the right of the previous element. This is only supported on the "edit control" side of the arrangement.
 * **View.GroupBreak**: Indicates a group break.
 * **View.HeightEx**: Can be used to set the height of an element in a way that is relative to the current font size. (1 = fits about the height of a single line of text)
 * **View.IsStandAloneEditControl**: Indicates that the element is to be considered an edit control (right side) even though there is no label. The space of the label remains empty.
