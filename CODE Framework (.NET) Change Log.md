@@ -21,7 +21,7 @@
   * ListBoxes now support moving the cursor into a specific column of the selected row by using `ListBoxEx.SetMoveFocusToColumnIndex(listBox, 3)` or by binding the `ex:ListBoxEx.MoveFocusToColumnIndex="{Binding ModelFocusMoveProperty}"` on any listbox (and then setting the secified property whenever a focus-move is desired). Note: This works only on listboxes that use the `ListBoxSmartDataTemplate`, which is used by default in all CODE Framework listoxes that support multi-columns.
   * ListBoxes now do not trigger item commands anymore when the user clicks in the header or footer area. (Note: This requires the header and footer templates to flag themselves with `x:Name="PART_Header"` and `x:Name="PART_Footer"`, which they now all do. Also, headers and footers need to be at the top and bottom of each control template (which all CODE Framework default templates do, and is probably logical that most of the templates will). For more exotic setups, creators of those templates will have to handle these scenarios on their own.
 * There now are standard layouts and templates for both vertical and horizontal multi-panels (with and without headers)
-    * All standard themes support these new default templates
+  * All standard themes support these new default templates
 * Ribbons can now be used to display only the actions of a selected view, without requiring a main model with actions anymore.
 * Fixed a bug with the Ribbon in the Workplace Theme not always showing all actions when the view Title is empty when the view launches.
 * Fixed a problem with `LengthToGridLengthConverter` that sparked an exception when the length was less than 0. (This caused a lot of binding warnings to be triggered when using multi-column lists in certain scenarios)
@@ -31,7 +31,10 @@
 * Fixed an issue in the Workplace theme that caused notifications to not always display correctly.
 * `AsyncWorker.Execute()` now accepts an optional `viewAction` parameter. If a view-action is passed to the async worker, the action will become disabled (`CanExecute() == false`) while the operation is going on. (Note: This also works properly if the same action is passed to multiple different worker processes. It will be disabled until the last one finishes processing. (See also: [AsyncWorker](Async-Worker))
 * Changed the default .NET Framework target to 4.7.2 on all projects.
-* Fixed a long-standing problem with `BidirectionalStackPanel` measuring its contents incorrectly in some circumstances and thus cutting a few pixels off the last element when `LastElementFillsSPace` was set to `true`.
+* Changes to `BidirectionalStackPanel`
+  * Fixed a long-standing problem with `BidirectionalStackPanel` measuring its contents incorrectly in some circumstances and thus cutting a few pixels off the last element when `LastElementFillsSPace` was set to `true`.
+  * Fixed another problem with `BidirectionalStackPanel` that could cause scrollbars to disappear when used in tab controls with specific template configurations that may or may not have adorner decorators.
+  * Added support for touch-scrolling in `BidirectionalStackPanel`
 
 ## 4.1.930.0
 
