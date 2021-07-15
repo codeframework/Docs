@@ -2,6 +2,7 @@
 
 ## Work in Progress / Internal Build
 
+* There now is a new `ListEx.ConfirmationEnabled` feature that can be used to pop up a confirmation message ("Do you really want to change...?") on any list (typically a combobox). There are associated confirmation text properties, and an active toggle. (Note: The enabled property needs to be set to true to trigger the setup of the feature initially. Active can be used to toggle the behavior on and off dynamically, once the feature is enabled).
 * There now is a new `SettingsManager.ResolveSettingId` delegate that can be used to fine-tune the ID (and by extension things like file names) used to serialize various settings.
 * `WindowEx` improvements
   * `WindowEx.AutoSaveWindowPosition` as been improved to not compete with `WindowEx.WindowsStartupLocationStylable`.
