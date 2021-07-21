@@ -40,11 +40,11 @@ The result works, but it is not very visually pleasing. Using a CODE Framework l
 xmlns:l="clr-namespace:CODE.Framework.Wpf.Layout;assembly=CODE.Framework.Wpf"
 ```
 
-The result probably won’t be the most exciting UI you have ever seen, but it is better than the prior version, because the Bidirectional`StackPanel` class has quite a few extra features. We will discuss them in more detail below, but for now, we can take note of the fact the spacing is more pleasing to the eye. (Don’t worry... we will get to more exciting layouts soon enough). The following figure shows the two examples in comparison:
+The result probably won’t be the most exciting UI you have ever seen, but it is better than the prior version, because the `BidirectionalStackPanel` class has quite a few extra features. We will discuss them in more detail below, but for now, we can take note of the fact the spacing is more pleasing to the eye. (Don’t worry... we will get to more exciting layouts soon enough). The following figure shows the two examples in comparison:
 
 ![](Understanding%20Layout/Figure01.png)
 
-Figure 1: The window on the left uses a standard WPF `StackPanel`, while the one on the right uses a CODE Framework Bidirectional`StackPanel`. A subtle but consequential difference.
+Figure 1: The window on the left uses a standard WPF `StackPanel`, while the one on the right uses a CODE Framework `BidirectionalStackPanel`. A subtle but consequential difference.
 
 The window on the left uses a standard WPF `StackPanel`, while the one on the right uses a CODE Framework `BidirectionalStackPanel`. A subtle but consequential difference.
 
