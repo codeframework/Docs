@@ -46,8 +46,6 @@ The result probably won’t be the most exciting UI you have ever seen, but it i
 
 Figure 1: The window on the left uses a standard WPF `StackPanel`, while the one on the right uses a CODE Framework `BidirectionalStackPanel`. A subtle but consequential difference.
 
-The window on the left uses a standard WPF `StackPanel`, while the one on the right uses a CODE Framework `BidirectionalStackPanel`. A subtle but consequential difference.
-
 What is the main benefit of using CODE Framework layout containers? Well, the main benefit is that they provide layout features that you simply would not have otherwise in WPF. The secondary benefit is that these layout containers are theme-aware. This means that they have default styles in different themes to make them look just right in those scenarios.
 
 Fundamentally, you now know what it takes! CODE Framework provides a number of custom layout containers for your use. They are not mandatory, but if you have a scenario where these containers are useful, we encourage you to use them. (Note: You can even use these containers in WPF projects that do not otherwise use CODE Framework. Simply add a reference to the CODE.Framework.Wpf.dll file, and you are good to go!
