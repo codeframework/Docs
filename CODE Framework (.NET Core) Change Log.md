@@ -1,5 +1,9 @@
 # CODE Framework .NET Core Change Log
 
+## Work in progress
+
+* Date handling for REST URL parameters in `ServiceClient` has been changed to conform with ISO 8601.
+
 ## 1.5.13 - 12/20/2020
 
 * Improved the `Mapper.Collections()` method to be able to handle collection items that require a back-link constructor parameter (back-link to the parent collection).
