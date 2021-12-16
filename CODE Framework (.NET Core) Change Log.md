@@ -2,9 +2,9 @@
 
 ## Work in progress
 
-* Minimum target version is now .NET 5
+* ~~Minimum target version is now .NET 5~~
 * Date handling for REST URL parameters in `ServiceClient` has been changed to conform with ISO 8601.
-* Removed dependency on Newtonsoft.Json
+* ~~Removed dependency on Newtonsoft.Json~~
 * Removed dependency on Westwind.Utilities
 
 ## 1.5.13 - 12/20/2020
