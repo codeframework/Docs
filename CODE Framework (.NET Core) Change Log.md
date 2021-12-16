@@ -1,6 +1,6 @@
 # CODE Framework .NET Core Change Log
 
-## Work in progress
+## 1.5.15 - 12/15/2021
 
 * ~~Minimum target version is now .NET 5~~ (pushed to the next version)
   * * ~~Removed dependency on Newtonsoft.Json~~ (pushed to the next version)
