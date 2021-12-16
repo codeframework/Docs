@@ -2,10 +2,10 @@
 
 ## Work in progress
 
-* ~~Minimum target version is now .NET 5~~
+* ~~Minimum target version is now .NET 5~~ (pushed to the next version)
+  * * ~~Removed dependency on Newtonsoft.Json~~ (pushed to the next version)
 * Date handling for REST URL parameters in `ServiceClient` has been changed to conform with ISO 8601.
 * Re-enabled support for passing a service URL into `ServiceClient.Call()`. This is only supported in REST scenarios.
-* ~~Removed dependency on Newtonsoft.Json~~
 * Removed dependency on Westwind.Utilities
 
 ## 1.5.13 - 12/20/2020
