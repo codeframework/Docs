@@ -350,7 +350,7 @@ All that remains now is to specify which services are to be hosted and what the 
 
 The most common way is through the config file, so we will cover that option first. To host the customer service, your `appsettings.json` file should contain the following:
 
-```js
+```json
 {
   "Logging": {
     "LogLevel": {
@@ -376,7 +376,7 @@ The final configuration setting is the "base path", which is set to `/customers`
 
 To host multiple services, the service handler configuration could look like this:
 
-```js
+```json
 "ServiceHandler": {
   "Services": [
     {
