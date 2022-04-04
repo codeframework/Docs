@@ -477,7 +477,7 @@ public void Configure(IApplicationBuilder app, IHostingEnvironment env, ServiceH
 
 `app.UseOpenApiHandler()` enabled CODE Framework's OpenAPI features. Now that this feature is activated, you can start the app and browse to `/openapi.json` within your root domain (typically something like `http://localhost:5000/openapi.json` during development) to see a JSON-based description of your service/API. This description in itself is not very useful, but it is used by a variety of tools and technologies to interact with your service.
 
-> Note: Depending on the nature of your service, you may not want to expose an OpenAPI definition file to the world in production.
+> Note: Depending on the nature of your service, you may not want to expose an OpenAPI definition file in production for the entire world to see.
 
 ### Fine-Tuning the OpenAPI definition
 
