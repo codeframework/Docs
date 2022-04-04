@@ -242,7 +242,7 @@ public GetAllCustomersResponse GetAllCustomers(GetAllCustomersRequest request)
     }
     catch (Exception ex)
     {
-        return  ServiceHelper.GetPopulatedFailureResponse<GetAllCustomersResponse>();
+        return  ServiceHelper.GetPopulatedFailureResponse<GetAllCustomersResponse>(ex);
     }
 }
 ```
@@ -460,7 +460,111 @@ public void ConfigureServices(IServiceCollection services)
 You are now ready to launch your application. If you are using Visual Studio, you can simply hit `F5`. If you use Visual Studio Code, you can type `dotnet run` into your console window. You can then start hitting the hosted services. If you are hosting services with a `GET` verb, you can simply use a web browser to browse to the service URLs. If you are using more complex REST services, use a tool such as Fiddler or PostMan (among others) to give your services a spin.
 
 > Note: When services are hosted in .NET Core as explained here, debugging is fully supported. It is possible to simply add a breakpoing to the service implementaiton code, even if the ASP.NET Core application is run as a Linux-based application.
- 
+
+## OpenAPI Support (and Swagger UI, and...)
+
+Services/APIs hosted in CODE Framework on ASP.NET Core now offer Support for OpenAPI. Open API (formerly known as "Swagger") is a standardized service description that can be used in a variety of ways. For instance, Swagger UI (yes, it is still called that) can be used to display information about the service and test the service. Other tools (such as Swagger Codegen - https://swagger.io/tools/swagger-codegen/) can be used to generate JavaScript client-side stub methods for easier access.
+
+To enable OpenAPI support in CODE Framework services, 
+
+```cs
+public void Configure(IApplicationBuilder app, IHostingEnvironment env, ServiceHandlerConfiguration config) 
+{
+    app.UseOpenApiHandler(); // Enabled OpenAPI in addition to hosting services
+    app.UseServiceHandler();
+}
+```
+
+`app.UseOpenApiHandler()` enabled CODE Framework's OpenAPI features. Now that this feature is activated, you can start the app and browse to `/openapi.json` within your root domain (typically something like `http://localhost:5000/openapi.json` during development) to see a JSON-based description of your service/API. This description in itself is not very useful, but it is used by a variety of tools and technologies to interact with your service.
+
+> Note: Depending on the nature of your service, you may not want to expose an OpenAPI definition file to the world in production.
+
+### Fine-Tuning the OpenAPI definition
+
+It is possible to fine-tune some of the details of the exposed information, when activating the OpenAPI features. Consider this example:
+
+```cs
+public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ServiceHandlerConfiguration config)
+{
+    app.UseServiceHandler();
+    app.UseOpenApiHandler(info: new OpenApiInfo
+    {
+        Title = "CODE Framework Service/API Example",
+        Description = "This service/api example is used to test, demonstrate, and document some of the CODE Framework service/api features.",
+        TermsOfService = "http://codeframework.io",
+        License = "MIT",
+        Contact = "info@codemag.com"
+    });
+}
+```
+
+This is an example for information that is not usually part of a service/API contract definition, but can be injected into the OpenAPI definition.
+
+CODE Framework does an extensive job at inspecting the service contract defined in C# and exposing as much information as possible in the OpenAPI definition. This includes a deep inspection of all hosted services and service interfaces, all methods, all parameters and return values, and all properties (and sub-properties, and sub-sub-properties, and...). CODE Framework will inspect attributes put on types, methods, and properties (see below). CODE Framework also inspects potential XML documentation files, if they are used and present (typically, XML docs are only available during development time). In addition, CODE Framework takes the liberty to expose additional information it deems intersting (such as adding descriptive information about enum values, which would otherwise just be numbers).
+
+Here is an example of a contract that takes advantage of these features:
+
+```cs
+[ServiceContract]
+[Summary("Services/API related to user management")]
+[Description("This service includes all kinds of operations related to user management, such as login/logout, user CRUD operations, and so on.")]
+[ExternalDocumentation("For more information, please refer to the external documentation.", "https://docs.codeframework.io")]
+public interface IUserService
+{     
+    [Summary("Signout/logout user")]
+    [Description("This method logs the specified user out of the system and returns information indicating `success` or `failure`.")]
+    SignoutResponse Signout(SignoutRequest request);
+}
+
+[DataContract]
+public class SignoutRequest : BaseServiceRequest 
+{
+    [DataMember(IsRequired = true)]
+    [Description("User name, typically an email address.")]
+    public string UserName { get; set; } = string.Empty;
+}
+```
+
+In this example, the service's interface, the single defined method, as well as the request message and its properties make use of CODE Framework attributes to document the service. (The same is true for the return type, but it is ommited for brevity in this example). `Summary`, `Description`, and `External Documentation` attributes are specifically designed to document the API's external interface.
+
+The following attributes are supported to fine-tune the service/API definition:
+
+* `[CODE.Framework.Services.Contracts.SummaryAttribute]` - used to display a (typically short) summary of an API element
+* `[CODE.Framework.Services.Contracts.DescriptionAttribute]` - used to display a more detailed description of an API element
+* `[System.ComponentModel.DescriptionAttribute]` - this is the default description attribute defined by the .NET Framework. It can be used interchangably with the CODE Framework `DescriptionAttribute`
+* `[CODE.Framework.Services.Contracts.ExternalDocumentationAttribute]` - used to provide a link to external documentation. Typically used on an interface
+* `[CODE.Framework.Services.Contracts.RestContentTypeAttribute]` - used to indicate a non-standard content-type as the return value of a method. Typically, REST services always return `application/json` as their content type. However, it is possible to return other content from CODE Framework services, such as `image/png` (usually by defining a `FileResponse` return type on the method). In that case, this attribute can be used to statically document such a content type. Note that it is not necessary to use this attribute when the method returns JSON. Also, note that this attribute is only used for documentation purposes and does not change the behavior of the method. It is also only applicable when the service is hosted in a REST environment. All other hosting options and protocols will ignore this attribute completely.
+* `[CODE.Framework.Services.Contracts.FileContentAttribute]` - this attribute can be applied to a property of type `byte[]` on a data contract. It can be used to indicate that a byte-array is specifically used to transfer the contents of a file. (This information can be used by tools such as Swagger UI to change the way one can interact with the services, such as by displaying a file picker dialog)
+* `[System.ObsoleteAttribute]` - an operation/method flagged as obsolete will be shown as `deprecated` in OpenAPI
+
+> Note: If you are unfamiliar with the use of attributes in C#/.NET, here is a crash-course: Attributes are bits of meta-information that can be applied to code elements, such as interfaces, classes, method, properties, and so on. They are applied with syntax as shown in the example above. Attributes typically have formal, long names, and are defined within a namespace. However, they are applied using short-hand syntax, therefore, the `System.ObsolteAttribute` is applied to an element simply as `[Obsolete]` (assuming there is a `using System` somewhere in hour code file or in your global using statements). The same is true for CODE Framework specific attributes. Therefore, `CODE.Framework.Services.Contracts.SymmaryAttribute` is applied like this: `[Summary("This is my summary")]`. Note that attributes in different namespaces can have identical names. For this reason, the above list uses the formal name and can thus differentiate between `System.ComponentModel.DescriptionAttribute` and `CODE.Framework.Services.Contracts.DescriptionAttribute`. Depending on your using statements, this could lead to a conflict, but you can always use the long name of an attribute (although you never use the "Attribute" suffix... this is just how the C# compiler works :-) ): `[System.ComponentModel.Description("Hello!")]`.
+
+### Swagger UI
+
+One of the compelling features powered by the OpenAPI definition file, is the use of Swagger UI, a test-harness and documentation tool provided by the Swagger organization (the guys that originally defined the Swagger standard, before it was renamed given to the OpenAPI initiative and has). To use Swagger UI in your service/API, you have to add a third party package. We recommend the use of the Swashbuckle package from Nuget (`Swashbuckle.AspNetCore`), but you could use others, or you could manually enable Swagger UI support by adding the required components as described on https://swagger.io. 
+
+Assuming you added the Swashbuckle package, you can enable Swagger UI like this:
+
+```cs
+public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ServiceHandlerConfiguration config)
+{
+    app.UseServiceHandler();
+    app.UseOpenApiHandler();
+
+    // This enables Swagger UI
+    app.UseSwaggerUI(options =>
+    {
+        options.SwaggerEndpoint("/openapi.json", "Service Description");
+    });
+}
+```
+
+Note that the endpoint is configured to take advantage of CODE Framework's OpenAPI definition URL. Using this, Swagger UI now presents a UI for the service's documentation, which also acts as a test-bench that allows calling the services. This is therefore a good way to test and run your services without the need to create a client or run a manual tool such as Postman.
+
+The following image is an example of what Swagger UI looks like:
+
+![](Understanding%20Services/SwaggerUI.png)
+
 ## Hosting Services in the Development Service Host
 
 Development host hosting is supported in exactly the same way it has always been in CODE Framework. The development service host if a full-framework WinForms/WPF application that hosts the services in a way that is convenient for development. For more information, see [Understanding CODE Framework Services](Understanding-Services).
