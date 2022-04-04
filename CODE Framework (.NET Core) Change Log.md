@@ -1,13 +1,13 @@
 # CODE Framework .NET Core Change Log
 
-## 2.0.0-beta - Work in progre4ss
+## 2.0.x-beta - Work in progress
 
-* Minimum target version is now .NET 6 (may still change)
+* Minimum target version is now .NET 6
 * Newtonsoft.json dependency has been removed.
 * Services now support Open API ("Swagger") through `app.UseOpenApiHandler()`
   * Generic documentation is generated from the structure defined in the type system.
-  * This includes an extended version of loading descriptions and other documentation from XML docs as well as a variety of attributes.
-* There now is a new `FileResponse` default response type that can be used to return raw files from services. This is especially useful when returning things like images (or other large data files) from a service, which can be hanled as raw data in HTTP requests (although they are handled like all other contracts in other protocols/standards) and are therefore more efficient. Plus, such service can directly serve up things such as images that are referred to as `<img src="...">` tags.
+  * This includes an extended version of loading descriptions and other documentation from XML docs as well as a variety of attributes to fine-tune how the documentation is generated.
+* There now is a new `FileResponse` default response type that can be used to return raw files from services. This is especially useful when returning things like images (or other large data files) from a service, which can be hanled as raw data in HTTP requests (although they are handled like all other contracts in other protocols/standards) and are therefore more efficient. Plus, such service can directly serve up things such as images that are referred to as the `src` in `<img>` tags.
   * `ServiceClient.Call<>()` has ben updated ot transparently support `FileResponse` if called from C#.
 
 ## 1.5.15 - 12/15/2021
