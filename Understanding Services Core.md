@@ -312,7 +312,7 @@ public FileResponse GetCustomerPhoto(GetCustomerPhotoRequest request)
 }
 ```
 
-As you can see, this looks much like any other CODE Framework service method/operation. And in many ways it is. However, if this operation is called through a RESTful operation, the file (an image, in this example) is returned as a raw file. This is especially useful, if the service is callable using a `GET` verb. In this example, one could simply use a browser and navigate to a URL such as `http://localhost:5000/photo/123` and see the image in the browser, rather than the JSON-encoded version of the image data. In fact, one could use this response directly in an HTML image tag, like this: `<img src="http://localhost:5000/photo/123">`.
+As you can see, this looks much like any other CODE Framework service method/operation. And in many ways it is. However, if this operation is called through a RESTful operation, the file (an image, in this example) is returned as a raw file. This is especially useful, if the service is callable using a `GET` verb. In this example, one could simply use a browser and navigate to a URL such as `http://localhost:5000/photo/123` and see the image in the browser, rather than the JSON-encoded version of the image data. In fact, one could use this response directly in an HTML `<img>` tag, like this: `src="http://localhost:5000/photo/123"`.
 
 Note that if the same service is called from a non-REST client, or even if the REST service is called from C# using `ServiceClient.Call<>()`, the service will work as always:
 
