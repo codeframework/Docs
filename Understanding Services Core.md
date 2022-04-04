@@ -537,7 +537,6 @@ It is possible to fine-tune some of the details of the exposed information, when
 ```cs
 public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ServiceHandlerConfiguration config)
 {
-    app.UseServiceHandler();
     app.UseOpenApiHandler(info: new OpenApiInfo
     {
         Title = "CODE Framework Service/API Example",
@@ -546,6 +545,8 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ServiceH
         License = "MIT",
         Contact = "info@codemag.com"
     });
+
+    app.UseServiceHandler();
 }
 ```
 
@@ -599,7 +600,6 @@ Assuming you added the Swashbuckle package, you can enable Swagger UI like this:
 ```cs
 public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ServiceHandlerConfiguration config)
 {
-    app.UseServiceHandler();
     app.UseOpenApiHandler();
 
     // This enables Swagger UI
@@ -607,10 +607,16 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ServiceH
     {
         options.SwaggerEndpoint("/openapi.json", "Service Description");
     });
+
+    app.UseServiceHandler();
 }
 ```
 
 Note that the endpoint is configured to take advantage of CODE Framework's OpenAPI definition URL. Using this, Swagger UI now presents a UI for the service's documentation, which also acts as a test-bench that allows calling the services. This is therefore a good way to test and run your services without the need to create a client or run a manual tool such as Postman.
+
+To see Swagger UI, launch your web app/host and navigate to `/Swagger` (such as `http://localhost:5000/swagger`). 
+
+>Tip: For development, it may make sense to set this as your project's startup URL.
 
 The following image is an example of what Swagger UI looks like:
 
