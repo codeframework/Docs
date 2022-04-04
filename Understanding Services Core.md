@@ -277,6 +277,57 @@ public class CustomerService : ICustomerService
 
 > Note: There also is a down-side to exposing this operation, as it provides additional information about the service and the environment the service runs in. This information could potentially be used by hackers to understand what your service is like. There is no inherent technical weakness in this, but one always has to decide how much information to give away to potential hackers.
 
+### Special Case: Returning Files from a Service
+
+Sometimes, it is desirable to return the contents of a file from a service. This could be a simple file, such as an image, or it could be a PDF or Word document, or anything else, for that matter. (Note: Files that are very large and need to be streamed - like videos - are probably not ideal for this feature). 
+
+When returning a file, there are usually three elements that are included: 
+
+1) The actual file bytes as a byte-array
+2) The file name
+3) The content type of the file (such as `image/png`)
+
+CODE Framework defines a special response type that can be used for such a scenario. This is provided for convenience, but also to enable some special features in some scenarios. (Specifically: RESTful services can return files as pure file responses, rather than encoding the file in JSON and base64). To take advantage of this feature, define a service operation that uses `FileResponse` as the response contract on one of the methods of your interface:
+
+```cs
+[OperationContract]
+[Rest(Method = RestMethods.Get, Route = "photo/{CustomerId}")]
+[RestContentType("image/png")]
+FileResponse GetCustomerPhoto(GetCustomerPhotoRequest request);  
+```
+
+While the request contract still needs to be defined by the developer (and can include anything desired), the response is the pre-defined `FileResponse` type. This response type defines the three expected members, and can be used like so:
+
+
+```cs
+public FileResponse GetCustomerPhoto(GetCustomerPhotoRequest request)
+{
+    /// Real code goes here
+    return new FileResponse
+    {
+        FileName = "ExampleImage.png", // File name as it appears to the caller, regardless of actual file name
+        FileBytes = Resources.RocketMan, // Load your file bytes here
+        ContentType = "image/png" // Could be changed for each returned photo if needed
+    };
+}
+```
+
+As you can see, this looks much like any other CODE Framework service method/operation. And in many ways it is. However, if this operation is called through a RESTful operation, the file (an image, in this example) is returned as a raw file request. This is especially useful, if the service is callable using a `GET` verb. In this example, one could simply use a browser and navigate to a URL such as `http://localhost:5000/photo/123` and see the image in the browser, rather than the JSON-encoded version of the image data. In fact, one could use this response directly in an HTML image tag, like this: `<img src="http://localhost:5000/photo/123">`.
+
+Note that if the same service is called from a non-REST client, or even if the REST service is called from C# using `ServiceClient.Call<>()`, the service will work as always:
+
+```cs
+ServiceClient.Call<ICustomerService>(s => {
+    var response = s.GetCustomerPhoto(new GetCustomerPhotoRequest { Id = "123" });
+    Console.WriteLine(response.FileName);
+    Consolw.WriteLine($"File length: {response.FileBytes.Length}");
+});
+```
+
+> Note: `FileResponse` is a sealed class that cannot be extended. This is due to the fact that the file data is used as the complete body, and the file name and content type are encoded in the HTTP header. It is not possible to add additional properties (members) to the response contract, as there is nowhere to put that information in the REST scenario, without creating a non-standard response. If additional data elements are needed, a completely different resposne type should be created.
+
+> Note: The definition of the interface method makes use of the `RestContentType` attribute. This is for documentation purposes only, and is used mainly by OpenAPI/Swagger (see below). It has no impact on the actual behavior. It is also possible for the response to return a different content type (such as if photos were loaded from the database and varied in file format). This may be confusing for the person using OpenAPI or Swagger UI, but it may make sense in some scenarios. However, we recommend that the documentation attribute indicates a content type consistent with what the service actually returns. (Note: Since the content-type property is set during runtime, and can be changed at will, it is not possible for the OpenAPI features to determine the content type, thus requiring the need of this documentation attribute. If the attribute is not specified, a content-type of `application/x-binary` is assumed, but it will likely be different at runtime.)
+
 ## Hosting REST/JSON Services in ASP.NET Core
 
 The service that has been created so far can be hosted in many different ways. One of the most interesting approaches for .NET Core developers is to host it in an ASP.NET Core application.
@@ -470,7 +521,7 @@ To enable OpenAPI support in CODE Framework services,
 ```cs
 public void Configure(IApplicationBuilder app, IHostingEnvironment env, ServiceHandlerConfiguration config) 
 {
-    app.UseOpenApiHandler(); // Enabled OpenAPI in addition to hosting services
+    app.UseOpenApiHandler(); // Enables OpenAPI in addition to hosting services
     app.UseServiceHandler();
 }
 ```
