@@ -9,6 +9,10 @@
   * This includes an extended version of loading descriptions and other documentation from XML docs as well as a variety of attributes to fine-tune how the documentation is generated.
 * There now is a new `FileResponse` default response type that can be used to return raw files from services. This is especially useful when returning things like images (or other large data files) from a service, which can be hanled as raw data in HTTP requests (although they are handled like all other contracts in other protocols/standards) and are therefore more efficient. Plus, such service can directly serve up things such as images that are referred to as the `src` in `<img>` tags.
   * `ServiceClient.Call<>()` has ben updated ot transparently support `FileResponse` if called from C#.
+* `BaseServiceResponse.Success` now defaults to `true` again (as was the case in full framework versions). This means that this flag does not have to be set in most scenarios unless there is a problem. Since standard exception handling will automatically create responses with this flag (if present in the response) set to `false`, most developers may never have to set this manually.
+* There now is a new `[StandardExceptionHandling]` attribute that can be attached to individual operations/methods, service implementation classes, and service interfaces. If present, CODE Framework will automatically perform a try/catch around the service method and populate a response message with `Success` set to `false` and `FailureInformation` populated with exception information (assuming these properties are present in the response message).
+* `ServiceGardenLocal` now can act as a dependency injection container (IoC container) to support dependency injection in in-process hosted services.
+* Services hosted in-process (in `ServiceGardenLocal`) now also support the `[StandardExceptionHandling]` attribute to provide behavior that is identical to that of services hosted in other environments.
 
 ## 1.5.15 - 12/15/2021
 
