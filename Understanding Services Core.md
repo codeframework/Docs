@@ -512,6 +512,33 @@ You are now ready to launch your application. If you are using Visual Studio, yo
 
 > Note: When services are hosted in .NET Core as explained here, debugging is fully supported. It is possible to simply add a breakpoing to the service implementaiton code, even if the ASP.NET Core application is run as a Linux-based application.
 
+## In-Process Hosted Services
+
+There are scenarios, where one might want to use services as "local object" or "in-process objects/calls". For instance, imagine architecting a micro-service based system by creating a number of independent micro-services, some of which call each other. One such example might be a service that can do certain calculations that is called from a variety of other services. Now suppose this system works beautifully, but you discover that one of the services ends up calling the calculation service very often and in a repeated loop, and this turns out to be a performance problem, as calling to a service "out of process" at some server location, with all the serialization of data and network connections and everything else that goes with service calls. Wouldn't it be nice to then be able to say *"but I have the service object I could just use as a .NET DLL, so I just want to re-configure my system to not make this repeated round-trip to another server and instead just call the object as a local instance, without changing any of my code"*. That, in a nutshell, is what in-process service hosting allows you to do.
+
+To host a service in-process, use a class called `ServiceGardenLocal` and add the desired service implementation objects to it. This type is defined in the `CODE.Framework.Serices.Client` package/DLL and is thus available everywhere you might want to use `ServiceClient.Call()`.
+
+> Note: You will need a reference to the service's implementation DLL and all its dependencies included in the calling service, as these objects literally become local object instances.
+
+To host a service in-process, add the following code to the startup of your service project (no matter what type of .NET project it is):
+
+```cs
+ServiceGardenLocal.AddServiceHost(typeof(CalculationService));
+```
+
+Using this configuration, the project can now make a call to this service like so anywhere in your app:
+
+```cs
+ServiceClient.Call<ICalculationService>(s =>
+{
+    var response = s.Calculate(new CalculationRequest{});
+});
+```
+
+As you can see, this code is just like any other service call from C#. However, since the requested service is hosted in-process, the system understands that it can simply create a local instance of `CalculationService` to satisfy the need to use a service based on the `ICalculationService` contract/interface. Since this is simply a local .NET object, with no networked call, no serialization/deserialization, or any other overhead, this will be very fast and exhibit the same performance characteristics as calling any other .NET object instance. 
+
+Nevertheless, micro-service architecture is still preserved. Think of this simply as a configuration choice. And, in fact, one could simply re-configure this same system to utilize a different standard (like REST or gRPC) and all the service invocation code would remain unchanged and continue to work. This provides great architectural and deployment freedom.
+
 ## OpenAPI Support ("Swagger")
 
 Services/APIs hosted in CODE Framework on ASP.NET Core now offer Support for OpenAPI. Open API (formerly known as "Swagger") is a standardized service description that can be used in a variety of ways. For instance, Swagger UI (yes, it is still called that) can be used to display information about the service and test the service. Other tools (such as Swagger Codegen - https://swagger.io/tools/swagger-codegen/) can be used to generate JavaScript client-side stub methods for easier access.
