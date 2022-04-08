@@ -512,7 +512,7 @@ You are now ready to launch your application. If you are using Visual Studio, yo
 
 > Note: When services are hosted in .NET Core as explained here, debugging is fully supported. It is possible to simply add a breakpoing to the service implementaiton code, even if the ASP.NET Core application is run as a Linux-based application.
 
-## OpenAPI Support (and Swagger UI, and...)
+## OpenAPI Support ("Swagger")
 
 Services/APIs hosted in CODE Framework on ASP.NET Core now offer Support for OpenAPI. Open API (formerly known as "Swagger") is a standardized service description that can be used in a variety of ways. For instance, Swagger UI (yes, it is still called that) can be used to display information about the service and test the service. Other tools (such as Swagger Codegen - https://swagger.io/tools/swagger-codegen/) can be used to generate JavaScript client-side stub methods for easier access.
 
@@ -696,3 +696,89 @@ public Startup(IConfiguration configuration)
     ConfigurationSettings.Sources.Insert(1, new DictionarySettings(appSettings));
 }
 ```
+
+# Services and Dependency Injection
+
+CODE Framework Services/APIs support dependency injection. Consider the following service implementation, as an example:
+
+```cs
+public class UserService : IUserService
+{
+    private readonly IUserProvider _userProvider;
+
+    public UserService(IUserProvider userProvider) // Dependency injection example
+    {
+        _userProvider = userProvider;
+    }
+
+    public AuthenticateUserResponse AuthenticateUser(AuthenticateUserRequest request)
+    {
+        var response = new AuthenticateUserResponse();
+
+        response.Id = Guid.NewGuid();
+        response.Email = _userProvider.GetEmail();
+        response.Firstname = _userProvider.GetFirstname();
+        response.Lastname = _userProvider.GetLastname();
+
+        // pass-through success and set Auth cookie in controller override
+        return response;
+    }
+}
+```
+
+In this example, the `UserService` class defines a constructor that accepts a parameter of type `IUserService`. The value of this parameter is stored away in a `_userService` field, which is then used by the `AuthenticateUser` method to retrieve data. (This is a simple example, but one can easily imagine multiple such objects being provided to the constructor, which can then provide important functionality to the individual methods).
+
+> Note: This technique decouples the code within the service method from external dependencies. For instance, one could easily imagine this being used to decouple some logic from some kind of data access mechanism. Injecting such dependencies does not just improve the overall architecture, but it makes services more testable.
+
+## Dependency Injection and ASP.NET Core Hosts
+
+This service example can now be hosted in a number of different ways. For instance, it can be hosted in ASP.NET Core as a RESTful service. In that case, the CODE Framework service hosting environment automatically uses the built-in ASP.NET Core Dependency Injection framework to not just instantiate and host the specified service, but it automatically instantiates all the parameter objects required by the service, based on registered dependencies.
+
+Here is an example for ASP.NET Core startup code that defines such dependencies:
+
+```cs
+var builder = WebApplication.CreateBuilder(args);
+
+// Enables hosting of CODE Framework services (either from the config file, or programmatically as shown here).
+builder.Services.AddHostedServices(config => {});
+
+// Add services to the dependency injection container to support our injection example.
+builder.Services.AddScoped<IUserProvider, FakeUserProvider>();
+
+// Ready to let ASP.NET build the app
+var app = builder.Build();
+
+// Enabled the CODE Framework service hosting environment
+app.UseServiceHandler(); 
+
+app.Run();
+```
+
+In this startup example, `builder.Services.AddScoped()` is used to add a "scoped dependency". (For more specifics about how the ASP.NET Core DI framework works, see https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-6.0). This tells the hosting environment, that every time a constructor parameter of type `IUserProvider` is required, an instance of type `FakeUserProvider` is to be used and automatically provided. Therefore, when the `UserService` is hosted in ASP.NET, the injected dependency will "just work".
+
+## Dependency Injection in In-Process Service Hosts
+
+When services are hosted "in process", Dependency Injection is also supported. However, in-process hosts do not have the same requirements as ASP.NET Core service hosts. Therefore, the ASP.NET Core DI framework is not available. Instead. the in-process hosting environment can itself act as a Dependency Injection Container ("IoC Container"). Therefore, the same `UserService` can be hosted in-process like this:
+
+
+```cs
+// Using the service garden as a local IoC container ("dependency injection")
+ServiceGardenLocal.InjectDependency<IUserProvider, FakeUserProvider>();
+
+// Hosting service implementations in-process
+ServiceGardenLocal.AddServiceHost(typeof(UserService));
+
+// Calling the in-process hosted service
+ServiceClient.Call<IUserService>(s => {
+    var response = s.AuthenticateUser(new AuthenticateUserRequest{});
+});
+```
+
+In this example, `ServiceGardenLocal.InjectDependency()` is used to set up the dependency mapping, just like it was set up in the ASP.NET Core example. Therefore, the in-process hosted `UserService` works just like it does in the ASP.NET Core hosted scenario. No code changes are needed. Again, the service "just works".
+
+When using `ServiceGardenLocal` as a IoC Container, two different modes of dependency injection are supported:
+
+1) `ServiceGardenLocal.InjectTransientDependency<Interface, ConcreteType>()` creates a dependency that instantiates (and re-instantiates) the concrete object whenever it is needed, no matter how many times it is needed. In in-process hosted services, instantiations happen sparsly. For instnace, the `UserService` instance is likely only instantiates once (although this is not necessarily guaranteed). Therefore, the `FakeUserProvider` dependency is always only instantiated once. However, if a different service also used the same dependency, it would get its own instance of `FakeUserProvider`. (Note: `InjectTransientDependency()` is the same as `InhjectDependency()`).
+2) `ServiceGardenLocal.InjectSingletonDependency<Interface, ConcreteType>()` creates a dependency that is treated as a singleton. No matter how many other types depend on the injected dependency, the concrete type will only ever be instantiated once and shared by all objects that have a dependency on it.
+
+> Note: Dependency Injection is a powerful and widely used feature. However, keep in mind that DI also comes at a cost in various ways. For one, a large service class that injects a lot of dependencies for the various methods to use, has to create those instances every time a service is required. Such a setup can use to a lot of unnecessary object creation and disposal. Another cost is that of readibility of the code. When looking at a piece of code that makes heavy use of dependency injection, it is often difficult to know what concrete types are used or what they do. This needs to be taken in consideration for productivity and training team members, and so on. We therefore recommend to only use DI where it provides a considerable benefit. For instance, it is very useful to inject objets that provide data access. On the other hand, does it really provide a great benefit to inject a logging object? Probably not. Especially if you use CODE Framework's logging framework, which is architected in a way that does not limited testability.
