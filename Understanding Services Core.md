@@ -754,11 +754,11 @@ app.UseServiceHandler();
 app.Run();
 ```
 
-In this startup example, `builder.Services.AddScoped()` is used to add a "scoped dependency". (For more specifics about how the ASP.NET Core DI framework works, see https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-6.0). This tells the hosting environment, that every time a constructor parameter of type `IUserProvider` is required, an instance of type `FakeUserProvider` is to be used and automatically provided. Therefore, when the `UserService` is hosted in ASP.NET, the injected dependency will "just work".
+In this startup example, `builder.Services.AddScoped()` is used to add a "scoped dependency". (For more specifics about how the ASP.NET Core DI framework works, see https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-6.0 for details). This tells the hosting environment, that every time a constructor parameter of type `IUserProvider` is required, an instance of type `FakeUserProvider` is to be used and automatically provided. Therefore, when the `UserService` is hosted in ASP.NET, the injected dependency will "just work".
 
 ## Dependency Injection in In-Process Service Hosts
 
-When services are hosted "in process", Dependency Injection is also supported. However, in-process hosts do not have the same requirements as ASP.NET Core service hosts. Therefore, the ASP.NET Core DI framework is not available. Instead. the in-process hosting environment can itself act as a Dependency Injection Container ("IoC Container"). Therefore, the same `UserService` can be hosted in-process like this:
+When services are hosted "in process", Dependency Injection is also supported. However, in-process hosts do not have the same requirements as ASP.NET Core service hosts. Therefore, the ASP.NET Core DI framework is not available. Instead, the in-process hosting environment can itself act as a Dependency Injection Container ("IoC Container"). Therefore, the same `UserService` can be hosted in-process like this:
 
 
 ```cs
