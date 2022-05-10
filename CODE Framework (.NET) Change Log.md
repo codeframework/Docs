@@ -1,7 +1,8 @@
 ﻿# CODE Framework (.NET) Change Log
 
-## Work in Progress / Internal Build
+## 5.0.3
 
+* Now targetting .NET 6 for WPF framework
 * There now is a new `ListEx.ConfirmationEnabled` feature that can be used to pop up a confirmation message ("Do you really want to change...?") on any list (typically a combobox). There are associated confirmation text properties, and an active toggle. (Note: The enabled property needs to be set to true to trigger the setup of the feature initially. Active can be used to toggle the behavior on and off dynamically, once the feature is enabled).
 * There now is a new `SettingsManager.ResolveSettingId` delegate that can be used to fine-tune the ID (and by extension things like file names) used to serialize various settings.
 * `WindowEx` improvements
@@ -36,6 +37,8 @@
   * Fixed a long-standing problem with `BidirectionalStackPanel` measuring its contents incorrectly in some circumstances and thus cutting a few pixels off the last element when `LastElementFillsSPace` was set to `true`.
   * Fixed another problem with `BidirectionalStackPanel` that could cause scrollbars to disappear when used in tab controls with specific template configurations that may or may not have adorner decorators.
   * Added support for touch-scrolling in `BidirectionalStackPanel`
+* Fixed a problem with hierarchical menus sometimes displaying duplicate items.
+
 
 ## 4.1.930.0
 
