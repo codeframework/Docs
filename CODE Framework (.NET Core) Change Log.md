@@ -1,6 +1,6 @@
 # CODE Framework .NET Core Change Log
 
-## 2.0.x-beta - Work in progress
+## 2.0.8 - 5/11/2022
 
 * Minimum target version is now .NET 6
 * Newtonsoft.json dependency has been removed.
