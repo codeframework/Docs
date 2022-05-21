@@ -1,6 +1,6 @@
 # CODE Framework .NET Core Change Log
 
-## 2.0.9 - 5/21/2022
+## 2.0.10 - 5/21/2022
 
 * Operations that return `Task<T>` (async) are now handled properly in Swagger/OpenAPI features.
 * Parameters on `GET` operations that are not configured with attributes are now still handled properly (based on the default values the attributes would provide).
