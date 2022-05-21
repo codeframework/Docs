@@ -1,5 +1,10 @@
 # CODE Framework .NET Core Change Log
 
+## Work in progress
+
+* Operations that return `Task<T>` (async) are now handled properly in Swagger/OpenAPI features.
+* Parameters on `GET` operations that are not configured with attributes are now still handled properly (based on the default values the attributes would provide).
+
 ## 2.0.8 - 5/11/2022
 
 * Minimum target version is now .NET 6
