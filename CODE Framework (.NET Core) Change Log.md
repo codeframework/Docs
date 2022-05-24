@@ -1,5 +1,9 @@
 # CODE Framework .NET Core Change Log
 
+## 2.0.11 - 5/24/2022
+
+* Added error handling around default value determination for members in in Open API documentation.
+
 ## 2.0.10 - 5/21/2022
 
 * Operations that return `Task<T>` (async) are now handled properly in Swagger/OpenAPI features.
