@@ -1,5 +1,10 @@
 # CODE Framework .NET Core Change Log
 
+## 2.0.13 - 6/2/2023
+
+* Added support for more URL parameters (inline and named parameters) for methods such as DELETE. (This used to only be supported for GET and POST).
+* Updated external dependencies to the latest versions.
+
 ## 2.0.11 - 5/24/2022
 
 * Added error handling around default value determination for members in in Open API documentation.
