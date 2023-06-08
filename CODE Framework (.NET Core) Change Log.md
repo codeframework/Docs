@@ -1,5 +1,11 @@
 # CODE Framework .NET Core Change Log
 
+## 2.0.15 - 6/7/2923
+
+* `PingResponse` now includes an optional `CodeFrameworkVersion` member. If used with `ServiceHelper.GetPopulatedPingResponse()` it is automatically populated with the current CODE Framework version.
+* CODE Framework now correctly shows camelCase serialization in Swagger. (There used to be a bug where it always showed ProperCase, regardless of the actual configuration).
+* URL parameters now show appropriate default values.
+
 ## 2.0.13 - 6/2/2023
 
 * Added support for more URL parameters (inline and named parameters) for methods such as DELETE. (This used to only be supported for GET and POST).
