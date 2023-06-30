@@ -1,5 +1,10 @@
 # CODE Framework .NET Core Change Log
 
+## 2.0.16 - 6/29/2023
+
+* Fixed a problem with caching proxies for `ServiceClient.Call<T>()` operations.
+* Added more flexibility with property name casing in REST `POST` operations.
+
 ## 2.0.15 - 6/7/2923
 
 * `PingResponse` now includes an optional `CodeFrameworkVersion` member. If used with `ServiceHelper.GetPopulatedPingResponse()` it is automatically populated with the current CODE Framework version.
