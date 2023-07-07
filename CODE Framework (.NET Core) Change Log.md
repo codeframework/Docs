@@ -1,5 +1,9 @@
 # CODE Framework .NET Core Change Log
 
+## 2.0.17 - 7/6/2023
+
+* Added more control over the proxy cache and also the settings cache in `ServiceClient`.
+
 ## 2.0.16 - 6/29/2023
 
 * Fixed a problem with caching proxies for `ServiceClient.Call<T>()` operations.
