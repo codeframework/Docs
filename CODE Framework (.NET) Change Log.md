@@ -1,5 +1,9 @@
 ﻿# CODE Framework (.NET) Change Log
 
+## 5.1.0
+
+* Now targetting .NET 8 for WPF framework.
+
 ## 5.0.3
 
 * Now targetting .NET 6 for WPF framework
