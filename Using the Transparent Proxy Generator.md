@@ -1,39 +1,101 @@
-﻿# Using the Transparent Proxy Generator
+# Using the Transparent Proxy Generator
 
-Some operations require what is called a "transparent proxy". For instance, when you make a WCF service call using a channel factory, you specify that you want to make a call to a service that conforms with a certain interface. WCF then gives you **a real object** that implements that interface. But where did that object/class come from? It doesn't exist as a real class that is part of your project. Instead, WCF generated it on the fly. That is what is called a "transparent proxy". CODE Framework also uses transparent proxies. One such scenario is when making a strongly typed call to a REST service. (See also: [Calling REST Services through ServiceClient](Calling%20REST%20Services%20through%20ServiceClient).
+`TransparentProxyGenerator`, in `CODE.Framework.Fundamentals.Utilities`, creates an object implementing a supplied interface at runtime. It emits a .NET type using Reflection.Emit and forwards each method call to an `IProxyHandler`. The handler supplies the operation's behavior and return value.
 
-Creating transparent proxies is not a trivial matter. Code has to be generated and compiled on the fly to make this happen. CODE Framework has a TransparentProxyGenerator class that does this. It takes an interface and then generates a live class from it. This new class doesn't do much on its own. Instead, it takes a reference to a handler class. It is very generic and can be used for other things.
+CODE Framework uses this utility for [interface-based REST calls](Calling-REST-Services-through-ServiceClient), but the generator itself is independent of HTTP, service contracts, and the single-request-message service model. It can dispatch ordinary interface methods with multiple parameters as well.
 
-Let's take a look at a simple example: Let's say we have this interface:
+This article describes the active .NET Standard implementation, including the pending proxy cache and return-conversion corrections. Older full-framework implementations can have different cache behavior.
 
-```c#
-public interface ITest
+## Create a Proxy and Handler
+
+For example, define a public interface and a handler:
+
+```csharp
+using System;
+using System.Reflection;
+using CODE.Framework.Fundamentals.Utilities;
+
+public interface IGreeter
 {
-    Customer GetCustomer(GetCustomerRequest request);
-    SaveResult SaveCustomer(Customer customerToSave);
+    string Greet(string name);
 }
-```
 
-Using the transparent proxy generator, you can create an implementation of this class on the fly like this:
-
-```c#
-var implementation = TransparentProxyGenerator.GetProxy<ITest>(handler);
-var customer = implementation.GetCustomer(new GetCustomerRequest());
-```
-
-One of the key details here is the "handler" parameter. The transparent proxy generator creates a class that satisfies the requirements of the interface, but it can't know what to do within the methods it creates. This is instead handled by a handler class. For instance, if all you wanted to do is create a class that echos something to the output window whenever a method is called, you could do this:
-
-```c#
-public class MyProxyHandler : IProxyHandler
+public class GreetingHandler : IProxyHandler
 {
+    private readonly string _prefix;
+
+    public GreetingHandler(string prefix) => _prefix = prefix;
+
     public object OnMethod(MethodInfo method, object[] args)
     {
-        Console.WriteLine("Method called: " + method.Name);
-        return Activator.CreateInstance(method.ReturnType);
+        if (method.Name != nameof(IGreeter.Greet))
+            throw new NotSupportedException(method.Name);
+        return _prefix + (string)args[0];
     }
 }
 ```
 
-The handler object has a single method called "OnMethod" that is called whenever any method in the proxy is called. The OnMethod method receives information about the actual method as its first parameter, and the actual parameters of the method call as an object array. You can use this information to perform whatever task needs to be performed (in the REST case implemented by CODE Framework, this method is used to perform the actual REST call). 
+Create a proxy and call it through the interface:
 
-Note that the method absolutely MUST return an object that conforms with the called method. This example satisfies this criteria by creating a new instance of the expected method return type. Your specific implementation may have other needs. (In the REST case, the return value is deserialized from JSON for instance).
+```csharp
+var greeter = TransparentProxyGenerator.GetProxy<IGreeter>(
+    new GreetingHandler("Hello, "));
+Console.WriteLine(greeter.Greet("World"));
+```
+
+The nongeneric overload, `GetProxy(Type proxyType, IProxyHandler handler, bool useProxyCache = true)`, accepts a runtime interface type and returns the proxy as `object`. Both overloads require an interface. Use publicly accessible interfaces and types so the emitted assembly can implement and reference them.
+
+## Dispatch and Return Values
+
+`OnMethod(MethodInfo method, object[] args)` receives the invoked interface method and an array of arguments in parameter order. Value-type arguments are boxed. The handler must return a value compatible with the declared return type:
+
+| Declared return | Handler result |
+| --- | --- |
+| Reference type | A compatible instance, or `null` when that result is meaningful for the caller. Incompatible instances fail with `InvalidCastException`. |
+| Value type | A boxed value compatible with the required unboxing conversion, such as a boxed `int` for an `int` result. The generator does not perform general numeric conversions. |
+| `void` | The handler's result is discarded. |
+| `Task<T>` | An actual compatible task. The generated method returns that task directly; the generator does not await or serialize it. |
+
+Exceptions thrown directly by the handler propagate through the generated method. For a task-returning method, later task faults are observed by awaiting the returned task. The generator does not add standard service failure conversion, retries, cancellation, or an async state machine; those behaviors belong to the handler or hosting layer.
+
+Creating `Activator.CreateInstance(method.ReturnType)` is not a general implementation strategy: many return types have no suitable constructor, and a task result needs a real task supplied by the handler.
+
+## Generated Types and Proxy Instances
+
+With the pending cache correction, `useProxyCache: true` reuses the generated **type**, while every `GetProxy` call creates a new **instance** bound to its supplied handler:
+
+```csharp
+var first = TransparentProxyGenerator.GetProxy<IGreeter>(
+    new GreetingHandler("Hello, "));
+var second = TransparentProxyGenerator.GetProxy<IGreeter>(
+    new GreetingHandler("Welcome, "));
+
+Console.WriteLine(ReferenceEquals(first, second)); // False
+Console.WriteLine(first.GetType() == second.GetType()); // True
+Console.WriteLine(first.Greet("World")); // Hello, World
+Console.WriteLine(second.Greet("World")); // Welcome, World
+```
+
+This prevents a cached proxy from accidentally retaining another caller's handler or REST endpoint. If an application needs to share one proxy instance, retain that instance explicitly and make its handler safe for the application's usage.
+
+The generator serializes cache lookup and type generation for concurrent first use. This does not synchronize subsequent handler calls or make mutable handler state thread-safe. `ServiceGardenLocal` separately retains its registered service proxies; fresh proxy creation does not imply transient in-process service implementations.
+
+## Cache Bypass and Clearing
+
+`useProxyCache: false` generates a new type without reading or updating the cached type entry. It is not needed merely to bind a different handler.
+
+```csharp
+TransparentProxyGenerator.ClearProxyCache(typeof(IGreeter));
+// Or remove all cached type entries:
+TransparentProxyGenerator.ClearProxyCache();
+```
+
+Clearing the cache leaves existing instances usable. It removes entries rather than unloading the emitted types. The dynamic assembly is non-collectible; repeatedly bypassing or clearing the cache can accumulate generated types.
+
+Service endpoint changes do not require regenerating types: endpoint configuration belongs to a handler instance. [ServiceClient Configuration and Caching](ServiceClient-Configuration-and-Caching) explains configuration invalidation, which does not clear the generated-type cache.
+
+## Supported Shapes and Limits
+
+The regression suite exercises ordinary reference, value, void, and task returns, handler isolation, concurrent first use, and argument preservation across the short argument-index boundary. The pending return-conversion fixes reject incompatible reference results at the proxy boundary.
+
+These tests do not establish support for every C# interface shape or constitute formal IL verification. Generic methods, generic declaring interfaces, inherited interfaces, and by-reference signatures such as `ref`/`out` are outside the verified scope. Do not infer support for them from the generator's general-purpose role. REST handlers separately enforce their own operation shapes, including one request message and, for `CallAsync`, a `Task<TResponse>` return.

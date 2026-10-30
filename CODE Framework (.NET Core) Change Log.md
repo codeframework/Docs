@@ -1,5 +1,24 @@
 # CODE Framework .NET Core Change Log
 
+## Pending Release
+
+These changes are in the Services source and are pending release. This entry does not announce package availability or a final release date.
+
+### New Client APIs
+
+* Added `ServiceClient.CallAsync` for contract operations returning `Task<TResponse>`, with callback and result-returning overloads and optional `ServiceCallOptions`. REST uses asynchronous HTTP I/O; in-process execution awaits the service task. Binary `Task<FileResponse>` results are supported. See [Calling Services Asynchronously](Calling-Services-Asynchronously).
+* Added options-first synchronous `ServiceClient.Call` overloads for explicit exception handling, cancellation, and per-operation REST retries. Both the options-based synchronous API and `CallAsync` default to propagating failures with no retries. Retries require explicit operation permission and an eligible transient transport failure; they do not replay the callback. See [Service Call Options, Errors, and Retries](Service-Call-Options-Errors-and-Retries).
+* Added `ServiceTransportException`, including the HTTP status when available, for final transport failures from the options-based REST client. Request/response conversion errors remain serialization exceptions, and application failure responses remain normal responses. Explicit suppression never suppresses cancellation.
+
+### Corrections and Compatibility
+
+* REST hosting now recognizes task-returning methods that forward tasks without the `async` keyword. In-process standard exception handling now handles both immediate exceptions and faults after awaiting a task; cancellation remains cancellation.
+* The active .NET Standard proxy generator now caches generated types instead of proxy instances. Each `GetProxy` call creates a fresh instance bound to its supplied handler, preventing handler or endpoint state from being shared accidentally. In-process registrations still retain their service proxies. Explicit cache clearing does not unload emitted types, and settings-cache clearing no longer clears generated proxy types.
+* Corrected proxy return conversions and argument-index emission. Incompatible reference results now fail at the proxy boundary with `InvalidCastException`. These fixes do not establish support for every interface shape.
+* Fixed full and targeted `ServiceClient.ClearSettingsCache` invalidation so configuration changes refresh the appropriate derived protocol and other settings caches. Existing channels retain their configuration; newly created channels use the refreshed settings.
+* Preserved legacy `Call` callback exception suppression and callback-wide retries. Fixed null legacy exception filters to behave like empty filters and applied the configured retry delay in both cases. Applications enabling retries with an unset filter now retry instead of encountering a null-reference error. The new options-based APIs ignore legacy global retry settings.
+* Updated dependencies and added regression coverage using actual REST hosting and in-process execution, including async completion, cancellation, endpoint isolation, retries, configuration refresh, and generated proxy dispatch.
+
 ## 2.0.17 - 7/6/2023
 
 * Added more control over the proxy cache and also the settings cache in `ServiceClient`.

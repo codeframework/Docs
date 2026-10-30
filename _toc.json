@@ -195,6 +195,27 @@
               "type": "markdown"
             },
             {
+              "title": "Calling Services Asynchronously",
+              "slug": "Calling-Services-Asynchronously",
+              "link": "Calling Services Asynchronously.md",
+              "displayType": "topic",
+              "type": "markdown"
+            },
+            {
+              "title": "Service Call Options, Errors, and Retries",
+              "slug": "Service-Call-Options-Errors-and-Retries",
+              "link": "Service Call Options Errors and Retries.md",
+              "displayType": "topic",
+              "type": "markdown"
+            },
+            {
+              "title": "ServiceClient Configuration and Caching",
+              "slug": "ServiceClient-Configuration-and-Caching",
+              "link": "ServiceClient Configuration and Caching.md",
+              "displayType": "topic",
+              "type": "markdown"
+            },
+            {
               "title": "ServiceClient Events",
               "slug": "ServiceClient-Events",
               "link": "ServiceClient Events.md",
